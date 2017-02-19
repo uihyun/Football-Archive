@@ -3,18 +3,59 @@ import React, { Component } from 'react';
 import './style.css';
 
 import Match from '../Match';
-import competitions from '../../dummy/competitions';
 
 export default class Season extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {matches: []};
+		this.state = {season: 2017, seasonString: '2016-2017', matches: []};
+
+		this.selectSeason = this.selectSeason.bind(this);
+		this.fetchSeason = this.fetchSeason.bind(this);
+		this.clearSeason = this.clearSeason.bind(this);
 	}
 
 	componentDidMount() {
+		this.selectSeason();
+	}
+
+  render() {
+    return (
+      <div className="Season">
+        <h1>
+          {this.state.seasonString} Season
+        </h1>
+				<button onClick={this.fetchSeason}>
+					Fetch
+				</button>
+				<button onClick={this.clearSeason}>
+					Clear
+				</button>
+				{this.state.matches.map(match => {
+					return <Match key={match.competition + match.date} match={match} onUpdate={this.selectSeason}/>;
+				})}
+      </div>
+    );
+  }
+
+	selectSeason() {
 		const that = this;
-		const url='/api/season/select/2017';
+		const url = '/api/season/select/' + this.state.season;
+
+		fetch(url)
+			.then(function(response) {
+				return response.json();
+			})
+		.then(function(data) {
+			const matches = that.getMatches(data.competitions);
+			const seasonString = data.season - 1 + '-' + data.season;
+			that.setState({ seasonString: seasonString, matches: matches });
+		});
+	}
+
+	fetchSeason() {
+		const that = this;
+		const url = '/api/season/fetch/' + this.state.season;
 
 		fetch(url)
 			.then(function(response) {
@@ -22,28 +63,29 @@ export default class Season extends Component {
 			})
 			.then(function(data) {
 				const matches = that.getMatches(data.competitions);
-				const season = data.season - 1 + '-' + data.season;
-				that.setState({ season: season, matches: matches });
+				console.log(data);
+				that.setState({ matches: matches });
 			});
 	}
 
-  render() {
-    return (
-      <div className="Season">
-        <h1>
-          {this.state.season} Season
-        </h1>
-				{this.state.matches.map(match => {
-					return <Match key={match.date} match={match} />;
-				})}
-      </div>
-    );
-  }
+	clearSeason() {
+		const that = this;
+		const url = '/api/season/clear/' + this.state.season;
+
+		fetch(url)
+			.then(function(response) {
+				console.log(response);
+				that.setState({ matches: [] });
+			})
+	}
 
 	getMatches(competitions) {
 		var out = [];
 		var competition;
 		var match;
+
+		if (competitions === undefined)
+			return out;
 
 		for (var i = 0; i < competitions.length; i++) {
 			competition = competitions[i];
