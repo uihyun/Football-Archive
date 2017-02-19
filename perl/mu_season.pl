@@ -21,8 +21,8 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 		$comp =~ s/\d+\/\d+$|\d+$//;
 		$comp =~ s/\s+$//;
 
-		$json .= "}\n," if $comp_count++;
-		$json .= "{comp: {name: \"$comp\", matches: [\n";
+		$json .= "]}\n," if $comp_count++;
+		$json .= "{name: \"$comp\", matches: [\n";
 
 		$match_count = 0;
 	} else {
@@ -33,11 +33,19 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 			$round =~ s/\.//g;
 
 			my $date = $td_col->[1]->all_text;
+
+			# convert: dd/mmy/yyyy -> mm/dd/yyyy
+			$date =~ /(\d+)\/(\d+)\/(\d+)/;
+			$date = "$2/$1/$3";
+
 			my $place = $td_col->[3]->all_text;
 			my $opponent = $td_col->[5]->all_text;
-			my $url = $td_col->[6]->find('a')->[0]->attr('href');
+			my $url = "";
 
-			$url =~ s/livesticker\/$//;
+			my $url_link = $td_col->[6]->find('a');
+			$url = $url_link->[0]->attr('href') if $url_link->size > 0;
+
+			$url =~ s/liveticker\/$//;
 			$url =~ s/^\/report//;
 			$url =~ s/^\/|\/$//g;
 
@@ -47,7 +55,7 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 	}
 }
 
-$json .= "}" if $comp_count;
+$json .= "]}" if $comp_count;
 $json .= "]\n";
 
 print $json;
