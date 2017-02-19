@@ -22,7 +22,7 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 		$comp =~ s/\s+$//;
 
 		$json .= "]}\n," if $comp_count++;
-		$json .= "{name: \"$comp\", matches: [\n";
+		$json .= "{\"name\": \"$comp\", \"matches\": [\n";
 
 		$match_count = 0;
 	} else {
@@ -50,7 +50,7 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 			$url =~ s/^\/|\/$//g;
 
 			$json .= ",\n" if $match_count++;
-			$json .= "{date: \"$date\", place: \"$place\", round: \"$round\", vs: \"$opponent\", url: \"$url\"}";
+			$json .= "{\"date\": \"$date\", \"place\": \"$place\", \"round\": \"$round\", \"vs\": \"$opponent\", \"url\": \"$url\"}";
 		}
 	}
 }

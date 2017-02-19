@@ -7,7 +7,39 @@ import competitions from '../../dummy/competitions';
 
 export default class Season extends Component {
 
-	// I think this should be on the server, but there's no server yet
+	constructor(props) {
+		super(props);
+		this.state = {matches: []};
+	}
+
+	componentDidMount() {
+		const that = this;
+		const url='/api/season/select/2017';
+
+		fetch(url)
+			.then(function(response) {
+				return response.json();
+			})
+			.then(function(data) {
+				const matches = that.getMatches(data.competitions);
+				const season = data.season - 1 + '-' + data.season;
+				that.setState({ season: season, matches: matches });
+			});
+	}
+
+  render() {
+    return (
+      <div className="Season">
+        <h1>
+          {this.state.season} Season
+        </h1>
+				{this.state.matches.map(match => {
+					return <Match key={match.date} match={match} />;
+				})}
+      </div>
+    );
+  }
+
 	getMatches(competitions) {
 		var out = [];
 		var competition;
@@ -19,30 +51,17 @@ export default class Season extends Component {
 			for (var j = 0; j < competition.matches.length; j++) {
 				match = JSON.parse(JSON.stringify(competition.matches[j]));
 				match.competition = competition.name;
+				match.dateO = new Date(match.date);
 				out.push(match);
 			}
 		}
 
 		out.sort(function(a, b) {
-			a = a.date.split('/').reverse().join('');
-			b = b.date.split('/').reverse().join('');
+			a = a.dateO;
+			b = b.dateO;
 			return a > b ? 1 : a < b ? -1 : 0;
 		});
 
 		return out;
 	}
-
-  render() {
-		const matches = this.getMatches(competitions);
-    return (
-      <div className="Season">
-        <h1>
-          Season
-        </h1>
-				{matches.map(match => {
-					return <Match key={match.date} match={match} />;
-				})}
-      </div>
-    );
-  }
 }
