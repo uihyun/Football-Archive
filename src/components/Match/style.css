@@ -1,0 +1,33 @@
+.Match {
+	display: -webkit-flex;
+	display: flex;
+	height: 20px;
+}
+
+.Match .flex-item {
+	margin-left: 10px;
+}
+
+.Match .date {
+	width: 35px;
+	text-align: center;
+}
+
+.Match .venue {
+	width: 15px;
+}
+
+.Match .score {
+	width: 30px;
+	text-align: center;
+}
+
+.Match .win {
+	background-color: #DA020E;
+	color: white;
+}
+
+.Match .loss {
+	background-color: #5CBFEB;
+	color: white;
+}

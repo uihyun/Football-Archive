@@ -24,13 +24,13 @@ export default class Season extends Component {
       <div className="Season">
         <h1>
           {this.state.seasonString} Season
+					<button onClick={this.fetchSeason}>
+						Fetch
+					</button>
+					<button onClick={this.clearSeason}>
+						Clear
+					</button>
         </h1>
-				<button onClick={this.fetchSeason}>
-					Fetch
-				</button>
-				<button onClick={this.clearSeason}>
-					Clear
-				</button>
 				{this.state.matches.map(match => {
 					return <Match key={match.competition + match.date} match={match} onUpdate={this.selectSeason}/>;
 				})}

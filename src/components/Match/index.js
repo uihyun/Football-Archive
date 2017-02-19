@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 
 import './style.css';
 
+import Competition from '../Competition';
+import Team from '../Team';
+
 export default class Match extends Component {
 
 	constructor(props) {
@@ -19,6 +22,8 @@ export default class Match extends Component {
 		const summary = match.summary;
 		var goals_scored = '-';
 		var goals_conceded = '-';
+
+		console.log (match);
 
 		if (summary) {
 			var i;
@@ -41,15 +46,25 @@ export default class Match extends Component {
 		}
 
 		let score = null;
+		var scoreStyle;
 		if (summary) {
+			if (goals_scored > goals_conceded) {
+				scoreStyle = 'win';
+			} else if (goals_scored < goals_conceded) {
+				scoreStyle = 'loss';
+			}
 			score = <span>{goals_scored}:{goals_conceded}</span>;
 		} else {
-			score = <button onClick={this.fetchMatch}>?</button>;
+			score = <span onClick={this.fetchMatch}>-:-</span>;
 		}
 
 		return (
-			<div className="Match">
-				{mm}/{dd} {score} vs {match.vs} <small>({match.competition})</small>
+			<div className="Match flex-container">
+				<div className="flex-item date">{mm}/{dd}</div>
+				<Competition name={match.competition} round={match.round} />
+				<div className="flex-item venue">{match.place}</div>
+				<div className={"flex-item score " + scoreStyle}>{score}</div>
+				<Team className="flex-item" name={match.vs} />
 			</div>
 		);
 	}
