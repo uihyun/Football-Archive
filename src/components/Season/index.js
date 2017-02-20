@@ -22,7 +22,7 @@ export default class Season extends Component {
   render() {
     return (
       <div className="Season">
-        <h1>
+        <h1 className="header">
           {this.state.seasonString} Season
 					<button onClick={this.fetchSeason}>
 						Fetch

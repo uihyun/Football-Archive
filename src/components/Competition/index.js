@@ -10,7 +10,7 @@ export default class Competition extends Component {
 
 		switch (this.props.name) {
 			case 'FA Community Shield':
-				compName = 'FA CS';
+				compName = 'Community Shield';
 				break;
 			case 'Premier League':
 				compName = 'EPL';
@@ -29,22 +29,17 @@ export default class Competition extends Component {
 		var round = this.props.round;
 
 		round = round.replace(/ Round/, 'R');
-		round = round.replace(/Group.*$/, 'group');
-		round = round.replace(/Round of 32/, 'R32');
-		round = round.replace(/Round of 16/, 'R16');
-		round = round.replace(/Quarter-finals/, 'R8');
-		round = round.replace(/Semi-finals/, 'R4');
 
-		var roundStyle;
-		if (round === 'group') {
-			roundStyle = 'condensed';
+		if (compName === 'Community Shield') {
+			round = '';
+		} else {
+			round = ' ' + round;
 		}
 
 		return (
-			<div className="Competition">
-				<div className="comp-name">{compName}</div>
-				<div className={"round " + roundStyle}>{round}</div>
-			</div>
+			<span>
+				{compName}{round}
+			</span>
 		);
 	}
 }

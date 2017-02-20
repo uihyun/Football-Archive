@@ -53,18 +53,20 @@ export default class Match extends Component {
 			} else if (goals_scored < goals_conceded) {
 				scoreStyle = 'loss';
 			}
-			score = <span>{goals_scored}:{goals_conceded}</span>;
+			score = <span className="condensed">{goals_scored} : {goals_conceded}</span>;
 		} else {
-			score = <span onClick={this.fetchMatch}>-:-</span>;
+			score = <span onClick={this.fetchMatch}><small>{mm}/{dd}</small></span>;
 		}
 
 		return (
 			<div className="Match flex-container">
-				<div className="flex-item date">{mm}/{dd}</div>
-				<Competition name={match.competition} round={match.round} />
-				<div className="flex-item venue">{match.place}</div>
+				<div className="flex-item flex-1 competition">
+					<Competition name={match.competition} round={match.round} />
+				</div>
 				<div className={"flex-item score " + scoreStyle}>{score}</div>
-				<Team className="flex-item" name={match.vs} />
+				<div className="flex-item flex-1">
+					<Team name={match.vs} />
+				</div>
 			</div>
 		);
 	}

@@ -5,20 +5,24 @@
 }
 
 .Match .flex-item {
-	margin-left: 10px;
+	margin-left: 5px;
+	margin-right: 5px;
 }
 
-.Match .date {
-	width: 35px;
-	text-align: center;
+.Match .flex-1 {
+	-webkit-flex: 1;
+	flex: 1;
 }
 
-.Match .venue {
-	width: 15px;
+.Match .competition {
+	display: -webkit-flex;
+	display: flex;
+	-webkit-justify-content: flex-end;
+	justify-content: flex-end;
 }
 
 .Match .score {
-	width: 30px;
+	width: 35px;
 	text-align: center;
 }
 
