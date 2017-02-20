@@ -37,6 +37,7 @@
 }
 
 .Match .scoresheet {
+	background-color: #EEEEEE;
 	text-align: center;
 	min-height: 20px;
 }
