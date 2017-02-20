@@ -4,6 +4,7 @@ import './style.css';
 
 import Competition from '../Competition';
 import Team from '../Team';
+import Scoresheet from '../Scoresheet';
 
 export default class Match extends Component {
 
@@ -20,24 +21,33 @@ export default class Match extends Component {
 		const mm = dateA[0];
 		const dd = dateA[1];
 		const summary = match.summary;
-		var goals_scored = '-';
-		var goals_conceded = '-';
-
-		console.log (match);
+		var scorers = [];
 
 		if (summary) {
-			var i;
+			var i, j, found;
 			var goal;
 			const side = summary.r ? 'r' : 'l';
 
-			goals_scored = 0;
-			goals_conceded = 0;
+			var goals_scored = 0;
+			var goals_conceded = 0;
 
 			for (i in summary.goals) {
 				if (summary.goals[i]) {
 					goal = summary.goals[i];
 					if (goal.side === side) {
 						goals_scored++;
+
+						found = false;
+						for (j in scorers) {
+							if (scorers[j].name === goal.scorer) {
+								scorers[j].minutes.push(goal.minute);
+								found = true;
+							}
+						}
+
+						if (!found) {
+							scorers.push({name: goal.scorer, minutes: [goal.minute]});
+						}
 					} else {
 						goals_conceded++;
 					}
@@ -59,14 +69,22 @@ export default class Match extends Component {
 		}
 
 		return (
-			<div className="Match flex-container">
-				<div className="flex-item flex-1 competition">
-					<Competition name={match.competition} round={match.round} />
+			<div className="Match">
+				<div className="flex-container">
+					<div className="flex-item flex-1 competition">
+						<Competition name={match.competition} round={match.round} />
+					</div>
+					<div className={"flex-item score " + scoreStyle}>{score}</div>
+					<div className="flex-item flex-1">
+						<Team name={match.vs} />
+					</div>
 				</div>
-				<div className={"flex-item score " + scoreStyle}>{score}</div>
-				<div className="flex-item flex-1">
-					<Team name={match.vs} />
-				</div>
+				{
+					summary && this.props.showScorers &&
+					<div className="scoresheet">
+						<Scoresheet goals={summary.goals} side={summary.r ? 'r' : 'l'} />
+					</div>
+				}
 			</div>
 		);
 	}

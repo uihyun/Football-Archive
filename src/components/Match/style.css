@@ -1,4 +1,4 @@
-.Match {
+.Match .flex-container {
 	display: -webkit-flex;
 	display: flex;
 	height: 20px;
@@ -34,4 +34,9 @@
 .Match .loss {
 	background-color: #5CBFEB;
 	color: white;
+}
+
+.Match .scoresheet {
+	text-align: center;
+	min-height: 20px;
 }

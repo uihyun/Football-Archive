@@ -8,11 +8,13 @@ export default class Season extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {season: 2017, seasonString: '2016-2017', matches: []};
+		this.state = {season: 2017, seasonString: '2016-2017', matches: [], showScorers: false};
 
 		this.selectSeason = this.selectSeason.bind(this);
 		this.fetchSeason = this.fetchSeason.bind(this);
 		this.clearSeason = this.clearSeason.bind(this);
+		
+		this.toggleShowScorers = this.toggleShowScorers.bind(this);
 	}
 
 	componentDidMount() {
@@ -30,9 +32,14 @@ export default class Season extends Component {
 					<button onClick={this.clearSeason}>
 						Clear
 					</button>
+					<button onClick={this.toggleShowScorers}>
+						Show scorers
+					</button>
         </h1>
 				{this.state.matches.map(match => {
-					return <Match key={match.competition + match.date} match={match} onUpdate={this.selectSeason}/>;
+					return <Match key={match.competition + match.date} match={match} onUpdate={this.selectSeason}
+									showScorers={this.state.showScorers}
+									/>;
 				})}
       </div>
     );
@@ -77,6 +84,10 @@ export default class Season extends Component {
 				console.log(response);
 				that.setState({ matches: [] });
 			})
+	}
+
+	toggleShowScorers() {
+		this.setState({ showScorers: !this.state.showScorers });
 	}
 
 	getMatches(competitions) {
