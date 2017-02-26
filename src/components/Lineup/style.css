@@ -25,6 +25,21 @@
 	font-size: 20px;
 }
 
+.Lineup .start-selected {
+	background-color: darkred;
+	color: white;
+}
+
+.Lineup .sub-selected {
+	background-color: blue;
+	color: white;
+}
+
+.Lineup .none-selected {
+	background-color: lightgray;
+	color: white;
+}
+
 @media screen and (max-width: 543px) {
 	.Lineup .Player {
 		height: 24px;

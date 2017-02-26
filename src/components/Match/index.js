@@ -92,8 +92,6 @@ export default class Match extends Component {
 			</div>
 		;
 
-			console.log(match);
-
 		return (
 			<div className="Match">
 				{this.props.showLineup ? 
@@ -103,7 +101,8 @@ export default class Match extends Component {
 					</div>
 					<div className="flex-item flex-1">
 						{summary &&
-							<Lineup players={players} />
+							<Lineup players={players}
+							 selectPlayer={this.props.selectPlayer} selectedPlayer={this.props.selectedPlayer} />
 						}
 					</div>
 				</div>
@@ -111,6 +110,10 @@ export default class Match extends Component {
 				}
 			</div>
 		);
+	}
+
+	dummySelectPlayer(player) {
+		console.log(player);
 	}
 
 	fetchMatch() {
