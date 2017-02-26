@@ -8,13 +8,15 @@ export default class Season extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {season: 2017, seasonString: '2016-2017', matches: [], showScorers: false};
+		this.state = {season: 2017, seasonString: '2016-2017', matches: [],
+									showScorers: false, showLineup: false};
 
 		this.selectSeason = this.selectSeason.bind(this);
 		this.fetchSeason = this.fetchSeason.bind(this);
 		this.clearSeason = this.clearSeason.bind(this);
 		
 		this.toggleShowScorers = this.toggleShowScorers.bind(this);
+		this.toggleShowLineup = this.toggleShowLineup.bind(this);
 	}
 
 	componentDidMount() {
@@ -33,12 +35,15 @@ export default class Season extends Component {
 						Clear
 					</button>
 					<button onClick={this.toggleShowScorers}>
-						Show scorers
+						{this.state.showScorers ? 'Hide' : 'Show'} Scorers
+					</button>
+					<button onClick={this.toggleShowLineup}>
+						{this.state.showLineup ? 'Hide' : 'Show'} Lineup
 					</button>
         </h1>
 				{this.state.matches.map(match => {
 					return <Match key={match.competition + match.date} match={match} onUpdate={this.selectSeason}
-									showScorers={this.state.showScorers}
+									showScorers={this.state.showScorers} showLineup={this.state.showLineup}
 									/>;
 				})}
       </div>
@@ -88,6 +93,10 @@ export default class Season extends Component {
 
 	toggleShowScorers() {
 		this.setState({ showScorers: !this.state.showScorers });
+	}
+
+	toggleShowLineup() {
+		this.setState({ showLineup: !this.state.showLineup });
 	}
 
 	getMatches(competitions) {

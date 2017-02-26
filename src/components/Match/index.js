@@ -5,6 +5,7 @@ import './style.css';
 import Competition from '../Competition';
 import Team from '../Team';
 import Scoresheet from '../Scoresheet';
+import Lineup from '../Lineup';
 
 export default class Match extends Component {
 
@@ -22,6 +23,7 @@ export default class Match extends Component {
 		const dd = dateA[1];
 		const summary = match.summary;
 		var scorers = [];
+		var players = [];
 
 		if (summary) {
 			var i, j, found;
@@ -53,6 +55,8 @@ export default class Match extends Component {
 					}
 				}
 			}
+
+			players = match.summary.players[side];
 		}
 
 		let score = null;
@@ -68,8 +72,8 @@ export default class Match extends Component {
 			score = <span onClick={this.fetchMatch}><small>{mm}/{dd}</small></span>;
 		}
 
-		return (
-			<div className="Match">
+		let matchMeta =
+			<div>
 				<div className="flex-container">
 					<div className="flex-item flex-1 competition">
 						<Competition name={match.competition} round={match.round} />
@@ -80,10 +84,30 @@ export default class Match extends Component {
 					</div>
 				</div>
 				{
-					summary && this.props.showScorers &&
+					summary && (this.props.showScorers || this.props.showLineup) &&
 					<div className="scoresheet">
 						<Scoresheet goals={summary.goals} side={summary.r ? 'r' : 'l'} />
 					</div>
+				}
+			</div>
+		;
+
+			console.log(match);
+
+		return (
+			<div className="Match">
+				{this.props.showLineup ? 
+				<div className={'flex-container-outer ' + (summary ? 'has-sum' : 'no-sum')}>
+					<div className="flex-item flex-1">
+						{matchMeta}
+					</div>
+					<div className="flex-item flex-1">
+						{summary &&
+							<Lineup players={players} />
+						}
+					</div>
+				</div>
+				: matchMeta 
 				}
 			</div>
 		);

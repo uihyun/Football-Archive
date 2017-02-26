@@ -13,7 +13,7 @@ const teams = {
 	'Liverpool FC': {id: 7889, name: 'Liverpool'},
 	'Manchester City': {id: 52919, name: 'Man City'},
 	'Middlesbrough FC': {id: 69600, name: 'Middlesbrough'},
-	'Northampton Town': {id: 52682, name: 'Northampton'},
+	'Northampton Town': {id: 2601117, name: 'Northampton'},
 	'Reading FC': {id: 93338, name: 'Reading'},
 	'Southampton FC': {id: 52923, name: 'Southampton'},
 	'Stoke City': {id: 53356, name: 'Stoke'},
@@ -29,6 +29,7 @@ const teams = {
 	'AS Saint-Étienne': {id: 50022, name: 'Saint-Étienne'},
 	'Fenerbahçe': {id: 52692, name: 'Fenerbahçe'},
 	'Feyenoord': {id: 52749, name: 'Feyenoord'},
+	'FK Rostov': {id: 64500, name: 'Feyenoord'},
 	'Zorya Lugansk': {id: 65130, name: 'Lugansk'}
 };
 

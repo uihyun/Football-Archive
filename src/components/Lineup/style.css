@@ -1,0 +1,38 @@
+.Lineup {
+	display: flex;
+}
+
+.Lineup .flex-1 {
+	-webkit-flex: 1;
+	flex: 1;
+}
+
+.Lineup .start {
+	background-color: tomato;
+	color: white;
+}
+
+.Lineup .sub {
+	background-color: #5CBFEB;
+	color: white;
+}
+
+.Lineup .Player {
+	margin: 1px;
+	height: 38px;
+	line-height: 38px;
+	text-align: center;
+	font-size: 20px;
+}
+
+@media screen and (max-width: 543px) {
+	.Lineup .Player {
+		height: 24px;
+		line-height: 24px;
+		font-size: 12px;
+	}
+
+	.Lineup {
+		margin-bottom: 5px;
+	}
+}

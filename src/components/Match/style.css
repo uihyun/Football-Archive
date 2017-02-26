@@ -4,6 +4,11 @@
 	height: 20px;
 }
 
+.Match .flex-container-outer {
+	display: -webkit-flex;
+	display: flex;
+}
+
 .Match .flex-item {
 	margin-left: 5px;
 	margin-right: 5px;
@@ -27,7 +32,7 @@
 }
 
 .Match .win {
-	background-color: #DA020E;
+	background-color: tomato;
 	color: white;
 }
 
@@ -40,4 +45,27 @@
 	background-color: #EEEEEE;
 	text-align: center;
 	min-height: 20px;
+}
+
+.flex-container-outer .has-sum {
+	height: 40px;
+}
+
+.flex-container-outer .no-sum {
+	height: 20px;
+}
+
+@media screen and (max-width: 543px) {
+	.Match .flex-container-outer {
+		-webkit-flex-direction: column;
+		flex-direction: column;
+	}
+
+	.flex-container-outer .has-sum {
+		height: 66px;
+	}
+
+	.Match {
+		margin-bottom: 5px;
+	}
 }
