@@ -1,0 +1,20 @@
+.PlayerStats-flex-container {
+	display: -webkit-flex;
+	display: flex;
+}
+
+@media screen and (max-width: 543px) {
+
+	.PlayerStats-flex-container {
+		-webkit-flex-direction: column;
+		flex-direction: column;
+	}
+
+	.PlayerStats-goals {
+		order: 1;
+	}
+
+	.PlayerStats-appearances {
+		order: 2;
+	}
+}

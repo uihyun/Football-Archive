@@ -16,6 +16,9 @@ export default class Nav extends Component {
 					<li><Link to="/pl-teams" activeClassName="Nav-active">Seasons</Link></li>
 				</ul>
 				<ul>
+					<li><Link to="/player-stats" activeClassName="Nav-active">Player stats</Link></li>
+				</ul>
+				<ul>
 					<li><Link to="/manage" activeClassName="Nav-active">Manage</Link></li>
 				</ul>
 				{this.props.children}

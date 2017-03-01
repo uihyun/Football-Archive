@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import Season from '../Season';
 import teams from '../../data/teams';
 import seasons from '../../data/seasons';
+import PlayerStats from '../PlayerStats';
 
-export default class PLTeams extends Component {
+export default class PlayerStatsHeader extends Component {
 
 	constructor(props) {
 		super(props);
@@ -32,16 +32,16 @@ export default class PLTeams extends Component {
 
   render() {
     return (
-      <div className="PLTeams">
-				<div className="PLTeams-flex-container">
+      <div className="PlayerStatsHeader">
+				<div className="PlayerStatsHeader-flex-container">
 					{this.state.teams.map(team => {
 						return this.getLogo(team);
 					})}
 				</div>
-        <h2 className="PLTeams-header">
+        <h2 className="PlayerStatsHeader-header">
           {this.state.seasonString} {this.getLogo(this.state.team)}
         </h2>
-				<Season season={this.state.season} team={this.state.team} />
+				<PlayerStats season={this.state.season} team={this.state.team} />
       </div>
     );
   }
@@ -59,8 +59,8 @@ export default class PLTeams extends Component {
 		var imgSrc = 'http://img.uefa.com/imgml/TP/teams/logos/50x50/' + logoID + '.png';
 
 		return (
-			<div className="PLTeams-team" key={team} onClick={() => this.selectTeam(team)}>
-				<img src={imgSrc} className="PLTeams-logo" alt="" />
+			<div className="PlayerStatsHeader-team" key={team} onClick={() => this.selectTeam(team)}>
+				<img src={imgSrc} className="PlayerStatsHeader-logo" alt="" />
 			</div>
 		);
 	}
