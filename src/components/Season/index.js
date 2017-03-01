@@ -8,12 +8,18 @@ export default class Season extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {matches: [], showScorers: false, showLineup: false, selectedPlayer: {}};
+		this.state = {
+			matches: [],
+			showScorers: false,
+			showLineup: false, 
+			showOtherGames: false,
+			selectedPlayer: {}};
 
 		this.selectSeason = this.selectSeason.bind(this);
 		
 		this.toggleShowScorers = this.toggleShowScorers.bind(this);
 		this.toggleShowLineup = this.toggleShowLineup.bind(this);
+		this.toggleShowOtherGames = this.toggleShowOtherGames.bind(this);
 		this.selectPlayer = this.selectPlayer.bind(this);
 	}
 
@@ -38,6 +44,12 @@ export default class Season extends Component {
 					<button onClick={this.toggleShowLineup}>
 						{this.state.showLineup ? 'Hide' : 'Show'} Lineup
 					</button>
+				 	{
+						this.state.selectedPlayer.number &&
+							<button onClick={this.toggleShowOtherGames}>
+								{this.state.showOtherGames ? 'Hide' : 'Show'} Other Games
+							</button>
+					}
         </h3>
 				{
 					this.state.selectedPlayer.number &&
@@ -48,7 +60,8 @@ export default class Season extends Component {
 				{this.state.matches.map(match => {
 					return <Match key={match.competition + match.date} match={match} team={this.props.team}
 									showScorers={this.state.showScorers} showLineup={this.state.showLineup}
-									selectPlayer={this.selectPlayer} selectedPlayer={this.state.selectedPlayer}								
+									showOtherGames={this.state.showOtherGames}
+									selectPlayer={this.selectPlayer} selectedPlayer={this.state.selectedPlayer}
 									/>;
 				})}
       </div>
@@ -84,8 +97,17 @@ export default class Season extends Component {
 		this.setState({ showLineup: !this.state.showLineup });
 	}
 
+	toggleShowOtherGames() {
+		this.setState({ showOtherGames: !this.state.showOtherGames });
+	}
+
 	selectPlayer(player) {
-		this.setState({ selectedPlayer: player });
+		if (this.state.selectedPlayer.name === player.name) {
+			this.setState({ selectedPlayer: {}, showOtherGames: false });
+		}
+		else {
+			this.setState({ selectedPlayer: player, showOtherGames: false });
+		}
 	}
 
 	getMatches(competitions) {

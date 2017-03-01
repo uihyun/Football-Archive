@@ -24,6 +24,9 @@ export default class Match extends Component {
 		var scorers = [];
 		var players = [];
 
+		var showScorers = summary && (this.props.showScorers || this.props.showLineup);
+		var showLineup = summary && this.props.showLineup;
+
 		if (summary) {
 			var i, j, found;
 			var goal;
@@ -56,6 +59,38 @@ export default class Match extends Component {
 			}
 
 			players = match.summary.players[side];
+
+			var player;
+
+			if (this.props.selectedPlayer.name && this.props.showOtherGames === false) {
+				var hasSelectedPlayer = false;
+
+				for (i in players.start) {
+					if (players.start[i]) {
+						player = players.start[i];
+						if (player.name === this.props.selectedPlayer.name) {
+							hasSelectedPlayer = true;
+							break;
+						}
+					}
+				}
+
+				if (hasSelectedPlayer === false) {
+					for (i in players.sub) {
+						if (players.sub[i]) {
+							player = players.sub[i];
+							if (player.sub && player.name === this.props.selectedPlayer.name) {
+								hasSelectedPlayer = true;
+								break;
+							}
+						}
+					}
+				}
+				
+				if (hasSelectedPlayer === false) {
+					showScorers = showLineup = false;
+				}
+			}
 		}
 
 		let score = null;
@@ -83,9 +118,10 @@ export default class Match extends Component {
 					</div>
 				</div>
 				{
-					summary && (this.props.showScorers || this.props.showLineup) &&
+					showScorers &&
 					<div className="scoresheet">
-						<Scoresheet goals={summary.goals} side={(summary.r === this.props.team) ? 'r' : 'l'} />
+						<Scoresheet goals={summary.goals} side={(summary.r === this.props.team) ? 'r' : 'l'} 
+						 selectedPlayer={this.props.selectedPlayer} />
 					</div>
 				}
 			</div>
@@ -99,7 +135,7 @@ export default class Match extends Component {
 						{matchMeta}
 					</div>
 					<div className="flex-item flex-1">
-						{summary &&
+						{showLineup &&
 							<Lineup players={players}
 							 selectPlayer={this.props.selectPlayer} selectedPlayer={this.props.selectedPlayer} />
 						}

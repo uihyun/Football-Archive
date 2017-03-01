@@ -53,8 +53,14 @@ export default class Match extends Component {
 			<span className="Scoresheet">
 				<small>
 				{scorers.map(scorer => {
+					var className='';
+
+					if (scorer.fullname === this.props.selectedPlayer.name) {
+						className += ' Scoresheet-selected';
+					}
+
 					return (
-						<span key={scorer.name}>
+						<span key={scorer.name} className={className}>
 						{scorer.name} {scorer.minutes.map(minute => {
 							return (<span key={minute}>{minute}' </span>);
 						})}
