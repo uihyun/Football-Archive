@@ -1,3 +1,33 @@
-.Season .header {
+.Manage .header {
 	text-align: center;
+}
+
+.Manage .flex-container {
+	display: -webkit-flex;
+	display: flex;
+}
+
+.Manage .flex-1 {
+	-webkit-flex: 1;
+	flex: 1;
+}
+
+.Manage .flex-2 {
+	-webkit-flex: 2;
+	flex: 2;
+}
+
+.Manage .team {
+	padding-top: 3px;
+	padding-bottom: 5px;
+	margin-bottom: 2px;
+}
+
+.team:hover {
+	background-color: lemonchiffon;
+}
+
+.clear-btn {
+	background-color: white;
+	border: 2px solid coral;
 }

@@ -1,0 +1,52 @@
+const seasons = [
+	{ 'year': 2017,
+		'teams': [
+			'AFC Bournemouth',
+			'Arsenal FC',
+			'Burnley FC',
+			'Chelsea FC',
+			'Crystal Palace',
+			'Everton FC',
+			'Hull City',
+			'Leicester City',
+			'Liverpool FC',
+			'Manchester City',
+			'Manchester United',
+			'Middlesbrough FC',
+			'Southampton FC',
+			'Stoke City',
+			'Sunderland AFC',
+			'Swansea City',
+			'Tottenham Hotspur',
+			'Watford FC',
+			'West Ham United',
+			'West Bromwich Albion',
+		]
+	},
+	{ 'year': 2016,
+		'teams': [
+			'AFC Bournemouth',
+			'Arsenal FC',
+			'Aston Villa',
+			'Chelsea FC',
+			'Crystal Palace',
+			'Everton FC',
+			'Leicester City',
+			'Liverpool FC',
+			'Manchester City',
+			'Manchester United',
+			'Newcastle United',
+			'Norwich City',
+			'Southampton FC',
+			'Stoke City',
+			'Sunderland AFC',
+			'Swansea City',
+			'Tottenham Hotspur',
+			'Watford FC',
+			'West Ham United',
+			'West Bromwich Albion',
+		]
+	}
+];
+
+export default seasons;

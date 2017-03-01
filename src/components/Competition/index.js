@@ -15,11 +15,16 @@ export default class Competition extends Component {
 			case 'Premier League':
 				compName = 'EPL';
 				break;
-			case 'Europa League':
-				compName = 'Europa';
-				break;
 			case 'League Cup':
-				compName = 'LC';
+				compName = 'EFL Cup';
+				break;
+			case 'Champions League':
+			case 'Champions League Qual.':
+				compName = 'Champs';
+				break;
+			case 'Europa League':
+			case 'Europa League Qual.':
+				compName = 'Europa';
 				break;
 			default:
 				compName = this.props.name;

@@ -1,0 +1,25 @@
+.PLTeams-header {
+	text-align: center;
+}
+
+.PLTeams-flex-container {
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-webkit-flex-direction: row;
+	flex-direction: row;
+	-webkit-justify-content: center;
+	justify-content: center;
+}
+
+@media screen and (max-width: 543px) {
+
+	.PLTeams-logo {
+		width: 37px;
+	}
+
+	.PLTeams-team {
+		flex-basis: 10%;
+	}
+}

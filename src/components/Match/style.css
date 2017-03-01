@@ -55,6 +55,10 @@
 	height: 20px;
 }
 
+.Match-team {
+	overflow: hidden;
+}
+
 @media screen and (max-width: 543px) {
 	.Match .flex-container-outer {
 		-webkit-flex-direction: column;

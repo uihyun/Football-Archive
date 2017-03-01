@@ -8,8 +8,7 @@ export default class Season extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {season: 2017, seasonString: '2016-2017', matches: [],
-									showScorers: false, showLineup: false, selectedPlayer: {}};
+		this.state = {matches: [], showScorers: false, showLineup: false, selectedPlayer: {}};
 
 		this.selectSeason = this.selectSeason.bind(this);
 		
@@ -19,15 +18,20 @@ export default class Season extends Component {
 	}
 
 	componentDidMount() {
-		this.selectSeason();
+		this.selectSeason(this.props.season, this.props.team);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		console.log ('will update: ' + this.props.team);
+		if (this.props.season !== nextProps.season ||
+				this.props.team !== nextProps.team) {
+			this.selectSeason(nextProps.season, nextProps.team);
+		}
 	}
 
   render() {
     return (
       <div className="Season">
-        <h2 className="header">
-          {this.state.seasonString} Season
-        </h2>
 				<h3 className="header">
 					<button onClick={this.toggleShowScorers}>
 						{this.state.showScorers ? 'Hide' : 'Show'} Scorers
@@ -43,7 +47,7 @@ export default class Season extends Component {
 					</h3>
 				}
 				{this.state.matches.map(match => {
-					return <Match key={match.competition + match.date} match={match} onUpdate={this.selectSeason}
+					return <Match key={match.competition + match.date} match={match} team={this.props.team}
 									showScorers={this.state.showScorers} showLineup={this.state.showLineup}
 									selectPlayer={this.selectPlayer} selectedPlayer={this.state.selectedPlayer}								
 									/>;
@@ -52,9 +56,11 @@ export default class Season extends Component {
     );
   }
 
-	selectSeason() {
+	selectSeason(season, team) {
 		const that = this;
-		const url = '/api/season/select/' + this.state.season;
+		const url = '/api/season/select/' + season + '/' + team.replace(/ /g, '-');
+				
+		this.setState({matches: [], showScorers: false, showLineup: false, selectedPlayer: {}});
 
 		fetch(url)
 			.then(function(response) {
@@ -62,8 +68,9 @@ export default class Season extends Component {
 			})
 		.then(function(data) {
 			const matches = that.getMatches(data.competitions);
-			const seasonString = data.season - 1 + '-' + data.season;
-			that.setState({ seasonString: seasonString, matches: matches });
+			if (data.season) {
+				that.setState({ matches: matches });
+			}
 		});
 	}
 

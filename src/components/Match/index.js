@@ -12,7 +12,6 @@ export default class Match extends Component {
 	constructor(props) {
 		super(props);
 
-		this.fetchMatch = this.fetchMatch.bind(this);
 		this.onUpdateDone = this.onUpdateDone.bind(this);
 	}
 
@@ -28,7 +27,7 @@ export default class Match extends Component {
 		if (summary) {
 			var i, j, found;
 			var goal;
-			const side = summary.r ? 'r' : 'l';
+			const side = (summary.r === this.props.team) ? 'r' : 'l';
 
 			var goals_scored = 0;
 			var goals_conceded = 0;
@@ -69,7 +68,7 @@ export default class Match extends Component {
 			}
 			score = <span className="condensed">{goals_scored} : {goals_conceded}</span>;
 		} else {
-			score = <span onClick={this.fetchMatch}><small>{mm}/{dd}</small></span>;
+			score = <span><small>{mm}/{dd}</small></span>;
 		}
 
 		let matchMeta =
@@ -79,14 +78,14 @@ export default class Match extends Component {
 						<Competition name={match.competition} round={match.round} />
 					</div>
 					<div className={"flex-item score " + scoreStyle}>{score}</div>
-					<div className="flex-item flex-1">
+					<div className="flex-item flex-1 Match-team">
 						<Team name={match.vs} />
 					</div>
 				</div>
 				{
 					summary && (this.props.showScorers || this.props.showLineup) &&
 					<div className="scoresheet">
-						<Scoresheet goals={summary.goals} side={summary.r ? 'r' : 'l'} />
+						<Scoresheet goals={summary.goals} side={(summary.r === this.props.team) ? 'r' : 'l'} />
 					</div>
 				}
 			</div>
@@ -114,16 +113,6 @@ export default class Match extends Component {
 
 	dummySelectPlayer(player) {
 		console.log(player);
-	}
-
-	fetchMatch() {
-		const that = this;
-		const url ='/api/match/fetch/' + this.props.match.url;
-
-		fetch(url)
-			.then(function(response) {
-				that.onUpdateDone();
-			});
 	}
 
 	onUpdateDone() {

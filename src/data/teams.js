@@ -22,8 +22,8 @@ const teams = {
 	'Swansea City': {id: 52659, name: 'Swansea'},
 	'Tottenham Hotspur': {id: 1652, name: 'Tottenham'},
 	'Watford FC': {id: 52744, name: 'Watford'},
-	'West Ham United': {id: 53358, name: 'West Ham'},
 	'West Bromwich Albion': {id: 53359, name: 'West Brom'},
+	'West Ham United': {id: 53358, name: 'West Ham'},
 	'Wigan Athletic': {id: 89696, name: 'Wigan'},
 
 	// Intl
