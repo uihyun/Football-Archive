@@ -13,10 +13,10 @@ export default class Nav extends Component {
 					Football Archive
 				</h1>
 				<ul>
-					<li><Link to="/pl-teams" activeClassName="active">Seasons</Link></li>
+					<li><Link to="/pl-teams" activeClassName="Nav-active">Seasons</Link></li>
 				</ul>
 				<ul>
-					<li><Link to="/manage" activeClassName="active">Manage</Link></li>
+					<li><Link to="/manage" activeClassName="Nav-active">Manage</Link></li>
 				</ul>
 				{this.props.children}
 			</div>

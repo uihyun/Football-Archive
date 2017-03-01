@@ -20,7 +20,7 @@ export default class Team extends Component {
 		
 		return (
 			<div className="Team">
-				<img src={imgSrc} className="logo" alt="" />
+				<img src={imgSrc} className="Team-logo" alt="" />
 				{name}
 			</div>
 		);

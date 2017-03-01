@@ -1,57 +1,50 @@
-.Match .flex-container {
-	display: -webkit-flex;
-	display: flex;
+.Match-row {
 	height: 20px;
 }
 
-.Match .flex-container-outer {
-	display: -webkit-flex;
-	display: flex;
-}
-
-.Match .flex-item {
+.Match-margin {
 	margin-left: 5px;
 	margin-right: 5px;
 }
 
-.Match .flex-1 {
-	-webkit-flex: 1;
-	flex: 1;
-}
-
-.Match .competition {
+.Match-competition {
 	display: -webkit-flex;
 	display: flex;
 	-webkit-justify-content: flex-end;
 	justify-content: flex-end;
 }
 
-.Match .score {
+.Match-score {
 	width: 35px;
 	text-align: center;
 }
 
-.Match .win {
+.Match-win {
 	background-color: tomato;
 	color: white;
 }
 
-.Match .loss {
+.Match-loss {
 	background-color: #5CBFEB;
 	color: white;
 }
 
-.Match .scoresheet {
+.Match-Scoresheet {
 	background-color: #EEEEEE;
 	text-align: center;
 	min-height: 20px;
 }
+	
+.Match-flex-container {
+	display: -webkit-flex;
+	display: flex;
+}
 
-.flex-container-outer .has-sum {
+.Match-has-sum {
 	height: 40px;
 }
 
-.flex-container-outer .no-sum {
+.Match-no-sum {
 	height: 20px;
 }
 
@@ -60,16 +53,17 @@
 }
 
 @media screen and (max-width: 543px) {
-	.Match .flex-container-outer {
+
+	.Match {
+		margin-bottom: 5px;
+	}
+
+	.Match-flex-container {
 		-webkit-flex-direction: column;
 		flex-direction: column;
 	}
 
-	.flex-container-outer .has-sum {
+	.Match-has-sum {
 		height: 66px;
-	}
-
-	.Match {
-		margin-bottom: 5px;
 	}
 }

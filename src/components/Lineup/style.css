@@ -2,22 +2,17 @@
 	display: flex;
 }
 
-.Lineup .flex-1 {
-	-webkit-flex: 1;
-	flex: 1;
-}
-
-.Lineup .start {
+.Lineup-start {
 	background-color: tomato;
 	color: white;
 }
 
-.Lineup .sub {
+.Lineup-sub {
 	background-color: #5CBFEB;
 	color: white;
 }
 
-.Lineup .Player {
+.Lineup-Player {
 	margin: 1px;
 	height: 38px;
 	line-height: 38px;
@@ -25,29 +20,30 @@
 	font-size: 20px;
 }
 
-.Lineup .start-selected {
+.Lineup-start-selected {
 	background-color: darkred;
 	color: white;
 }
 
-.Lineup .sub-selected {
+.Lineup-sub-selected {
 	background-color: blue;
 	color: white;
 }
 
-.Lineup .none-selected {
+.Lineup-bench-selected {
 	background-color: lightgray;
 	color: white;
 }
 
 @media screen and (max-width: 543px) {
-	.Lineup .Player {
-		height: 24px;
-		line-height: 24px;
-		font-size: 12px;
-	}
 
 	.Lineup {
 		margin-bottom: 5px;
+	}
+
+	.Lineup-Player {
+		height: 24px;
+		line-height: 24px;
+		font-size: 12px;
 	}
 }

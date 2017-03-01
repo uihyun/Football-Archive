@@ -37,7 +37,7 @@ export default class Season extends Component {
   render() {
     return (
       <div className="Season">
-				<h3 className="header">
+				<h3 className="text-center">
 					<button onClick={this.toggleShowScorers}>
 						{this.state.showScorers ? 'Hide' : 'Show'} Scorers
 					</button>
@@ -53,7 +53,7 @@ export default class Season extends Component {
         </h3>
 				{
 					this.state.selectedPlayer.number &&
-					<h3 className="header">
+					<h3 className="text-center">
 						{this.state.selectedPlayer.number} {this.state.selectedPlayer.name}
 					</h3>
 				}

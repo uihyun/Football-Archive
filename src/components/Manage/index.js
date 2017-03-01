@@ -49,7 +49,7 @@ export default class Manage extends Component {
 
     return (
       <div className="Manage">
-        <h2 className="header">
+        <h2 className="text-center">
           {this.state.selectedYear} Season
 				</h2>
 				<div className="flex-container">
@@ -63,13 +63,13 @@ export default class Manage extends Component {
 					<div className="flex-2">
 						{this.state.seasons[this.state.selectedYear].map(team => {
 							return (
-								<div className="flex-container team" key={team}>
+								<div className="flex-container Manage-team" key={team}>
 									<div className="flex-1">
 										<Team name={team} />
 									</div>
 									<div className="flex-1">
 										{ this.state.fetchedTeams[team] ?
-											<button className="clear-btn" onClick={() => this.clearSeason(team)}>
+											<button className="Manage-clear-btn" onClick={() => this.clearSeason(team)}>
 												Clear Season
 											</button>
 											:
