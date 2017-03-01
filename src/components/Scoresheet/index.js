@@ -45,7 +45,7 @@ export default class Match extends Component {
 			if (players[scorer.fullname]) {
 				scorer.name = players[scorer.fullname].name;
 			} else {
-				scorer.name = scorer.fullname;
+				scorer.name = scorer.fullname.replace(/.* /, '');
 			}
 		}
 

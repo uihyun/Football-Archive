@@ -22,7 +22,6 @@ export default class Season extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		console.log ('will update: ' + this.props.team);
 		if (this.props.season !== nextProps.season ||
 				this.props.team !== nextProps.team) {
 			this.selectSeason(nextProps.season, nextProps.team);
