@@ -12,8 +12,6 @@ export default class Season extends Component {
 									showScorers: false, showLineup: false, selectedPlayer: {}};
 
 		this.selectSeason = this.selectSeason.bind(this);
-		this.fetchSeason = this.fetchSeason.bind(this);
-		this.clearSeason = this.clearSeason.bind(this);
 		
 		this.toggleShowScorers = this.toggleShowScorers.bind(this);
 		this.toggleShowLineup = this.toggleShowLineup.bind(this);
@@ -27,26 +25,22 @@ export default class Season extends Component {
   render() {
     return (
       <div className="Season">
-        <h1 className="header">
+        <h2 className="header">
           {this.state.seasonString} Season
-					<button onClick={this.fetchSeason}>
-						Fetch
-					</button>
-					<button onClick={this.clearSeason}>
-						Clear
-					</button>
+        </h2>
+				<h3 className="header">
 					<button onClick={this.toggleShowScorers}>
 						{this.state.showScorers ? 'Hide' : 'Show'} Scorers
 					</button>
 					<button onClick={this.toggleShowLineup}>
 						{this.state.showLineup ? 'Hide' : 'Show'} Lineup
 					</button>
-        </h1>
+        </h3>
 				{
 					this.state.selectedPlayer.number &&
-					<h2 className="header">
+					<h3 className="header">
 						{this.state.selectedPlayer.number} {this.state.selectedPlayer.name}
-					</h2>
+					</h3>
 				}
 				{this.state.matches.map(match => {
 					return <Match key={match.competition + match.date} match={match} onUpdate={this.selectSeason}
@@ -73,37 +67,14 @@ export default class Season extends Component {
 		});
 	}
 
-	fetchSeason() {
-		const that = this;
-		const url = '/api/season/fetch/' + this.state.season;
-
-		fetch(url)
-			.then(function(response) {
-				return response.json();
-			})
-			.then(function(data) {
-				const matches = that.getMatches(data.competitions);
-				console.log(data);
-				that.setState({ matches: matches });
-			});
-	}
-
-	clearSeason() {
-		const that = this;
-		const url = '/api/season/clear/' + this.state.season;
-
-		fetch(url)
-			.then(function(response) {
-				console.log(response);
-				that.setState({ matches: [] });
-			})
-	}
-
 	toggleShowScorers() {
 		this.setState({ showScorers: !this.state.showScorers });
 	}
 
 	toggleShowLineup() {
+		if (this.state.showLineup) {
+			this.selectPlayer({});
+		}
 		this.setState({ showLineup: !this.state.showLineup });
 	}
 
