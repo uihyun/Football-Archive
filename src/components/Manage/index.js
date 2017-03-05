@@ -39,6 +39,7 @@ export default class Manage extends Component {
 		this.fetchSeason = this.fetchSeason.bind(this);
 		this.clearSeason = this.clearSeason.bind(this);
 		this.fetchMatches = this.fetchMatches.bind(this);
+		this.fetchAllMatches = this.fetchAllMatches.bind(this);
 	}
 
 	componentDidMount() {
@@ -61,6 +62,14 @@ export default class Manage extends Component {
 						</ul>
 					</div>
 					<div className="flex-2">
+						<div className="flex-container Manage-team">
+							<div className="flex-1" />
+							<div className="flex-1">
+								<button onClick={() => this.fetchAllMatches()}>
+									Fetch matches for all teams
+								</button>
+							</div>
+						</div>
 						{this.state.seasons[this.state.selectedYear].map(team => {
 							return (
 								<div className="flex-container Manage-team" key={team}>
@@ -145,6 +154,16 @@ export default class Manage extends Component {
 	fetchMatches(team) {
 		const that = this;
 		const url = '/api/match/fetch-season/' + this.state.selectedYear + '/' + team.replace(/ /g, '-');
+
+		fetch(url)
+			.then(function(response) {
+				that.selectYear(that.state.selectedYear);
+			});
+	}
+
+	fetchAllMatches() {
+		const that = this;
+		const url = '/api/match/fetch-season/' + this.state.selectedYear;
 
 		fetch(url)
 			.then(function(response) {

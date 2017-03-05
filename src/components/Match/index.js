@@ -130,7 +130,7 @@ export default class Match extends Component {
 		return (
 			<div className="Match">
 				{this.props.showLineup ? 
-				<div className={'Match-flex-container ' + (summary ? 'Match-has-sum' : 'Match-no-sum')}>
+				<div className={'Match-flex-container ' + (showLineup ? 'Match-has-sum' : 'Match-no-sum')}>
 					<div className="flex-1 Match-margin">
 						{matchMeta}
 					</div>
