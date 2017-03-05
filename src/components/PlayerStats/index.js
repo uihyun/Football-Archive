@@ -8,7 +8,8 @@ export default class PlayerStats extends Component {
 		super(props);
 		this.state = {
 			appearances: [],
-			goals: []
+			goals: [],
+			assists: []
 		};
 		
 		this.selectSeason = this.selectSeason.bind(this);
@@ -29,33 +30,74 @@ export default class PlayerStats extends Component {
     return (
       <div className="PlayerStats">
 				<div className="PlayerStats-flex-container">
-					<div className="flex-1 PlayerStats-appearances">
+					<div className="flex-1 PlayerStats-appearances PlayerStats-flex-item">
 						<h3>
 							Appearances <small>({this.state.appearances.length} players)</small>
 						</h3>
 						{this.state.appearances.map(player => {
 							return (
-								<div key={player.name}>
-									{player.number} {player.name} {
-										player.startMatches.length > 0 &&
-										<span>{player.startMatches.length}</span>
-									}
-									{
-										player.subMatches.length > 0 &&
-										<span>({player.subMatches.length})</span>
-									}
+								<div key={player.name} className="flex-container PlayerStats-row">
+									<div className="PlayerStats-backnumber text-center">
+										{player.number}
+									</div>
+									<div className="PlayerStats-name flex-1">
+										{player.name}
+									</div>
+									<div className="PlayerStats-value text-right">
+										{
+											player.startMatches.length > 0 &&
+											<span>{player.startMatches.length}</span>
+										}
+									</div>
+									<div className="PlayerStats-value text-right">
+										{
+											player.subMatches.length > 0 &&
+											<span>{player.subMatches.length}</span>
+										}
+									</div>
+									<div className="PlayerStats-value-long text-right">
+										{player.minutes}'
+									</div>
 								</div>
 							);
 						})}
 					</div>
-					<div className="flex-1 PlayerStats-goals">
+					<div className="flex-1 PlayerStats-goals PlayerStats-flex-item">
 						<h3>
 							Goals <small>({this.state.goals.length} players)</small>
 						</h3>
 						{this.state.goals.map(player => {
 							return (
-								<div key={player.name}>
-									{player.number} {player.name} {player.goalMatches.length}
+								<div key={player.name} className="flex-container PlayerStats-row">
+									<div className="PlayerStats-backnumber text-center">
+										{player.number}
+									</div>
+									<div className="PlayerStats-name flex-1">
+										{player.name}
+									</div>
+									<div className="PlayerStats-value text-right">
+										{player.goalMatches.length}
+									</div>
+								</div>
+							);
+						})}
+					</div>
+					<div className="flex-1 PlayerStats-assists PlayerStats-flex-item">
+						<h3>
+							Assists <small>({this.state.assists.length} players)</small>
+						</h3>
+						{this.state.assists.map(player => {
+							return (
+								<div key={player.name} className="flex-container PlayerStats-row">
+									<div className="PlayerStats-backnumber text-center">
+										{player.number}
+									</div>
+									<div className="PlayerStats-name flex-1">
+										{player.name}
+									</div>
+									<div className="PlayerStats-value text-right">
+										{player.assistMatches.length}
+									</div>
 								</div>
 							);
 						})}
@@ -82,7 +124,8 @@ export default class PlayerStats extends Component {
 	getStats(competitions) {
 		var stats = {
 			appearances: [],
-			goals: []
+			goals: [],
+			assists: []
 		};
 		var playerMap = {};
 		var competition, match, summary, side, players;
@@ -94,8 +137,10 @@ export default class PlayerStats extends Component {
 				playerMap[name] = {
 					name: name,
 					goalMatches: [],
+					assistMatches: [],
 					startMatches: [],
-					subMatches: []
+					subMatches: [],
+					minutes: 0
 				};
 			}
 		}
@@ -122,6 +167,12 @@ export default class PlayerStats extends Component {
 						name = goal.scorer;
 						initPlayer(name);
 						playerMap[name].goalMatches.push(newMatch);
+
+						if (goal.assist !== undefined) {
+							name = goal.assist;
+							initPlayer(name);
+							playerMap[name].assistMatches.push(newMatch);
+						}
 					}
 				}
 
@@ -135,6 +186,12 @@ export default class PlayerStats extends Component {
 					if (player.number) {
 						playerMap[name].number = player.number;
 					}
+
+					if (player.sub) {
+						playerMap[name].minutes += player.sub;
+					} else {
+						playerMap[name].minutes += 90;
+					}
 				}
 				
 				for (k = 0; k < players.sub.length; k++) {
@@ -145,6 +202,13 @@ export default class PlayerStats extends Component {
 						playerMap[name].subMatches.push(newMatch);
 						if (player.number) {
 							playerMap[name].number = player.number;
+						}
+
+						if (player.sub.length) {
+							playerMap[name].minutes += player.sub[1] + 1 - player.sub[0];
+						}
+						else {
+							playerMap[name].minutes += 91 - player.sub;
 						}
 					}
 				}
@@ -159,11 +223,18 @@ export default class PlayerStats extends Component {
 				if (player.goalMatches.length) {
 					stats.goals.push(player);
 				}
+				if (player.assistMatches.length) {
+					stats.assists.push(player);
+				}
 			}
 		}
 		
 		stats.goals.sort(function(a, b) {
 			return b.goalMatches.length - a.goalMatches.length;
+		});
+		
+		stats.assists.sort(function(a, b) {
+			return b.assistMatches.length - a.assistMatches.length;
 		});
 
 		stats.appearances.sort(function(a, b) {

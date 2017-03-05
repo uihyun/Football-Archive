@@ -3,6 +3,42 @@
 	display: flex;
 }
 
+.PlayerStats-flex-item {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.PlayerStats-row {
+	font-size: 20px;
+	line-height: 30px;
+	margin: 2px;
+	align-items: baseline;
+}
+
+.PlayerStats-backnumber {
+	background-color: tomato;
+	color: white;
+	width: 30px;
+}
+
+.PlayerStats-name {
+	margin-left: 10px;
+}
+
+.PlayerStats-value {
+	margin-left: 2px;
+	color: indigo;
+	width: 26px;
+	text-align: right;
+	padding-right: 4px;
+}
+
+.PlayerStats-value-long {
+	margin-left: 2px;
+	width: 40px;
+	font-size: 14px;
+}
+
 @media screen and (max-width: 543px) {
 
 	.PlayerStats-flex-container {
@@ -10,11 +46,19 @@
 		flex-direction: column;
 	}
 
+	.PlayerStats-flex-item {
+		margin: 0px;
+	}
+
 	.PlayerStats-goals {
 		order: 1;
 	}
+	
+	.PlayerStats-assists {
+		order: 2;
+	}
 
 	.PlayerStats-appearances {
-		order: 2;
+		order: 3;
 	}
 }
