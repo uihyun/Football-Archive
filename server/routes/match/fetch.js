@@ -9,30 +9,61 @@ module.exports = function(router, db) {
 	const Seasons = db.collection('Seasons');
 	const Matches = db.collection('Matches');
 
-	function fetchMatch(season, url) {
+	function promiseFromChildProcess(child) {
+		return new Promise(function (resolve, reject) {
+			child.addListener("error", reject);
+			child.addListener("exit", resolve);
+		});
+	}
+
+	function fetchMatchUrl(url) {
 		if (url === '')
 			return;
-		
-		return Matches.find({url: url}).toArray()
-			.then(function(data) {
-				if (data.length > 0)
+
+		const execStr = 'perl ' + path.resolve('perl', 'pl_match.pl') + ' ' + url;
+
+		var stdout = '';
+		var child = exec(execStr);
+		child.stdout.on('data', function(chunk) {stdout += chunk});
+
+		return promiseFromChildProcess(child)
+			.then(function () {
+				if (stdout === '')
 					return;
 
-				const execStr = 'perl ' + path.resolve('perl', 'pl_match.pl') + ' ' + url;
+				const data = JSON.parse(stdout);
+				const newMatch = {
+					url: url,
+					summary: data
+				};
 
-				return Promise.try(function () {
-					exec(execStr, function(error, stdout, stderr) {
-						if (stdout === '')
-							return;
+				return Matches.insert(newMatch);
+			});
+	}
 
-						const data = JSON.parse(stdout);
-						const newMatch = {
-							url: url,
-							summary: data
-						};
+	function fetchThenRespond(res, urls) {
+		Matches.find({url: {$in: urls}}, {_id: 0, url: 1}).toArray()
+			.then(function(matches) {
+				var fetchUrls = [];
+				var urlMap = {};
+				var i, url;
 
-						return Matches.insert(newMatch);
-					});
+				for (var i in matches) {
+					urlMap[matches[i].url] = true;
+				}
+
+				for (var i in urls) {
+					url = urls[i];
+					if (urlMap[url] === undefined) {
+						fetchUrls.push(url);
+					}
+				}
+
+				Promise.map(fetchUrls, function (url) {
+					return fetchMatchUrl(url);
+				}, {concurrency: 8})
+				.then(function () {
+					res.sendStatus(200);
 				});
 			});
 	}
@@ -47,9 +78,9 @@ module.exports = function(router, db) {
 				if (seasons.length === 0) {
 					res.sendStatus(204);
 				} else {
-					var promises = [];
 					var competition, match;
 					var matchDate;
+					var urls = [];
 
 					for (var i in seasons[0].competitions) {
 						competition = seasons[0].competitions[i];
@@ -59,15 +90,12 @@ module.exports = function(router, db) {
 							matchDate = new Date(match.date);
 
 							if (matchDate < new Date()) {
-								promises.push(fetchMatch(season, match.url));
+								urls.push(match.url);
 							}
 						}
 					}
 
-					Promise.all(promises)
-						.then(function() {
-							res.sendStatus(200);
-						});
+					fetchThenRespond(res, urls);	
 				}
 			})
 			.catch(function(error) {
@@ -83,10 +111,10 @@ module.exports = function(router, db) {
 				if (seasons.length === 0) {
 					res.sendStatus(204);
 				} else {
-					var promises = [];
 					var season, competition, match;
 					var matchDate;
 					var i, j, k;
+					var urls = [];
 
 					for (i in seasons) {
 						season = seasons[i];
@@ -99,16 +127,13 @@ module.exports = function(router, db) {
 								matchDate = new Date(match.date);
 
 								if (matchDate < new Date()) {
-									promises.push(fetchMatch(season, match.url));
+									urls.push(match.url);
 								}
 							}
 						}
 					}
 
-					Promise.all(promises)
-						.then(function() {
-							res.sendStatus(200);
-						});
+					fetchThenRespond(res, urls);	
 				}
 			})
 			.catch(function(error) {
