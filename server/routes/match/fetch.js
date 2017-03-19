@@ -28,7 +28,6 @@ module.exports = function(router, db) {
 						const data = JSON.parse(stdout);
 						const newMatch = {
 							url: url,
-							season: season,
 							summary: data
 						};
 

@@ -31,6 +31,7 @@ const teams = {
 	'Fenerbahçe': {id: 52692, name: 'Fenerbahçe'},
 	'Feyenoord': {id: 52749, name: 'Feyenoord'},
 	'FK Rostov': {id: 64500, name: 'Rostov'},
+	'RSC Anderlecht': {id: 50074, name: 'Anderlecht'},
 	'Zorya Lugansk': {id: 65130, name: 'Lugansk'}
 };
 

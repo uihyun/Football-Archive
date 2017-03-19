@@ -39,6 +39,7 @@ export default class Manage extends Component {
 		this.fetchSeason = this.fetchSeason.bind(this);
 		this.clearSeason = this.clearSeason.bind(this);
 		this.fetchMatches = this.fetchMatches.bind(this);
+		this.clearMatches = this.clearMatches.bind(this);
 		this.fetchAllMatches = this.fetchAllMatches.bind(this);
 	}
 
@@ -88,6 +89,9 @@ export default class Manage extends Component {
 										}
 										<button onClick={() => this.fetchMatches(team)}>
 											Fetch Matches
+										</button>
+										<button className="Manage-clear-btn" onClick={() => this.clearMatches(team)}>
+											Clear Matches
 										</button>
 									</div>
 								</div>
@@ -154,6 +158,16 @@ export default class Manage extends Component {
 	fetchMatches(team) {
 		const that = this;
 		const url = '/api/match/fetch-season/' + this.state.selectedYear + '/' + team.replace(/ /g, '-');
+
+		fetch(url)
+			.then(function(response) {
+				that.selectYear(that.state.selectedYear);
+			});
+	}
+
+	clearMatches(team) {
+		const that = this;
+		const url = '/api/match/clear/' + this.state.selectedYear + '/' + team.replace(/ /g, '-');
 
 		fetch(url)
 			.then(function(response) {
