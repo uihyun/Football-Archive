@@ -1,0 +1,25 @@
+.Timeline-header {
+	text-align: center;
+}
+
+.Timeline-flex-container {
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-webkit-flex-direction: row;
+	flex-direction: row;
+	-webkit-justify-content: center;
+	justify-content: center;
+}
+
+@media screen and (max-width: 543px) {
+
+	.Timeline-logo {
+		width: 37px;
+	}
+
+	.Timeline-team {
+		flex-basis: 10%;
+	}
+}

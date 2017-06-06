@@ -7,28 +7,6 @@
 	margin-right: 5px;
 }
 
-.Match-competition {
-	display: -webkit-flex;
-	display: flex;
-	-webkit-justify-content: flex-end;
-	justify-content: flex-end;
-}
-
-.Match-score {
-	width: 35px;
-	text-align: center;
-}
-
-.Match-win {
-	background-color: tomato;
-	color: white;
-}
-
-.Match-loss {
-	background-color: #5CBFEB;
-	color: white;
-}
-
 .Match-Scoresheet {
 	background-color: #EEEEEE;
 	text-align: center;

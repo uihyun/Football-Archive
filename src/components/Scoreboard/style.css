@@ -1,0 +1,19 @@
+.Scoreboard {
+	width: 35px;
+	text-align: center;
+}
+
+.Scoreboard-win {
+	background-color: dodgerblue;
+	color: white;
+}
+
+.Scoreboard-draw {
+	background-color: goldenrod;
+	color: white;
+}
+
+.Scoreboard-loss {
+	background-color: #d81920;
+	color: white;
+}

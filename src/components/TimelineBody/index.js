@@ -4,7 +4,7 @@ import './style.css';
 
 import Match from '../Match';
 
-export default class Season extends Component {
+export default class TimelineBody extends Component {
 
 	constructor(props) {
 		super(props);

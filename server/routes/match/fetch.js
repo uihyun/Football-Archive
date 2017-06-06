@@ -115,7 +115,6 @@ module.exports = function(router, db) {
 					var matchDate;
 					var i, j, k;
 					var urlMap = {};
-					var urls = [];
 
 					for (i in seasons) {
 						season = seasons[i];
@@ -134,6 +133,7 @@ module.exports = function(router, db) {
 						}
 					}
 
+					var urls = [];
 					for (i in urlMap) {
 						urls.push(i);
 					}

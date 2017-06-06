@@ -1,8 +1,8 @@
-.PLTeams-header {
+.Season-View-header {
 	text-align: center;
 }
 
-.PLTeams-flex-container {
+.Season-View-flex-container {
 	display: -webkit-flex;
 	display: flex;
 	-webkit-flex-wrap: wrap;
@@ -15,11 +15,11 @@
 
 @media screen and (max-width: 543px) {
 
-	.PLTeams-logo {
+	.Season-View-logo {
 		width: 37px;
 	}
 
-	.PLTeams-team {
+	.Season-View-team {
 		flex-basis: 10%;
 	}
 }

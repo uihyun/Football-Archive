@@ -6,6 +6,7 @@ import Competition from '../Competition';
 import Team from '../Team';
 import Scoresheet from '../Scoresheet';
 import Lineup from '../Lineup';
+import Scoreboard from '../Scoreboard';
 
 export default class Match extends Component {
 
@@ -17,9 +18,6 @@ export default class Match extends Component {
 
 	render() {
 		const match = this.props.match;
-		const dateA = match.date.split('/');
-		const mm = dateA[0];
-		const dd = dateA[1];
 		const summary = match.summary;
 		var scorers = [];
 		var players = [];
@@ -32,14 +30,10 @@ export default class Match extends Component {
 			var goal;
 			const side = (summary.r === this.props.team) ? 'r' : 'l';
 
-			var goals_scored = 0;
-			var goals_conceded = 0;
-
 			for (i in summary.goals) {
 				if (summary.goals[i]) {
 					goal = summary.goals[i];
 					if (goal.side === side) {
-						goals_scored++;
 
 						found = false;
 						for (j in scorers) {
@@ -52,8 +46,6 @@ export default class Match extends Component {
 						if (!found) {
 							scorers.push({name: goal.scorer, minutes: [goal.minute]});
 						}
-					} else {
-						goals_conceded++;
 					}
 				}
 			}
@@ -93,26 +85,13 @@ export default class Match extends Component {
 			}
 		}
 
-		let score = null;
-		var scoreStyle;
-		if (summary) {
-			if (goals_scored > goals_conceded) {
-				scoreStyle = 'Match-win';
-			} else if (goals_scored < goals_conceded) {
-				scoreStyle = 'Match-loss';
-			}
-			score = <span className="condensed">{goals_scored} : {goals_conceded}</span>;
-		} else {
-			score = <span><small>{mm}/{dd}</small></span>;
-		}
-
 		let matchMeta =
 			<div>
 				<div className="flex-container Match-row">
-					<div className="flex-1 Match-margin Match-competition">
+					<div className="flex-1 Match-margin flex-container-right-aligned">
 						<Competition name={match.competition} round={match.round} />
 					</div>
-					<div className={"Match-margin Match-score " + scoreStyle}>{score}</div>
+					<Scoreboard classNames="Match-margin" team={this.props.team} match={match} />
 					<div className="flex-1 Match-margin Match-team">
 						<Team name={match.vs} />
 					</div>

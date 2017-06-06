@@ -1,12 +1,35 @@
 'use strict';
 
+const Promise = require('bluebird');
+
 module.exports = function(router, db) {
+	const Seasons = db.collection('Seasons');
+	const Matches = db.collection('Matches');
+	const Leagues = db.collection('Leagues');
+
 	router.get('/api/season/select/:_season/:_teamUrl', function(req, res) {
 		const season = req.params._season;
 		const teamUrl = req.params._teamUrl;
 		const team = teamUrl.replace(/-/g, ' ');
-		const Seasons = db.collection('Seasons');
-		const Matches = db.collection('Matches');
+
+		function getMatches(urls, map) {
+			return Matches.find({url: {$in: urls}}).toArray()
+				.then(function(matches) {
+					var match;
+					for (var i in matches) {
+						match = matches[i];
+
+						map[match.url].summary = match.summary;
+					}
+				});
+		}
+
+		function getLeagueTables(season, team, obj) {
+			return Leagues.find({season: season, 'table.name': team}).toArray()
+				.then(function(leagues)	{
+					obj.leagues = leagues;
+				});
+		}
 
 		Seasons.find({season: season, team: team}).toArray()
 			.then(function(seasons) {
@@ -27,14 +50,12 @@ module.exports = function(router, db) {
 						}
 					}
 
-					Matches.find({url: {$in: urls}}).toArray()
-						.then(function(matches) {
-							var match;
-							for (var i in matches) {
-								match = matches[i];
+					var promises = [];
+					promises.push(getMatches(urls, map));
+					promises.push(getLeagueTables(season, team, seasons[0]));
 
-								map[match.url].summary = match.summary;
-							}
+					Promise.all(promises)
+						.then(function() {
 							res.json(seasons[0]);
 						});
 				}
@@ -43,7 +64,6 @@ module.exports = function(router, db) {
 	
 	router.get('/api/season/select/:_season', function(req, res) {
 		const season = req.params._season;
-		const Seasons = db.collection('Seasons');
 		
 		Seasons.find({season: season}, {_id: 0, team: 1}).toArray()
 			.then(function(seasons) {
