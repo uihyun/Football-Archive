@@ -5,13 +5,16 @@ import './style.css';
 import Scoreboard from '../Scoreboard';
 
 import teams from '../../data/teams';
+import rounds from '../../data/rounds';
 
 export default class SeasonSummary extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			league: []
+			league: [],
+			cups: [],
+			europe: []
 		};
 
 		this.selectSeason = this.selectSeason.bind(this);
@@ -38,36 +41,109 @@ export default class SeasonSummary extends Component {
 				return rank + 'th';
 			}
 		}
+
+		function getImgSrc(team) {
+			var logoID = 2608043;
+
+			if (teams[team] !== undefined) {
+				logoID = teams[team].id;
+			}
+
+			return 'http://img.uefa.com/imgml/TP/teams/logos/50x50/' + logoID + '.png';
+		}
+
+		function displayRound(cup, round) {
+			if (rounds[cup] !== undefined) {
+				if (rounds[cup][round] !== undefined) {
+					return rounds[cup][round];
+				}
+			}
+
+			if (round.match(/^Group/)) {
+				return 'G';
+			}
+
+			return round;
+		}
+
     return (
-			<div>
-				{this.state.league.map(team => {
-					var logoID = 2608043;
-
-					if (teams[team.name] !== undefined) {
-						logoID = teams[team.name].id;
-					}
-
-					var imgSrc = 'http://img.uefa.com/imgml/TP/teams/logos/50x50/' + logoID + '.png';
-
-					return (
-						<div className="flex-container Season-Summary-team" key={team.name}>
-							<div className="flex-1 flex-container-right-aligned">
-								<div>
-									<img src={imgSrc} className="Season-Summary-logo" alt="" />
-								</div>
+			<div className="flex-container">
+				{this.state.europe.length > 0 &&
+				<div className="flex-1">
+					{this.state.europe.map(cup => {
+						return (
+							<div key={cup.name}>
+								<h3 className="text-center">{cup.name}</h3>
+								{cup.rounds.map(round => {
+									return (
+										<div className="flex-container Season-Summary-team" key={round.team}>
+											<div className="flex-1 flex-container-right-aligned Season-Summary-left">
+												<div>
+													<img src={getImgSrc(round.team)} className="Season-Summary-logo" alt="" />
+												</div>
+											</div>
+											<Scoreboard classNames="" team={this.props.team} match={round.matches[0]} />
+											{round.matches.length > 1 ?
+												<Scoreboard classNames="" team={this.props.team} match={round.matches[1]} />
+												: round.round !== 'Final' && <div className="Season-Summary-empty-match" />
+											}
+											<div className="flex-1 Season-Summary-right">{displayRound(cup.name, round.round)}</div>
+										</div>
+									);
+								})}
 							</div>
-
-							{
-								team.name === this.props.team
-								? <div className="Season-Summary-self">{displayRank(team.rank)}</div>
-								: team.matches.map(match => {
-									return (<Scoreboard classNames="" key={match.place} team={this.props.team} match={match} />);
-								})
-							}
-							<div className="flex-1"></div>
-						</div>
-					);
-				})}
+						);
+					})}
+				</div>
+				}
+				<div className="flex-1">
+					<h3 className="text-center">EPL</h3>
+					{this.state.league.map(team => {
+						return (
+							<div className="flex-container Season-Summary-team" key={team.name}>
+								<div className="flex-1 flex-container-right-aligned Season-Summary-left">
+									<div>
+										<img src={getImgSrc(team.name)} className="Season-Summary-logo" alt="" />
+									</div>
+								</div>
+								{
+									team.name === this.props.team
+									? <div className="Season-Summary-self">{displayRank(team.rank)}</div>
+									: team.matches.map(match => {
+										return (<Scoreboard classNames="" key={match.place} team={this.props.team} match={match} />);
+									})
+								}
+								<div className="flex-1"></div>
+							</div>
+						);
+					})}
+				</div>
+				<div className="flex-1">
+					{this.state.cups.map(cup => {
+						return (
+							<div key={cup.name}>
+								<h3 className="text-center">{cup.name}</h3>
+								{cup.rounds.map(round => {
+									return (
+										<div className="flex-container Season-Summary-team" key={round.round}>
+											<div className="flex-1 flex-container-right-aligned Season-Summary-left">
+												<div>
+													<img src={getImgSrc(round.team)} className="Season-Summary-logo" alt="" />
+												</div>
+											</div>
+											<Scoreboard classNames="" team={this.props.team} match={round.matches[0]} />
+											{round.matches.length > 1 ?
+												<Scoreboard classNames="" team={this.props.team} match={round.matches[1]} />
+												: round.round !== 'Final' && <div className="Season-Summary-empty-match" />
+											}
+											<div className="flex-1 Season-Summary-right">{displayRound(cup.name, round.round)}</div>
+										</div>
+									);
+								})}
+							</div>
+						);
+					})}
+				</div>
 			</div>
     );
   }
@@ -76,7 +152,7 @@ export default class SeasonSummary extends Component {
 		const that = this;
 		const url = '/api/season/select/' + season + '/' + team.replace(/ /g, '-');
 				
-		this.setState({matches: [], showScorers: false, showLineup: false, selectedPlayer: {}});
+		this.setState({league: []});
 
 		fetch(url)
 			.then(function(response) {
@@ -84,12 +160,12 @@ export default class SeasonSummary extends Component {
 			})
 		.then(function(data) {
 			if (data.season) {
-				that.setState({ league: that.getTable(data) });
+				that.setState(that.getStateFromData(data));
 			}
 		});
 	}
 
-	getTable(data) {
+	getStateFromData(data) {
 		var leagueName = data.leagues[0].name;
 		
 		var i;
@@ -101,10 +177,12 @@ export default class SeasonSummary extends Component {
 			table[i] = { name: entry.name, matches: [], rank: entry.rank };
 			teams[entry.name] = table[i];
 		}
+		var out = {league: table, cups: [], europe: []};
 
-		var j;
+		var j, k;
 		var match;
 		var team;
+		var cup, prevMatch, name, found;
 		for (i = 0; i < data.competitions.length; i++) {
 			entry = data.competitions[i];
 
@@ -120,9 +198,97 @@ export default class SeasonSummary extends Component {
 						team.matches[0] = match;
 					}
 				}
+			} else if (entry.name === 'FA Cup' || 
+								 entry.name === 'League Cup') {
+				cup = {name: entry.name, rounds: []};
+
+				prevMatch = {};
+				for (j = 0; j < entry.matches.length; j++) {
+					match = entry.matches[j];
+					if (match.round === prevMatch.round) {
+						cup.rounds[cup.rounds.length - 1].matches[1] = match;
+						if (entry.name === 'League Cup' && match.place === 'H') {
+							cup.rounds[cup.rounds.length - 1].matches.reverse();
+						}
+					} else {
+						cup.rounds.push({
+							round: match.round,
+							team: match.vs,
+							matches: [match]
+						});
+						prevMatch = match;
+					}
+				}
+
+				cup.rounds.reverse();
+				out.cups.push(cup);
+			} else if (entry.name.match(/^Champions|^Europa/)) {
+				name = entry.name.replace(/ Qual./, '');
+				cup = {name: name, rounds: []};
+				for (j = 0; j < out.europe.length; j++) {
+					if (out.europe[j].name === name) {
+						cup = out.europe[j];
+					}
+				}
+
+				if (cup.rounds.length === 0) {
+					out.europe.push(cup);
+				}
+
+				prevMatch = {};
+				for (j = 0; j < entry.matches.length; j++) {
+					match = entry.matches[j];
+					if (match.round === prevMatch.round) {
+						if (match.round.match(/^Group/)) {
+							found = false;
+							for (k = 0; k < cup.rounds.length; k++) {
+								if (cup.rounds[k].team === match.vs) {
+									cup.rounds[k].matches[1] = match;
+									if (match.place === 'H') {
+										cup.rounds[k].matches.reverse();
+									}
+									found = true;
+									break;
+								}
+							}
+
+							if (found === false) {
+								cup.rounds.push({
+									round: match.round,
+									team: match.vs,
+									matches: [match]
+								});
+							}
+						} else {
+							cup.rounds[cup.rounds.length - 1].matches[1] = match;
+							if (match.place === 'H') {
+								cup.rounds[cup.rounds.length - 1].matches.reverse();
+							}
+						}
+					} else {
+						cup.rounds.push({
+							round: match.round,
+							team: match.vs,
+							matches: [match]
+						});
+						prevMatch = match;
+					}
+				}
 			}
 		}
 
-		return table;
+		for (i = 0; i < out.europe.length; i++) {
+			cup = out.europe[i];
+			cup.rounds.sort(function (a, b) {
+				var aDate = a.matches[0].date.split('/');
+				var bDate = b.matches[0].date.split('/');
+				var aStr = aDate[2] + aDate[0] + aDate[1];
+				var bStr = bDate[2] + bDate[0] + bDate[1];
+
+				return bStr - aStr;
+			});
+		}
+
+		return out;
 	}
 }
