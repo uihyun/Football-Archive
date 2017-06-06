@@ -129,7 +129,7 @@ export default class PlayerStats extends Component {
 		};
 		var playerMap = {};
 		var competition, match, summary, side, players;
-		var goal, player, name, newMatch;
+		var goal, player, name, newMatch, matchLength;
 		var i, j, k;
 
 		function initPlayer(name) {
@@ -160,6 +160,7 @@ export default class PlayerStats extends Component {
 
 				summary = match.summary;
 				side = (summary.r === this.props.team) ? 'r' : 'l';
+				matchLength = summary.aet ? 120 : 90;
 
 				for (k = 0; k < summary.goals.length; k++) {
 					goal = summary.goals[k];
@@ -190,7 +191,7 @@ export default class PlayerStats extends Component {
 					if (player.sub) {
 						playerMap[name].minutes += player.sub;
 					} else {
-						playerMap[name].minutes += 90;
+						playerMap[name].minutes += matchLength;
 					}
 				}
 				
@@ -208,7 +209,7 @@ export default class PlayerStats extends Component {
 							playerMap[name].minutes += player.sub[1] + 1 - player.sub[0];
 						}
 						else {
-							playerMap[name].minutes += 91 - player.sub;
+							playerMap[name].minutes += matchLength + 1 - player.sub;
 						}
 					}
 				}
