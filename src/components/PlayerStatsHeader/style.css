@@ -13,6 +13,11 @@
 	justify-content: center;
 }
 
+.PlayerStatsHeader-team {
+	display: inline-block;
+	vertical-align: middle;
+}
+
 @media screen and (max-width: 543px) {
 
 	.PlayerStatsHeader-logo {

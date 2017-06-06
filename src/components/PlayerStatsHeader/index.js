@@ -39,7 +39,7 @@ export default class PlayerStatsHeader extends Component {
 					})}
 				</div>
         <h2 className="PlayerStatsHeader-header">
-          {this.state.seasonString} {this.getLogo(this.state.team)}
+          {this.state.season - 1} {this.getLogo(this.state.team)} {this.state.season}
         </h2>
 				<PlayerStats season={this.state.season} team={this.state.team} />
       </div>

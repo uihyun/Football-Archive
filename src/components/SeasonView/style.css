@@ -13,6 +13,11 @@
 	justify-content: center;
 }
 
+.Season-View-team {
+	display: inline-block;
+	vertical-align: middle;
+}
+
 @media screen and (max-width: 543px) {
 
 	.Season-View-logo {

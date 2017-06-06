@@ -199,8 +199,12 @@ export default class SeasonSummary extends Component {
 					}
 				}
 			} else if (entry.name === 'FA Cup' || 
-								 entry.name === 'League Cup') {
+								 entry.name === 'League Cup' ||
+								 entry.name === 'FA Community Shield') {
 				cup = {name: entry.name, rounds: []};
+
+				if (entry.name === 'FA Community Shield')
+					cup.name = 'Community Shield';
 
 				prevMatch = {};
 				for (j = 0; j < entry.matches.length; j++) {

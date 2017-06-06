@@ -39,7 +39,7 @@ export default class SeasonView extends Component {
 					})}
 				</div>
         <h2 className="Season-View-header">
-          {this.state.seasonString} {this.getLogo(this.state.team)}
+          {this.state.season - 1} {this.getLogo(this.state.team)} {this.state.season}
         </h2>
 				<SeasonSummary season={this.state.season} team={this.state.team} />
       </div>
