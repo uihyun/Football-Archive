@@ -27,6 +27,7 @@ const teams = {
 	'Wigan Athletic': {id: 89696, name: 'Wigan'},
 
 	// Intl
+	'AFC Ajax': {id: 50143, name: 'Ajax'},
 	'AS Saint-Étienne': {id: 50022, name: 'Saint-Étienne'},
 	'Fenerbahçe': {id: 52692, name: 'Fenerbahçe'},
 	'Feyenoord': {id: 52749, name: 'Feyenoord'},

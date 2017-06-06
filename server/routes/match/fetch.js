@@ -20,7 +20,7 @@ module.exports = function(router, db) {
 		if (url === '')
 			return;
 
-		const execStr = 'perl ' + path.resolve('perl', 'pl_match.pl') + ' ' + url;
+		const execStr = 'perl ' + path.resolve('perl', 'match.pl') + ' ' + url;
 
 		var stdout = '';
 		var child = exec(execStr);
@@ -114,6 +114,7 @@ module.exports = function(router, db) {
 					var season, competition, match;
 					var matchDate;
 					var i, j, k;
+					var urlMap = {};
 					var urls = [];
 
 					for (i in seasons) {
@@ -127,10 +128,14 @@ module.exports = function(router, db) {
 								matchDate = new Date(match.date);
 
 								if (matchDate < new Date()) {
-									urls.push(match.url);
+									urlMap[match.url] = match.url;
 								}
 							}
 						}
+					}
+
+					for (i in urlMap) {
+						urls.push(i);
 					}
 
 					fetchThenRespond(res, urls);	
