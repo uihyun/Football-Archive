@@ -32,6 +32,27 @@ export default class Scoreboard extends Component {
 				scoreStyle = 'Scoreboard-loss';
 			} else {
 				scoreStyle = 'Scoreboard-draw';
+
+				if (summary.penalties !== undefined) {
+					let pkFor = 0;
+					let pkAgainst = 0;
+					for (i = 0; i < summary.penalties.length; i++) {
+						goal = summary.penalties[i];
+						if (goal.result) {
+							if (goal.side === side) {
+								pkFor++;
+							} else {
+								pkAgainst++;
+							}
+						}
+					}
+
+					if (pkFor > pkAgainst) {
+						scoreStyle = 'Scoreboard-win-pso';
+					} else {
+						scoreStyle = 'Scoreboard-loss-pso';
+					}
+				}
 			}
 			score = <span className="condensed">{goals_scored} : {goals_conceded}</span>;
 		} else {

@@ -1,19 +1,25 @@
 .Scoreboard {
 	width: 35px;
 	text-align: center;
+	color: white;
 }
 
 .Scoreboard-win {
 	background-color: dodgerblue;
-	color: white;
 }
 
 .Scoreboard-draw {
 	background-color: goldenrod;
-	color: white;
 }
 
 .Scoreboard-loss {
 	background-color: #d81920;
-	color: white;
+}
+
+.Scoreboard-win-pso {
+	background-color: #7a9a90;
+}
+
+.Scoreboard-loss-pso {
+	background-color: #d95f20;
 }

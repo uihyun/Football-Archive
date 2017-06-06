@@ -16,3 +16,4 @@ npm-debug.log
 src/dummy
 public
 README.md
+*.swp
