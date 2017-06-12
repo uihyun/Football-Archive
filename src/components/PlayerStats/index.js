@@ -37,7 +37,7 @@ export default class PlayerStats extends Component {
 						{this.state.appearances.map(player => {
 							return (
 								<div key={player.name} className="flex-container PlayerStats-row">
-									<div className="PlayerStats-backnumber text-center">
+									<div className={"PlayerStats-backnumber text-center" + (player.sub ? " PlayerStats-backnumber-sub" : "")}>
 										{player.number}
 									</div>
 									<div className="PlayerStats-name flex-1">
@@ -261,6 +261,14 @@ export default class PlayerStats extends Component {
 
 			return 0;
 		});
+
+		for (i = 0; i < stats.appearances.length; i++) {
+			if (i < 11) {
+				stats.appearances[i].sub = false;
+			} else {
+				stats.appearances[i].sub = true;
+			}
+		}
 
 		return stats;
 	}

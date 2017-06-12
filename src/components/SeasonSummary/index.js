@@ -85,7 +85,7 @@ export default class SeasonSummary extends Component {
 											<Scoreboard classNames="" team={this.props.team} match={round.matches[0]} />
 											{round.matches.length > 1 ?
 												<Scoreboard classNames="" team={this.props.team} match={round.matches[1]} />
-												: round.round !== 'Final' && <div className="Season-Summary-empty-match" />
+												: round.hideEmpty || <div className="Season-Summary-empty-match" />
 											}
 											<div className="flex-1 Season-Summary-right">{displayRound(cup.name, round.round)}</div>
 										</div>
@@ -242,7 +242,7 @@ export default class SeasonSummary extends Component {
 
 				cup.rounds.reverse();
 				out.cups.push(cup);
-			} else if (entry.name.match(/^Champions|^Europa/)) {
+			} else if (entry.name.match(/^Champions|^Europa|^Club/)) {
 				name = entry.name.replace(/ Qual./, '');
 				cup = {name: name, rounds: []};
 				for (j = 0; j < out.europe.length; j++) {
@@ -292,6 +292,13 @@ export default class SeasonSummary extends Component {
 							matches: [match]
 						});
 						prevMatch = match;
+					}
+				}
+
+				for (j = 0; j < cup.rounds.length; j++) {
+					round = cup.rounds[j];
+					if (entry.name.match(/^Club/) || round.round === 'Final') {
+						round.hideEmpty = true;
 					}
 				}
 			}

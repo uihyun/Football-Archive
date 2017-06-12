@@ -25,7 +25,12 @@ const rounds = {
 		'Round of 16': '16',
 		'Round of 32': '32',
 		'Play-offs': 'PO',
-		'3 Round': '3R'
+		'3 Round': '3R',
+		'2 Round': '2R',
+		'1 Round': '1R'
+	},
+	'Club World Cup': {
+		'Semi-finals': '4',
 	}
 };
 

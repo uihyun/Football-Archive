@@ -17,7 +17,7 @@ $json .= ",\n";
 get_goals($tables->[1]);
 $json .= ",\n";
 
-my $player_table_index = get_player_table_index($tables->[2]);
+my $player_table_index = get_player_table_index($tables);
 
 #players on the left side
 $json .= "\"players\": {\n";
@@ -96,19 +96,21 @@ sub get_goals($)
 
 sub get_player_table_index($)
 {
-	my $table = shift;
-	my $td = $table->find('td')->[0];
+	my $tables = shift;
+	my $index = 2;
+	my $td = $tables->[$index]->find('td')->[0];
 
 	if ($td->all_text =~ /Penalty/) {
-		get_penalties($table);
-		return 3;
+		get_penalties($tables->[$index]);
+		$index++;
 	}
 
+	$td = $tables->[$index]->find('td')->[0];
 	if ($td->all_text =~ /Incidents/) {
-		return 3;
+		$index++;
 	}
 
-	return 2;
+	return $index;
 }
 
 sub get_penalties($)

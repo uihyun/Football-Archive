@@ -18,11 +18,25 @@ module.exports = function(router, db) {
 
 					exec(execStr, function(error, stdout, stderr) {
 						const data = JSON.parse(stdout);
-						const newSeason = {
+						var newSeason = {
 							season: season,
 							team: team,
 							competitions: data
 						};
+
+						if (season === '2011' && team === 'Fulham FC') {
+							var competitions = [];
+							var competition;
+
+							for (var i in data) {
+								competition = data[i];
+								if (competition.name !== 'Europa League Qual.') {
+									competitions.push(competition);
+								}
+							}
+
+							newSeason.competitions = competitions;
+						}
 
 						Seasons.insert(newSeason)
 							.then(function() {

@@ -21,6 +21,10 @@
 	width: 30px;
 }
 
+.PlayerStats-backnumber-sub {
+	background-color: blue;
+}
+
 .PlayerStats-name {
 	margin-left: 10px;
 }
