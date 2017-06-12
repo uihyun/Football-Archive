@@ -10,7 +10,7 @@ export default class Scoreboard extends Component {
 		const dd = dateA[1];
 		const summary = match.summary;
 		let score = null;
-		var scoreStyle;
+		var scoreStyle = '';
 		if (summary) {
 			let goals_scored = 0;
 			let goals_conceded = 0;
@@ -56,6 +56,7 @@ export default class Scoreboard extends Component {
 			}
 			score = <span className="condensed">{goals_scored} : {goals_conceded}</span>;
 		} else {
+			scoreStyle = 'Scoreboard-unplayed';
 			score = <span><small>{mm}/{dd}</small></span>;
 		}
 

@@ -23,3 +23,7 @@
 .Scoreboard-loss-pso {
 	background-color: #d95f20;
 }
+
+.Scoreboard-unplayed {
+	color: black;
+}

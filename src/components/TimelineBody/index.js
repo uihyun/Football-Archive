@@ -135,6 +135,8 @@ export default class TimelineBody extends Component {
 			return a > b ? 1 : a < b ? -1 : 0;
 		});
 
+		console.log(out);
+
 		return out;
 	}
 }

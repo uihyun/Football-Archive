@@ -25,7 +25,7 @@ export default class PlayerStatsHeader extends Component {
 			}
 		}
 		
-		this.state = {season: year, seasonString: '16-17', team: 'Manchester United', teams: teams};
+		this.state = {season: year, team: 'Manchester United', teams: teams};
 
 		this.selectTeam = this.selectTeam.bind(this);
 	}
@@ -33,6 +33,17 @@ export default class PlayerStatsHeader extends Component {
   render() {
     return (
       <div className="PlayerStatsHeader">
+				<div className="PlayerStatsHeader-flex-container">
+					{seasons.map(season => {
+						return (
+							<div className="flex-1 text-center" key={season.year}
+							     onClick={() => this.selectSeason(season)}>
+								<h3>
+								{season.year - 2000}
+								</h3>
+							</div>);
+					})}
+				</div>
 				<div className="PlayerStatsHeader-flex-container">
 					{this.state.teams.map(team => {
 						return this.getLogo(team);
@@ -45,6 +56,23 @@ export default class PlayerStatsHeader extends Component {
       </div>
     );
   }
+
+	selectSeason(season) {
+		var team = 'Manchester United';
+
+		for (var i in season.teams) {
+			if (this.state.team === season.teams[i]) {
+				team = this.state.team;
+				break;
+			}
+		}
+
+		this.setState({
+			season: season.year,
+			team: team,
+			teams: season.teams
+		});
+	}
 
 	selectTeam(team) {
 		this.setState({team: team});
