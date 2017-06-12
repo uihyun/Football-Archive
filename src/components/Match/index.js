@@ -126,10 +126,6 @@ export default class Match extends Component {
 		);
 	}
 
-	dummySelectPlayer(player) {
-		console.log(player);
-	}
-
 	onUpdateDone() {
 		this.props.onUpdate();
 	}

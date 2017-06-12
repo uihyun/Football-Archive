@@ -150,7 +150,6 @@ export default class Manage extends Component {
 
 		fetch(url)
 			.then(function(response) {
-				console.log(response);
 				that.selectYear(that.state.selectedYear);
 			})
 	}
