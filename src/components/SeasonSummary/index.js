@@ -131,8 +131,11 @@ export default class SeasonSummary extends Component {
 													<img src={getImgSrc(round.team)} className="Season-Summary-logo" alt="" />
 												</div>
 											</div>
-											<Scoreboard classNames="" team={this.props.team} match={round.matches[0]} />
-											{round.matches.length > 1 ?
+											{round.matches[0] ?
+												<Scoreboard classNames="" team={this.props.team} match={round.matches[0]} />
+												: round.round !== 'Final' && <div className="Season-Summary-empty-match" />
+											}
+											{round.matches[1] ?
 												<Scoreboard classNames="" team={this.props.team} match={round.matches[1]} />
 												: round.round !== 'Final' && <div className="Season-Summary-empty-match" />
 											}
@@ -186,7 +189,7 @@ export default class SeasonSummary extends Component {
 		var j, k;
 		var match;
 		var team;
-		var cup, prevMatch, name, found;
+		var cup, prevMatch, name, found, round;
 		for (i = 0; i < data.competitions.length; i++) {
 			entry = data.competitions[i];
 
@@ -214,16 +217,25 @@ export default class SeasonSummary extends Component {
 				for (j = 0; j < entry.matches.length; j++) {
 					match = entry.matches[j];
 					if (match.round === prevMatch.round) {
-						cup.rounds[cup.rounds.length - 1].matches[1] = match;
-						if (entry.name === 'League Cup' && match.place === 'H') {
-							cup.rounds[cup.rounds.length - 1].matches.reverse();
+						if (match.place === 'A') {
+							round.matches[1] = match;
+						} else {
+							round.matches[0] = match;
 						}
 					} else {
-						cup.rounds.push({
+						round = {
 							round: match.round,
 							team: match.vs,
-							matches: [match]
-						});
+							matches: []
+						};
+
+						if (match.place === 'A') {
+							round.matches[1] = match;
+						} else {
+							round.matches[0] = match;
+						}
+
+						cup.rounds.push(round);
 						prevMatch = match;
 					}
 				}
