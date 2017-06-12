@@ -177,7 +177,9 @@ sub get_player($)
 		}
 
 		$json .= ",\n" if $count++;
-		$json .= "{\"number\": $number, \"name\": \"$player\"$sub_string$card_string}";
+		$json .= "{";
+		$json .= "\"number\": $number, " if $number ne '';
+		$json .= "\"name\": \"$player\"$sub_string$card_string}";
 	}
 
 	$json .= "\n]}";

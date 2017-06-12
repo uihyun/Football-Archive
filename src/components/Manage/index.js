@@ -181,7 +181,11 @@ export default class Manage extends Component {
 
 		fetch(url)
 			.then(function(response) {
-				that.selectYear(that.state.selectedYear);
+				const url = '/api/league/update/' + that.state.selectedYear + '/Premier-League';
+				fetch(url)
+					.then(function(response) {
+						alert('Done');
+					});
 			});
 	}
 }

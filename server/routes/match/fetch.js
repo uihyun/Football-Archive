@@ -38,6 +38,9 @@ module.exports = function(router, db) {
 				};
 
 				return Matches.insert(newMatch);
+			}).catch(function (error) {
+				console.log(execStr);
+				throw(error);
 			});
 	}
 

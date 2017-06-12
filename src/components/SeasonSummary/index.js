@@ -152,7 +152,11 @@ export default class SeasonSummary extends Component {
 		const that = this;
 		const url = '/api/season/select/' + season + '/' + team.replace(/ /g, '-');
 				
-		this.setState({league: []});
+		this.setState({
+			league: [],
+			cups: [],
+			europe: []
+		});
 
 		fetch(url)
 			.then(function(response) {
