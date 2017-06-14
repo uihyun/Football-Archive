@@ -5,6 +5,8 @@ import './style.css';
 import Team from '../Team';
 import seasons from '../../data/seasons';
 
+import UrlUtil from '../../util/url';
+
 export default class Manage extends Component {
 
 	constructor(props) {
@@ -114,12 +116,13 @@ export default class Manage extends Component {
 			.then(function(data) {
 				var teams = {};
 				var team;
+				console.log(data);
 				for (var i in data) {
 					if (data[i]) {
 						for (var j in that.state.seasons[year]) {
 							if (that.state.seasons[year][j]) {
 								team = that.state.seasons[year][j];
-								if (team.toUpperCase() === data[i].team.toUpperCase()) {
+								if (team === data[i].team) {
 									teams[team] = true;
 								}
 							}
@@ -133,7 +136,7 @@ export default class Manage extends Component {
 
 	fetchSeason(team) {
 		const that = this;
-		const url = '/api/season/fetch/' + this.state.selectedYear + '/' + team.replace(/ /g, '-');
+		const url = UrlUtil.getSeasonFetchUrl(this.state.selectedYear, team);
 
 		fetch(url)
 			.then(function(response) {
@@ -146,7 +149,7 @@ export default class Manage extends Component {
 
 	clearSeason(team) {
 		const that = this;
-		const url = '/api/season/clear/' + this.state.selectedYear + '/' + team.replace(/ /g, '-');
+		const url = UrlUtil.getSeasonClearUrl(this.state.selectedYear, team);
 
 		fetch(url)
 			.then(function(response) {
@@ -156,7 +159,7 @@ export default class Manage extends Component {
 
 	fetchMatches(team) {
 		const that = this;
-		const url = '/api/match/fetch-season/' + this.state.selectedYear + '/' + team.replace(/ /g, '-');
+		const url = UrlUtil.getMatchFetchUrl(this.state.selectedYear, team);
 
 		fetch(url)
 			.then(function(response) {
@@ -166,7 +169,7 @@ export default class Manage extends Component {
 
 	clearMatches(team) {
 		const that = this;
-		const url = '/api/match/clear/' + this.state.selectedYear + '/' + team.replace(/ /g, '-');
+		const url = UrlUtil.getMatchClearUrl(this.state.selectedYear, team);
 
 		fetch(url)
 			.then(function(response) {

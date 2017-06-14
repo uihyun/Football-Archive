@@ -10,7 +10,7 @@ export default class SeasonView extends Component {
 
 	constructor(props) {
 		super(props);
-		var year = 2017;
+		var year = 2018;
 		var teams = [];
 		var season, i;
 

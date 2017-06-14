@@ -2,6 +2,8 @@
 
 const Promise = require('bluebird');
 
+const UrlUtil = require('../../util/url');
+
 module.exports = function(router, db) {
 	const Seasons = db.collection('Seasons');
 	const Matches = db.collection('Matches');
@@ -9,8 +11,7 @@ module.exports = function(router, db) {
 
 	router.get('/api/season/select/:_season/:_teamUrl', function(req, res) {
 		const season = req.params._season;
-		const teamUrl = req.params._teamUrl;
-		const team = teamUrl.replace(/-/g, ' ');
+		const team = UrlUtil.getTeamNameFromUrl(req.params._teamUrl);
 
 		function getMatches(urls, map) {
 			return Matches.find({url: {$in: urls}}).toArray()

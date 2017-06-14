@@ -5,6 +5,8 @@ const exec = require('child_process').exec;
 const Promise = require('bluebird');
 const ObjectID = require('mongodb').ObjectID;
 
+const UrlUtil = require('../../util/url');
+
 module.exports = function(router, db) {
 	const Seasons = db.collection('Seasons');
 	const Matches = db.collection('Matches');
@@ -73,8 +75,7 @@ module.exports = function(router, db) {
 	
 	router.get('/api/match/fetch-season/:_season/:_teamUrl', function(req, res) {
 		const season = req.params._season;
-		const teamUrl = req.params._teamUrl;
-		const team = teamUrl.replace(/-/g, ' ');
+		const team = UrlUtil.getTeamNameFromUrl(req.params._teamUrl);
 		
 		Seasons.find({season: season, team: team}).toArray()
 			.then(function(seasons) {

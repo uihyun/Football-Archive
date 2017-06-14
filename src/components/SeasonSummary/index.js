@@ -7,6 +7,8 @@ import Scoreboard from '../Scoreboard';
 import teams from '../../data/teams';
 import rounds from '../../data/rounds';
 
+import UrlUtil from '../../util/url';
+
 export default class SeasonSummary extends Component {
 
 	constructor(props) {
@@ -153,7 +155,7 @@ export default class SeasonSummary extends Component {
 
 	selectSeason(season, team) {
 		const that = this;
-		const url = '/api/season/select/' + season + '/' + team.replace(/ /g, '-');
+		const url = UrlUtil.getSeasonSelectUrl(season, team);
 				
 		this.setState({
 			league: [],

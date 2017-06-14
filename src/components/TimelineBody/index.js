@@ -4,6 +4,8 @@ import './style.css';
 
 import Match from '../Match';
 
+import UrlUtil from '../../util/url';
+
 export default class TimelineBody extends Component {
 
 	constructor(props) {
@@ -70,7 +72,7 @@ export default class TimelineBody extends Component {
 
 	selectSeason(season, team) {
 		const that = this;
-		const url = '/api/season/select/' + season + '/' + team.replace(/ /g, '-');
+		const url = UrlUtil.getSeasonSelectUrl(season, team);
 				
 		this.setState({matches: [], showScorers: false, showLineup: false, selectedPlayer: {}});
 

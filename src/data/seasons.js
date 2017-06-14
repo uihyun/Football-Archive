@@ -19,7 +19,7 @@ const seasons = [
 			'Burnley FC',
 			'Watford FC',
 			'Newcastle United',
-			'Brighton Hove Albion',
+			'Brighton & Hove Albion',
 			'Huddersfield Town',
 		]
 	},

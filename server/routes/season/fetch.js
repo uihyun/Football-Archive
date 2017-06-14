@@ -3,12 +3,14 @@
 const path = require('path');
 const exec = require('child_process').exec;
 
+const UrlUtil = require('../../util/url');
+
 module.exports = function(router, db) {
 
 	router.get('/api/season/fetch/:_season/:_teamUrl', function(req, res) {
 		const season = req.params._season;
 		const teamUrl = req.params._teamUrl;
-		const team = teamUrl.replace(/-/g, ' ');
+		const team = UrlUtil.getTeamNameFromUrl(teamUrl);
 		const Seasons = db.collection('Seasons');
 
 		Seasons.find({season: season, team: team}).toArray()

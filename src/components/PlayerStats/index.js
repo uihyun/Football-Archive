@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import './style.css';
 
+import UrlUtil from '../../util/url';
+
 export default class PlayerStats extends Component {
 
 	constructor(props) {
@@ -109,7 +111,7 @@ export default class PlayerStats extends Component {
 
 	selectSeason(season, team) {
 		const that = this;
-		const url = '/api/season/select/' + season + '/' + team.replace(/ /g, '-');
+		const url = UrlUtil.getSeasonSelectUrl(season, team);
 
 		fetch(url)
 			.then(function(response) {
