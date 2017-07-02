@@ -13,6 +13,16 @@ module.exports = function(router, db) {
 		}
 	}
 
+	function compareFnWithName(a, b) {
+		if (a.points !== b.points) {
+			return b.points - a.points;
+		} else if (b.goals.d - a.goals.d) {
+			return b.goals.d - a.goals.d;
+		} else {
+			return (a.name < b.name) ? -1 : 1;
+		}
+	}
+
 	router.get('/api/league/update/:_season/:_leagueUrl', function(req, res) {
 		const season = req.params._season;
 		const leagueUrl = req.params._leagueUrl;
@@ -110,6 +120,8 @@ module.exports = function(router, db) {
 						team.rank = prevRank = i+1;
 					}
 				}
+				
+				teamArray.sort(compareFnWithName);
 
 				const league = {
 					season: season,
