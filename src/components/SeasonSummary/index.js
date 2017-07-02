@@ -8,6 +8,7 @@ import teams from '../../data/teams';
 import rounds from '../../data/rounds';
 
 import UrlUtil from '../../util/url';
+import SquadUtil from '../../util/squad';
 
 export default class SeasonSummary extends Component {
 
@@ -16,7 +17,8 @@ export default class SeasonSummary extends Component {
 		this.state = {
 			league: [],
 			cups: [],
-			europe: []
+			europe: [],
+			squad: []
 		};
 
 		this.selectSeason = this.selectSeason.bind(this);
@@ -69,6 +71,7 @@ export default class SeasonSummary extends Component {
 		}
 
     return (
+			<div>
 			<div className="flex-container">
 				{this.state.europe.length > 0 &&
 				<div className="flex-1">
@@ -103,7 +106,9 @@ export default class SeasonSummary extends Component {
 					{this.state.league.map(team => {
 						return (
 							<div className="flex-container Season-Summary-team" key={team.name}>
-								<div className="flex-1"></div>
+								<div className="flex-1 flex-container-right-aligned Season-Summary-left">
+									{team.name !== this.props.team && team.rank}
+								</div>
 								{
 									team.name === this.props.team
 									? <div className="Season-Summary-self">{displayRank(team.rank)}</div>
@@ -149,6 +154,18 @@ export default class SeasonSummary extends Component {
 						);
 					})}
 				</div>
+			</div>
+			<br/>
+			<div className="flex-container flex-container-wrap">
+				{this.state.squad.map(player => {
+					return (
+						<div className="flex-container Season-Summary-squad" key={player.fullname}>
+							<div className="Season-Summary-backnumber text-center"><small>{player.number}</small></div>
+							<div className="Season-Summary-player-name"><small>{player.name}</small></div>
+						</div>
+					);
+				})}
+			</div>
 			</div>
     );
   }
@@ -320,6 +337,8 @@ export default class SeasonSummary extends Component {
 				return bStr - aStr;
 			});
 		}
+
+		out.squad = SquadUtil.getSquadArray(data, this.props.team);
 
 		return out;
 	}
