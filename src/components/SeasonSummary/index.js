@@ -79,17 +79,17 @@ export default class SeasonSummary extends Component {
 								{cup.rounds.map(round => {
 									return (
 										<div className="flex-container Season-Summary-team" key={round.team}>
-											<div className="flex-1 flex-container-right-aligned Season-Summary-left">
-												<div>
-													<img src={getImgSrc(round.team)} className="Season-Summary-logo" alt="" />
-												</div>
-											</div>
+											<div className="flex-1 flex-container-right-aligned Season-Summary-left">{displayRound(cup.name, round.round)}</div>
 											<Scoreboard classNames="" team={this.props.team} match={round.matches[0]} />
 											{round.matches.length > 1 ?
 												<Scoreboard classNames="" team={this.props.team} match={round.matches[1]} />
 												: round.hideEmpty || <div className="Season-Summary-empty-match" />
 											}
-											<div className="flex-1 Season-Summary-right">{displayRound(cup.name, round.round)}</div>
+											<div className="flex-1 Season-Summary-right">
+												<div>
+													<img src={getImgSrc(round.team)} className="Season-Summary-logo" alt="" />
+												</div>
+											</div>
 										</div>
 									);
 								})}
@@ -103,11 +103,7 @@ export default class SeasonSummary extends Component {
 					{this.state.league.map(team => {
 						return (
 							<div className="flex-container Season-Summary-team" key={team.name}>
-								<div className="flex-1 flex-container-right-aligned Season-Summary-left">
-									<div>
-										<img src={getImgSrc(team.name)} className="Season-Summary-logo" alt="" />
-									</div>
-								</div>
+								<div className="flex-1"></div>
 								{
 									team.name === this.props.team
 									? <div className="Season-Summary-self">{displayRank(team.rank)}</div>
@@ -115,7 +111,11 @@ export default class SeasonSummary extends Component {
 										return (<Scoreboard classNames="" key={match.place} team={this.props.team} match={match} />);
 									})
 								}
-								<div className="flex-1"></div>
+								<div className="flex-1 Season-Summary-right">
+									<div>
+										<img src={getImgSrc(team.name)} className="Season-Summary-logo" alt="" />
+									</div>
+								</div>
 							</div>
 						);
 					})}
@@ -128,11 +128,7 @@ export default class SeasonSummary extends Component {
 								{cup.rounds.map(round => {
 									return (
 										<div className="flex-container Season-Summary-team" key={round.round}>
-											<div className="flex-1 flex-container-right-aligned Season-Summary-left">
-												<div>
-													<img src={getImgSrc(round.team)} className="Season-Summary-logo" alt="" />
-												</div>
-											</div>
+											<div className="flex-1 flex-container-right-aligned Season-Summary-left">{displayRound(cup.name, round.round)}</div>
 											{round.matches[0] ?
 												<Scoreboard classNames="" team={this.props.team} match={round.matches[0]} />
 												: round.round !== 'Final' && <div className="Season-Summary-empty-match" />
@@ -141,7 +137,11 @@ export default class SeasonSummary extends Component {
 												<Scoreboard classNames="" team={this.props.team} match={round.matches[1]} />
 												: round.round !== 'Final' && <div className="Season-Summary-empty-match" />
 											}
-											<div className="flex-1 Season-Summary-right">{displayRound(cup.name, round.round)}</div>
+											<div className="flex-1 Season-Summary-right">
+												<div>
+													<img src={getImgSrc(round.team)} className="Season-Summary-logo" alt="" />
+												</div>
+											</div>
 										</div>
 									);
 								})}
@@ -244,7 +244,7 @@ export default class SeasonSummary extends Component {
 
 				cup.rounds.reverse();
 				out.cups.push(cup);
-			} else if (entry.name.match(/^Champions|^Europa|^Club/)) {
+			} else if (entry.name.match(/^Champions|^Europa|^Club|^UEFA/)) {
 				name = entry.name.replace(/ Qual./, '');
 				cup = {name: name, rounds: []};
 				for (j = 0; j < out.europe.length; j++) {
@@ -252,6 +252,9 @@ export default class SeasonSummary extends Component {
 						cup = out.europe[j];
 					}
 				}
+
+				if (entry.name === 'UEFA-Supercup')
+					cup.name = 'UEFA Super Cup';
 
 				if (cup.rounds.length === 0) {
 					out.europe.push(cup);
