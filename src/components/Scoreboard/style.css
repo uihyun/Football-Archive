@@ -5,23 +5,43 @@
 }
 
 .Scoreboard-win {
-	background-color: dodgerblue;
+	background-color: hsl(210, 100%, 50%);
 }
 
 .Scoreboard-draw {
-	background-color: goldenrod;
+	background-color: hsl( 40, 100%, 50%);
 }
 
 .Scoreboard-loss {
-	background-color: #d81920;
+	background-color: hsl(360,  90%, 50%);
 }
 
 .Scoreboard-win-pso {
-	background-color: #7a9a90;
+	background-color: hsl(125,  80%, 50%);
 }
 
 .Scoreboard-loss-pso {
-	background-color: #d95f20;
+	background-color: hsl( 20, 100%, 50%);
+}
+
+.Scoreboard-win-didNotPlay {
+	background-color: hsl(210, 100%, 80%);
+}
+
+.Scoreboard-draw-didNotPlay {
+	background-color: hsl( 40, 100%, 80%);
+}
+
+.Scoreboard-loss-didNotPlay {
+	background-color: hsl(360,  90%, 80%);
+}
+
+.Scoreboard-win-pso-didNotPlay {
+	background-color: hsl(125,  80%, 80%);
+}
+
+.Scoreboard-loss-pso-didNotPlay {
+	background-color: hsl( 20,  80%, 80%);
 }
 
 .Scoreboard-unplayed {

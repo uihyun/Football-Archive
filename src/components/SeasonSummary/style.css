@@ -40,3 +40,11 @@
 	padding-left: 3px;
 	padding-right: 3px;
 }
+
+.Season-Summary-backnumber-selected {
+	background-color: #b48246;
+}
+
+.Season-Summary-player-name-selected {
+	background-color: #dec4b0;
+}

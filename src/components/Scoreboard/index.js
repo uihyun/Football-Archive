@@ -55,11 +55,73 @@ export default class Scoreboard extends Component {
 				}
 			}
 			score = <span className="condensed">{goals_scored} : {goals_conceded}</span>;
+
+			if (this.props.player) {
+				if (this.playerPlayed(summary.players[side], this.props.player)) {
+					score = <small>{this.playerScored(summary.goals, side, this.props.player)}</small>;
+				} else {
+					scoreStyle += '-didNotPlay';
+					score = null;
+				}
+			}
 		} else {
 			scoreStyle = 'Scoreboard-unplayed';
 			score = <span><small>{mm}/{dd}</small></span>;
 		}
 
     return (<div className={this.props.classNames + ' Scoreboard ' + scoreStyle}>{score}</div>);
+	}
+
+	playerPlayed(players, player) {
+		for (var i = 0; i < players.start.length; i++) {
+			if (players.start[i].name === player) {
+				return true;
+			}
+		}
+
+		for (i = 0; i < players.sub.length; i++) {
+			if (players.sub[i].sub && players.sub[i].name === player) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	playerScored(goals, side, player) {
+		var goal;
+		var goalCount = 0;
+		var assistCount = 0;
+
+		for (var i = 0; i < goals.length; i++) {
+			goal = goals[i];
+
+			if (goal.side !== side)
+				continue;
+
+			if (goal.scorer === player)
+				goalCount++;
+
+			if (goal.assist === player)
+				assistCount++;
+		}
+
+		var a = '';
+		if (assistCount > 0) {
+			if (assistCount > 1) {
+				a = assistCount;
+			}
+			a += 'a';
+		}
+		
+		var g = '';
+		if (goalCount > 0) {
+			if (goalCount > 1) {
+				g = goalCount;
+			}
+			g += '⚽';
+		}
+
+		return g + a;
 	}
 }

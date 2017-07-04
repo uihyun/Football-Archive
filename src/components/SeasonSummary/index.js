@@ -18,10 +18,12 @@ export default class SeasonSummary extends Component {
 			league: [],
 			cups: [],
 			europe: [],
-			squad: []
+			squad: [],
+			player: null
 		};
 
 		this.selectSeason = this.selectSeason.bind(this);
+		this.selectPlayer = this.selectPlayer.bind(this);
 	}
 
 	componentDidMount() {
@@ -33,6 +35,18 @@ export default class SeasonSummary extends Component {
 				this.props.team !== nextProps.team) {
 			this.selectSeason(nextProps.season, nextProps.team);
 		}
+	}
+
+	selectPlayer(player) {
+		if (this.state.player === player.fullname) {
+			this.setState({ player: null });
+		} else {
+			this.setState({ player: player.fullname });
+		}
+	}
+
+	getScoreboard(match, key) {
+		return (<Scoreboard key={key} team={this.props.team} match={match} player={this.state.player} />);
 	}
 
   render() {
@@ -83,9 +97,9 @@ export default class SeasonSummary extends Component {
 									return (
 										<div className="flex-container Season-Summary-team" key={round.team}>
 											<div className="flex-1 flex-container-right-aligned Season-Summary-left">{displayRound(cup.name, round.round)}</div>
-											<Scoreboard classNames="" team={this.props.team} match={round.matches[0]} />
+											{this.getScoreboard(round.matches[0])}
 											{round.matches.length > 1 ?
-												<Scoreboard classNames="" team={this.props.team} match={round.matches[1]} />
+												this.getScoreboard(round.matches[1])
 												: round.hideEmpty || <div className="Season-Summary-empty-match" />
 											}
 											<div className="flex-1 Season-Summary-right">
@@ -113,7 +127,7 @@ export default class SeasonSummary extends Component {
 									team.name === this.props.team
 									? <div className="Season-Summary-self">{displayRank(team.rank)}</div>
 									: team.matches.map(match => {
-										return (<Scoreboard classNames="" key={match.place} team={this.props.team} match={match} />);
+										return this.getScoreboard(match, match.place);
 									})
 								}
 								<div className="flex-1 Season-Summary-right">
@@ -135,11 +149,11 @@ export default class SeasonSummary extends Component {
 										<div className="flex-container Season-Summary-team" key={round.round}>
 											<div className="flex-1 flex-container-right-aligned Season-Summary-left">{displayRound(cup.name, round.round)}</div>
 											{round.matches[0] ?
-												<Scoreboard classNames="" team={this.props.team} match={round.matches[0]} />
+												this.getScoreboard(round.matches[0])
 												: round.round !== 'Final' && <div className="Season-Summary-empty-match" />
 											}
 											{round.matches[1] ?
-												<Scoreboard classNames="" team={this.props.team} match={round.matches[1]} />
+												this.getScoreboard(round.matches[1])
 												: round.round !== 'Final' && <div className="Season-Summary-empty-match" />
 											}
 											<div className="flex-1 Season-Summary-right">
@@ -158,10 +172,18 @@ export default class SeasonSummary extends Component {
 			<br/>
 			<div className="flex-container flex-container-wrap">
 				{this.state.squad.map(player => {
+
+					var backnumberStyle = 'Season-Summary-backnumber text-center';
+					var playerNameStyle = 'Season-Summary-player-name';
+					if (player.fullname === this.state.player) {
+						backnumberStyle += ' Season-Summary-backnumber-selected';
+						playerNameStyle += ' Season-Summary-player-name-selected';
+					}
+
 					return (
-						<div className="flex-container Season-Summary-squad" key={player.fullname}>
-							<div className="Season-Summary-backnumber text-center"><small>{player.number}</small></div>
-							<div className="Season-Summary-player-name"><small>{player.name}</small></div>
+						<div className="flex-container Season-Summary-squad" key={player.fullname} onClick={() => this.selectPlayer(player)}>
+							<div className={backnumberStyle}><small>{player.number}</small></div>
+							<div className={playerNameStyle}><small>{player.name}</small></div>
 						</div>
 					);
 				})}
@@ -177,7 +199,9 @@ export default class SeasonSummary extends Component {
 		this.setState({
 			league: [],
 			cups: [],
-			europe: []
+			europe: [],
+			squad: [],
+			player: null
 		});
 
 		fetch(url)
