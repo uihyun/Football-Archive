@@ -8,16 +8,20 @@ module.exports = function(router, db) {
 	function compareFn(a, b) {
 		if (a.points !== b.points) {
 			return b.points - a.points;
-		} else {
+		} else if (a.goals.d !== b.goals.d) {
 			return b.goals.d - a.goals.d;
+		} else {
+			return b.goals.f - a.goals.f;
 		}
 	}
 
 	function compareFnWithName(a, b) {
 		if (a.points !== b.points) {
 			return b.points - a.points;
-		} else if (b.goals.d - a.goals.d) {
+		} else if (a.goals.d !== b.goals.d) {
 			return b.goals.d - a.goals.d;
+		} else if (a.goals.f !== b.goals.f) {
+			return b.goals.f - a.goals.f;
 		} else {
 			return (a.name < b.name) ? -1 : 1;
 		}
