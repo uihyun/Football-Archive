@@ -22,12 +22,16 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 		$comp =~ s/\d+\/\d+$|\d+$//;
 		$comp =~ s/\s+$//;
 
+		next if $comp =~ '^Friendlies';
+
 		$json .= "]}\n," if $comp_count++;
 		$json .= "{\"name\": \"$comp\", \"matches\": [\n";
 
 		$match_count = 0;
 	} else {
-		my $td_col = $tr->find('td');
+		next if $comp =~ '^Friendlies';
+
+		my $td_col = $tr->find('td');	
 
 		if ($td_col->size) {
 			my $round = $td_col->[0]->all_text;

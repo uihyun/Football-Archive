@@ -43,6 +43,7 @@ export default class Manage extends Component {
 		this.fetchMatches = this.fetchMatches.bind(this);
 		this.clearMatches = this.clearMatches.bind(this);
 		this.fetchAllMatches = this.fetchAllMatches.bind(this);
+		this.updateLeague = this.updateLeague.bind(this);
 	}
 
 	componentDidMount() {
@@ -70,6 +71,9 @@ export default class Manage extends Component {
 							<div className="flex-1">
 								<button onClick={() => this.fetchAllMatches()}>
 									Fetch matches for all teams
+								</button>
+								<button onClick={() => this.updateLeague()}>
+									Update League
 								</button>
 							</div>
 						</div>
@@ -188,6 +192,16 @@ export default class Manage extends Component {
 					.then(function(response) {
 						alert('Done');
 					});
+			});
+	}
+	
+	updateLeague() {
+		const that = this;
+		const url = '/api/league/update/' + that.state.selectedYear + '/Premier-League';
+		
+		fetch(url)
+			.then(function(response) {
+				alert('Update League: Done');
 			});
 	}
 }

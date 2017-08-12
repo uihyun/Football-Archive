@@ -11,6 +11,8 @@ my $dom = Mojo::DOM->new($html);
 
 my $tables = $dom->find('table[class="standard_tabelle"]');
 
+check_done($tables->[0]);
+
 my $json = "{";
 get_sides($tables->[0]);
 $json .= ",\n";
@@ -30,6 +32,14 @@ get_manager($tables->[$player_table_index+2]);
 
 $json .= "}";
 print $json;
+
+sub check_done($)
+{
+	my $table = shift;
+
+	my $score_style = $table->find('td[class="dunkel"]')->first->find('span')->first->attr('style');
+	exit 1 if $score_style =~ '^color';
+}
 
 sub get_sides($)
 {
