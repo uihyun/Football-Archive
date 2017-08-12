@@ -38,9 +38,15 @@ sub check_done($)
 	my $table = shift;
 
 	my $score_td = $table->find('td[class="dunkel"]')->first;
+
 	if ($score_td->find('span')->size) {
 		my $score_style = $score_td->find('span')->first->attr('style');
 		exit 1 if $score_style =~ '^color';
+	}
+
+	if ($score_td->find('div[class="resultat"]')->size) {
+		my $score_text = $score_td->find('div[class="resultat"]')->first->all_text;
+		exit 2 if $score_text =~ '-:-';
 	}
 }
 
