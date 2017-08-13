@@ -192,6 +192,10 @@ export default class PlayerStats extends Component {
 
 					if (player.sub) {
 						playerMap[name].minutes += player.sub;
+					} else if (player.card &&
+							(player.card.type === 'red' ||
+							 player.card.type === 'Second yellow')) {
+						playerMap[name].minutes += player.card.minute;
 					} else {
 						playerMap[name].minutes += matchLength;
 					}
@@ -209,8 +213,11 @@ export default class PlayerStats extends Component {
 
 						if (player.sub.length) {
 							playerMap[name].minutes += player.sub[1] + 1 - player.sub[0];
-						}
-						else {
+						} else if (player.card &&
+								(player.card.type === 'red' ||
+								 player.card.type === 'Second yellow')) {
+							playerMap[name].minutes += player.card.minute + 1 - player.sub;
+						} else {
 							playerMap[name].minutes += matchLength + 1 - player.sub;
 						}
 					}
@@ -248,16 +255,15 @@ export default class PlayerStats extends Component {
 
 			if (aStart > bStart) {
 				return -1;
-			}
-			else if (aStart < bStart) {
+			} else if (aStart < bStart) {
 				return 1;
-			}
-			else {
+			} else {
 				if (aSub > bSub) {
 					return -1;
-				}
-				else if (aSub < bSub) {
+				} else if (aSub < bSub) {
 					return 1;
+				} else if (a.number !== undefined && b.number !== undefined) {
+					return a.number - b.number;
 				}
 			}
 
