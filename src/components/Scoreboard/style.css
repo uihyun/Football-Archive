@@ -2,6 +2,15 @@
 	width: 35px;
 	text-align: center;
 	color: white;
+	position: relative;
+}
+
+.Scoreboard-inner {
+	position: absolute;
+	width: 35px;
+	height: 20px;
+	top: 0px;
+	right: 0px;
 }
 
 .Scoreboard-win {
@@ -46,4 +55,58 @@
 
 .Scoreboard-unplayed {
 	color: black;
+}
+
+.Scoreboard-out {
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 0 0 20px 35px;
+}
+
+.Scoreboard-win-out {
+	border-color: transparent transparent hsl(210,  90%, 80%) transparent;
+}
+
+.Scoreboard-draw-out {
+	border-color: transparent transparent hsl( 40,  90%, 80%) transparent;
+}
+
+.Scoreboard-loss-out {
+	border-color: transparent transparent hsl(360,  90%, 80%) transparent;
+}
+
+.Scoreboard-win-pso-out {
+	border-color: transparent transparent hsl(125,  90%, 80%) transparent;
+}
+
+.Scoreboard-loss-pso-out {
+	border-color: transparent transparent hsl( 20,  90%, 80%) transparent;
+}
+
+.Scoreboard-in {
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 20px 35px 0 0;
+}
+
+.Scoreboard-win-in {
+	border-color: hsl(210,  90%, 80%) transparent transparent transparent;
+}
+
+.Scoreboard-draw-in {
+	border-color: hsl( 40,  90%, 80%) transparent transparent transparent;
+}
+
+.Scoreboard-loss-in {
+	border-color: hsl(360,  90%, 80%) transparent transparent transparent;
+}
+
+.Scoreboard-win-pso-in {
+	border-color: hsl(125,  90%, 80%) transparent transparent transparent;
+}
+
+.Scoreboard-loss-pso-in {
+	border-color: hsl( 20,  90%, 80%) transparent transparent transparent;
 }

@@ -10,6 +10,7 @@ export default class Scoreboard extends Component {
 		const dd = dateA[1];
 		const summary = match.summary;
 		let score = null;
+		let bg = null;
 		var scoreStyle = '';
 		if (summary) {
 			let goals_scored = 0;
@@ -57,6 +58,7 @@ export default class Scoreboard extends Component {
 			score = <span className="condensed">{goals_scored} : {goals_conceded}</span>;
 
 			if (this.props.player) {
+				bg = this.playerBackground(summary.players[side], this.props.player, scoreStyle);
 				if (this.playerPlayed(summary.players[side], this.props.player)) {
 					score = <small>{this.playerScored(summary.goals, side, this.props.player)}</small>;
 				} else {
@@ -69,7 +71,31 @@ export default class Scoreboard extends Component {
 			score = <span><small>{mm}/{dd}</small></span>;
 		}
 
-    return (<div className={this.props.classNames + ' Scoreboard ' + scoreStyle}>{score}</div>);
+    return (<div className={this.props.classNames + ' Scoreboard ' + scoreStyle}>{bg}<div className='Scoreboard-inner'>{score}</div></div>);
+	}
+
+	playerBackground(players, player, style) {
+		for (var i = 0; i < players.start.length; i++) {
+			if (players.start[i].name === player) {
+				if (players.start[i].sub) {
+					return <div className={style + '-out Scoreboard-out'}></div>;
+				} else {
+					return null;
+				}
+			}
+		}
+
+		for (i = 0; i < players.sub.length; i++) {
+			if (players.sub[i].name === player) {
+				if (players.sub[i].sub) {
+					return <div className={style + '-in Scoreboard-in'}></div>;
+				} else {
+					return null;
+				}
+			}
+		}
+
+		return null;
 	}
 
 	playerPlayed(players, player) {
@@ -80,8 +106,8 @@ export default class Scoreboard extends Component {
 		}
 
 		for (i = 0; i < players.sub.length; i++) {
-			if (players.sub[i].sub && players.sub[i].name === player) {
-				return true;
+			if (players.sub[i].name === player) {
+				return (players.sub[i].sub !== undefined);
 			}
 		}
 
