@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-export default class Match extends Component {
+export default class Lineup extends Component {
 
 	render() {
 		const players = this.props.players;
@@ -19,7 +19,8 @@ export default class Match extends Component {
 				{players.start.map(player => {
 					var playerClass = 'Lineup-start';
 
-					if (player.number === this.props.selectedPlayer.number) {
+					if (this.props.selectedPlayer &&
+							player.number === this.props.selectedPlayer.number) {
 						playerClass += '-selected';
 					}
 
@@ -31,7 +32,8 @@ export default class Match extends Component {
 				{players.sub.map(player => {
 					var playerClass = player.sub ? 'Lineup-sub' : 'Lineup-bench';
 						
-					if (player.number === this.props.selectedPlayer.number) {
+					if (this.props.selectedPlayer &&
+							player.number === this.props.selectedPlayer.number) {
 						playerClass += '-selected';
 					}
 

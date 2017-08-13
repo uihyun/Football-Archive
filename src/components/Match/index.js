@@ -54,13 +54,13 @@ export default class Match extends Component {
 
 			var player;
 
-			if (this.props.selectedPlayer.name && this.props.showOtherGames === false) {
+			if (this.props.selectedPlayer && this.props.showOtherGames === false) {
 				var hasSelectedPlayer = false;
 
 				for (i in players.start) {
 					if (players.start[i]) {
 						player = players.start[i];
-						if (player.name === this.props.selectedPlayer.name) {
+						if (player.name === this.props.selectedPlayer.fullname) {
 							hasSelectedPlayer = true;
 							break;
 						}
@@ -71,7 +71,7 @@ export default class Match extends Component {
 					for (i in players.sub) {
 						if (players.sub[i]) {
 							player = players.sub[i];
-							if (player.sub && player.name === this.props.selectedPlayer.name) {
+							if (player.sub && player.name === this.props.selectedPlayer.fullname) {
 								hasSelectedPlayer = true;
 								break;
 							}
@@ -91,7 +91,8 @@ export default class Match extends Component {
 					<div className="flex-1 Match-margin flex-container-right-aligned">
 						<Competition name={match.competition} round={match.round} />
 					</div>
-					<Scoreboard classNames="Match-margin" team={this.props.team} match={match} />
+					<Scoreboard classNames="Match-margin" team={this.props.team} match={match} 
+					 player={this.props.selectedPlayer}/>
 					<div className="flex-1 Match-margin Match-team">
 						<Team name={match.vs} />
 					</div>
@@ -116,7 +117,7 @@ export default class Match extends Component {
 					<div className="flex-1 Match-margin">
 						{showLineup &&
 							<Lineup players={players}
-							 selectPlayer={this.props.selectPlayer} selectedPlayer={this.props.selectedPlayer} />
+							 selectedPlayer={this.props.selectedPlayer} />
 						}
 					</div>
 				</div>

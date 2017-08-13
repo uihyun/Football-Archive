@@ -55,7 +55,8 @@ export default class Match extends Component {
 				{scorers.map(scorer => {
 					var className='';
 
-					if (scorer.fullname === this.props.selectedPlayer.name) {
+					if (this.props.selectedPlayer &&
+							scorer.fullname === this.props.selectedPlayer.fullname) {
 						className += ' Scoresheet-selected';
 					}
 

@@ -3,8 +3,10 @@ import React, { Component } from 'react';
 import './style.css';
 
 import Match from '../Match';
+import Squad from '../Squad';
 
 import UrlUtil from '../../util/url';
+import SquadUtil from '../../util/squad';
 
 export default class TimelineBody extends Component {
 
@@ -12,10 +14,11 @@ export default class TimelineBody extends Component {
 		super(props);
 		this.state = {
 			matches: [],
+			squad: [],
 			showScorers: false,
 			showLineup: false, 
 			showOtherGames: false,
-			selectedPlayer: {}};
+			selectedPlayer: null};
 
 		this.selectSeason = this.selectSeason.bind(this);
 		
@@ -47,25 +50,22 @@ export default class TimelineBody extends Component {
 						{this.state.showLineup ? 'Hide' : 'Show'} Lineup
 					</button>
 				 	{
-						this.state.selectedPlayer.number &&
+						this.state.selectedPlayer &&
+						this.state.showLineup &&
 							<button onClick={this.toggleShowOtherGames}>
 								{this.state.showOtherGames ? 'Hide' : 'Show'} Other Games
 							</button>
 					}
         </h3>
-				{
-					this.state.selectedPlayer.number &&
-					<h3 className="text-center">
-						{this.state.selectedPlayer.number} {this.state.selectedPlayer.name}
-					</h3>
-				}
 				{this.state.matches.map(match => {
 					return <Match key={match.competition + match.date} match={match} team={this.props.team}
 									showScorers={this.state.showScorers} showLineup={this.state.showLineup}
 									showOtherGames={this.state.showOtherGames}
-									selectPlayer={this.selectPlayer} selectedPlayer={this.state.selectedPlayer}
+									selectedPlayer={this.state.selectedPlayer}
 									/>;
 				})}
+				<br/>
+				<Squad squad={this.state.squad} selectPlayer={this.selectPlayer} />
       </div>
     );
   }
@@ -74,7 +74,7 @@ export default class TimelineBody extends Component {
 		const that = this;
 		const url = UrlUtil.getSeasonSelectUrl(season, team);
 				
-		this.setState({matches: [], showScorers: false, showLineup: false, selectedPlayer: {}});
+		this.setState({matches: [], squad: [], showScorers: false, showLineup: false, selectedPlayer: null});
 
 		fetch(url)
 			.then(function(response) {
@@ -82,8 +82,9 @@ export default class TimelineBody extends Component {
 			})
 		.then(function(data) {
 			const matches = that.getMatches(data.competitions);
+			const squad = SquadUtil.getSquadArray(data, that.props.team);
 			if (data.season) {
-				that.setState({ matches: matches });
+				that.setState({ matches: matches, squad: squad });
 			}
 		});
 	}
@@ -93,9 +94,6 @@ export default class TimelineBody extends Component {
 	}
 
 	toggleShowLineup() {
-		if (this.state.showLineup) {
-			this.selectPlayer({});
-		}
 		this.setState({ showLineup: !this.state.showLineup });
 	}
 
@@ -104,12 +102,7 @@ export default class TimelineBody extends Component {
 	}
 
 	selectPlayer(player) {
-		if (this.state.selectedPlayer.name === player.name) {
-			this.setState({ selectedPlayer: {}, showOtherGames: false });
-		}
-		else {
-			this.setState({ selectedPlayer: player, showOtherGames: false });
-		}
+		this.setState({ selectedPlayer: player, showOtherGames: false });
 	}
 
 	getMatches(competitions) {

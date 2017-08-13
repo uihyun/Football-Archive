@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import './style.css';
 
 import Scoreboard from '../Scoreboard';
+import Squad from '../Squad';
 
 import teams from '../../data/teams';
 import rounds from '../../data/rounds';
@@ -38,11 +39,7 @@ export default class SeasonSummary extends Component {
 	}
 
 	selectPlayer(player) {
-		if (this.state.player === player.fullname) {
-			this.setState({ player: null });
-		} else {
-			this.setState({ player: player.fullname });
-		}
+		this.setState({ player: player });
 	}
 
 	getScoreboard(match, key) {
@@ -170,24 +167,7 @@ export default class SeasonSummary extends Component {
 				</div>
 			</div>
 			<br/>
-			<div className="flex-container flex-container-wrap">
-				{this.state.squad.map(player => {
-
-					var backnumberStyle = 'Season-Summary-backnumber text-center';
-					var playerNameStyle = 'Season-Summary-player-name';
-					if (player.fullname === this.state.player) {
-						backnumberStyle += ' Season-Summary-backnumber-selected';
-						playerNameStyle += ' Season-Summary-player-name-selected';
-					}
-
-					return (
-						<div className="flex-container Season-Summary-squad" key={player.fullname} onClick={() => this.selectPlayer(player)}>
-							<div className={backnumberStyle}><small>{player.number}</small></div>
-							<div className={playerNameStyle}><small>{player.name}</small></div>
-						</div>
-					);
-				})}
-			</div>
+			<Squad squad={this.state.squad} selectPlayer={this.selectPlayer} />
 			</div>
     );
   }

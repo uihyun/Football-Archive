@@ -57,10 +57,11 @@ export default class Scoreboard extends Component {
 			}
 			score = <span className="condensed">{goals_scored} : {goals_conceded}</span>;
 
-			if (this.props.player) {
-				bg = this.playerBackground(summary.players[side], this.props.player, scoreStyle);
-				if (this.playerPlayed(summary.players[side], this.props.player)) {
-					score = <small>{this.playerScored(summary.goals, side, this.props.player)}</small>;
+			if (this.props.player && this.props.player.fullname) {
+				var fullname = this.props.player.fullname;
+				bg = this.playerBackground(summary.players[side], fullname, scoreStyle);
+				if (this.playerPlayed(summary.players[side], fullname)) {
+					score = <small>{this.playerScored(summary.goals, side, fullname)}</small>;
 				} else {
 					scoreStyle += '-didNotPlay';
 					score = null;

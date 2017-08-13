@@ -23,28 +23,3 @@
 .Season-Summary-right {
 	margin-left: 3px;
 }
-
-.Season-Summary-squad {
-	margin-right: 5px;
-	margin-bottom: 5px;
-}
-
-.Season-Summary-backnumber {
-	background-color: steelblue;
-	color: white;
-	width: 20px;
-}
-
-.Season-Summary-player-name {
-	background-color: lightsteelblue;
-	padding-left: 3px;
-	padding-right: 3px;
-}
-
-.Season-Summary-backnumber-selected {
-	background-color: #b48246;
-}
-
-.Season-Summary-player-name-selected {
-	background-color: #dec4b0;
-}
