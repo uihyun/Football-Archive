@@ -191,8 +191,8 @@ sub get_player($)
 		my $card_string = "";
 		if (!($player =~ $tds->[1]->all_text)) {
 			my $card = $tds->[1];
-			$card_type = $card->find('img')->[0]->attr('alt');
-			$card_minute = $card->find('span')->[0]->all_text;
+			$card_type = $card->find('img')->last->attr('alt');
+			$card_minute = $card->find('span')->last->all_text;
 			$card_minute =~ s/'//;
 			$card_string = ", \"card\": {\"type\": \"$card_type\", \"minute\": $card_minute}";
 		}
