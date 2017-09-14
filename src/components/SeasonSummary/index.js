@@ -197,7 +197,7 @@ export default class SeasonSummary extends Component {
 
 	getStateFromData(data) {
 		var leagueName = data.leagues[0].name;
-		
+
 		var i;
 		var entry;
 		var table = [];
@@ -290,7 +290,7 @@ export default class SeasonSummary extends Component {
 							for (k = 0; k < cup.rounds.length; k++) {
 								if (cup.rounds[k].team === match.vs) {
 									cup.rounds[k].matches[1] = match;
-									if (match.place === 'H') {
+									if (cup.rounds[k].matches[0].place === 'A') {
 										cup.rounds[k].matches.reverse();
 									}
 									found = true;
