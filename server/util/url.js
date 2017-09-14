@@ -9,5 +9,14 @@ module.exports = {
 		}
 
 		return team;
+	},
+	getUrlFromTeamName: function(team) {
+		var url = team.replace(/ /g, '-');
+
+		if (url === 'Brighton-&-Hove-Albion') {
+			url = 'Brighton-Hove-Albion';
+		}
+
+		return url;
 	}
 };
