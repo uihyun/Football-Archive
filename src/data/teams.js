@@ -10,6 +10,7 @@ const teams = {
 	'Bolton Wanderers': {id: 53346, name: 'Bolton'},
 	'Brighton & Hove Albion': {id: 2601105, name: 'Brighton'},
 	'Burnley FC': {id: 53354, name: 'Burnley'},
+	'Burton Albion': {id: 2601140, name: 'Burton Albion'},
 	'Cardiff City': {id: 50095, name: 'Cardiff'},
 	'Chelsea FC': {id: 52914, name: 'Chelsea'},
 	'Crystal Palace': {id: 52916, name: 'Crystal Palace'},
