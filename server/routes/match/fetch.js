@@ -3,7 +3,6 @@
 const path = require('path');
 const exec = require('child_process').exec;
 const Promise = require('bluebird');
-const ObjectID = require('mongodb').ObjectID;
 
 const UrlUtil = require('../../util/url');
 
