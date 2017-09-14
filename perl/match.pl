@@ -94,8 +94,10 @@ sub get_goals($)
 
 		if ($detail_text =~ /\//) {
 			$detail_text =~ /^\/ (.*?)(\(.*\)|)$/;
-			$style_string = ", \"style\": \"$1\"";
+			my $style = $1;
 			my $assist = $2;
+			$style =~ s/^\s*|\s*$//g;
+			$style_string = ", \"style\": \"$style\"";
 			$assist =~ s/\(|\)//g;
 			$assist =~ s/^\s*|\s*$//g;
 			$assist_string = ", \"assist\": \"$assist\"" if $assist;
