@@ -2,25 +2,15 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import Match from '../Match';
-import Squad from '../Squad';
+import Match from '../../Match';
+import Squad from '../../Squad';
 
-import UrlUtil from '../../util/url';
-import SquadUtil from '../../util/squad';
-
-export default class TimelineBody extends Component {
+export default class Timeline extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			matches: [],
-			squad: [],
-			showScorers: false,
-			showLineup: false, 
-			showOtherGames: false,
-			selectedPlayer: null};
 
-		this.selectSeason = this.selectSeason.bind(this);
+		this.state = this.newState(this.props);
 		
 		this.toggleShowScorers = this.toggleShowScorers.bind(this);
 		this.toggleShowLineup = this.toggleShowLineup.bind(this);
@@ -28,15 +18,20 @@ export default class TimelineBody extends Component {
 		this.selectPlayer = this.selectPlayer.bind(this);
 	}
 
-	componentDidMount() {
-		this.selectSeason(this.props.season, this.props.team);
+	componentWillReceiveProps(nextProps) {
+		this.setState(this.newState(nextProps));
 	}
 
-	componentWillReceiveProps(nextProps) {
-		if (this.props.season !== nextProps.season ||
-				this.props.team !== nextProps.team) {
-			this.selectSeason(nextProps.season, nextProps.team);
-		}
+	newState(props) {
+		const matches = this.getMatches(props.data.competitions);
+
+		return {
+			matches: matches,
+			squad: [],
+			showScorers: false,
+			showLineup: false, 
+			showOtherGames: false,
+			selectedPlayer: null};
 	}
 
   render() {
@@ -65,29 +60,10 @@ export default class TimelineBody extends Component {
 									/>;
 				})}
 				<br/>
-				<Squad squad={this.state.squad} selectPlayer={this.selectPlayer} />
+				<Squad squad={this.props.squad} selectPlayer={this.selectPlayer} />
       </div>
     );
   }
-
-	selectSeason(season, team) {
-		const that = this;
-		const url = UrlUtil.getSeasonSelectUrl(season, team);
-				
-		this.setState({matches: [], squad: [], showScorers: false, showLineup: false, selectedPlayer: null});
-
-		fetch(url)
-			.then(function(response) {
-				return response.json();
-			})
-		.then(function(data) {
-			const matches = that.getMatches(data.competitions);
-			const squad = SquadUtil.getSquadArray(data, that.props.team);
-			if (data.season) {
-				that.setState({ matches: matches, squad: squad });
-			}
-		});
-	}
 
 	toggleShowScorers() {
 		this.setState({ showScorers: !this.state.showScorers });

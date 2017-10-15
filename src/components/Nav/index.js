@@ -9,21 +9,8 @@ export default class Nav extends Component {
 
 		return (
 			<div className="Nav">
-				<h1>
-					Football Archive
-				</h1>
-				<ul>
-					<li><Link to="/timeline" activeClassName="Nav-active">Timeline</Link></li>
-				</ul>
-				<ul>
-					<li><Link to="/season-view" activeClassName="Nav-active">Season View</Link></li>
-				</ul>
-				<ul>
-					<li><Link to="/player-stats" activeClassName="Nav-active">Player Stats</Link></li>
-				</ul>
-				<ul>
-					<li><Link to="/manage" activeClassName="Nav-active">Manage</Link></li>
-				</ul>
+				<Link className="Nav-link Nav-h1" to="/">Football Archive</Link>
+				<Link className="Nav-link Nav-h2" to="/manage" activeClassName="Nav-active"> Manage</Link>
 				{this.props.children}
 			</div>
 		);

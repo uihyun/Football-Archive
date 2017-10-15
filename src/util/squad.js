@@ -17,7 +17,7 @@ export default class SquadUtil {
 
 	static getSquadArray(data, team) {
 		var competition, match, summary, side, players, player;
-		var i, j, k;
+		var i, j, k, length;
 		var playerMap = {};
 
 		for (i = 0; i < data.competitions.length; i++) {
@@ -33,7 +33,6 @@ export default class SquadUtil {
 				side = (summary.r === team) ? 'r' : 'l';
 				players = summary.players[side];
 
-
 				for (k = 0; k < players.start.length; k++) {
 					player = players.start[k];
 				
@@ -42,7 +41,8 @@ export default class SquadUtil {
 					}
 				}
 
-				for (k = 0; k < players.sub.length; k++) {
+				length = players.sub ? players.sub.length : 0;
+				for (k = 0; k < length; k++) {
 					player = players.sub[k];
 					if (player.sub && playerMap[player.name] === undefined) {
 						playerMap[player.name] = SquadUtil.getNewPlayer(player);

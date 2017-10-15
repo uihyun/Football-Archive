@@ -1,8 +1,4 @@
-.PlayerStatsHeader-header {
-	text-align: center;
-}
-
-.PlayerStatsHeader-flex-container {
+.TeamSelector-flex-container {
 	display: -webkit-flex;
 	display: flex;
 	-webkit-flex-wrap: wrap;
@@ -13,18 +9,23 @@
 	justify-content: center;
 }
 
-.PlayerStatsHeader-team {
+.TeamSelector-year {
+	color: grey;
+}
+
+.TeamSelector-team {
 	display: inline-block;
 	vertical-align: middle;
+	opacity: 0.5;
+}
+
+.TeamSelector-team-selected {
+	opacity: 1.0;
 }
 
 @media screen and (max-width: 543px) {
 
-	.PlayerStatsHeader-logo {
-		width: 37px;
-	}
-
-	.PlayerStatsHeader-team {
+	.TeamSelector-team {
 		flex-basis: 10%;
 	}
 }

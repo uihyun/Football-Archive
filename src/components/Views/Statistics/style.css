@@ -1,35 +1,35 @@
-.PlayerStats-flex-container {
+.Statistics-flex-container {
 	display: -webkit-flex;
 	display: flex;
 }
 
-.PlayerStats-flex-item {
+.Statistics-flex-item {
 	margin-left: 10px;
 	margin-right: 10px;
 }
 
-.PlayerStats-row {
+.Statistics-row {
 	font-size: 20px;
 	line-height: 30px;
 	margin: 2px;
 	align-items: baseline;
 }
 
-.PlayerStats-backnumber {
+.Statistics-backnumber {
 	background-color: tomato;
 	color: white;
 	width: 30px;
 }
 
-.PlayerStats-backnumber-sub {
+.Statistics-backnumber-sub {
 	background-color: blue;
 }
 
-.PlayerStats-name {
+.Statistics-name {
 	margin-left: 10px;
 }
 
-.PlayerStats-value {
+.Statistics-value {
 	margin-left: 2px;
 	color: indigo;
 	width: 26px;
@@ -37,7 +37,7 @@
 	padding-right: 4px;
 }
 
-.PlayerStats-value-long {
+.Statistics-value-long {
 	margin-left: 2px;
 	width: 40px;
 	font-size: 14px;
@@ -45,24 +45,24 @@
 
 @media screen and (max-width: 543px) {
 
-	.PlayerStats-flex-container {
+	.Statistics-flex-container {
 		-webkit-flex-direction: column;
 		flex-direction: column;
 	}
 
-	.PlayerStats-flex-item {
+	.Statistics-flex-item {
 		margin: 0px;
 	}
 
-	.PlayerStats-goals {
+	.Statistics-goals {
 		order: 1;
 	}
 	
-	.PlayerStats-assists {
+	.Statistics-assists {
 		order: 2;
 	}
 
-	.PlayerStats-appearances {
+	.Statistics-appearances {
 		order: 3;
 	}
 }

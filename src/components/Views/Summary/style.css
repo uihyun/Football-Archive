@@ -1,25 +1,25 @@
-.Season-Summary-self {
+.Summary-self {
 	width: 70px;
 	text-align: center;
 }
 
-.Season-Summary-logo {
+.Summary-logo {
 	width: 18px;
 }
 
-.Season-Summary-team {
+.Summary-team {
 	height: 20px;
 	line-height: 20px;
 }
 
-.Season-Summary-empty-match {
+.Summary-empty-match {
 	width: 35px;
 }
 
-.Season-Summary-left {
+.Summary-left {
 	margin-right: 3px;
 }
 
-.Season-Summary-right {
+.Summary-right {
 	margin-left: 3px;
 }

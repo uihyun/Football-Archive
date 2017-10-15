@@ -2,40 +2,24 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import Scoreboard from '../Scoreboard';
-import Squad from '../Squad';
+import Scoreboard from '../../Scoreboard';
+import Squad from '../../Squad';
 
-import teams from '../../data/teams';
-import rounds from '../../data/rounds';
+import teams from '../../../data/teams';
+import rounds from '../../../data/rounds';
 
-import UrlUtil from '../../util/url';
-import SquadUtil from '../../util/squad';
-
-export default class SeasonSummary extends Component {
+export default class Summary extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			league: [],
-			cups: [],
-			europe: [],
-			squad: [],
-			player: null
-		};
+		
+		this.state = this.newState(this.props);
 
-		this.selectSeason = this.selectSeason.bind(this);
 		this.selectPlayer = this.selectPlayer.bind(this);
 	}
 
-	componentDidMount() {
-		this.selectSeason(this.props.season, this.props.team);
-	}
-
 	componentWillReceiveProps(nextProps) {
-		if (this.props.season !== nextProps.season ||
-				this.props.team !== nextProps.team) {
-			this.selectSeason(nextProps.season, nextProps.team);
-		}
+		this.setState(this.newState(nextProps));
 	}
 
 	selectPlayer(player) {
@@ -92,16 +76,16 @@ export default class SeasonSummary extends Component {
 								<h3 className="text-center">{cup.name}</h3>
 								{cup.rounds.map(round => {
 									return (
-										<div className="flex-container Season-Summary-team" key={round.team}>
-											<div className="flex-1 flex-container-right-aligned Season-Summary-left">{displayRound(cup.name, round.round)}</div>
+										<div className="flex-container Summary-team" key={round.team}>
+											<div className="flex-1 flex-container-right-aligned Summary-left">{displayRound(cup.name, round.round)}</div>
 											{this.getScoreboard(round.matches[0])}
 											{round.matches.length > 1 ?
 												this.getScoreboard(round.matches[1])
-												: round.hideEmpty || <div className="Season-Summary-empty-match" />
+												: round.hideEmpty || <div className="Summary-empty-match" />
 											}
-											<div className="flex-1 Season-Summary-right">
+											<div className="flex-1 Summary-right">
 												<div>
-													<img src={getImgSrc(round.team)} className="Season-Summary-logo" alt="" />
+													<img src={getImgSrc(round.team)} className="Summary-logo" alt="" />
 												</div>
 											</div>
 										</div>
@@ -116,20 +100,20 @@ export default class SeasonSummary extends Component {
 					<h3 className="text-center">EPL</h3>
 					{this.state.league.map(team => {
 						return (
-							<div className="flex-container Season-Summary-team" key={team.name}>
-								<div className="flex-1 flex-container-right-aligned Season-Summary-left">
+							<div className="flex-container Summary-team" key={team.name}>
+								<div className="flex-1 flex-container-right-aligned Summary-left">
 									{team.name !== this.props.team && team.rank}
 								</div>
 								{
 									team.name === this.props.team
-									? <div className="Season-Summary-self">{displayRank(team.rank)}</div>
+									? <div className="Summary-self">{displayRank(team.rank)}</div>
 									: team.matches.map(match => {
 										return this.getScoreboard(match, match.place);
 									})
 								}
-								<div className="flex-1 Season-Summary-right">
+								<div className="flex-1 Summary-right">
 									<div>
-										<img src={getImgSrc(team.name)} className="Season-Summary-logo" alt="" />
+										<img src={getImgSrc(team.name)} className="Summary-logo" alt="" />
 									</div>
 								</div>
 							</div>
@@ -143,19 +127,19 @@ export default class SeasonSummary extends Component {
 								<h3 className="text-center">{cup.name}</h3>
 								{cup.rounds.map(round => {
 									return (
-										<div className="flex-container Season-Summary-team" key={round.round}>
-											<div className="flex-1 flex-container-right-aligned Season-Summary-left">{displayRound(cup.name, round.round)}</div>
+										<div className="flex-container Summary-team" key={round.round}>
+											<div className="flex-1 flex-container-right-aligned Summary-left">{displayRound(cup.name, round.round)}</div>
 											{round.matches[0] ?
 												this.getScoreboard(round.matches[0])
-												: round.round !== 'Final' && <div className="Season-Summary-empty-match" />
+												: round.round !== 'Final' && <div className="Summary-empty-match" />
 											}
 											{round.matches[1] ?
 												this.getScoreboard(round.matches[1])
-												: round.round !== 'Final' && <div className="Season-Summary-empty-match" />
+												: round.round !== 'Final' && <div className="Summary-empty-match" />
 											}
-											<div className="flex-1 Season-Summary-right">
+											<div className="flex-1 Summary-right">
 												<div>
-													<img src={getImgSrc(round.team)} className="Season-Summary-logo" alt="" />
+													<img src={getImgSrc(round.team)} className="Summary-logo" alt="" />
 												</div>
 											</div>
 										</div>
@@ -167,35 +151,19 @@ export default class SeasonSummary extends Component {
 				</div>
 			</div>
 			<br/>
-			<Squad squad={this.state.squad} selectPlayer={this.selectPlayer} />
+			<Squad squad={this.props.squad} selectPlayer={this.selectPlayer} />
 			</div>
     );
   }
 
-	selectSeason(season, team) {
-		const that = this;
-		const url = UrlUtil.getSeasonSelectUrl(season, team);
-				
-		this.setState({
-			league: [],
-			cups: [],
-			europe: [],
-			squad: [],
-			player: null
-		});
+	newState(props) {
+		const data = props.data;
+		var out = {league: [], cups: [], europe: [], player: null};
 
-		fetch(url)
-			.then(function(response) {
-				return response.json();
-			})
-		.then(function(data) {
-			if (data.season) {
-				that.setState(that.getStateFromData(data));
-			}
-		});
-	}
+		if (data.leagues === undefined) {
+			return out; // data not yet fetched
+		}
 
-	getStateFromData(data) {
 		var leagueName = data.leagues[0].name;
 
 		var i;
@@ -207,7 +175,7 @@ export default class SeasonSummary extends Component {
 			table[i] = { name: entry.name, matches: [], rank: entry.rank };
 			teams[entry.name] = table[i];
 		}
-		var out = {league: table, cups: [], europe: []};
+		out.league = table;
 
 		var j, k;
 		var match;
@@ -341,8 +309,6 @@ export default class SeasonSummary extends Component {
 				return bStr - aStr;
 			});
 		}
-
-		out.squad = SquadUtil.getSquadArray(data, this.props.team);
 
 		return out;
 	}

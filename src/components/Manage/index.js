@@ -124,7 +124,6 @@ export default class Manage extends Component {
 			.then(function(data) {
 				var teams = {};
 				var team;
-				console.log(data);
 				for (var i in data) {
 					if (data[i]) {
 						for (var j in that.state.seasons[year]) {

@@ -40,3 +40,17 @@ body {
 	-webkit-flex-wrap: wrap;
 	flex-wrap: wrap;
 }
+
+.show-mobile {
+	display: none;
+}
+
+@media screen and (max-width: 543px) {
+	.hide-mobile {
+		display: none;
+	}
+
+	.show-mobile {
+		display: inline;
+	}
+}

@@ -1,0 +1,15 @@
+.DataView-team-logo {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.DataView-view-selector {
+	line-height: 50px;
+}
+
+@media screen and (max-width: 543px) {
+	.DataView-view-selector {
+		line-height: 37px;
+	}
+}
+

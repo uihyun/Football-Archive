@@ -190,6 +190,54 @@ const seasons = [
 			'West Bromwich Albion',
 			'Blackpool FC',
 		]
+	},
+	{ 'year': 2010,
+		'teams': [
+			'Manchester United',
+			'Liverpool FC',
+			'Chelsea FC',
+			'Arsenal FC',
+			'Everton FC',
+			'Aston Villa',
+			'Fulham FC',
+			'Tottenham Hotspur',
+			'West Ham United',
+			'Manchester City',
+			'Wigan Athletic',
+			'Stoke City',
+			'Bolton Wanderers',
+			'Portsmouth FC',
+			'Blackburn Rovers',
+			'Sunderland AFC',
+			'Hull City',
+			'Wolverhampton Wanderers',
+			'Birmingham City',
+			'Burnley FC'
+		]
+	},
+	{ 'year': 2009,
+		'teams': [
+			'Manchester United',
+			'Chelsea FC',
+			'Arsenal FC',
+			'Liverpool FC',
+			'Everton FC',
+			'Aston Villa',
+			'Blackburn Rovers',
+			'Portsmouth FC',
+			'Manchester City',
+			'West Ham United',
+			'Tottenham Hotspur',
+			'Newcastle United',
+			'Middlesbrough FC',
+			'Wigan Athletic',
+			'Sunderland AFC',
+			'Bolton Wanderers',
+			'Fulham FC',
+			'West Bromwich Albion',
+			'Stoke City',
+			'Hull City'
+		]
 	}
 ];
 

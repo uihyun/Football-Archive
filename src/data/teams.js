@@ -25,6 +25,7 @@ const teams = {
 	'Manchester United': {id: 52682, name: 'Man Utd'},
 	'Middlesbrough FC': {id: 69600, name: 'Middlesbrough'},
 	'Norwich City': {id: 52921, name: 'Norwich'},
+	'Portsmouth FC': {id: 84297, name: 'Portsmouth'},
 	'Queens Park Rangers': {id: 52282, name: 'QPR'},
 	'Southampton FC': {id: 52923, name: 'Southampton'},
 	'Stoke City': {id: 53356, name: 'Stoke'},
@@ -38,6 +39,7 @@ const teams = {
 	'Wolverhampton Wanderers': {id: 53357, name: 'Wolverhampton'},
 
 	// English Lower Division
+	'Barnsley FC': {id: 53339, name: 'Barnsley'},
 	'Cambridge United': {id: 2601368, name: 'Cambridge'},
 	'Crawley Town': {id: 2601398, name: 'Crawley'},
 	'Derby County': {id: 52917, name: 'Derby'},
@@ -59,6 +61,7 @@ const teams = {
 	'Real Madrid': {id: 50051, name: 'Real Madrid'},
 	'Real Sociedad': {id: 50123, name: 'Real Sociedad'},
 	'Valencia CF': {id: 52268, name: 'Valencia'},
+	'Villarreal CF': {id: 70691, name: 'Villarreal'},
 	
 	// Germany
 	'Bayer Leverkusen': {id: 50109, name: 'Leverkusen'},
@@ -67,19 +70,25 @@ const teams = {
 	'VfL Wolfsburg': {id: 64332, name: 'Wolfsburg'},
 	
 	// Italy
+	'AC Milan': {id: 50058, name: 'Milan'},
+	'Inter': {id: 50138, name: 'Inter'},
 	
 	// France
 	'AS Saint-Étienne': {id: 50022, name: 'Saint-Étienne'},
 	'Olympique Marseille': {id: 52748, name: 'Marseille'},
 
 	// Intl
+	'Aalborg BK': {id: 54186, name: 'Aalborg'},
 	'AFC Ajax': {id: 50143, name: 'Ajax'},
+	'Beşiktaş': {id: 50157, name: 'Beşiktaş'},
 	'Bursaspor': {id: 52695, name: 'Bursaspor'},
+	'Celtic FC': {id: 50050, name: 'Celtic'},
 	'CFR Cluj': {id: 88131, name: 'Cluj'},
 	'Club Brugge KV': {id: 50043, name: 'Burgge'},
 	'CSKA Moskva': {id: 54266, name: 'CSKA Moskva'},
 	'FC Basel': {id: 59856, name: 'Basel'},
 	'FC Midtjylland': {id: 75795, name: 'Midtjylland'},
+	'FC Porto': {id: 50064, name: 'Porto'},
 	'Fenerbahçe': {id: 52692, name: 'Fenerbahçe'},
 	'Feyenoord': {id: 52749, name: 'Feyenoord'},
 	'FK Rostov': {id: 64500, name: 'Rostov'},
@@ -92,6 +101,7 @@ const teams = {
 	'Shakhtar Donetsk': {id: 52707, name: 'Shakhtar'},
 	'SL Benfica': {id: 50147, name: 'Benfica'},
 	'Sporting Braga': {id: 52336, name: 'Braga'},
+	'Zenit St. Petersburg': {id: 52826, name: 'Zenit'},
 	'Zorya Lugansk': {id: 65130, name: 'Lugansk'}
 };
 
