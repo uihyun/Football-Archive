@@ -27,4 +27,9 @@ export default class UrlUtil {
 		var url = '/api/match/clear/' + season + '/' + this.getTeamUrl(team);
 		return url;
 	}
+	
+	static getVersusSelectUrl(teamA, teamB) {
+		var url = '/api/versus/select/' + teamA + '/' + teamB;
+		return url;
+	}
 }	

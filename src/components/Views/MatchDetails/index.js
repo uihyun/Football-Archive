@@ -9,16 +9,22 @@ export default class MatchDetails extends Component {
 	render() {
 		const match = this.props.match;
 		const summary = match.summary;
+		var l = '';
+		var r = '';
+		var goals = [];
 
 		if (summary === undefined) {
-			return (
-				<div>
-					<h3 className="text-center">
-						<div>{match.competition} {match.round}</div>
-						<div><small>{match.date}</small></div>
-					</h3>
-				</div>
-			);
+			if (match.place === 'H') {
+				l = this.props.team;
+				r = match.vs;
+			} else {
+				l = match.vs;
+				r = this.props.team;
+			}
+		} else {
+			l = summary.l;
+			r = summary.r;
+			goals = summary.goals;
 		}
 
 		return (
@@ -30,12 +36,12 @@ export default class MatchDetails extends Component {
 				<div className="flex-container">
 					<div className="flex-1 hide-mobile"></div>
 					<div className="flex-2">
-						<div className="flex-container">
-							<div className="flex-1"><EmblemLarge team={summary.l} /></div>
+						<div className="flex-container" onClick={this.props.showVersus}>
+							<div className="flex-1"><EmblemLarge team={l} /></div>
 							<div className="flex-1 text-center MatchDetails-score">{this.getScore()}</div>
-							<div className="flex-1 text-right"><EmblemLarge team={summary.r} /></div>
+							<div className="flex-1 text-right"><EmblemLarge team={r} /></div>
 						</div>
-						{summary.goals.map(goal => {return (this.getGoalDiv(goal));})}
+						{goals.map(goal => {return (this.getGoalDiv(goal));})}
 					</div>
 					<div className="flex-1 hide-mobile"></div>
 				</div>
@@ -72,6 +78,11 @@ export default class MatchDetails extends Component {
 	}
 
 	getScore() {
+
+		if (this.props.match.summary === undefined) {
+			return '';
+		}
+
 		const goals = this.props.match.summary.goals;
 		var l = 0;
 		var r = 0;
