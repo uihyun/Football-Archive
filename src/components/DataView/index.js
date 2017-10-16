@@ -8,6 +8,7 @@ import EmblemLarge from '../EmblemLarge';
 import Timeline from '../Views/Timeline';
 import Summary from '../Views/Summary';
 import Statistics from '../Views/Statistics';
+import LeagueTable from '../Views/LeagueTable';
 
 import UrlUtil from '../../util/url';
 import SquadUtil from '../../util/squad';
@@ -16,7 +17,7 @@ const views = [
 	{name: 'Timeline', mobile: 'TL', order: -1},
 	{name: 'Summary', mobile: 'Sum', order: -2},
 	{name: 'Statistics', mobile: 'Stat', order: 1},
-	{name: '', mobile: '', order: 2},
+	{name: 'Table', mobile: 'Tbl', order: 2},
 ];
 
 export default class DataView extends Component {
@@ -45,7 +46,12 @@ export default class DataView extends Component {
 				<TeamSelector season={season} onSelect={(s) => this.handleSeasonSelection(s)} />
 				<div className="text-center flex-container">
 					{views.map(view => {
-						const style = { order: view.order }
+						var style = { order: view.order };
+
+						if (view.name === this.state.view) {
+							style.fontWeight = 'bold';
+						}
+
 						return (
 							<div key={view.name} style={style} className="DataView-view-selector flex-1"
 									 onClick={() => this.selectView(view.name)}>
@@ -102,6 +108,8 @@ export default class DataView extends Component {
 			return (<Summary data={this.state.data} squad={this.state.squad} team={this.state.season.team}/>);
 		} else if (this.state.view === 'Statistics') {
 			return (<Statistics data={this.state.data} team={this.state.season.team} />);
+		} else if (this.state.view === 'Table') {
+			return (<LeagueTable data={this.state.data} />);
 		}
 
 		return (<div>{this.state.view} View under development</div>);

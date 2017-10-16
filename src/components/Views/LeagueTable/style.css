@@ -1,0 +1,24 @@
+.LeagueTable-row {
+	height: 20px;
+	border-bottom: 1px solid lightgray;
+	margin-top: 1px;
+}
+
+.LeagueTable-rank {
+	width: 30px;
+}
+
+@media screen and (max-width: 543px) {
+
+	.LeagueTable-buffer {
+		width: 5px;
+	}
+}
+
+@media screen and (min-width: 544px) {
+
+	.LeagueTable-buffer {
+		-webkit-flex: 1;
+		flex: 1;
+	}
+}
