@@ -27,6 +27,9 @@ export default class LeagueTable extends Component {
 				<h3 className="text-center">
 					{league.name} {league.season - 1}-{league.season}
 				</h3>
+				<div className="Statistics-flex-container">
+					<div className="flex-1 hide-mobile" />
+					<div className="flex-2">
 				{table.map(team => {
 					const games = team.games;
 					const goals = team.goals;
@@ -55,6 +58,9 @@ export default class LeagueTable extends Component {
 						</div>
 					);
 				})}
+					</div>
+					<div className="flex-1 hide-mobile" />
+				</div>
 			</div>
 		);
 	}

@@ -17,7 +17,7 @@ const views = [
 	{name: 'Timeline', mobile: 'TL', order: -1},
 	{name: 'Summary', mobile: 'Sum', order: -2},
 	{name: 'Statistics', mobile: 'Stat', order: 1},
-	{name: 'Table', mobile: 'Tbl', order: 2},
+	{name: 'League Table', mobile: 'Tbl', order: 2},
 ];
 
 export default class DataView extends Component {
@@ -108,7 +108,7 @@ export default class DataView extends Component {
 			return (<Summary data={this.state.data} squad={this.state.squad} team={this.state.season.team}/>);
 		} else if (this.state.view === 'Statistics') {
 			return (<Statistics data={this.state.data} team={this.state.season.team} />);
-		} else if (this.state.view === 'Table') {
+		} else if (this.state.view === 'League Table') {
 			return (<LeagueTable data={this.state.data} />);
 		}
 
