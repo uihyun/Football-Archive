@@ -109,7 +109,7 @@ export default class DataView extends Component {
 		} else if (this.state.view === 'Statistics') {
 			return (<Statistics data={this.state.data} team={this.state.season.team} />);
 		} else if (this.state.view === 'League Table') {
-			return (<LeagueTable data={this.state.data} />);
+			return (<LeagueTable data={this.state.data} team={this.state.season.team}/>);
 		}
 
 		return (<div>{this.state.view} View under development</div>);

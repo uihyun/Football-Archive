@@ -38,7 +38,9 @@ export default class LeagueTable extends Component {
 							<div className="flex-1">
 								<div className="flex-container">
 									<div className="LeagueTable-rank text-center">{team.rank} </div>
-									<Team name={team.name} />
+									{team.name === this.props.team ?
+										<b><Team name={team.name} /></b> : <Team name={team.name} />
+									}
 								</div>
 							</div>
 							<div className="flex-1">
