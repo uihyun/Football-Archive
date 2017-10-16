@@ -85,7 +85,8 @@ export default class Summary extends Component {
 											}
 											<div className="flex-1 Summary-right">
 												<div>
-													<img src={getImgSrc(round.team)} className="Summary-logo" alt="" />
+													<img src={getImgSrc(round.team)} className="Summary-logo" alt=""
+													     title={round.team}/>
 												</div>
 											</div>
 										</div>
@@ -113,7 +114,8 @@ export default class Summary extends Component {
 								}
 								<div className="flex-1 Summary-right">
 									<div>
-										<img src={getImgSrc(team.name)} className="Summary-logo" alt="" />
+										<img src={getImgSrc(team.name)} className="Summary-logo" alt="" 
+												 title={team.name}/>
 									</div>
 								</div>
 							</div>
@@ -139,7 +141,8 @@ export default class Summary extends Component {
 											}
 											<div className="flex-1 Summary-right">
 												<div>
-													<img src={getImgSrc(round.team)} className="Summary-logo" alt="" />
+													<img src={getImgSrc(round.team)} className="Summary-logo" alt=""
+												       title={round.team}	/>
 												</div>
 											</div>
 										</div>
