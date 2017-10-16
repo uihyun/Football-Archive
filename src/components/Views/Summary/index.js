@@ -4,8 +4,8 @@ import './style.css';
 
 import Scoreboard from '../../Scoreboard';
 import Squad from '../../Squad';
+import Team from '../../Team';
 
-import teams from '../../../data/teams';
 import rounds from '../../../data/rounds';
 
 export default class Summary extends Component {
@@ -41,16 +41,6 @@ export default class Summary extends Component {
 			}
 		}
 
-		function getImgSrc(team) {
-			var logoID = 2608043;
-
-			if (teams[team] !== undefined) {
-				logoID = teams[team].id;
-			}
-
-			return 'http://img.uefa.com/imgml/TP/teams/logos/50x50/' + logoID + '.png';
-		}
-
 		function displayRound(cup, round) {
 			if (rounds[cup] !== undefined) {
 				if (rounds[cup][round] !== undefined) {
@@ -84,10 +74,7 @@ export default class Summary extends Component {
 												: round.hideEmpty || <div className="Summary-empty-match" />
 											}
 											<div className="flex-1 Summary-right">
-												<div>
-													<img src={getImgSrc(round.team)} className="Summary-logo" alt=""
-													     title={round.team}/>
-												</div>
+												<Team name={round.team} hideMobileName={true} showShortName={true} />
 											</div>
 										</div>
 									);
@@ -113,10 +100,7 @@ export default class Summary extends Component {
 									})
 								}
 								<div className="flex-1 Summary-right">
-									<div>
-										<img src={getImgSrc(team.name)} className="Summary-logo" alt="" 
-												 title={team.name}/>
-									</div>
+									<Team name={team.name} hideMobileName={true} showShortName={true} />
 								</div>
 							</div>
 						);
@@ -140,10 +124,7 @@ export default class Summary extends Component {
 												: round.round !== 'Final' && <div className="Summary-empty-match" />
 											}
 											<div className="flex-1 Summary-right">
-												<div>
-													<img src={getImgSrc(round.team)} className="Summary-logo" alt=""
-												       title={round.team}	/>
-												</div>
+												<Team name={round.team} hideMobileName={true} showShortName={true} />
 											</div>
 										</div>
 									);

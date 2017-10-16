@@ -21,8 +21,12 @@ export default class Team extends Component {
 		return (
 			<div className="Team">
 				<img src={imgSrc} className="Team-logo" alt="" />
-				<span className="show-mobile">{name}</span>
-				<span className="hide-mobile">{this.props.name}</span>
+				{ this.props.hideMobileName ||
+					<span className="show-mobile">{name}</span>
+				}
+				<span className="hide-mobile">
+					{ this.props.showShortName ? name : this.props.name }
+				</span>
 			</div>
 		);
 	}

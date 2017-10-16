@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import TeamSelector from '../TeamSelector';
 import EmblemLarge from '../EmblemLarge';
 
 import Timeline from '../Views/Timeline';
 import Summary from '../Views/Summary';
 import Statistics from '../Views/Statistics';
 import LeagueTable from '../Views/LeagueTable';
+import TeamSelector from '../Views/TeamSelector';
 
 import UrlUtil from '../../util/url';
 import SquadUtil from '../../util/squad';
@@ -28,6 +28,7 @@ export default class DataView extends Component {
 		this.state = {
 			season: {year: 2018, team: 'Manchester United'},
 			view: 'Timeline',
+			prevView: 'Timeline',
 			data: {competition: []},
 			squad: []
 		};
@@ -43,7 +44,7 @@ export default class DataView extends Component {
 		const season = this.state.season;
 		return (
 			<div>
-				<TeamSelector season={season} onSelect={(s) => this.handleSeasonSelection(s)} />
+				<TeamSelector season={this.state.season} onSelect={(s) => this.handleSeasonSelection(s)} />
 				<div className="text-center flex-container">
 					{views.map(view => {
 						var style = { order: view.order };
@@ -60,7 +61,7 @@ export default class DataView extends Component {
 							</div>
 						);
 					})}
-					<div className="flex-2">
+					<div className="flex-2" onClick={() => this.selectView('Team Selector')}>
 						<b>{season.year - 1 + ' '}
 						<div className="DataView-team-logo"><EmblemLarge team={season.team} /></div>
 						{' ' + season.year}</b>
@@ -88,17 +89,25 @@ export default class DataView extends Component {
 			const squad = SquadUtil.getSquadArray(data, team);
 
 			if (data.season) {
-				that.setState({
+				var state = {
 					season: season,
 					data: data,
 					squad: squad
-				});
+				};
+
+				if (that.state.view === 'Team Selector') {
+					state.view = that.state.prevView;
+				}
+
+				that.setState(state);
 			}
 		});
 	}
 
 	selectView(view) {
-		this.setState({view: view});
+		if (view !== this.state.view) {
+			this.setState({view: view, prevView: this.state.view});
+		}
 	}
 
 	getView() {
@@ -110,6 +119,8 @@ export default class DataView extends Component {
 			return (<Statistics data={this.state.data} team={this.state.season.team} />);
 		} else if (this.state.view === 'League Table') {
 			return (<LeagueTable data={this.state.data} team={this.state.season.team}/>);
+		} else if (this.state.view === 'Team Selector') {
+			return (<TeamSelector season={this.state.season} onSelect={(s) => this.handleSeasonSelection(s)} showYears={true} />);
 		}
 
 		return (<div>{this.state.view} View under development</div>);
