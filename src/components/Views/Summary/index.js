@@ -27,7 +27,12 @@ export default class Summary extends Component {
 	}
 
 	getScoreboard(match, key) {
-		return (<Scoreboard key={key} team={this.props.team} match={match} player={this.state.player} />);
+		return (
+			<div className="flex-container" key={key}
+					 onClick={() => this.props.selectMatch(match)}>
+				<Scoreboard key={key} team={this.props.team} match={match} player={this.state.player} />
+			</div>
+		);
 	}
 
   render() {

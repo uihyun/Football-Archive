@@ -1,0 +1,89 @@
+import React, { Component } from 'react';
+
+import './style.css';
+
+import EmblemLarge from '../../EmblemLarge';
+
+export default class MatchDetails extends Component {
+
+	render() {
+		const match = this.props.match;
+		const summary = match.summary;
+
+		if (summary === undefined) {
+			return (
+				<div>
+					<h3 className="text-center">
+						<div>{match.competition} {match.round}</div>
+						<div><small>{match.date}</small></div>
+					</h3>
+				</div>
+			);
+		}
+
+		return (
+			<div>
+				<h3 className="text-center">
+					<div>{match.competition} {match.round}</div>
+					<div><small>{match.date}</small></div>
+				</h3>
+				<div className="flex-container">
+					<div className="flex-1 hide-mobile"></div>
+					<div className="flex-2">
+						<div className="flex-container">
+							<div className="flex-1"><EmblemLarge team={summary.l} /></div>
+							<div className="flex-1 text-center MatchDetails-score">{this.getScore()}</div>
+							<div className="flex-1 text-right"><EmblemLarge team={summary.r} /></div>
+						</div>
+						{summary.goals.map(goal => {return (this.getGoalDiv(goal));})}
+					</div>
+					<div className="flex-1 hide-mobile"></div>
+				</div>
+			</div>
+		);
+	}
+
+	getGoalDiv(goal) {
+		const side = goal.side;
+		const minute = (<div className="MatchDetails-minute text-center">{goal.minute}</div>);
+		const player = (
+			<div className="MatchDetails-player">
+				<div className="MatchDetails-scorer">
+					{goal.scorer}
+					{goal.style === 'own goal' && ' (own goal)'}
+				</div>
+				{goal.assist && <div className="MatchDetails-assist">assist by {goal.assist}</div>}
+			</div>
+		);
+		
+		if (side === 'l') {
+			return (
+				<div key={goal.minute} className="flex-container">
+					{minute} {player}
+				</div>
+			);
+		}
+
+		return (
+			<div key={goal.minute} className="flex-container MatchDetails-r-goal text-right">
+				{minute} {player}
+			</div>
+		);
+	}
+
+	getScore() {
+		const goals = this.props.match.summary.goals;
+		var l = 0;
+		var r = 0;
+
+		for (var i in goals) {
+			if (goals[i].side === 'l') {
+				l++;
+			} else {
+				r++;
+			}
+		}
+
+		return l + ' : ' + r;
+	}
+}

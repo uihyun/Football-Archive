@@ -9,6 +9,7 @@ import Summary from '../Views/Summary';
 import Statistics from '../Views/Statistics';
 import LeagueTable from '../Views/LeagueTable';
 import TeamSelector from '../Views/TeamSelector';
+import MatchDetails from '../Views/MatchDetails';
 
 import UrlUtil from '../../util/url';
 import SquadUtil from '../../util/squad';
@@ -30,10 +31,12 @@ export default class DataView extends Component {
 			view: 'Timeline',
 			prevView: 'Timeline',
 			data: {competition: []},
-			squad: []
+			squad: [],
+			match: null
 		};
 
 		this.selectView = this.selectView.bind(this);
+		this.handleMatchSelection = this.handleMatchSelection.bind(this);
 	}
 
 	componentDidMount() {
@@ -72,6 +75,10 @@ export default class DataView extends Component {
 		);
 	}
 
+	handleMatchSelection(match) {
+		this.setState({view: 'Match', prevView: this.state.view, match: match});
+	}
+
 	handleSeasonSelection(season) {
 		this.fetchSeason(season);
 	}
@@ -92,10 +99,12 @@ export default class DataView extends Component {
 				var state = {
 					season: season,
 					data: data,
-					squad: squad
+					squad: squad,
+					match: null
 				};
 
-				if (that.state.view === 'Team Selector') {
+				if (that.state.view === 'Team Selector' ||
+						that.state.view === 'Match') {
 					state.view = that.state.prevView;
 				}
 
@@ -111,10 +120,14 @@ export default class DataView extends Component {
 	}
 
 	getView() {
-		if (this.state.view === 'Timeline') {
-			return (<Timeline data={this.state.data} squad={this.state.squad} team={this.state.season.team}/>);
+		if (this.state.view === 'Match') {
+			return (<MatchDetails match={this.state.match} />);
+		} else if (this.state.view === 'Timeline') {
+			return (<Timeline data={this.state.data} squad={this.state.squad} team={this.state.season.team}
+					              selectMatch={this.handleMatchSelection}/>);
 		} else if (this.state.view === 'Summary') {
-			return (<Summary data={this.state.data} squad={this.state.squad} team={this.state.season.team}/>);
+			return (<Summary data={this.state.data} squad={this.state.squad} team={this.state.season.team}
+					             selectMatch={this.handleMatchSelection}/>);
 		} else if (this.state.view === 'Statistics') {
 			return (<Statistics data={this.state.data} team={this.state.season.team} />);
 		} else if (this.state.view === 'League Table') {

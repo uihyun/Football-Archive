@@ -53,11 +53,15 @@ export default class Timeline extends Component {
 					}
         </h3>
 				{this.state.matches.map(match => {
-					return <Match key={match.competition + match.date} match={match} team={this.props.team}
-									showScorers={this.state.showScorers} showLineup={this.state.showLineup}
-									showOtherGames={this.state.showOtherGames}
-									selectedPlayer={this.state.selectedPlayer}
-									/>;
+					return (
+						<div key={match.competition + match.date} onClick={() => this.props.selectMatch(match)}>
+							<Match match={match} team={this.props.team}
+										 showScorers={this.state.showScorers} showLineup={this.state.showLineup}
+										 showOtherGames={this.state.showOtherGames}
+										 selectedPlayer={this.state.selectedPlayer}
+									/>
+						</div>
+					);
 				})}
 				<br/>
 				<Squad squad={this.props.squad} selectPlayer={this.selectPlayer} />
