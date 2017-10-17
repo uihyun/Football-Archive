@@ -19,7 +19,12 @@
 	opacity: 0.5;
 }
 
-.TeamSelector-team-selected {
+.TeamSelector-country {
+	margin-top: 1em;
+	opacity: 0.5;
+}
+
+.TeamSelector-selected {
 	opacity: 1.0;
 }
 

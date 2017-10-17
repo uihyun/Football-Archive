@@ -13,6 +13,8 @@ export default class TeamSelector extends Component {
 		
 		this.state = this.newState(this.props);
 
+		this.selectCountry = this.selectCountry.bind(this);
+		this.selectYear = this.selectYear.bind(this);
 		this.selectTeam = this.selectTeam.bind(this);
 	}
 
@@ -21,44 +23,57 @@ export default class TeamSelector extends Component {
 	}
 	
 	newState(props) {
-		var teams = [];
-		var season;
+		const country = seasons.seasons[props.season.country];
+		const years = country.years;
+		const teams = country.teams[props.season.year];
 
-		for (var i in seasons) {
-			if (seasons[i]) {
-				season = seasons[i];
-
-				if (season.year === props.season.year) {
-					teams = season.teams;
-					break;
-				}
-			}
-		}
-
-		return {teams: teams};
+		return {season: props.season, years: years, teams: teams};
 	}
 
   render() {
+		const countries = ['ENG', 'ESP', 'GER', 'ITA', 'FRA'];
+
     return (
       <div className="TeamSelector">
 				{ this.props.showYears &&
-					<div className="TeamSelector-flex-container">
-						{seasons.map(season => {
-							var style = '';
-							
-							if (season.year !== this.props.season.year) {
-								style = 'TeamSelector-year';
-							}
+					<div>
+						<div className="flex-container">
+							{countries.map(country => {
+								const url = 'https://img.uefa.com/imgml/flags/50x50/' + country + '.png';
 
-							return (
-								<div className={"flex-1 text-center " + style}
-							 			 key={season.year}
-								     onClick={() => this.selectSeason(season)}>
-									<h3>
-										{season.year - 2000}
-									</h3>
-								</div>);
-						})}
+								var style = (country === this.state.season.country) ? 'TeamSelector-selected' : '';
+
+								return (
+									<div key={country} className="flex-1 text-center"
+											 onClick={() => this.selectCountry(country)}>
+										<img src={url} className={'TeamSelector-country ' + style} alt="" />
+									</div>
+								);
+							})}
+						</div>
+						<div className="TeamSelector-flex-container">
+							{this.state.years.map(year => {
+								var style = '';
+							
+								if (year !== this.state.season.year) {
+									style = 'TeamSelector-year';
+								}
+
+								var yearString = year - 2000;
+
+								if (yearString < 10) {
+									yearString = '0' + yearString;
+								}
+
+								return (
+									<div className={"flex-1 text-center " + style} key={year}
+											 onClick={() => this.selectYear(year)}>
+										<h3>
+											{yearString}
+										</h3>
+									</div>);
+							})}
+						</div>
 					</div>
 				}
 				<div className="TeamSelector-flex-container">
@@ -70,28 +85,50 @@ export default class TeamSelector extends Component {
     );
   }
 
-	selectSeason(season) {
-		var team = 'Manchester United';
+	selectCountry(code) {
+		const country = seasons.seasons[code];
+		const years = country.years;
 
-		for (var i in season.teams) {
-			if (this.props.season.team === season.teams[i]) {
-				team = this.props.season.team;
-				break;
-			}
+		var year = this.state.season.year;
+		if (country.teams[year] === undefined) {
+			year = country.years[0];
 		}
 
-		this.props.onSelect({year: season.year, team: team});
+		const teams = country.teams[year];
+		var team = this.state.season.team;
+		if (teams.indexOf(team) === -1) {
+			team = teams[0];
+		}
+
+		const season = {country: code, year: year, team: team};
+		this.setState({season: season, years: years, teams: teams});
+	}
+
+	selectYear(year) {
+		const country = seasons.seasons[this.state.season.country];
+		const teams = country.teams[year];
+
+		var team = this.state.season.team;
+		if (teams.indexOf(team) === -1) {
+			team = teams[0];
+		}
+
+		const season = {country: this.state.season.country, year: year, team: team};
+		this.setState({season: season, teams: teams});
 	}
 
 	selectTeam(team) {
-		this.props.onSelect({year: this.props.season.year, team: team});
+		var season = this.state.season;
+		season.team = team;
+
+		this.props.onSelect(season);
 	}
 
 	getLogo(team) {
 		var style = '';
 
-		if (team === this.props.season.team) {
-			style = 'TeamSelector-team-selected';
+		if (team === this.state.season.team) {
+			style = 'TeamSelector-selected';
 		}
 
 		return (

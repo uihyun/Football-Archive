@@ -28,7 +28,7 @@ export default class DataView extends Component {
 		super(props);
 
 		this.state = {
-			season: {year: 2018, team: 'Manchester United'},
+			season: {country: 'ENG', year: 2018, team: 'Manchester United'},
 			view: 'Timeline',
 			prevView: [],
 			data: {competition: []},
