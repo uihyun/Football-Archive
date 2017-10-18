@@ -11,31 +11,19 @@ export default class Manage extends Component {
 
 	constructor(props) {
 		super(props);
-		
-		var seasonList = {};
-		var yearArray = [];
-		var season, year, i;
 
-		for (i in seasons) {
-			if (seasons[i]) {
+		const selectedCountry = seasons.countries[0];
+		const country = seasons.seasons[selectedCountry];
+		const selectedYear = country.years[0];
+		const teams = country.teams[selectedYear];
 
-				season = seasons[i];
-				year = season.year;
+		this.state = {
+			selectedCountry: selectedCountry,
+			selectedYear: selectedYear,
+			teams: teams,
+			fetchedTeams: {}
+		};
 
-				yearArray.push(year);
-				seasonList[year] = season.teams;
-			}
-		}
-
-		var maxYear = 0;
-		for (i = 0; i < yearArray.length; i++) {
-			year = yearArray[i];
-			if (year > maxYear) {
-				maxYear = year;
-			}
-		}
-
-		this.state = {selectedYear: maxYear, years: yearArray, seasons: seasonList, fetchedTeams: {}}
 
 		this.selectYear = this.selectYear.bind(this);
 		this.fetchSeason = this.fetchSeason.bind(this);
@@ -48,7 +36,7 @@ export default class Manage extends Component {
 	}
 
 	componentDidMount() {
-		this.selectYear(this.state.selectedYear);
+		this.selectYear(this.state.selectedCountry, this.state.selectedYear);
 	}
 
   render() {
@@ -56,15 +44,23 @@ export default class Manage extends Component {
     return (
       <div className="Manage">
         <h2 className="text-center">
-          {this.state.selectedYear} Season
+					{this.state.selectedCountry} {this.state.selectedYear} Season
 				</h2>
 				<div className="flex-container">
 					<div className="flex-1">
-						<ul>
-							{this.state.years.map(year => {
-								return <li key={year} onClick={() => this.selectYear(year)}>{year}</li>;
-							})}
-						</ul>
+						{seasons.countries.map(country => {
+							const url = 'https://img.uefa.com/imgml/flags/50x50/' + country + '.png';
+							return (
+								<div key={country}>
+									<img src={url} alt="" />
+									<ul>
+									{seasons.seasons[country].years.map(year => {
+										return <li key={year} onClick={() => this.selectYear(country, year)}>{year}</li>;
+									})}
+									</ul>
+								</div>
+							);
+						})}
 					</div>
 					<div className="flex-2">
 						<div className="flex-container Manage-team">
@@ -81,7 +77,7 @@ export default class Manage extends Component {
 								</button>
 							</div>
 						</div>
-						{this.state.seasons[this.state.selectedYear].map(team => {
+						{this.state.teams.map(team => {
 							return (
 								<div className="flex-container Manage-team" key={team}>
 									<div className="flex-1">
@@ -97,12 +93,14 @@ export default class Manage extends Component {
 												Fetch Season
 											</button>
 										}
+										{/*
 										<button onClick={() => this.fetchMatches(team)}>
 											Fetch Matches
 										</button>
 										<button className="Manage-clear-btn" onClick={() => this.clearMatches(team)}>
 											Clear Matches
 										</button>
+										*/}
 									</div>
 								</div>
 							);
@@ -113,31 +111,35 @@ export default class Manage extends Component {
     );
   }
 
-	selectYear(year) {
+	selectYear(country, year) {
 		const that = this;
 		const url = '/api/season/select/' + year;
+		const teams = seasons.seasons[country].teams[year];
 
 		fetch(url)
 			.then(function(response) {
 				return response.json();
 			})
 			.then(function(data) {
-				var teams = {};
-				var team;
-				for (var i in data) {
+				var fetchedTeams = {};
+				var team, i, j;
+				for (i in data) {
 					if (data[i]) {
-						for (var j in that.state.seasons[year]) {
-							if (that.state.seasons[year][j]) {
-								team = that.state.seasons[year][j];
-								if (team === data[i].team) {
-									teams[team] = true;
-								}
+						for (j = 0; j < teams.length; j++) {
+							team = teams[j];
+							if (team === data[i].team) {
+								fetchedTeams[team] = true;
 							}
 						}
 					}
 				}
-				
-				that.setState({ selectedYear: year, fetchedTeams: teams });
+
+				that.setState({
+					selectedCountry: country,
+					selectedYear: year,
+					teams: teams,
+					fetchedTeams: fetchedTeams
+				});
 			});
 	}
 
@@ -150,7 +152,7 @@ export default class Manage extends Component {
 				return response.json();
 			})
 			.then(function(data) {
-				that.selectYear(that.state.selectedYear);
+				that.selectYear(that.state.selectedCountry, that.state.selectedYear);
 			});
 	}
 
@@ -160,7 +162,7 @@ export default class Manage extends Component {
 
 		fetch(url)
 			.then(function(response) {
-				that.selectYear(that.state.selectedYear);
+				that.selectYear(that.state.selectedCountry, that.state.selectedYear);
 			})
 	}
 
@@ -170,7 +172,7 @@ export default class Manage extends Component {
 
 		fetch(url)
 			.then(function(response) {
-				that.selectYear(that.state.selectedYear);
+				that.selectYear(that.state.selectedCountry, that.state.selectedYear);
 			});
 	}
 
@@ -180,17 +182,18 @@ export default class Manage extends Component {
 
 		fetch(url)
 			.then(function(response) {
-				that.selectYear(that.state.selectedYear);
+				that.selectYear(that.state.selectedCountry, that.state.selectedYear);
 			});
 	}
 
 	fetchAllMatches() {
-		const that = this;
-		const url = '/api/match/fetch-season/' + this.state.selectedYear;
+		const year = this.state.selectedYear;
+		const league = seasons.seasons[this.state.selectedCountry].league;
+		const url = '/api/match/fetch-season/' + year;
 
 		fetch(url)
 			.then(function(response) {
-				const url = '/api/league/update/' + that.state.selectedYear + '/Premier-League';
+				const url = '/api/league/update/' + year + '/' + league;
 				fetch(url)
 					.then(function(response) {
 						alert('Fetch All Matches: Done');
@@ -199,8 +202,9 @@ export default class Manage extends Component {
 	}
 	
 	updateLeague() {
-		const that = this;
-		const url = '/api/league/update/' + that.state.selectedYear + '/Premier-League';
+		const year = this.state.selectedYear;
+		const league = seasons.seasons[this.state.selectedCountry].league;
+		const url = '/api/league/update/' + year + '/' + league;
 		
 		fetch(url)
 			.then(function(response) {

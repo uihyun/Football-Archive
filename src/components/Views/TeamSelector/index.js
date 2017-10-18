@@ -31,14 +31,12 @@ export default class TeamSelector extends Component {
 	}
 
   render() {
-		const countries = ['ENG', 'ESP', 'GER', 'ITA', 'FRA'];
-
     return (
       <div className="TeamSelector">
 				{ this.props.showYears &&
 					<div>
 						<div className="flex-container">
-							{countries.map(country => {
+							{seasons.countries.map(country => {
 								const url = 'https://img.uefa.com/imgml/flags/50x50/' + country + '.png';
 
 								var style = (country === this.state.season.country) ? 'TeamSelector-selected' : '';

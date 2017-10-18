@@ -1,7 +1,8 @@
 const seasons = {
-	countries: ['ENG', 'ESP', 'GER', 'ITA', 'FRA'],
+	countries: ['ENG', 'ESP'], //, 'GER', 'ITA', 'FRA'],
 	seasons: {
 		ENG: {
+			league: 'Premier-League',
 			years: [2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009],
 			teams: {
 				2018: [
@@ -227,10 +228,30 @@ const seasons = {
 			}
 		},
 		ESP: {
+			league: 'Primera-División',
 			years: [2018],
 			teams: {
 				2018: [
 					'Real Madrid',
+					'FC Barcelona',
+					'Atlético Madrid',
+					'Sevilla FC',
+					'Villarreal CF',
+					'Real Sociedad',
+					'Athletic Bilbao',
+					'Espanyol Barcelona',
+					'CD Alavés',
+					'SD Eibar',
+					'Málaga CF',
+					'Valencia CF',
+					'Celta Vigo',
+					'UD Las Palmas',
+					'Real Betis',
+					'Deportivo La Coruña',
+					'CD Leganés',
+					'Levante UD',
+					'Girona FC',
+					'Getafe CF',
 				]
 			}
 		},

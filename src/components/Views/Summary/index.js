@@ -7,6 +7,7 @@ import Squad from '../../Squad';
 import Team from '../../Team';
 
 import rounds from '../../../data/rounds';
+import competitions from '../../../data/competitions';
 
 export default class Summary extends Component {
 
@@ -90,7 +91,7 @@ export default class Summary extends Component {
 				</div>
 				}
 				<div className="flex-1">
-					<h3 className="text-center">EPL</h3>
+					<h3 className="text-center">{this.state.league.name}</h3>
 					{this.state.league.map(team => {
 						return (
 							<div className="flex-container Summary-team" key={team.name}>
@@ -141,7 +142,7 @@ export default class Summary extends Component {
 			</div>
 			<br/>
 			<Squad squad={this.props.squad} selectPlayer={this.selectPlayer} />
-			</div>
+		</div>
     );
   }
 
@@ -152,8 +153,6 @@ export default class Summary extends Component {
 		if (data.leagues === undefined) {
 			return out; // data not yet fetched
 		}
-
-		var leagueName = data.leagues[0].name;
 
 		var i;
 		var entry;
@@ -169,15 +168,20 @@ export default class Summary extends Component {
 		var j, k;
 		var match;
 		var team;
-		var cup, prevMatch, name, found, round;
+		var cup, prevMatch, found, round, comp;
 		for (i = 0; i < data.competitions.length; i++) {
 			entry = data.competitions[i];
+			comp = competitions[entry.name];
 
-			if (entry.name === leagueName) {
+			if (comp.code === 'L') {
+				out.league.name = comp.name;
 				for (j = 0; j < entry.matches.length; j++) {
 					match = entry.matches[j];
 
 					team = teams[match.vs];
+
+					if (team === undefined)
+						continue;
 
 					if (match.place === 'A') {
 						team.matches[1] = match;
@@ -185,13 +189,8 @@ export default class Summary extends Component {
 						team.matches[0] = match;
 					}
 				}
-			} else if (entry.name === 'FA Cup' || 
-								 entry.name === 'League Cup' ||
-								 entry.name === 'FA Community Shield') {
-				cup = {name: entry.name, rounds: []};
-
-				if (entry.name === 'FA Community Shield')
-					cup.name = 'Community Shield';
+			} else if (comp.code === 'C') {
+				cup = {name: comp.name, rounds: []};
 
 				prevMatch = {};
 				for (j = 0; j < entry.matches.length; j++) {
@@ -222,17 +221,13 @@ export default class Summary extends Component {
 
 				cup.rounds.reverse();
 				out.cups.push(cup);
-			} else if (entry.name.match(/^Champions|^Europa|^Club|^UEFA/)) {
-				name = entry.name.replace(/ Qual./, '');
-				cup = {name: name, rounds: []};
+			} else if (comp.code === 'I') {
+				cup = {name: comp.name, rounds: []};
 				for (j = 0; j < out.europe.length; j++) {
-					if (out.europe[j].name === name) {
+					if (out.europe[j].name === comp.name) {
 						cup = out.europe[j];
 					}
 				}
-
-				if (entry.name === 'UEFA-Supercup')
-					cup.name = 'UEFA Super Cup';
 
 				if (cup.rounds.length === 0) {
 					out.europe.push(cup);

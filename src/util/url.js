@@ -1,5 +1,8 @@
 export default class UrlUtil {
 	static getTeamUrl(team) {
+		team = team.replace(/á/g, 'a');
+		team = team.replace(/é/g, 'e');
+		team = team.replace(/ñ/g, 'n');
 		return team.replace(/ & | /g, '-');
 	}
 

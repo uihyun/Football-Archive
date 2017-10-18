@@ -18,6 +18,9 @@ export default class Competition extends Component {
 			case 'League Cup':
 				compName = 'EFL Cup';
 				break;
+			case 'Primera División':
+				compName = 'La Liga';
+				break;
 			case 'Champions League':
 			case 'Champions League Qual.':
 				compName = 'Champs';
@@ -25,6 +28,9 @@ export default class Competition extends Component {
 			case 'Europa League':
 			case 'Europa League Qual.':
 				compName = 'Europa';
+				break;
+			case 'Club World Cup':
+				compName = 'CWC';
 				break;
 			default:
 				compName = this.props.name;
@@ -35,7 +41,8 @@ export default class Competition extends Component {
 
 		round = round.replace(/ Round/, 'R');
 
-		if (compName === 'Community Shield') {
+		if (compName === 'Community Shield' ||
+				compName === 'Supercopa') {
 			round = '';
 		} else {
 			round = ' ' + round;

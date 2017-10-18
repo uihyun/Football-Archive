@@ -56,10 +56,23 @@ const teams = {
 
 	// Spain
 	'Athletic Bilbao': {id: 50125, name: 'Bilbao'},
+	'Atlético Madrid': {id: 50124, name: 'Atlético'},
+	'CD Alavés': {id: 69619, name: 'Alavés'},
+	'CD Leganés': {id: 2602783, name: 'Leganés'},
 	'Celta Vigo': {id: 53043, name: 'Celta'},
+	'Deportivo La Coruña': {id: 59044, name: 'Deportivo'},
+	'Espanyol Barcelona': {id: 54189, name: 'Espanol'},
 	'FC Barcelona': {id: 50080, name: 'Barcelona'},
+	'Girona FC': {id: 2602798, name: 'Girona'},
+	'Getafe CF': {id: 87960, name: 'Getafe'},
+	'Levante UD': {id: 87959, name: 'Levante'},
+	'Málaga CF': {id: 74069, name: 'Málaga'},
+	'Real Betis': {id: 52265, name: 'Betis'},
 	'Real Madrid': {id: 50051, name: 'Real Madrid'},
 	'Real Sociedad': {id: 50123, name: 'Real Sociedad'},
+	'SD Eibar': {id: 89727, name: 'Eibar'},
+	'Sevilla FC': {id: 52714, name: 'Sevilla'},
+	'UD Las Palmas': {id: 64251, name: 'Las Palmas'},
 	'Valencia CF': {id: 52268, name: 'Valencia'},
 	'Villarreal CF': {id: 70691, name: 'Villarreal'},
 	
