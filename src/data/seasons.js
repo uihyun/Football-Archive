@@ -1,5 +1,5 @@
 const seasons = {
-	countries: ['ENG', 'ESP'], //, 'GER', 'ITA', 'FRA'],
+	countries: ['ENG', 'ESP', 'GER'], //, 'ITA', 'FRA'],
 	seasons: {
 		ENG: {
 			league: 'Premier-League',
@@ -256,10 +256,28 @@ const seasons = {
 			}
 		},
 		GER: {
+			league: 'Bundesliga',
 			years: [2018],
 			teams: {
 				2018: [
 					'Bayern München',
+					'RB Leipzig',
+					'Borussia Dortmund',
+					'1899 Hoffenheim',
+					'1. FC Köln',
+					'Hertha BSC',
+					'SC Freiburg',
+					'Werder Bremen',
+					'Bor. Mönchengladbach',
+					'FC Schalke 04',
+					'Eintracht Frankfurt',
+					'Bayer Leverkusen',
+					'FC Augsburg',
+					'Hamburger SV',
+					'1. FSV Mainz 05',
+					'VfL Wolfsburg',
+					'VfB Stuttgart',
+					'Hannover 96',
 				]
 			}
 		},

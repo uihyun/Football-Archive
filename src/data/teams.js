@@ -77,10 +77,24 @@ const teams = {
 	'Villarreal CF': {id: 70691, name: 'Villarreal'},
 	
 	// Germany
+	'1. FC Köln': {id: 50018, name: 'Köln'},
+	'1. FSV Mainz 05': {id: 70853, name: 'Mainz'},
+	'1899 Hoffenheim': {id: 2600431, name: 'Hoffenheim'},
 	'Bayer Leverkusen': {id: 50109, name: 'Leverkusen'},
 	'Bayern München': {id: 50037, name: 'München'},
+	'Bor. Mönchengladbach': {id: 52757, name: 'Mönchengladbach'},
+	'Borussia Dortmund': {id: 52758, name: 'Dortmund'},
+	'Eintracht Frankfurt': {id: 50072, name: 'Frankfurt'},
+	'Hamburger SV': {id: 52167, name: 'Hamburger'},
+	'Hannover 96': {id: 57488, name: 'Hannover'},
+	'Hertha BSC': {id: 5451, name: 'Hertha'},
+	'FC Augsburg': {id: 2600978, name: 'Augsburg'},
 	'FC Schalke 04': {id: 57388, name: 'Schalke 04'},
+	'RB Leipzig': {id: 2603790, name: 'Leipzig'},
+	'SC Freiburg': {id: 59880, name: 'SC Freiburg'},
+	'VfB Stuttgart': {id: 50107, name: 'Stuttgart'},
 	'VfL Wolfsburg': {id: 64332, name: 'Wolfsburg'},
+	'Werder Bremen': {id: 50040, name: 'Bremen'},
 	
 	// Italy
 	'AC Milan': {id: 50058, name: 'Milan'},

@@ -13,6 +13,19 @@ const rounds = {
 		'3 Round': '32',
 		'2 Round': '64'
 	},
+	'Copa del Rey': {
+		'Semi-finals': '4',
+		'Quarter-finals': '8',
+		'Round of 16': '16',
+		'4 Round': '32',
+	},
+	'DFB-Pokal': {
+		'Semi-finals': '4',
+		'Quarter-finals': '8',
+		'Round of 16': '16',
+		'2 Round': '32',
+		'1 Round': '64',
+	},
 	'Champions League': {
 		'Semi-finals': '4',
 		'Quarter-finals': '8',

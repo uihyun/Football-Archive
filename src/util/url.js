@@ -3,6 +3,9 @@ export default class UrlUtil {
 		team = team.replace(/á/g, 'a');
 		team = team.replace(/é/g, 'e');
 		team = team.replace(/ñ/g, 'n');
+		team = team.replace(/ö/g, 'oe');
+		team = team.replace(/ü/g, 'ue');
+		team = team.replace(/\./g, '');
 		return team.replace(/ & | /g, '-');
 	}
 

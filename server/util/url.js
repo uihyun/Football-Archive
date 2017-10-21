@@ -16,6 +16,14 @@ module.exports = {
 			team = 'Deportivo La Coruña';
 		} else if (team === 'CD Leganes') {
 			team = 'CD Leganés';
+		} else if (team === '1 FC Koeln') {
+			team = '1. FC Köln';
+		} else if (team === 'Bayern Muenchen') {
+			team = 'Bayern München';
+		} else if (team === 'Bor Moenchengladbach') {
+			team = 'Bor. Mönchengladbach';
+		} else if (team === '1 FSV Mainz 05') {
+			team = '1. FSV Mainz 05';
 		}
 
 		return team;
@@ -35,8 +43,14 @@ module.exports = {
 			url = 'Deportivo La Coruna';
 		} else if (url === 'CD Leganés') {
 			url = 'CD Leganes';
+		} else if (url === '1. FC Köln') {
+			url = '1 FC Koeln';
+		} else if (url === '1. FSV Mainz 05') {
+			url = '1 FSV Mainz 05';
 		}
 
+		url = url.replace(/ö/g, 'oe');
+		url = url.replace(/ü/g, 'ue');
 		url = url.replace(/ /g, '-');
 
 		return url;
