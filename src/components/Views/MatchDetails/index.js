@@ -41,7 +41,7 @@ export default class MatchDetails extends Component {
 							<div className="flex-1 text-center MatchDetails-score">{this.getScore()}</div>
 							<div className="flex-1 text-right"><EmblemLarge team={r} /></div>
 						</div>
-						{goals.map(goal => {return (this.getGoalDiv(goal));})}
+						{goals.map((goal, index) => {return (this.getGoalDiv(goal, index));})}
 					</div>
 					<div className="flex-1 hide-mobile"></div>
 				</div>
@@ -49,7 +49,7 @@ export default class MatchDetails extends Component {
 		);
 	}
 
-	getGoalDiv(goal) {
+	getGoalDiv(goal, index) {
 		const side = goal.side;
 		const minute = (<div className="MatchDetails-minute text-center">{goal.minute}</div>);
 		const player = (
@@ -62,16 +62,13 @@ export default class MatchDetails extends Component {
 			</div>
 		);
 		
-		if (side === 'l') {
-			return (
-				<div key={goal.minute} className="flex-container">
-					{minute} {player}
-				</div>
-			);
+		var style = '';
+		if (side === 'r') {
+			style = 'MatchDetails-r-goal text-right';
 		}
 
 		return (
-			<div key={goal.minute} className="flex-container MatchDetails-r-goal text-right">
+			<div key={index} className={'flex-container ' + style}>
 				{minute} {player}
 			</div>
 		);
