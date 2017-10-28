@@ -27,13 +27,10 @@ module.exports = function(router, db) {
 		}
 	}
 
-	router.get('/api/league/update/:_season/:_leagueUrl', function(req, res) {
-		const season = req.params._season;
-		const leagueUrl = req.params._leagueUrl;
-		const leagueName = leagueUrl.replace(/-/g, ' ');
+	function updateLeague(season, leagueName) {
 		var teams = {};
 
-		Seasons.find({season: season, 'competitions.name': leagueName}).toArray()
+		return Seasons.find({season: season, 'competitions.name': leagueName}).toArray()
 			.then(function(seasons) {
 				var urlMap = {};
 				var i, j, k;
@@ -134,7 +131,23 @@ module.exports = function(router, db) {
 				};
 
 				return Leagues.findOneAndReplace({season: season, name: leagueName}, league, {upsert: true});
-			}).then(function() {
+			});
+	}
+		
+	router.get('/api/league/update/:_season/', function(req, res) {
+		const season = req.params._season;
+		const leagues = req.query.leagues.split('_');
+
+		var promises = [];
+		var i, league;
+
+		for (i = 0; i < leagues.length; i++) {
+			league = leagues[i].replace(/-/g, ' ');
+			promises.push(updateLeague(season, league));
+		}
+
+		Promise.all(promises)
+			.then(function () {
 				res.sendStatus(200);
 			});
 	});

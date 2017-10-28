@@ -186,14 +186,29 @@ export default class Manage extends Component {
 			});
 	}
 
+	getLeagues(year) {
+		var leagues = [];
+		var i, country;
+
+		for (i = 0; i < seasons.countries.length; i++) {
+			country = seasons.countries[i];
+
+			if (seasons.seasons[country].teams[year]) {
+				leagues.push(seasons.seasons[country].league);
+			}
+		}
+
+		return leagues.join('_');
+	}
+
 	fetchAllMatches() {
 		const year = this.state.selectedYear;
-		const league = seasons.seasons[this.state.selectedCountry].league;
+		const leagues = this.getLeagues(year);
 		const url = '/api/match/fetch-season/' + year;
 
 		fetch(url)
 			.then(function(response) {
-				const url = '/api/league/update/' + year + '/' + league;
+				const url = '/api/league/update/' + year + '?leagues=' + leagues;
 				fetch(url)
 					.then(function(response) {
 						alert('Fetch All Matches: Done');
@@ -203,10 +218,10 @@ export default class Manage extends Component {
 	
 	updateLeague() {
 		const year = this.state.selectedYear;
-		const league = seasons.seasons[this.state.selectedCountry].league;
-		const url = '/api/league/update/' + year + '/' + league;
-		
-		fetch(url)
+		const leagues = this.getLeagues(year);
+		const url = '/api/league/update/' + year + '?leagues=' + leagues;
+
+		fetch(url, {leagues: leagues})
 			.then(function(response) {
 				alert('Update League: Done');
 			});
