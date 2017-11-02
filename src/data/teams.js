@@ -40,6 +40,7 @@ const teams = {
 
 	// English Lower Division
 	'Barnsley FC': {id: 53339, name: 'Barnsley'},
+	'Bristol City': {id: 2601134, name: 'Bristol City'},
 	'Cambridge United': {id: 2601368, name: 'Cambridge'},
 	'Crawley Town': {id: 2601398, name: 'Crawley'},
 	'Derby County': {id: 52917, name: 'Derby'},
@@ -85,11 +86,11 @@ const teams = {
 	'Bor. Mönchengladbach': {id: 52757, name: 'Mönchengladbach'},
 	'Borussia Dortmund': {id: 52758, name: 'Dortmund'},
 	'Eintracht Frankfurt': {id: 50072, name: 'Frankfurt'},
+	'FC Augsburg': {id: 2600978, name: 'Augsburg'},
+	'FC Schalke 04': {id: 57388, name: 'Schalke 04'},
 	'Hamburger SV': {id: 52167, name: 'Hamburger'},
 	'Hannover 96': {id: 57488, name: 'Hannover'},
 	'Hertha BSC': {id: 5451, name: 'Hertha'},
-	'FC Augsburg': {id: 2600978, name: 'Augsburg'},
-	'FC Schalke 04': {id: 57388, name: 'Schalke 04'},
 	'RB Leipzig': {id: 2603790, name: 'Leipzig'},
 	'SC Freiburg': {id: 59880, name: 'SC Freiburg'},
 	'VfB Stuttgart': {id: 50107, name: 'Stuttgart'},
@@ -98,7 +99,25 @@ const teams = {
 	
 	// Italy
 	'AC Milan': {id: 50058, name: 'Milan'},
+	'ACF Fiorentina': {id: 52817, name: 'Fiorentina'},
+	'AS Roma': {id: 50137, name: 'Roma'},
+	'Atalanta': {id: 52816, name: 'Atalanta'},
+	'Benevento Calcio': {id: 2601006, name: 'Benevento'},
+	'Bologna FC': {id: 52969, name: 'Bologna'},
+	'Cagliari Calcio': {id: 59013, name: 'Cagliari'},
+	'Chievo Verona': {id: 77904, name: 'Chievo'},
+	'FC Crotone': {id: 2600997, name: 'Crotone'},
+	'Genoa CFC': {id: 52972, name: 'Genoa'},
+	'Hellas Verona': {id: 52301, name: 'Verona'},
+	'Lazio Roma': {id: 52973, name: 'Lazio'},
 	'Inter': {id: 50138, name: 'Inter'},
+	'Juventus': {id: 50139, name: 'Juventus'},
+	'Udinese Calcio': {id: 51310, name: 'Udinese'},
+	'Sampdoria': {id: 50089, name: 'Sampdoria'},
+	'Sassuolo Calcio': {id: 2600632, name: 'Sassuolo'},
+	'SPAL 2013 Ferrara': {id: 2601000, name: 'SPAL'},
+	'SSC Napoli': {id: 50136, name: 'Napoli'},
+	'Torino FC': {id: 50029, name: 'Torino'},
 	
 	// France
 	'AS Saint-Étienne': {id: 50022, name: 'Saint-Étienne'},

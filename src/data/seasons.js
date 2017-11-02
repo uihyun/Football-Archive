@@ -1,5 +1,5 @@
 const seasons = {
-	countries: ['ENG', 'ESP', 'GER'], //, 'ITA', 'FRA'],
+	countries: ['ENG', 'ESP', 'GER', 'ITA'], //, 'FRA'],
 	seasons: {
 		ENG: {
 			league: 'Premier-League',
@@ -282,10 +282,30 @@ const seasons = {
 			}
 		},
 		ITA: {
+			league: 'Serie-A',
 			years: [2018],
 			teams: {
 				2018: [
+					'Juventus',
+					'AS Roma',
+					'SSC Napoli',
+					'Atalanta',
+					'Lazio Roma',
 					'AC Milan',
+					'Inter',
+					'ACF Fiorentina',
+					'Torino FC',
+					'Sampdoria',
+					'Cagliari Calcio',
+					'Sassuolo Calcio',
+					'Udinese Calcio',
+					'Chievo Verona',
+					'Bologna FC',
+					'Genoa CFC',
+					'FC Crotone',
+					'SPAL 2013 Ferrara',
+					'Hellas Verona',
+					'Benevento Calcio',
 				]
 			}
 		},

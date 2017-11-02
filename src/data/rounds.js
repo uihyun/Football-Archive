@@ -26,6 +26,13 @@ const rounds = {
 		'2 Round': '32',
 		'1 Round': '64',
 	},
+	'Coppa Italia': {
+		'Semi-finals': '4',
+		'Quarter-finals': '8',
+		'Round of 16': '16',
+		'4 Round': '32',
+		'3 Round': '64',
+	},
 	'Champions League': {
 		'Semi-finals': '4',
 		'Quarter-finals': '8',
