@@ -24,6 +24,10 @@ module.exports = {
 			team = 'Bor. Mönchengladbach';
 		} else if (team === '1 FSV Mainz 05') {
 			team = '1. FSV Mainz 05';
+		} else if (team === 'Paris Saint Germain') {
+			team = 'Paris Saint-Germain';
+		} else if (team === 'AS Saint Etienne') {
+			team = 'AS Saint-Étienne';
 		}
 
 		return team;
@@ -47,6 +51,8 @@ module.exports = {
 			url = '1 FC Koeln';
 		} else if (url === '1. FSV Mainz 05') {
 			url = '1 FSV Mainz 05';
+		} else if (url === 'AS Saint-Étienne') {
+			url = 'AS Saint Etienne';
 		}
 
 		url = url.replace(/ö/g, 'oe');

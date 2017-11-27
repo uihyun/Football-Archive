@@ -33,6 +33,18 @@ const rounds = {
 		'4 Round': '32',
 		'3 Round': '64',
 	},
+	'Coupe de la Ligue': {
+		'Semi-finals': '4',
+		'Quarter-finals': '8',
+		'Round of 16': '16',
+	},
+	'Coupe de France': {
+		'Semi-finals': '4',
+		'Quarter-finals': '8',
+		'Round of 16': '16',
+		'10 Round': '32',
+		'9 Round': '64',
+	},
 	'Champions League': {
 		'Semi-finals': '4',
 		'Quarter-finals': '8',

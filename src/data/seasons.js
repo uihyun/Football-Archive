@@ -1,5 +1,5 @@
 const seasons = {
-	countries: ['ENG', 'ESP', 'GER', 'ITA'], //, 'FRA'],
+	countries: ['ENG', 'ESP', 'GER', 'ITA', 'FRA'],
 	seasons: {
 		ENG: {
 			league: 'Premier-League',
@@ -310,10 +310,30 @@ const seasons = {
 			}
 		},
 		FRA: {
+			league: 'Ligue-1',
 			years: [2018],
 			teams: {
 				2018: [
+					'AS Monaco',
+					'Paris Saint-Germain',
+					'OGC Nice',
+					'Olympique Lyon',
 					'Olympique Marseille',
+					'Girondins Bordeaux',
+					'FC Nantes',
+					'AS Saint-Étienne',
+					'Stade Rennes',
+					'EA Guingamp',
+					'Lille OSC',
+					'Angers SCO',
+					'Toulouse FC',
+					'FC Metz',
+					'Montpellier HSC',
+					'Dijon FCO',
+					'SM Caen',
+					'RC Strasbourg',
+					'Amiens SC',
+					'ESTAC Troyes',
 				]
 			}
 		}
