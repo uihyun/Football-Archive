@@ -4,6 +4,11 @@ import './style.css';
 
 export default class Scoreboard extends Component {
   render() {
+		const shrink = this.props.shrinkOnMobile ? ' Scoreboard-shrink ' : '';
+		if (this.props.isEmpty) {
+			return <div className={'Scoreboard' + shrink}></div>;
+		}
+
 		const match = this.props.match;
 		const dateA = match.date.split('/');
 		const mm = dateA[0];
@@ -72,7 +77,9 @@ export default class Scoreboard extends Component {
 			score = <span><small>{mm}/{dd}</small></span>;
 		}
 
-    return (<div className={this.props.classNames + ' Scoreboard ' + scoreStyle}>{bg}<div className='Scoreboard-inner'>{score}</div></div>);
+		let className = this.props.classNames + ' Scoreboard ' + shrink + scoreStyle;
+
+    return (<div className={className}>{bg}<div className='Scoreboard-inner'>{score}</div></div>);
 	}
 
 	playerBackground(players, player, style) {

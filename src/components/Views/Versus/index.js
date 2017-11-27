@@ -14,6 +14,7 @@ export default class Versus extends Component {
 	constructor(props) {
 		super(props);
 
+
 		this.state = {header: [], seasons: []};
 	}
 
@@ -42,7 +43,7 @@ export default class Versus extends Component {
 				{this.state.seasons.map(season => {
 					return (
 						<div key={season.year} className="flex-container">
-							<div className="flex-1 text-center">{season.year - 1}-{season.year}</div>
+							<div className="flex-1 text-center">{this.getSeasonSpan(season.year)}</div>
 							{season.competitions.map((competition, index) => {
 								return (
 									<div key={index} className="flex-1">
@@ -62,14 +63,37 @@ export default class Versus extends Component {
 		);
 	}
 
+	formatShortYear(year) {
+		year %= 100;
+		if (year === 0) {
+			return '00';
+		} else if (year < 10) {
+			return '0' + year;
+		}
+
+		return year;
+	}
+
+	getSeasonSpan(year) {
+		var a = year - 1;
+		var b = year;
+		return (
+			<span>
+				<span className="hide-mobile">{a}-{b}</span>
+				<span className="show-mobile">{this.formatShortYear(a)}-{this.formatShortYear(b)}</span>
+			</span>
+		);
+	}
+
 	getScoreboard(match) {
 		if (match === undefined) {
-			return (<div className="Versus-empty-match"></div>);
+			return (<Scoreboard isEmpty={true} shrinkOnMobile={true}/>);
 		}
 
 		return (
 			<div onClick={() => this.props.selectMatch(match)}>
-				<Scoreboard classNames="Versus-scoreboard" team={this.props.teamA} match={match} />
+				<Scoreboard team={this.props.teamA} match={match} 
+				 shrinkOnMobile={true} />
 			</div>
 		);
 	}

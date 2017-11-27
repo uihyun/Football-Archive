@@ -1,5 +1,6 @@
 .Scoreboard {
 	width: 35px;
+	height: 20px;
 	text-align: center;
 	color: white;
 	position: relative;
@@ -109,4 +110,18 @@
 
 .Scoreboard-loss-pso-in {
 	border-color: hsl( 20,  90%, 80%) transparent transparent transparent;
+}
+
+@media screen and (max-width: 543px) {
+
+	.Scoreboard-shrink {
+		width: 30px;
+		font-size: smaller;
+		text-align: center;
+	}
+
+	.Scoreboard-shrink .Scoreboard-inner {
+		width: 30px;
+		padding-top: 2px;
+	}
 }

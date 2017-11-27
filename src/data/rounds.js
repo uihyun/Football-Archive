@@ -49,7 +49,8 @@ const rounds = {
 		'Semi-finals': '4',
 		'Quarter-finals': '8',
 		'Round of 16': '16',
-		'Play-offs': 'PO'
+		'Play-offs': 'PO',
+		'3 Round': '3R',
 	},
 	'Europa League': {
 		'Semi-finals': '4',
@@ -59,7 +60,7 @@ const rounds = {
 		'Play-offs': 'PO',
 		'3 Round': '3R',
 		'2 Round': '2R',
-		'1 Round': '1R'
+		'1 Round': '1R',
 	},
 	'Club World Cup': {
 		'Semi-finals': '4',
