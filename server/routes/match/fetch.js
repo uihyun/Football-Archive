@@ -21,7 +21,7 @@ module.exports = function(router, db) {
 		if (url === '')
 			return;
 
-		const execStr = 'perl ' + path.resolve('perl', 'match.pl') + ' ' + url;
+		const execStr = 'perl ' + path.join(__dirname, '../../../perl', 'match.pl') + ' ' + url;
 
 		var stdout = '';
 		var child = exec(execStr);

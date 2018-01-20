@@ -18,7 +18,7 @@ module.exports = function(router, db) {
 	
 	function updateSeason(season, team) {
 		const teamUrl = UrlUtil.getUrlFromTeamName(team);
-		const execStr = 'perl ' + path.resolve('perl', 'season.pl') + ' ' + season + ' ' + teamUrl;
+		const execStr = 'perl ' + path.join(__dirname, '../../../perl', 'season.pl') + ' ' + season + ' ' + teamUrl;
 
 		var stdout = '';
 		var child = exec(execStr);

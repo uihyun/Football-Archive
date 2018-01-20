@@ -16,7 +16,7 @@ module.exports = function(router, db) {
 		Seasons.find({season: season, team: team}).toArray()
 			.then(function(seasons) {
 				if (seasons.length === 0) {
-					const execStr = 'perl ' + path.resolve('perl', 'season.pl') + ' ' + season + ' ' + teamUrl;
+					const execStr = 'perl ' + path.join(__dirname, '../../../perl', 'season.pl') + ' ' + season + ' ' + teamUrl;
 
 					exec(execStr, function(error, stdout, stderr) {
 						const data = JSON.parse(stdout);
