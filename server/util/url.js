@@ -37,27 +37,17 @@ module.exports = {
 
 		if (url === 'Brighton & Hove Albion') {
 			url = 'Brighton Hove Albion';
-		} else if (url === 'Atlético Madrid') {
-			url = 'Atletico Madrid';
-		} else if (url === 'CD Alavés') {
-			url = 'CD Alaves';
-		} else if (url === 'Málaga CF') {
-			url = 'Malaga CF';
-		} else if (url === 'Deportivo La Coruña') {
-			url = 'Deportivo La Coruna';
-		} else if (url === 'CD Leganés') {
-			url = 'CD Leganes';
-		} else if (url === '1. FC Köln') {
-			url = '1 FC Koeln';
-		} else if (url === '1. FSV Mainz 05') {
-			url = '1 FSV Mainz 05';
 		} else if (url === 'AS Saint-Étienne') {
 			url = 'AS Saint Etienne';
 		}
 
 		url = url.replace(/ö/g, 'oe');
 		url = url.replace(/ü/g, 'ue');
+		url = url.replace(/á/g, 'a');
+		url = url.replace(/é/g, 'e');
+		url = url.replace(/ñ/g, 'n');
 		url = url.replace(/ /g, '-');
+		url = url.replace(/\./g, '');
 
 		return url;
 	}
