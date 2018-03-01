@@ -45,7 +45,7 @@ sub check_done($)
 	}
 
 	if ($score_td->find('div[class="resultat"]')->size) {
-		my $score_text = $score_td->find('div[class="resultat"]')->first->all_text;
+		my $score_text = trim($score_td->find('div[class="resultat"]')->first->all_text);
 		exit 2 if $score_text =~ '-:-';
 	}
 }
@@ -54,10 +54,10 @@ sub get_sides($)
 {
 	my $table = shift;
 
-	my $l = $table->find('tr')->[0]->find('th')->[0]->all_text;
-	my $r = $table->find('tr')->[0]->find('th')->[2]->all_text;
+	my $l = trim($table->find('tr')->[0]->find('th')->[0]->all_text);
+	my $r = trim($table->find('tr')->[0]->find('th')->[2]->all_text);
 
-	my $score = $table->find('div[class="resultat"]')->[0]->all_text;
+	my $score = trim($table->find('div[class="resultat"]')->[0]->all_text);
 
 	$json .= "\"l\": \"$l\", \"r\": \"$r\"";
 	
@@ -81,7 +81,7 @@ sub get_goals($)
 		my $side = "l";
 		$side = "r" if $goal->attr('style') =~ "padding-left";
 
-		my $goal_text = $goal->all_text;
+		my $goal_text = trim($goal->all_text);
 		$goal_text =~ /^(.*?)\s(\d+)\.\s*(.*)$/;
 
 		my $scorer = $1;
@@ -121,13 +121,13 @@ sub get_player_table_index($)
 	my $index = 2;
 	my $td = $tables->[$index]->find('td')->[0];
 
-	if ($td->all_text =~ /Penalty/) {
+	if (trim($td->all_text) =~ /Penalty/) {
 		get_penalties($tables->[$index]);
 		$index++;
 	}
 
 	$td = $tables->[$index]->find('td')->[0];
-	if ($td->all_text =~ /Incidents/) {
+	if (trim($td->all_text) =~ /Incidents/) {
 		$index++;
 	}
 
@@ -149,8 +149,8 @@ sub get_penalties($)
 		my $side = "l";
 		$side = "r" if $pk->attr('style') =~ "padding-left";
 
-		my $player = $pk->find('a')->[0]->all_text;
-		my $text = $pk->all_text;
+		my $player = trim($pk->find('a')->[0]->all_text);
+		my $text = trim($pk->all_text);
 
 		$text =~ /\s(scores|misses)$/;
 
@@ -177,10 +177,10 @@ sub get_player($)
 		}
 
 		my $tds = $p->find('td');
-		my $number = $tds->[0]->all_text;
-		my $player = $tds->[1]->find('a')->[0]->all_text;
+		my $number = trim($tds->[0]->all_text);
+		my $player = trim($tds->[1]->find('a')->[0]->all_text);
 
-		my $sub = $tds->[2]->all_text;
+		my $sub = trim($tds->[2]->all_text);
 		my $sub_string = "";
 
 		if ($sub =~ /(.*)'(.*)'/) {
@@ -191,10 +191,11 @@ sub get_player($)
 		}
 
 		my $card_string = "";
-		if (!($player =~ $tds->[1]->all_text)) {
+		my $all_text = trim($tds->[1]->all_text);
+		if (!($player =~ $all_text)) {
 			my $card = $tds->[1];
 			$card_type = $card->find('img')->last->attr('alt');
-			$card_minute = $card->find('span')->last->all_text;
+			$card_minute = trim($card->find('span')->last->all_text);
 			$card_minute =~ s/'//;
 			$card_string = ", \"card\": {\"type\": \"$card_type\", \"minute\": $card_minute}";
 		}
@@ -212,8 +213,16 @@ sub get_manager($)
 {
 	my $table = shift;
 	
-	my $l = $table->find('th')->[0]->find('a')->[0]->all_text;
-	my $r = $table->find('th')->[1]->find('a')->[0]->all_text;
+	my $l = trim($table->find('th')->[0]->find('a')->[0]->all_text);
+	my $r = trim($table->find('th')->[1]->find('a')->[0]->all_text);
 	
 	$json .= ",\n\"manager\": {\"l\": \"$l\", \"r\":\"$r\"}";
 }
+
+sub trim($)
+{
+	my $text = shift;
+	$text =~ s/^\s+|\s+$//g;
+	return $text;
+}
+

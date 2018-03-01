@@ -45,6 +45,8 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 
 			my $place = $td_col->[3]->all_text;
 			my $opponent = $td_col->[5]->all_text;
+			$opponent =~ s/^\s+|\s+$//g;
+
 			my $url = "";
 
 			my $url_link = $td_col->[6]->find('a');
