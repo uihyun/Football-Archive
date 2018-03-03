@@ -35,7 +35,7 @@ module.exports = function(router, db) {
 
 		function getCups(season, cups, obj) {
 			return Cups.find({season: season, name: {$in: cups}}).toArray()
-				.then(function(leagues)	{
+				.then(function(cups)	{
 					obj.cups = cups;
 				});
 		}

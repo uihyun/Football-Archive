@@ -90,16 +90,16 @@ module.exports = function(router, db) {
 						if (cup.rounds[round] === undefined) {
 							cup.rounds[round] = {
 								name: round,
-								matches: {}
+								matches: []
 							}
 						}
 
-						cup.rounds[round].matches[match.url] = {
+						cup.rounds[round].matches.push({
 							date: match.date,
 							place: match.place,
 							teamA: season.team,
 							teamB: match.vs
-						};
+						});
 
 						if (round === 'Final') {
 							cup.finalMatch = match.url;
@@ -132,10 +132,10 @@ module.exports = function(router, db) {
 
 						if (teams[teamA] === undefined) {
 							matches.push([teamA, teamB]);
-						} else {
-							teams[teamA] = true;
-							teams[teamB] = true;
 						}
+						
+						teams[teamA] = true;
+						teams[teamB] = true;
 					}
 
 					round.matches = matches;
