@@ -39,8 +39,12 @@ export default class Cup extends Component {
 			
 			circles.push(<circle key={r} cx={cx} cy={cy} r={r + 13} stroke="lightgrey" strokeWidth="1" fill="none" />);
 
-			if (i === 0 && log2 === 1 && cup.winner === undefined) { // incoming final
-				r -= 10;
+			if (i === 0) {
+				if (log2 > 1 || cup.winner === undefined) {
+					r -= 10;
+					size += 10;
+					hsize = size / 2;
+				}
 			}
 			
 			for (j = 0; j < round.teams.length; j++) {
