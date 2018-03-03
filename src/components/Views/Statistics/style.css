@@ -1,7 +1,3 @@
-.Statistics-flex-container {
-	display: -webkit-flex;
-	display: flex;
-}
 
 .Statistics-flex-item {
 	margin-left: 10px;
@@ -44,11 +40,6 @@
 }
 
 @media screen and (max-width: 543px) {
-
-	.Statistics-flex-container {
-		-webkit-flex-direction: column;
-		flex-direction: column;
-	}
 
 	.Statistics-flex-item {
 		margin: 0px;

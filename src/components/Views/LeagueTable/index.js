@@ -4,6 +4,7 @@ import './style.css';
 
 import Team from '../../Team';
 import Cup from '../../Cup';
+import competitions from '../../../data/competitions';
 
 export default class LeagueTable extends Component {
 
@@ -28,7 +29,7 @@ export default class LeagueTable extends Component {
 				<h3 className="text-center">
 					{league.name} {league.season - 1}-{league.season}
 				</h3>
-				<div className="Statistics-flex-container">
+				<div className="flex-container">
 					<div className="flex-1 hide-mobile" />
 					<div className="flex-2">
 				{table.map(team => {
@@ -64,13 +65,17 @@ export default class LeagueTable extends Component {
 					</div>
 					<div className="flex-1 hide-mobile" />
 				</div>
-				{this.props.data.cups.map(cup => {
-					return (
-						<div key={cup.name}>
-							<Cup team={this.props.team} cup={cup} />
-						</div>
-					);
-				})}
+				<div className="flex-container-adaptive flex-container-space-evenly">
+					{this.props.data.cups.map(cup => {
+						let style = { order: competitions[cup.name].order };
+
+						return (
+							<div key={cup.name} style={style}>
+								<Cup team={this.props.team} cup={cup} />
+							</div>
+						);
+					})}
+				</div>
 			</div>
 		);
 	}

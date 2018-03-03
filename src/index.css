@@ -45,6 +45,16 @@ body {
 	display: none;
 }
 
+.flex-container-adaptive {
+	display: -webkit-flex;
+	display: flex;
+}
+
+.flex-container-space-evenly {
+	-webkit-justify-content: space-evenly;
+	justify-content: space-evenly;
+}
+
 @media screen and (max-width: 543px) {
 	.hide-mobile {
 		display: none;
@@ -52,5 +62,10 @@ body {
 
 	.show-mobile {
 		display: inline;
+	}
+	
+	.flex-container-adaptive {
+		-webkit-flex-direction: column;
+		flex-direction: column;
 	}
 }

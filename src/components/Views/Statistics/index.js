@@ -17,7 +17,7 @@ export default class Statistics extends Component {
   render() {
     return (
       <div className="Statistics">
-				<div className="Statistics-flex-container">
+				<div className="flex-container-adaptive">
 					<div className="flex-1 Statistics-appearances Statistics-flex-item">
 						<h3>
 							Appearances <small>({this.state.appearances.length} players)</small>
