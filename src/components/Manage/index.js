@@ -211,7 +211,11 @@ export default class Manage extends Component {
 				const url = '/api/league/update/' + year + '?leagues=' + leagues;
 				fetch(url)
 					.then(function(response) {
-						alert('Fetch All Matches: Done');
+						const url = '/api/cup/update/' + year;
+						fetch(url)
+							.then(function(response) {
+								alert('Fetch All Matches: Done');
+							});
 					});
 			});
 	}

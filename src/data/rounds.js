@@ -37,6 +37,7 @@ const rounds = {
 		'Semi-finals': '4',
 		'Quarter-finals': '8',
 		'Round of 16': '16',
+		'3 Round': '32',
 	},
 	'Coupe de France': {
 		'Semi-finals': '4',

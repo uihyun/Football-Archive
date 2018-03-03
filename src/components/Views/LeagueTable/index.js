@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import './style.css';
 
 import Team from '../../Team';
+import Cup from '../../Cup';
 
 export default class LeagueTable extends Component {
 
@@ -21,7 +22,7 @@ export default class LeagueTable extends Component {
 			league = this.props.data.leagues[0];
 			table = table.concat(this.props.data.leagues[0].table);
 		}
-		
+
 		return (
 			<div>
 				<h3 className="text-center">
@@ -63,6 +64,13 @@ export default class LeagueTable extends Component {
 					</div>
 					<div className="flex-1 hide-mobile" />
 				</div>
+				{this.props.data.cups.map(cup => {
+					return (
+						<div key={cup.name}>
+							<Cup team={this.props.team} cup={cup} />
+						</div>
+					);
+				})}
 			</div>
 		);
 	}
