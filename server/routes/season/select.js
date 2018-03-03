@@ -8,6 +8,7 @@ module.exports = function(router, db) {
 	const Seasons = db.collection('Seasons');
 	const Matches = db.collection('Matches');
 	const Leagues = db.collection('Leagues');
+	const Cups = db.collection('Cups');
 
 	router.get('/api/season/select/:_season/:_teamUrl', function(req, res) {
 		const season = req.params._season;
@@ -32,6 +33,13 @@ module.exports = function(router, db) {
 				});
 		}
 
+		function getCups(season, cups, obj) {
+			return Cups.find({season: season, name: {$in: cups}}).toArray()
+				.then(function(leagues)	{
+					obj.cups = cups;
+				});
+		}
+
 		Seasons.find({season: season, team: team}).toArray()
 			.then(function(seasons) {
 				if (seasons.length === 0)
@@ -40,6 +48,7 @@ module.exports = function(router, db) {
 					var urls = [];
 					var competition, match;
 					var map = {};
+					var competitions = [];
 
 					for (var i in seasons[0].competitions) {
 						competition = seasons[0].competitions[i];
@@ -49,11 +58,14 @@ module.exports = function(router, db) {
 							urls.push(match.url);
 							map[match.url] = match;
 						}
+
+						competitions.push(competition.name);
 					}
 
 					var promises = [];
 					promises.push(getMatches(urls, map));
 					promises.push(getLeagueTables(season, team, seasons[0]));
+					promises.push(getCups(season, competitions, seasons[0]));
 
 					Promise.all(promises)
 						.then(function() {

@@ -109,22 +109,40 @@ module.exports = function(router, db) {
 			}
 
 			var urls = [];
+			var rounds;
+			var matches;
+			var teams;
+			var match, teamA, teamB;
 			for (i in cups) {
 				cup = cups[i];
 				if (cup.finalMatch !== null) {
 					urls.push(cup.finalMatch);
 				}
 
+				rounds = [];
 				for (j in cup.rounds) {
 					round = cup.rounds[j];
-					var matches = [];
+					matches = [];
+					teams = {};
 
 					for (k in round.matches) {
-						matches.push(round.matches[k]);
+						match = round.matches[k];
+						teamA = match.teamA;
+						teamB = match.teamB;
+
+						if (teams[teamA] === undefined) {
+							matches.push([teamA, teamB]);
+						} else {
+							teams[teamA] = true;
+							teams[teamB] = true;
+						}
 					}
 
 					round.matches = matches;
+					rounds.push(round);
 				}
+
+				cup.rounds = rounds;
 			}
 			
 			var proj = {_id: 0, 'url': 1, 'summary.l': 1, 'summary.r': 1, 'summary.goals.side': 1, 'summary.goals.penalties.side': 1};
