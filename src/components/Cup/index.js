@@ -80,7 +80,7 @@ export default class Cup extends Component {
 
 		return (
 			<div className="Cup">
-				<h3 className="text-center">{cup.name}</h3>
+				<h3 className="text-center">{cup.name}<span className="show-mobile"> {cup.season - 1}-{cup.season}</span></h3>
 				<div className="Cup-flex-container">
 					<svg width={width} height={width}>
 						{teams}
