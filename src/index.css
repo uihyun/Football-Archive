@@ -48,6 +48,8 @@ body {
 .flex-container-adaptive {
 	display: -webkit-flex;
 	display: flex;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
 }
 
 .flex-container-space-evenly {

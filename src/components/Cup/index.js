@@ -173,7 +173,7 @@ export default class Cup extends Component {
 						index = prevMap[match[0]];
 						array[index * 2] = match[0];
 						array[index * 2 + 1] = match[1];
-					} else {
+					} else if (prevMap[match[1]] !== undefined) {
 						index = prevMap[match[1]];
 						array[index * 2] = match[1];
 						array[index * 2 + 1] = match[0];

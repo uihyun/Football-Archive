@@ -7,7 +7,7 @@ import EmblemLarge from '../EmblemLarge';
 import Timeline from '../Views/Timeline';
 import Summary from '../Views/Summary';
 import Statistics from '../Views/Statistics';
-import LeagueTable from '../Views/LeagueTable';
+import Standings from '../Views/Standings';
 import TeamSelector from '../Views/TeamSelector';
 import MatchDetails from '../Views/MatchDetails';
 import Versus from '../Views/Versus';
@@ -19,7 +19,7 @@ const views = [
 	{name: 'Timeline', mobile: 'TL', order: -1},
 	{name: 'Summary', mobile: 'Sum', order: -2},
 	{name: 'Statistics', mobile: 'Stat', order: 1},
-	{name: 'League Table', mobile: 'Tbl', order: 2},
+	{name: 'Standings', mobile: 'Tbl', order: 2},
 ];
 
 export default class DataView extends Component {
@@ -151,8 +151,8 @@ export default class DataView extends Component {
 					             selectMatch={this.handleMatchSelection}/>);
 		} else if (this.state.view === 'Statistics') {
 			return (<Statistics data={this.state.data} team={this.state.season.team} />);
-		} else if (this.state.view === 'League Table') {
-			return (<LeagueTable data={this.state.data} team={this.state.season.team}/>);
+		} else if (this.state.view === 'Standings') {
+			return (<Standings data={this.state.data} team={this.state.season.team}/>);
 		} else if (this.state.view === 'Team Selector') {
 			return (<TeamSelector season={this.state.season} onSelect={(s) => this.handleSeasonSelection(s)} showYears={true} />);
 		} else if (this.state.view === 'Versus') {

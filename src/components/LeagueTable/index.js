@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import Team from '../../Team';
-import Cup from '../../Cup';
-import competitions from '../../../data/competitions';
+import Team from '../Team';
 
 export default class LeagueTable extends Component {
 
@@ -19,10 +17,8 @@ export default class LeagueTable extends Component {
 											
 		var table = [header];
 
-		if (this.props.data.leagues[0]) {
-			league = this.props.data.leagues[0];
-			table = table.concat(this.props.data.leagues[0].table);
-		}
+		league = this.props.league;
+		table = table.concat(league.table);
 
 		return (
 			<div>
@@ -64,17 +60,6 @@ export default class LeagueTable extends Component {
 				})}
 					</div>
 					<div className="flex-1 hide-mobile" />
-				</div>
-				<div className="flex-container-adaptive flex-container-space-evenly">
-					{this.props.data.cups.map(cup => {
-						let style = { order: competitions[cup.name].order };
-
-						return (
-							<div key={cup.name} style={style}>
-								<Cup team={this.props.team} cup={cup} />
-							</div>
-						);
-					})}
 				</div>
 			</div>
 		);
