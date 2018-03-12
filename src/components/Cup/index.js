@@ -23,6 +23,9 @@ export default class Cup extends Component {
 		var x, y, r, theta, log2, dTheta;
 		var size, hsize, lsize, hlsize;
 
+		let filterId = 'greyscale' + Math.random();
+		let filterUrl = 'url(#' + filterId + ')';
+
 		for (i = 0; i < grid.length; i++) {
 			round = grid[i];
 			level = round.level;
@@ -70,7 +73,7 @@ export default class Cup extends Component {
 					x = cx + r * Math.cos(theta) - hlsize;
 					y = cy + r * Math.sin(theta) - hlsize;
 					teams.push(<image key={level + team + '2'} xlinkHref={this.getImgSrc(team)}
-											x={x} y={y} width={lsize} height={lsize} filter="url(#greyscale)" />);
+											x={x} y={y} width={lsize} height={lsize} filter={filterUrl} />);
 				}
 			}
 		}
@@ -88,8 +91,12 @@ export default class Cup extends Component {
 						{cup.winner &&
 							<image xlinkHref={this.getImgSrc(cup.winner)} x={cx - hwsize}  y={cy - hwsize} width={wsize} height={wsize} />
 						}
-						<filter id="greyscale">
-							<feColorMatrix type="matrix" values="0.3333 0.3333 0.3333 0.3 0 0.3333 0.3333 0.3333 0.3 0 0.3333 0.3333 0.3333 0.3 0 0 0 0 1 0"/>
+						<filter id={filterId}>
+							<feColorMatrix type="matrix"
+							 values="0.3333	0.3333 0.3333 0.3 0 
+											 0.3333 0.3333 0.3333 0.3 0
+											 0.3333 0.3333 0.3333 0.3 0
+											 0			0			 0 			1 	0"/>
 						</filter>
 					</svg>
 				</div>
