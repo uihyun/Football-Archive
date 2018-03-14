@@ -74,7 +74,7 @@ export default class Scoreboard extends Component {
 				var fullname = this.props.player.fullname;
 				bg = this.playerBackground(summary.players[side], fullname, scoreStyle);
 				if (this.playerPlayed(summary.players[side], fullname)) {
-					score = <small>{this.playerScored(summary.goals, side, fullname)}</small>;
+					score = this.playerScored(summary.goals, side, fullname);
 				} else {
 					scoreStyle += '-didNotPlay';
 					score = null;
@@ -82,7 +82,7 @@ export default class Scoreboard extends Component {
 			}
 		} else {
 			scoreStyle = 'Scoreboard-unplayed';
-			score = <span><small>{mm}/{dd}</small></span>;
+			score = mm + '/' + dd;
 		}
 
 		let className = this.props.classNames + ' Scoreboard ' + shrink + scoreStyle;

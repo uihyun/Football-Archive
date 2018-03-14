@@ -13,6 +13,7 @@
 	line-height: 21px;
 	top: 0px;
 	right: 0px;
+	font-size: smaller;
 }
 
 .Scoreboard-score {
@@ -122,8 +123,6 @@
 
 	.Scoreboard-shrink {
 		width: 30px;
-		font-size: smaller;
-		text-align: center;
 	}
 
 	.Scoreboard-shrink .Scoreboard-inner {
