@@ -61,7 +61,7 @@ export default class Scoreboard extends Component {
 				}
 			}
 			score = (
-				<div className="flex-container text-center">
+				<div className="flex-container text-center Scoreboard-score">
 					<div className="flex-1"></div>
 					<div className="flex-2">{goals_scored}</div>
 					<div>:</div>

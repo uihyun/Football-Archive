@@ -1,5 +1,5 @@
 .Match-row {
-	height: 20px;
+	height: 21px;
 }
 
 .Match-margin {
@@ -10,7 +10,7 @@
 .Match-Scoresheet {
 	background-color: #EEEEEE;
 	text-align: center;
-	min-height: 20px;
+	min-height: 21px;
 }
 	
 .Match-flex-container {
@@ -23,7 +23,7 @@
 }
 
 .Match-no-sum {
-	height: 20px;
+	height: 21px;
 }
 
 .Match-team {
