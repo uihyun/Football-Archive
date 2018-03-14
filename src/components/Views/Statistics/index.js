@@ -34,13 +34,13 @@ export default class Statistics extends Component {
 									<div className="Statistics-value text-right">
 										{
 											player.startMatches.length > 0 &&
-											<span>{player.startMatches.length}</span>
+											player.startMatches.length
 										}
 									</div>
 									<div className="Statistics-value text-right">
 										{
 											player.subMatches.length > 0 &&
-											<span>{player.subMatches.length}</span>
+											<small>{player.subMatches.length}</small>
 										}
 									</div>
 									<div className="Statistics-value-long text-right">
