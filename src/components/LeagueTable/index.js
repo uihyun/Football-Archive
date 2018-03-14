@@ -42,17 +42,17 @@ export default class LeagueTable extends Component {
 								</div>
 							</div>
 							<div className="flex-1">
-								<div className="flex-container">
-									<div className="flex-1 text-right"><b>{games.p}</b></div>
-									<div className="flex-1 text-right">{games.w}</div>
-									<div className="flex-1 text-right">{games.d}</div>
-									<div className="flex-1 text-right">{games.l}</div>
-									<div className="flex-1 text-right"><b>{team.points}</b></div>
+								<div className="flex-container LeagueTable-small text-right">
+									<div className="flex-1"><b>{games.p}</b></div>
+									<div className="flex-1">{games.w}</div>
+									<div className="flex-1">{games.d}</div>
+									<div className="flex-1">{games.l}</div>
+									<div className="flex-1"><b>{team.points}</b></div>
 									<div className="LeagueTable-buffer"></div>
 									<div className="flex-1 text-center">{goals.d}</div>
-									<div className="flex-1 text-right">{goals.f}</div>
+									<div className="flex-1">{goals.f}</div>
 									<div>{team.name === 'Team' ? '/' : '-'}</div>
-									<div className="flex-1">{goals.a}</div>
+									<div className="flex-1 text-left">{goals.a}</div>
 								</div>
 							</div>
 						</div>

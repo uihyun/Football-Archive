@@ -1,5 +1,5 @@
 .LeagueTable-row {
-	height: 20px;
+	height: 19px;
 	border-bottom: 1px solid lightgray;
 	margin-top: 1px;
 }
@@ -12,6 +12,11 @@
 
 	.LeagueTable-buffer {
 		width: 5px;
+	}
+
+	.LeagueTable-small {
+		font-size: smaller;
+		margin-top: 1px;
 	}
 }
 
