@@ -114,13 +114,20 @@ export default class Versus extends Component {
 	groupMatches(matches) {
 		var seasonMap = {};
 		var comps = [];
-		var i, match, compName, comp;
+		var i, j;
+		var match, compName, comp;
+
+		var seasonMin = matches[0].season;
+		var seasonMax = seasonMin;
 
 		for (i = 0; i < matches.length; i++) {
 			match = matches[i];
 			compName = match.competition;
 			comp = competitions[compName];
 			comps[comp.order] = comp;
+
+			seasonMin = Math.min(seasonMin, match.season);
+			seasonMax = Math.max(seasonMax, match.season);
 		}
 
 		var competitionCount = 0;
@@ -133,17 +140,17 @@ export default class Versus extends Component {
 			}
 		}
 
-		var j, compIndex, matchIndex;
+		for (i = seasonMin; i <= seasonMax; i++) {
+			seasonMap[i] = {year: i, competitions: []};
+
+			for (j = 0; j < competitionCount; j++) {
+				seasonMap[i].competitions[j] = [];
+			}
+		}
+
+		var compIndex, matchIndex;
 		for (i = 0; i < matches.length; i++) {
 			match = matches[i];
-
-			if (seasonMap[match.season] === undefined) {
-				seasonMap[match.season] = {year: match.season, competitions: []};
-
-				for (j = 0; j < competitionCount; j++) {
-					seasonMap[match.season].competitions[j] = [];
-				}
-			}
 
 			comp = competitions[match.competition];
 			compIndex = comps[comp.order];
