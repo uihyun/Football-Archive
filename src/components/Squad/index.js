@@ -20,8 +20,8 @@ export default class SeasonSummary extends Component {
 		return (
 			<div className="flex-container flex-container-wrap">
 				{this.props.squad.map(player => {
-					var backnumberStyle = 'Squad-backnumber text-center';
-					var playerNameStyle = 'Squad-player-name';
+					var backnumberStyle = 'Squad-inner Squad-backnumber';
+					var playerNameStyle = 'Squad-inner Squad-player-name';
 
 					if (this.state.player &&
 							player.fullname === this.state.player.fullname) {
@@ -31,8 +31,8 @@ export default class SeasonSummary extends Component {
 
 					return (
 						<div className="flex-container Squad-member" key={player.fullname} onClick={() => this.selectPlayer(player)}>
-							<div className={backnumberStyle}><small>{player.number}</small></div>
-							<div className={playerNameStyle}><small>{player.name}</small></div>
+							<div className={backnumberStyle}>{player.number}</div>
+							<div className={playerNameStyle}>{player.name}</div>
 						</div>
 					);
 				})}
