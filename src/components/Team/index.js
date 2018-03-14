@@ -19,14 +19,14 @@ export default class Team extends Component {
 		var imgSrc = 'http://img.uefa.com/imgml/TP/teams/logos/50x50/' + logoID + '.png';
 		
 		return (
-			<div className="Team">
+			<div className="Team flex-container">
 				<img src={imgSrc} className="Team-logo" alt="" />
 				{ this.props.hideMobileName ||
-					<span className="show-mobile">{name}</span>
+					<div className="show-mobile flex-1">{name}</div>
 				}
-				<span className="hide-mobile">
+				<div className="hide-mobile flex-1">
 					{ this.props.showShortName ? name : this.props.name }
-				</span>
+				</div>
 			</div>
 		);
 	}

@@ -60,7 +60,15 @@ export default class Scoreboard extends Component {
 					}
 				}
 			}
-			score = <span className="condensed">{goals_scored} : {goals_conceded}</span>;
+			score = (
+				<div className="flex-container text-center">
+					<div className="flex-1"></div>
+					<div className="flex-2">{goals_scored}</div>
+					<div>:</div>
+					<div className="flex-2">{goals_conceded}</div>
+					<div className="flex-1"></div>
+				</div>
+			);
 
 			if (this.props.player && this.props.player.fullname) {
 				var fullname = this.props.player.fullname;
