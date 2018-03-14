@@ -47,9 +47,22 @@ export default class DataView extends Component {
 
 	render() {
 		const season = this.state.season;
+								
+		var yearAString = season.year - 2001;
+
+		if (yearAString < 10) {
+			yearAString = '0' + yearAString;
+		}
+		
+		var yearBString = season.year - 2000;
+
+		if (yearBString < 10) {
+			yearBString = '0' + yearBString;
+		}
+
 		return (
 			<div>
-				<TeamSelector season={this.state.season} onSelect={(s) => this.handleSeasonSelection(s)} />
+				<TeamSelector season={season} onSelect={(s) => this.handleSeasonSelection(s)} />
 				<div className="text-center flex-container">
 					{views.map(view => {
 						var style = { order: view.order };
@@ -67,9 +80,19 @@ export default class DataView extends Component {
 						);
 					})}
 					<div className="flex-2" onClick={() => this.selectView('Team Selector')}>
-						<b>{season.year - 1 + ' '}
-						<div className="DataView-team-logo"><EmblemLarge team={season.team} /></div>
-						{' ' + season.year}</b>
+					  <b>
+              <div className="flex-container flex-container-center">
+                <div className="flex-1 DataView-view-selector text-right DataView-year">
+		              <span className="hide-mobile">{season.year - 1 + ' '}</span>
+    		          <span className="show-mobile">{yearAString + ' '}</span>
+                </div>
+	              <div><EmblemLarge team={season.team} /></div>
+                <div className="flex-1 DataView-view-selector text-left DataView-year">
+  		            <span className="hide-mobile">{' ' + season.year}</span>
+      		        <span className="show-mobile">{' ' + yearBString}</span>
+                </div>
+              </div>
+            </b>
 					</div>
 				</div>
 				{this.getView()}

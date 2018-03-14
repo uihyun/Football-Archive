@@ -7,6 +7,11 @@
 	line-height: 50px;
 }
 
+.DataView-year {
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
 @media screen and (max-width: 543px) {
 	.DataView-view-selector {
 		line-height: 37px;

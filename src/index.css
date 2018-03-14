@@ -14,6 +14,10 @@ body {
 	text-align: right;
 }
 
+.text-left {
+	text-align: left;
+}
+
 .flex-container {
 	display: -webkit-flex;
 	display: flex;
@@ -55,6 +59,11 @@ body {
 .flex-container-space-evenly {
 	-webkit-justify-content: space-evenly;
 	justify-content: space-evenly;
+}
+
+.flex-container-center {
+	-webkit-justify-content: center;
+	justify-content: center;
 }
 
 @media screen and (max-width: 543px) {
