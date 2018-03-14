@@ -9,7 +9,8 @@ export default class Cup extends Component {
 
 	render() {
 		let cup = this.props.cup;
-		let grid = this.getGrid();
+		let sorted = this.getSorted();
+		let grid = this.getGrid(sorted);
 
 		let width = 350;
 		let heigth = 350;
@@ -26,6 +27,9 @@ export default class Cup extends Component {
 		let filterId = 'greyscale' + Math.random();
 		let filterUrl = 'url(#' + filterId + ')';
 
+		var lastRound = [];
+		let lastRoundIndex = this.getLastRound(sorted);
+
 		for (i = 0; i < grid.length; i++) {
 			round = grid[i];
 			level = round.level;
@@ -39,6 +43,12 @@ export default class Cup extends Component {
 
 			lsize = size - 4;
 			hlsize = lsize / 2;
+			
+			if (i === lastRoundIndex) {
+				if (i > 0 || (i === 0 && cup.winner !== undefined && cup.winner !== this.props.team)) {
+					lastRound.push(<circle key={0} cx={cx} cy={cy} r={r} stroke="#f0f0f0" strokeWidth="25" fill="none" />);
+				}
+			}
 			
 			circles.push(<circle key={r} cx={cx} cy={cy} r={r + 13} stroke="lightgrey" strokeWidth="1" fill="none" />);
 
@@ -86,6 +96,7 @@ export default class Cup extends Component {
 				<h3 className="text-center">{cup.name}<span className="show-mobile"> {cup.season - 1}-{cup.season}</span></h3>
 				<div className="Cup-flex-container">
 					<svg width={width} height={width}>
+						{lastRound}
 						{teams}
 						{circles}
 						{cup.winner &&
@@ -145,10 +156,9 @@ export default class Cup extends Component {
 		return map;
 	}
 
-	getGrid() {
+	getGrid(sorted) {
 		let cup = this.props.cup;
 		let roundNumber = rounds[this.props.cup.name];
-		let sorted = this.getSorted();
 		var grid = [];
 		var round, prevLevel, prevMap;
 		var i, j;
@@ -195,6 +205,24 @@ export default class Cup extends Component {
 		}
 
 		return grid;
+	}
+
+	getLastRound(sorted) {
+
+		var i, j;
+		var round, match;
+
+		for (i = 0; i < sorted.length; i++) {
+			round = sorted[i];
+			for (j = 0; j < round.matches.length; j++) {
+				match = round.matches[j];
+				if (match[0] === this.props.team || match[1] === this.props.team) {
+					return i;
+				}
+			}
+		}
+
+		return null;
 	}
 
 	getImgSrc(team) {
