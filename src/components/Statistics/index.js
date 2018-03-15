@@ -173,8 +173,10 @@ export default class Statistics extends Component {
 						playerMap[name].minutes += matchLength;
 					}
 				}
+
+				let length = players.sub === undefined ? 0 : players.sub.length;
 				
-				for (k = 0; k < players.sub.length; k++) {
+				for (k = 0; k < length; k++) {
 					player = players.sub[k];
 					if (player.sub) {
 						name = player.name;

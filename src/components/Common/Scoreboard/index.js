@@ -64,7 +64,9 @@ export default class Scoreboard extends Component {
 			}
 		}
 
-		for (i = 0; i < players.sub.length; i++) {
+		let length = players.sub === undefined ? 0 : players.sub.length;
+
+		for (i = 0; i < length; i++) {
 			if (players.sub[i].name === player) {
 				if (players.sub[i].sub) {
 					return <div className={style + '-in Scoreboard-in'}></div>;
@@ -83,8 +85,10 @@ export default class Scoreboard extends Component {
 				return true;
 			}
 		}
+		
+		let length = players.sub === undefined ? 0 : players.sub.length;
 
-		for (i = 0; i < players.sub.length; i++) {
+		for (i = 0; i < length; i++) {
 			if (players.sub[i].name === player) {
 				return (players.sub[i].sub !== undefined);
 			}
