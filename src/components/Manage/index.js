@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import Team from '../Team';
-import seasons from '../../data/seasons';
+import {Team} from '../Common';
+import {seasons} from '../data';
 
 import UrlUtil from '../../util/url';
 

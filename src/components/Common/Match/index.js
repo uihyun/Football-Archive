@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import Competition from '../Competition';
-import Team from '../Team';
-import Scoresheet from '../Scoresheet';
-import Lineup from '../Lineup';
-import Scoreboard from '../Scoreboard';
+import {Competition, Team, Scoresheet, Lineup, Scoreboard} from '..';
 
 export default class Match extends Component {
 

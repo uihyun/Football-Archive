@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import EmblemLarge from '../EmblemLarge';
+import {EmblemLarge} from '../Common';
 
-import Timeline from '../Views/Timeline';
-import Summary from '../Views/Summary';
-import Statistics from '../Views/Statistics';
-import Standings from '../Views/Standings';
-import TeamSelector from '../Views/TeamSelector';
-import MatchDetails from '../Views/MatchDetails';
-import Versus from '../Views/Versus';
+import Timeline from '../Timeline';
+import Summary from '../Summary';
+import Statistics from '../Statistics';
+import Standings from '../Standings';
+import TeamSelector from '../TeamSelector';
+import MatchDetails from '../MatchDetails';
+import Versus from '../Versus';
 
 import UrlUtil from '../../util/url';
 import SquadUtil from '../../util/squad';

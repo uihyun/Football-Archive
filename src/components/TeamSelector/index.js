@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import EmblemLarge from '../../EmblemLarge';
+import {EmblemLarge} from '../Common';
 
-import seasons from '../../../data/seasons';
+import {seasons} from '../data';
 
 export default class TeamSelector extends Component {
 
 	constructor(props) {
 		super(props);
-		
+
 		this.state = this.newState(this.props);
 
 		this.selectCountry = this.selectCountry.bind(this);

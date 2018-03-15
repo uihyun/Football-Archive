@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import competitions from '../../data/competitions';
+import {competitions} from '../data';
 
 export default class Competition extends Component {
 

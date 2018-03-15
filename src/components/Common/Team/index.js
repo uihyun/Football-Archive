@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import teams from '../../data/teams';
+import {teams} from '../data';
 
 export default class Team extends Component {
 

@@ -2,12 +2,9 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import Scoreboard from '../../Scoreboard';
-import Squad from '../../Squad';
-import Team from '../../Team';
+import {Scoreboard, Squad, Team} from '../Common';
 
-import rounds from '../../../data/rounds';
-import competitions from '../../../data/competitions';
+import {rounds, competitions} from '../data';
 
 export default class Summary extends Component {
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import Team from '../Team';
+import {Team} from '..';
 
 export default class LeagueTable extends Component {
 

@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import rounds from '../../data/rounds';
-import teams from '../../data/teams';
+import {rounds, teams} from '../data';
 
 export default class Cup extends Component {
 

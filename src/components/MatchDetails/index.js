@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import EmblemLarge from '../../EmblemLarge';
+import {EmblemLarge} from '../Common';
 
 export default class MatchDetails extends Component {
 

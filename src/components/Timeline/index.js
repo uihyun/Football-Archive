@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import Match from '../../Match';
-import Squad from '../../Squad';
+import {Match, Squad} from '../Common';
 
 export default class Timeline extends Component {
 

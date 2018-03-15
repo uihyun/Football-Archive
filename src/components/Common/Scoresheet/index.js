@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import players from '../../data/players';
+import {players} from '../data';
 
 export default class Match extends Component {
 		

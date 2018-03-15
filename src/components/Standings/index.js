@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import LeagueTable from '../../LeagueTable';
-import Cup from '../../Cup';
-import competitions from '../../../data/competitions';
+import {LeagueTable, Cup} from '../Common';
+import {competitions} from '../data';
 
 export default class Standings extends Component {
 	

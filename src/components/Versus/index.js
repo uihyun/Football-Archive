@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import Scoreboard from '../../Scoreboard';
-import EmblemLarge from '../../EmblemLarge';
+import {Scoreboard, EmblemLarge} from '../Common';
 
-import UrlUtil from '../../../util/url';
+import UrlUtil from '../../util/url';
 
-import competitions from '../../../data/competitions';
+import {competitions} from '../data';
 
 export default class Versus extends Component {
 	
