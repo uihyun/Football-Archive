@@ -28,6 +28,12 @@ module.exports = {
 			team = 'Paris Saint-Germain';
 		} else if (team === 'AS Saint Etienne') {
 			team = 'AS Saint-Étienne';
+		} else if (team === 'Sporting Gijon') {
+			team = 'Sporting Gijón';
+		} else if (team === 'UD Almeria') {
+			team = 'UD Almería';
+		} else if (team === 'Cordoba CF') {
+			team = 'Córdoba CF';
 		}
 
 		return team;
@@ -46,6 +52,8 @@ module.exports = {
 		url = url.replace(/á/g, 'a');
 		url = url.replace(/é/g, 'e');
 		url = url.replace(/ñ/g, 'n');
+		url = url.replace(/ó/g, 'o');
+		url = url.replace(/í/g, 'i');
 		url = url.replace(/ /g, '-');
 		url = url.replace(/\./g, '');
 

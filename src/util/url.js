@@ -6,6 +6,8 @@ export default class UrlUtil {
 		team = team.replace(/ñ/g, 'n');
 		team = team.replace(/ö/g, 'oe');
 		team = team.replace(/ü/g, 'ue');
+		team = team.replace(/ó/g, 'o');
+		team = team.replace(/í/g, 'i');
 		team = team.replace(/\./g, '');
 		return team.replace(/ & | /g, '-');
 	}

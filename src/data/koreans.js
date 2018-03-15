@@ -26,10 +26,12 @@ const koreans = {
 		{team: 'Arsenal FC', name: '박주영', country: 'ENG'},
 		{team: 'Sunderland AFC', name: '기성용', country: 'ENG'},
 		{team: 'Cardiff City', name: '김보경', country: 'ENG'},
+		{team: 'UD Almería', name: '김영규', country: 'ESP'},
 	],
 	2013: [
 		{team: 'Swansea City', name: '기성용', country: 'ENG'},
 		{team: 'Queens Park Rangers', name: '박지성', country: 'ENG'},
+		{team: 'Celta Vigo', name: '박주영', country: 'ESP'},
 	],
 	2012: [
 		{team: 'Manchester United', name: '박지성', country: 'ENG'},
