@@ -63,8 +63,9 @@ export default class Timeline extends Component {
 	
 	getMobileView() {
 		let allMatches = this.state.matches;
+		let sum = this.getMatchSummary(allMatches);
 
-		if (this.state.showAll) {
+		if (this.state.showAll || sum.unplayed === 0) {
 			return this.getMatchesView(this.state.matches);
 		}
 
@@ -87,7 +88,6 @@ export default class Timeline extends Component {
 			matches.push(allMatches[i]);
 		}
 
-		let sum = this.getMatchSummary(allMatches);
 		
 		return (
 			<div>
