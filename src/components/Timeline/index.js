@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import {Match, Squad} from '../Common';
+import {Squad, Competition, Team, Scoreboard} from '../Common';
 
 export default class Timeline extends Component {
 
@@ -11,9 +11,6 @@ export default class Timeline extends Component {
 
 		this.state = this.newState(this.props);
 		
-		this.toggleShowScorers = this.toggleShowScorers.bind(this);
-		this.toggleShowLineup = this.toggleShowLineup.bind(this);
-		this.toggleShowOtherGames = this.toggleShowOtherGames.bind(this);
 		this.selectPlayer = this.selectPlayer.bind(this);
 	}
 
@@ -27,38 +24,24 @@ export default class Timeline extends Component {
 		return {
 			matches: matches,
 			squad: [],
-			showScorers: false,
-			showLineup: false, 
-			showOtherGames: false,
 			selectedPlayer: null};
 	}
 
   render() {
     return (
-      <div className="Season">
-				<h3 className="text-center">
-					<button onClick={this.toggleShowScorers}>
-						{this.state.showScorers ? 'Hide' : 'Show'} Scorers
-					</button>
-					<button onClick={this.toggleShowLineup}>
-						{this.state.showLineup ? 'Hide' : 'Show'} Lineup
-					</button>
-				 	{
-						this.state.selectedPlayer &&
-						this.state.showLineup &&
-							<button onClick={this.toggleShowOtherGames}>
-								{this.state.showOtherGames ? 'Hide' : 'Show'} Other Games
-							</button>
-					}
-        </h3>
+      <div className="Timeline">
 				{this.state.matches.map((match, index) => {
 					return (
-						<div key={index} onClick={() => this.props.selectMatch(match)}>
-							<Match match={match} team={this.props.team}
-										 showScorers={this.state.showScorers} showLineup={this.state.showLineup}
-										 showOtherGames={this.state.showOtherGames}
-										 selectedPlayer={this.state.selectedPlayer}
-									/>
+						<div key={index} className="flex-container"
+						 onClick={() => this.props.selectMatch(match)}>
+							<div className="flex-1 Timeline-margin flex-container-right-aligned">
+								<Competition name={match.competition} round={match.round} />
+							</div>
+							<Scoreboard classNames="Timeline-margin" team={this.props.team} match={match} 
+					 player={this.props.selectedPlayer}/>
+							<div className="flex-1 Timeline-margin Match-team">
+								<Team name={match.vs} />
+							</div>
 						</div>
 					);
 				})}
@@ -67,18 +50,6 @@ export default class Timeline extends Component {
       </div>
     );
   }
-
-	toggleShowScorers() {
-		this.setState({ showScorers: !this.state.showScorers });
-	}
-
-	toggleShowLineup() {
-		this.setState({ showLineup: !this.state.showLineup });
-	}
-
-	toggleShowOtherGames() {
-		this.setState({ showOtherGames: !this.state.showOtherGames });
-	}
 
 	selectPlayer(player) {
 		this.setState({ selectedPlayer: player, showOtherGames: false });

@@ -83,13 +83,13 @@ export default class DataView extends Component {
 					  <b>
               <div className="flex-container flex-container-center">
                 <div className="flex-1 DataView-view-selector text-right DataView-year">
-		              <span className="hide-mobile">{season.year - 1 + ' '}</span>
-    		          <span className="show-mobile">{yearAString + ' '}</span>
+		              <span className="hide-mobile">{season.year - 1}</span>
+    		          <span className="show-mobile">{yearAString}</span>
                 </div>
 	              <div><EmblemLarge team={season.team} /></div>
                 <div className="flex-1 DataView-view-selector text-left DataView-year">
-  		            <span className="hide-mobile">{' ' + season.year}</span>
-      		        <span className="show-mobile">{' ' + yearBString}</span>
+  		            <span className="hide-mobile">{season.year}</span>
+      		        <span className="show-mobile">{yearBString}</span>
                 </div>
               </div>
             </b>
