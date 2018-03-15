@@ -66,6 +66,11 @@ body {
 	justify-content: center;
 }
 
+.flex-container-space-around {
+	-webkit-justify-content: space-around;
+	justify-content: space-around;
+}
+
 @media screen and (max-width: 543px) {
 	.hide-mobile {
 		display: none;

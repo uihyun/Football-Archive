@@ -4,7 +4,7 @@ import './style.css';
 
 import {EmblemLarge} from '../Common';
 
-import {seasons} from '../data';
+import {seasons, koreans} from '../data';
 
 export default class TeamSelector extends Component {
 
@@ -79,6 +79,26 @@ export default class TeamSelector extends Component {
 						return this.getLogo(team);
 					})}
 				</div>
+				{this.props.showYears &&
+					<div>
+						<br/>
+						<div className="flex-container flex-container-space-around">
+							{koreans[this.state.season.year] &&
+							 koreans[this.state.season.year].map(korean => {
+								return (
+									<div key={korean.name} className="text-center">
+										<div className={this.getLogoClassName(korean.team)} onClick={() => this.selectKorean(korean)}>
+											<EmblemLarge team={korean.team} />
+										</div>
+										<div>
+											{korean.name}
+										</div>
+									</div>
+								);
+							})}
+						</div>
+					</div>
+				}
       </div>
     );
   }
@@ -122,17 +142,26 @@ export default class TeamSelector extends Component {
 		this.props.onSelect(season);
 	}
 
+	selectKorean(korean) {
+		const season = {country: korean.country, year: this.state.season.year, team: korean.team};
+		this.props.onSelect(season);
+	}
+
 	getLogo(team) {
-		var style = '';
-
-		if (team === this.state.season.team) {
-			style = 'TeamSelector-selected';
-		}
-
 		return (
-			<div className={"TeamSelector-team " + style} key={team} onClick={() => this.selectTeam(team)}>
+			<div className={this.getLogoClassName(team)} key={team} onClick={() => this.selectTeam(team)}>
 				<EmblemLarge team={team} />
 			</div>
 		);
+	}
+
+	getLogoClassName(team) {
+		var className = 'TeamSelector-team';
+		
+		if (team === this.state.season.team) {
+			className += ' TeamSelector-selected';
+		}
+
+		return className;
 	}
 }

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { browserHistory } from 'react-router';
 
 import Routes from './routes';
-import './index.css';
+import './style.css';
 
 ReactDOM.render(
 	<Routes history={browserHistory} />,
