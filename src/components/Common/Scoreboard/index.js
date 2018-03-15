@@ -82,7 +82,7 @@ export default class Scoreboard extends Component {
 			}
 		} else {
 			scoreStyle = 'Scoreboard-unplayed';
-			score = mm + '/' + dd;
+			score = <span className='Scoreboard-date'>{mm + '/' + dd}</span>;
 		}
 
 		let className = this.props.classNames + ' Scoreboard ' + shrink + scoreStyle;

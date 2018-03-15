@@ -119,6 +119,10 @@
 	border-color: hsl( 20,  90%, 80%) transparent transparent transparent;
 }
 
+.Scoreboard-date {
+	font-size: smaller;
+}
+
 @media screen and (max-width: 543px) {
 
 	.Scoreboard-shrink {
