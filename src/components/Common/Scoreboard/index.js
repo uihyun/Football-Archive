@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import './style.css';
 
+import Match from '../../../util/match'
+
 export default class Scoreboard extends Component {
   render() {
 		const shrink = this.props.shrinkOnMobile ? ' Scoreboard-shrink ' : '';
@@ -16,59 +18,21 @@ export default class Scoreboard extends Component {
 		const summary = match.summary;
 		let score = null;
 		let bg = null;
-		var scoreStyle = '';
+		const sum = Match.summarizeResult(match, this.props.team);
+		let scoreStyle = 'Scoreboard-' + sum.resultFull;
+
 		if (summary) {
-			let goals_scored = 0;
-			let goals_conceded = 0;
-			var goal;
-			const side = (summary.r === this.props.team) ? 'r' : 'l';
-
-			for (var i = 0; i < summary.goals.length; i++) {
-				goal = summary.goals[i];
-				if (goal.side === side) {
-					goals_scored++;
-				} else {
-					goals_conceded++;
-				}
-			}
-
-			if (goals_scored > goals_conceded) {
-				scoreStyle = 'Scoreboard-win';
-			} else if (goals_scored < goals_conceded) {
-				scoreStyle = 'Scoreboard-loss';
-			} else {
-				scoreStyle = 'Scoreboard-draw';
-
-				if (summary.penalties !== undefined) {
-					let pkFor = 0;
-					let pkAgainst = 0;
-					for (i = 0; i < summary.penalties.length; i++) {
-						goal = summary.penalties[i];
-						if (goal.result) {
-							if (goal.side === side) {
-								pkFor++;
-							} else {
-								pkAgainst++;
-							}
-						}
-					}
-
-					if (pkFor > pkAgainst) {
-						scoreStyle = 'Scoreboard-win-pso';
-					} else {
-						scoreStyle = 'Scoreboard-loss-pso';
-					}
-				}
-			}
 			score = (
 				<div className="flex-container text-center Scoreboard-score">
 					<div className="flex-1"></div>
-					<div className="flex-2">{goals_scored}</div>
+					<div className="flex-2">{sum.goalsScored}</div>
 					<div>:</div>
-					<div className="flex-2">{goals_conceded}</div>
+					<div className="flex-2">{sum.goalsConceded}</div>
 					<div className="flex-1"></div>
 				</div>
 			);
+			
+			const side = (summary.r === this.props.team) ? 'r' : 'l';
 
 			if (this.props.player && this.props.player.fullname) {
 				var fullname = this.props.player.fullname;
@@ -81,7 +45,6 @@ export default class Scoreboard extends Component {
 				}
 			}
 		} else {
-			scoreStyle = 'Scoreboard-unplayed';
 			score = <span className='Scoreboard-date'>{mm + '/' + dd}</span>;
 		}
 
