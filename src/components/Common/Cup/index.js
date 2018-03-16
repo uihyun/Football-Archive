@@ -44,7 +44,9 @@ export default class Cup extends Component {
 			hlsize = lsize / 2;
 			
 			if (i === lastRoundIndex) {
-				if (i > 0 || (i === 0 && cup.winner !== undefined && cup.winner !== this.props.team)) {
+				if (i === 0) {
+					lastRound.push(<circle key={0} cx={cx} cy={cy} r={r + 13} fill="#f0f0f0" />);
+				} else {
 					lastRound.push(<circle key={0} cx={cx} cy={cy} r={r} stroke="#f0f0f0" strokeWidth="25" fill="none" />);
 				}
 			}
