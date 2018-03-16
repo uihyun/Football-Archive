@@ -61,6 +61,8 @@ const teams = {
 	'CA Osasuna': {id: 53042, name: 'Osasuna'},
 	'CD Alavés': {id: 69619, name: 'Alavés'},
 	'CD Leganés': {id: 2602783, name: 'Leganés'},
+	'CD Numancia': {id: 74068, name: 'Leganés'},
+	'CD Tenerife': {id: 53041, name: 'Tenerife'},
 	'Celta Vigo': {id: 53043, name: 'Celta'},
 	'Córdoba CF': {id: 2602782, name: 'Córdoba'},
 	'Deportivo La Coruña': {id: 59044, name: 'Deportivo'},
@@ -70,6 +72,7 @@ const teams = {
 	'Girona FC': {id: 2602798, name: 'Girona'},
 	'Getafe CF': {id: 87960, name: 'Getafe'},
 	'Granada CF': {id: 2602893, name: 'Granada'},
+	'Hércules CF': {id: 74912, name: 'Hércules'},
 	'Levante UD': {id: 87959, name: 'Levante'},
 	'Málaga CF': {id: 74069, name: 'Málaga'},
 	'Racing Santander': {id: 64253, name: 'Racing'},
@@ -87,6 +90,7 @@ const teams = {
 	'UD Las Palmas': {id: 64251, name: 'Las Palmas'},
 	'Valencia CF': {id: 52268, name: 'Valencia'},
 	'Villarreal CF': {id: 70691, name: 'Villarreal'},
+	'Xerez CD': {id: 2600720, name: 'Xerez'},
 	
 	// Germany
 	'1. FC Köln': {id: 50018, name: 'Köln'},

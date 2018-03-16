@@ -34,6 +34,8 @@ module.exports = {
 			team = 'UD Almería';
 		} else if (team === 'Cordoba CF') {
 			team = 'Córdoba CF';
+		} else if (team === 'Hercules CF') {
+			team = 'Hércules CF';
 		}
 
 		return team;
