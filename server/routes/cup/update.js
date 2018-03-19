@@ -15,6 +15,7 @@ module.exports = function(router, db) {
 			case 'Champions League Qual.':
 			case 'Europa League Qual.':
 			case 'UEFA-Supercup':
+			case 'Club World Cup':
 			case 'FA Community Shield':
 			case 'Supercopa':
 			case 'Supercup':
