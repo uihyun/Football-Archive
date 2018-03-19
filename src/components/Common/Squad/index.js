@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import './style.css';
 
+import PlayerName from '../../../util/playerName';
+
 export default class SeasonSummary extends Component {
 
 	constructor(props) {
@@ -20,19 +22,18 @@ export default class SeasonSummary extends Component {
 		return (
 			<div className="flex-container flex-container-wrap">
 				{this.props.squad.map(player => {
-					var backnumberStyle = 'Squad-inner Squad-backnumber';
-					var playerNameStyle = 'Squad-inner Squad-player-name';
+					var style = 'Squad-inner Squad-player-name';
+					var name = player.shorthand;
 
 					if (this.state.player &&
 							player.fullname === this.state.player.fullname) {
-						backnumberStyle += ' Squad-backnumber-selected';
-						playerNameStyle += ' Squad-player-name-selected';
+						style += ' Squad-player-name-selected';
+						name = PlayerName.fullname(player);
 					}
 
 					return (
 						<div className="flex-container Squad-member" key={player.fullname} onClick={() => this.selectPlayer(player)}>
-							<div className={backnumberStyle}>{player.number}</div>
-							<div className={playerNameStyle}>{player.name}</div>
+							<div className={style}>{name}</div>
 						</div>
 					);
 				})}

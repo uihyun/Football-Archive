@@ -1,18 +1,11 @@
-import playerNameException from '../data/players';
+import PlayerName from './playerName';
 
 export default class SquadUtil {
 	static getNewPlayer(player) {
-		var name, number;
-		number = player.number ? player.number : '?';
-
-		if (playerNameException[player.name]) {
-			name = playerNameException[player.name].name;
-		} else {
-			var split = player.name.split(" ").reverse();
-			name = split[0];
-		}
-
-		return {name: name, number: number, fullname: player.name};
+		var name = PlayerName.divide(player.name);
+		name.fullname = player.name;
+		name.shorthand = PlayerName.capitalize(name.last);
+		return name;
 	}
 
 	static getSquadArray(data, team) {
@@ -59,8 +52,32 @@ export default class SquadUtil {
 		}
 
 		array.sort(function(a, b) {
-			return a.number - b.number;
+			if (a.last === b.last) {
+				return (a.first < b.first) ? -1 : 1;
+			} else {
+				return (a.last.toUpperCase() < b.last.toUpperCase()) ? -1 : 1;
+			}
 		});
+
+		var playerA, playerB;
+		var initialA, initialB;
+		for (i = 1; i < array.length; i++) {
+			playerA = array[i - 1];
+			playerB = array[i];
+
+			if (playerA.last === playerB.last) {
+				initialA = playerA.first.substr(0, 1);
+				initialB = playerB.first.substr(0, 1);
+
+				if (initialA === initialB) {
+					playerA.shorthand = PlayerName.fullname(playerA);
+					playerB.shorthand = PlayerName.fullname(playerA);
+				} else {
+					playerA.shorthand = initialA + '. ' + playerA.shorthand;
+					playerB.shorthand = initialB + '. ' + playerB.shorthand;
+				}			
+			}
+		}
 
 		return array;
 	}

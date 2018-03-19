@@ -1,27 +1,20 @@
 .Squad-member {
-	margin-right: 5px;
+	margin-right: 2px;
 	margin-bottom: 5px;
+	border-right: 1px solid gray;
+	padding-right: 2px;
 	font-size: smaller;
 }
 
 .Squad-inner {
-	padding-left: 3px;
 	padding-right: 3px;
-}
-
-.Squad-backnumber {
-	background-color: steelblue;
-	color: white;
+	padding-left: 3px;
 }
 
 .Squad-player-name {
-	background-color: lightsteelblue;
-}
-
-.Squad-backnumber-selected {
-	background-color: #b48246;
 }
 
 .Squad-player-name-selected {
-	background-color: #dec4b0;
+	background-color: gray;
+	color: white;
 }

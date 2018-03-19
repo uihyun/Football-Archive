@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import './style.css';
 
+import PlayerName from '../../util/playerName';
+
 export default class Statistics extends Component {
 
 	constructor(props) {
@@ -29,7 +31,7 @@ export default class Statistics extends Component {
 										{player.number}
 									</div>
 									<div className="Statistics-name flex-1">
-										{player.name}
+										{this.getStylizedName(player)}
 									</div>
 									<div className="Statistics-value text-right">
 										{
@@ -61,7 +63,7 @@ export default class Statistics extends Component {
 										{player.number}
 									</div>
 									<div className="Statistics-name flex-1">
-										{player.name}
+										{this.getStylizedName(player)}
 									</div>
 									<div className="Statistics-value text-right">
 										{player.goalMatches.length}
@@ -81,7 +83,7 @@ export default class Statistics extends Component {
 										{player.number}
 									</div>
 									<div className="Statistics-name flex-1">
-										{player.name}
+										{this.getStylizedName(player)}
 									</div>
 									<div className="Statistics-value text-right">
 										{player.assistMatches.length}
@@ -94,6 +96,26 @@ export default class Statistics extends Component {
       </div>
     );
   }
+
+	insertHardHyphen(string) {
+		let index = string.indexOf('-');
+
+		if (index >= 0) {
+			return <span>{string.substr(0, index)}&#8209;{string.substr(index + 1)}</span>
+		} else {
+			return string;
+		}
+	}
+
+	getStylizedName(player) {
+		let name = PlayerName.divide(player.name);
+
+		if (name.first === '') {
+			return <b>{this.insertHardHyphen(name.last)}</b>;
+		} else {
+			return <span>{this.insertHardHyphen(name.first)} <b>{this.insertHardHyphen(name.last)}</b></span>;
+		}
+	}
 
 	newState(data, team) {
 		const competitions = data.competitions;

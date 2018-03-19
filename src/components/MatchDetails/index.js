@@ -4,6 +4,8 @@ import './style.css';
 
 import {EmblemLarge} from '../Common';
 
+import PlayerName from '../../util/playerName';
+
 export default class MatchDetails extends Component {
 
 	render() {
@@ -55,10 +57,10 @@ export default class MatchDetails extends Component {
 		const player = (
 			<div className="MatchDetails-player">
 				<div className="MatchDetails-scorer">
-					{goal.scorer}
+					{PlayerName.getDisplayName(goal.scorer)}
 					{goal.style === 'own goal' && ' (own goal)'}
 				</div>
-				{goal.assist && <div className="MatchDetails-assist">assist by {goal.assist}</div>}
+				{goal.assist && <div className="MatchDetails-assist">assist by {PlayerName.getDisplayName(goal.assist)}</div>}
 			</div>
 		);
 		
