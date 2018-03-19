@@ -15,15 +15,35 @@ module.exports = function(router, db) {
 		}
 	}
 
+	function compareFnLaLiga(a, b) {
+		if (a.points === b.points && a.h2h[b.name].games.p === 2) {
+			var h2h = compareFn(a.h2h[b.name], b.h2h[a.name]);
+
+			if (h2h !== 0) {
+				return h2h;
+			}
+		}
+			
+		return compareFn(a, b);
+	}
+
+	function compareFnSerieA(a, b) {
+		if (a.points === b.points) {
+			var h2h = compareFn(a.h2h[b.name], b.h2h[a.name]);
+
+			if (h2h !== 0) {
+				return h2h;
+			}
+		}
+			
+		return compareFn(a, b);
+	}
+
 	function compareFnWithName(a, b) {
-		if (a.points !== b.points) {
-			return b.points - a.points;
-		} else if (a.goals.d !== b.goals.d) {
-			return b.goals.d - a.goals.d;
-		} else if (a.goals.f !== b.goals.f) {
-			return b.goals.f - a.goals.f;
-		} else {
+		if (a.rank === b.rank) {
 			return (a.name < b.name) ? -1 : 1;
+		} else {
+			return a.rank - b.rank;
 		}
 	}
 
@@ -42,7 +62,8 @@ module.exports = function(router, db) {
 					teams[season.team] = {
 						name: season.team,
 						games: {p: 0, w: 0, d: 0, l: 0},
-						goals: {d: 0, f: 0, a: 0}
+						goals: {d: 0, f: 0, a: 0},
+						h2h: {}
 					};
 
 					for (j in season.competitions) {
@@ -58,6 +79,20 @@ module.exports = function(router, db) {
 					}
 				}
 
+				for (i in teams) {
+					for (j in teams) {
+						if (i === j) {
+							continue;
+						}
+
+						teams[i].h2h[j] = {
+							games: {p: 0, w: 0, d: 0, l: 0},
+							goals: {d: 0, f: 0, a: 0},
+							points: 0,
+						};
+					}
+				}
+
 				var urls = [];
 				for (i in urlMap) {
 					urls.push(i);
@@ -70,6 +105,7 @@ module.exports = function(router, db) {
 				var match;
 				var score;
 				var teamL, teamR;
+				var h2hL, h2hR;
 
 				for (i in matches) {
 					match = matches[i].summary;
@@ -82,21 +118,45 @@ module.exports = function(router, db) {
 					teamL = teams[match.l];
 					teamR = teams[match.r];
 
+					h2hL = teamL.h2h[match.r];
+					h2hR = teamR.h2h[match.l];
+
 					if (score.l < score.r) {
 						teamL.games.l++;
 						teamR.games.w++;
+
+						h2hL.games.l++;
+						h2hR.games.w++;
+						h2hR.points += 3;
 					} else if (score.l > score.r) {
 						teamL.games.w++;
 						teamR.games.l++;
+
+						h2hL.games.w++;
+						h2hR.games.l++;
+						h2hL.points += 3;
 					} else {
 						teamL.games.d++;
 						teamR.games.d++;
+
+						h2hL.games.d++;
+						h2hR.games.d++;
+						h2hL.points++;
+						h2hR.points++;
 					}
 					
 					teamL.goals.f += score.l;
 					teamL.goals.a += score.r;
 					teamR.goals.f += score.r;
 					teamR.goals.a += score.l;
+
+					h2hL.goals.f += score.l;
+					h2hL.goals.a += score.r;
+					h2hR.goals.f += score.r;
+					h2hR.goals.a += score.l;
+					
+					h2hL.games.p++;
+					h2hR.games.p++;
 				}
 
 				var team;
@@ -109,13 +169,21 @@ module.exports = function(router, db) {
 					teamArray.push(team);
 				}
 
-				teamArray.sort(compareFn);
+				var cmpFn = compareFn;
+
+				if (leagueName === 'Primera División') {
+					cmpFn = compareFnLaLiga;
+				} else if (leagueName === 'Serie A') {
+					cmpFn = compareFnSerieA;
+				}
+
+				teamArray.sort(cmpFn);
 
 				var prevRank = 1;
 				teamArray[0].rank = 1;
 				for (i = 1; i < teamArray.length; i++) {
 					team = teamArray[i];
-					if (compareFn(teamArray[i-1], team) === 0) {
+					if (cmpFn(teamArray[i-1], team) === 0) {
 						team.rank = prevRank;
 					} else {
 						team.rank = prevRank = i+1;
@@ -123,6 +191,10 @@ module.exports = function(router, db) {
 				}
 				
 				teamArray.sort(compareFnWithName);
+
+				for (i = 0; i < teamArray.length; i++) {
+					delete teamArray[i].h2h;
+				}
 
 				const league = {
 					season: season,
