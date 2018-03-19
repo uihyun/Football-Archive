@@ -31,4 +31,12 @@ export default class PlayerName {
 		let divided = PlayerName.divide(name);
 		return PlayerName.fullname(divided);
 	}
+
+	static getNameWithInitial(name) {
+		if (name.first === '') {
+			return name.last;
+		} else {
+			return name.first.charAt(0) + '. ' + name.last;
+		}
+	}
 }

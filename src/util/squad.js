@@ -73,8 +73,8 @@ export default class SquadUtil {
 					playerA.shorthand = PlayerName.fullname(playerA);
 					playerB.shorthand = PlayerName.fullname(playerB);
 				} else {
-					playerA.shorthand = initialA + '. ' + playerA.shorthand;
-					playerB.shorthand = initialB + '. ' + playerB.shorthand;
+					playerA.shorthand = PlayerName.getNameWithInitial(playerA);
+					playerB.shorthand = PlayerName.getNameWithInitial(playerB);
 				}			
 			}
 		}
