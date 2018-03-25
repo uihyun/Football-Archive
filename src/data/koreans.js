@@ -54,6 +54,22 @@ const koreans = {
 		{team: 'Fulham FC', name: '설기현', country: 'ENG'},
 		{team: 'West Bromwich Albion', name: '김두현', country: 'ENG'},
 	],
+	2008: [
+		{team: 'Manchester United', name: '박지성', country: 'ENG'},
+		{team: 'Tottenham Hotspur', name: '이영표', country: 'ENG'},
+		{team: 'Middlesbrough FC', name: '이동국', country: 'ENG'},
+		{team: 'Fulham FC', name: '설기현', country: 'ENG'},
+	],
+	2007: [
+		{team: 'Manchester United', name: '박지성', country: 'ENG'},
+		{team: 'Tottenham Hotspur', name: '이영표', country: 'ENG'},
+		{team: 'Middlesbrough FC', name: '이동국', country: 'ENG'},
+		{team: 'Reading FC', name: '설기현', country: 'ENG'},
+	],
+	2006: [
+		{team: 'Manchester United', name: '박지성', country: 'ENG'},
+		{team: 'Tottenham Hotspur', name: '이영표', country: 'ENG'},
+	],
 };
 
 export default koreans;
