@@ -1,0 +1,44 @@
+.ClubSelector-flex-container {
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-webkit-flex-direction: row;
+	flex-direction: row;
+	-webkit-justify-content: center;
+	justify-content: center;
+}
+
+.ClubSelector-flex-container-year {
+	display: flex;
+	flex-flow: row-reverse wrap-reverse;
+}
+
+.ClubSelector-year {
+	margin-left: 5px;
+	margin-right: 5px;
+	opacity: 0.5;
+}
+
+.ClubSelector-year-selected {
+	opacity: 1;
+}
+
+.ClubSelector-team {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.ClubSelector-country {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	font-size: large;
+	font-weight: bold;
+}
+
+@media screen and (max-width: 543px) {
+
+	.ClubSelector-team {
+		flex-basis: 10%;
+	}
+}

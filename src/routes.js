@@ -1,17 +1,28 @@
 import React from 'react';
-import { Router, Route, IndexRoute } from 'react-router';
+import { BrowserRouter, Route, Link } from 'react-router-dom';
 
-import Nav from './components/Nav';
-import DataView from './components/DataView';
+import Home from './components/Home';
+import ClubView from './components/ClubView';
+import ClubSelector from './components/ClubSelector';
 import Manage from './components/Manage';
 
+const ClubRoutes = ({ match }) => (
+	<div>
+		<Route path={`${match.url}/:year/:team`} component={ClubView} />
+		<Route exact path={`${match.url}/:year`} component={ClubSelector} />
+		<Route exact path={match.url} component={ClubSelector} />
+	</div>
+);
+
 const Routes = (props) => (
-  <Router {...props}>
-    <Route path="/" component={Nav}>
-			<IndexRoute component={DataView} />
-			<Route path="manage" component={Manage} />
-		</Route>
-  </Router>
+	<BrowserRouter>
+		<div>
+			<div className="text-center header"><Link to="/">Football Archive</Link></div>
+			<Route exact path="/" component={Home} />
+			<Route path="/club" component={ClubRoutes} />
+			<Route path="/manage" component={Manage} />
+		</div>
+	</BrowserRouter>
 );
 
 export default Routes;

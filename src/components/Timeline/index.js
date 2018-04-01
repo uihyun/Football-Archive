@@ -87,7 +87,6 @@ export default class Timeline extends Component {
 		for (i = startIndex; i <= endIndex; i++) {
 			matches.push(allMatches[i]);
 		}
-
 		
 		return (
 			<div>

@@ -1,19 +1,23 @@
-.DataView-team-logo {
+.ClubView-team-name {
+	font-size: 1.5em;
+}
+
+.ClubView-team-logo {
 	display: inline-block;
 	vertical-align: middle;
 }
 
-.DataView-view-selector {
+.ClubView-view-selector {
 	line-height: 50px;
 }
 
-.DataView-year {
+.ClubView-year {
 	padding-right: 5px;
 	padding-left: 5px;
 }
 
 @media screen and (max-width: 543px) {
-	.DataView-view-selector {
+	.ClubView-view-selector {
 		line-height: 37px;
 	}
 }

@@ -8,7 +8,8 @@ export default class SquadUtil {
 		return name;
 	}
 
-	static getSquadArray(data, team) {
+	static getSquadArray(data) {
+		const team = data.team;
 		var competition, match, summary, side, players, player;
 		var i, j, k, length;
 		var playerMap = {};

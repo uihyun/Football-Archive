@@ -1,4 +1,5 @@
 const seasons = {
+	years: {max: 2018, min: 2006},
 	countries: ['ENG', 'ESP', 'GER', 'ITA', 'FRA'],
 	seasons: {
 		ENG: {
