@@ -1,0 +1,77 @@
+'use strict';
+
+const Promise = require('bluebird');
+
+const UrlUtil = require('../../util/url');
+
+module.exports = function(router, db) {
+	const Seasons = db.collection('Seasons');
+	const Matches = db.collection('Matches');
+	
+	router.get('/api/match/recent/:_season', function(req, res) {
+		const season = req.params._season;
+		var matchMap = {};
+		var now = new Date();
+		var weekBefore = new Date(now.getTime() - (8 * 24 * 60 * 60 * 1000));
+		var matchDate;
+		
+		Seasons.find({season: season}).toArray()
+			.then(function(seasons) {
+				if (seasons.length === 0) {
+					res.sendStatus(204);
+				} else {
+					var i, j, k;
+					var season, comp, match;
+
+					for (i in seasons) {
+						season = seasons[i];
+
+						for (j in season.competitions) {
+							comp = season.competitions[j];
+
+							for (k in comp.matches) {
+								match = comp.matches[k];
+								matchDate = new Date(match.date);
+
+								if (matchDate >= weekBefore && matchDate <= now) {
+									matchMap[match.url] = {
+										competition: comp.name,
+										round: match.round,
+										date: match.date
+									};
+								}
+							}
+						}
+					}
+
+					var matches = [];
+					for (i in matchMap) {
+						matches.push(i);
+					}
+
+					Matches.find({url: {$in: matches}}).toArray()
+					.then(function(matches) {
+						var i, match;
+
+						for (i in matches) {
+							match = matches[i];
+							matchMap[match.url].details = match;
+						}
+
+						var result = [];
+
+						for (i in matchMap) {
+							result.push(matchMap[i]);
+						}
+
+						result.sort((a, b) => { return (a.date === b.date) ? a.competition - b.competition : new Date(a.date) - new Date(b.date); });
+
+						res.json(result);
+					});
+				}
+			})
+			.catch(function(error) {
+				console.log(error);
+			});
+	});
+};
