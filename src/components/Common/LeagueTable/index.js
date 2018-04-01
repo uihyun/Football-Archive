@@ -22,9 +22,7 @@ export default class LeagueTable extends Component {
 
 		return (
 			<div>
-				<h3 className="text-center">
-					{league.name} {league.season - 1}-{league.season}
-				</h3>
+				<h3 className="text-center">{league.name}</h3>
 				<div className="flex-container">
 					<div className="flex-1 hide-mobile" />
 					<div className="flex-2">
