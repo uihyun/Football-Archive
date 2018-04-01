@@ -56,17 +56,17 @@ export default class ClubSelector extends Component {
 				</div>
 				{koreans[year] && (
 					<div>
-						<h3>KOREA</h3>
+						<br className="hide-mobile" />
 						<div className="flex-container flex-container-space-around">
 							{koreans[year].map(korean => {
 								return (
 									<div key={korean.name} className="text-center">
 										<Link to={url + '/' + UrlUtil.getTeamUrl(korean.team)}> 
-											<div className="ClubSelector-team">
-												<EmblemLarge team={korean.team} />
-											</div>
 											<div>
 												{korean.name}
+											</div>
+											<div className="ClubSelector-team">
+												<EmblemLarge team={korean.team} />
 											</div>
 										</Link>
 									</div>
