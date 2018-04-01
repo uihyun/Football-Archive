@@ -29,8 +29,10 @@ export default class ClubSelector extends Component {
     return (
       <div className="ClubSelector text-center">
 				<br />
-				<div className="ClubSelector-flex-container-year">
-					{this.getYears(year)}
+				<div className="flex-container flex-container-center">
+					<div className="ClubSelector-flex-container-year">
+						{this.getYears(year)}
+					</div>
 				</div>
 				<div className="flex-container">
 					{countries.map(country => {
