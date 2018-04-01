@@ -10,7 +10,6 @@ const ClubRoutes = ({ match }) => (
 	<div>
 		<Route path={`${match.url}/:year/:team`} component={ClubView} />
 		<Route exact path={`${match.url}/:year`} component={ClubSelector} />
-		<Route exact path={match.url} component={ClubSelector} />
 	</div>
 );
 

@@ -49,6 +49,10 @@ body {
 	display: none;
 }
 
+.show-mobile-flex {
+	display: none;
+}
+
 .flex-container-adaptive {
 	display: -webkit-flex;
 	display: flex;
@@ -89,6 +93,10 @@ a {
 
 	.show-mobile {
 		display: inline;
+	}
+
+	.show-mobile-flex {
+		display: flex;
 	}
 	
 	.flex-container-adaptive {

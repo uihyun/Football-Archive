@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import './style.css';
 
@@ -11,10 +11,6 @@ import UrlUtil from '../../util/url';
 export default class ClubSelector extends Component {
 
   render() {
-		if (this.props.match.params.year === undefined) {
-			return <Redirect from={this.props.match.path} to={this.props.match.path + '/' + seasons.years.max} />;
-		}
-
 		const url = this.props.match.url;
 		const year = this.props.match.params.year;
 		var countries = [];

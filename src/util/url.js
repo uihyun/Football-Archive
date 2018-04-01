@@ -11,6 +11,11 @@ export default class UrlUtil {
 		team = team.replace(/\./g, '');
 		return team.replace(/ & | /g, '-');
 	}
+	
+	static getRecentMatchesUrl(season) {
+		var url = '/api/match/recent/' + season;
+		return url;
+	}
 
 	static getSeasonSelectUrl(season, team) {
 		var url = '/api/season/select/' + season + '/' + this.getTeamUrl(team);

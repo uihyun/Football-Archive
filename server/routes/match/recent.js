@@ -21,7 +21,7 @@ module.exports = function(router, db) {
 					res.sendStatus(204);
 				} else {
 					var i, j, k;
-					var season, comp, match;
+					var season, comp, match, teams;
 
 					for (i in seasons) {
 						season = seasons[i];
@@ -34,10 +34,12 @@ module.exports = function(router, db) {
 								matchDate = new Date(match.date);
 
 								if (matchDate >= weekBefore && matchDate <= now) {
+									teams = (match.place === 'A') ? [match.vs, season.team] : [season.team, match.vs];
 									matchMap[match.url] = {
 										competition: comp.name,
 										round: match.round,
-										date: match.date
+										date: match.date,
+										teams: teams,
 									};
 								}
 							}
@@ -55,7 +57,7 @@ module.exports = function(router, db) {
 
 						for (i in matches) {
 							match = matches[i];
-							matchMap[match.url].details = match;
+							matchMap[match.url].summary = match.summary;
 						}
 
 						var result = [];
@@ -63,8 +65,6 @@ module.exports = function(router, db) {
 						for (i in matchMap) {
 							result.push(matchMap[i]);
 						}
-
-						result.sort((a, b) => { return (a.date === b.date) ? a.competition - b.competition : new Date(a.date) - new Date(b.date); });
 
 						res.json(result);
 					});
