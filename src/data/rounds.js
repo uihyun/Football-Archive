@@ -65,6 +65,9 @@ const rounds = {
 	},
 	'Club World Cup': {
 		'Semi-finals': '4',
+	},
+	'Supercopa': {
+		'Final': 'F',
 	}
 };
 
