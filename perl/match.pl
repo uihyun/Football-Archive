@@ -212,11 +212,22 @@ sub get_player($)
 sub get_manager($)
 {
 	my $table = shift;
-	
-	my $l = trim($table->find('th')->[0]->find('a')->[0]->all_text);
-	my $r = trim($table->find('th')->[1]->find('a')->[0]->all_text);
+
+	my $l = get_manager_string($table->find('th')->[0]);
+	my $r = get_manager_string($table->find('th')->[1]);
 	
 	$json .= ",\n\"manager\": {\"l\": \"$l\", \"r\":\"$r\"}";
+}
+
+sub get_manager_string($)
+{
+	my $th = shift;
+
+	if ($th->find('a')->size) {
+		return trim($th->find('a')->[0]->all_text);
+	}
+
+	return "";
 }
 
 sub trim($)
