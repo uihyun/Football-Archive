@@ -36,7 +36,7 @@ export default class Home extends Component {
 							if (i * 4 + j < comp.matches.length) {
 								match = comp.matches[i * 4 + j];
 								rows[i][j] = (
-										<div key={(i * 4 + j) * 2} className="flex-1">
+										<div key={i * 4 + j} className="flex-1">
 											<div className="hide-mobile flex-container flex-container-center">
 												<EmblemLarge team={match.teams[0]} />
 												<div className="Recent-long-scoreboard">
