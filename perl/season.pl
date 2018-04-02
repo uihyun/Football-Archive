@@ -22,14 +22,14 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 		$comp =~ s/\d+\/\d+$|\d+$//;
 		$comp =~ s/\s+$//;
 
-		next if $comp =~ '^Friendlies';
+		next if $comp =~ '^Friendlies' && !($team =~ '-team$');
 
 		$json .= "]}\n," if $comp_count++;
 		$json .= "{\"name\": \"$comp\", \"matches\": [\n";
 
 		$match_count = 0;
 	} else {
-		next if $comp =~ '^Friendlies';
+		next if $comp =~ '^Friendlies' && !($team =~ '-team$');
 
 		my $td_col = $tr->find('td');	
 

@@ -13,7 +13,7 @@ export default class EmblemLarge extends Component {
 			logoID = teams[team].id;
 		}
 
-		var imgSrc = 'http://img.uefa.com/imgml/TP/teams/logos/50x50/' + logoID + '.png';
+		var imgSrc = '/' + logoID + '.png';
 
 		return (
 			<img src={imgSrc} className="EmblemLarge" alt="" />
