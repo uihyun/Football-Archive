@@ -12,7 +12,7 @@ module.exports = function(router, db) {
 		const season = req.params._season;
 		var matchMap = {};
 		var now = new Date();
-		var weekBefore = new Date(now.getTime() - (8 * 24 * 60 * 60 * 1000));
+		var weekBefore = new Date(now.getTime() - (5 * 24 * 60 * 60 * 1000));
 		var matchDate;
 		
 		Seasons.find({season: season}).toArray()
