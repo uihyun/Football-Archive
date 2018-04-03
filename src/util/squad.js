@@ -16,7 +16,7 @@ export default class SquadUtil {
 
 		for (i = 0; i < data.competitions.length; i++) {
 			competition = data.competitions[i];
-			
+
 			for (j = 0; j < competition.matches.length; j++) {
 				match = competition.matches[j];
 

@@ -78,6 +78,10 @@ export default class UrlUtil {
 
 		for (i in nations.countries) {
 			if (nations.countries[i].includes(team)) {
+				if (year > nations.years.max || year < nations.years.min) {
+					return null;
+				}
+
 				return '/nation/' + year + '/' + this.getTeamUrl(team);
 			}
 		}

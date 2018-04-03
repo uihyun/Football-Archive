@@ -19,7 +19,7 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 
 	if ($comp_td->size) {
 		$comp = $comp_td->[0]->all_text;
-		$comp =~ s/\d+\/\d+$|\d+$//;
+		$comp =~ s/\d+\/\d+.*$|\d+.*$//;
 		$comp =~ s/\s+$//;
 
 		next if $comp =~ '^Friendlies' && !($team =~ '-team$');
@@ -50,7 +50,10 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 			my $url = "";
 
 			my $url_link = $td_col->[6]->find('a');
-			$url = $url_link->[0]->attr('href') if $url_link->size > 0;
+
+			next if $url_link->size == 0;
+
+			my $url = $url_link->[0]->attr('href');
 
 			$url =~ s/liveticker\/$//;
 			$url =~ s/^\/report//;

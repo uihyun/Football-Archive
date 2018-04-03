@@ -54,10 +54,24 @@ export default class NationView extends Component {
 	}
 
 	render() {
+		var prevYear = this.state.year - 1;
+		var prevYearLink = UrlUtil.getLink(prevYear, this.state.team);
+		var nextYear = prevYear + 2;
+		var nextYearLink = UrlUtil.getLink(nextYear, this.state.team);
+
 		return (
 			<div>
 				<div className="ClubView-team-name text-center">{this.state.team}</div>
 				<div className="flex-container text-center">
+					<div className="flex-1">
+						{prevYearLink &&
+							<Link to={prevYearLink}>
+								<div className="ClubView-view-selector">
+									◁ {prevYear}
+								</div>
+							</Link>
+						}
+					</div>
 					<div className="flex-2">
 						<Link to="/nation">
 						  <b>
@@ -72,6 +86,15 @@ export default class NationView extends Component {
         	      </div>
       	      </b>
 						</Link>
+					</div>
+					<div className="flex-1">
+						{nextYearLink &&
+							<Link to={nextYearLink}>
+								<div className="ClubView-view-selector">
+									{nextYear} ▷
+								</div>
+							</Link>
+						}
 					</div>
 				</div>
 				<div className="text-center flex-container">
@@ -142,7 +165,7 @@ export default class NationView extends Component {
 			}
 
 			result = {season: year, team: team, competitions: compArray};
-			const squad = SquadUtil.getSquadArray(data);
+			const squad = SquadUtil.getSquadArray(result);
 
 			var state = {
 				yearMin: yearMin,
