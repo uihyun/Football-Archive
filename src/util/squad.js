@@ -1,4 +1,5 @@
 import PlayerName from './playerName';
+import {koreans} from '../data';
 
 export default class SquadUtil {
 	static getNewPlayer(player) {
@@ -50,6 +51,22 @@ export default class SquadUtil {
 			if (playerMap[player]) {
 				array.push(playerMap[player]);
 			}
+		}
+
+		if (team === 'South Korea') {
+			for (i = 0; i < array.length; i++) {
+				if (koreans.map[array[i].fullname]) {
+					array[i].shorthand = koreans.map[array[i].fullname];
+				} else {
+					array[i].shorthand = array[i].fullname;
+				}
+			}
+
+			array.sort(function(a, b) {
+				return a.shorthand < b.shorthand ? -1 : 1;
+			});
+
+			return array;
 		}
 
 		array.sort(function(a, b) {
