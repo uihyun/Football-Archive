@@ -6,6 +6,8 @@ import {Squad, Competition, Team, Scoreboard} from '../Common';
 
 import Match from '../../util/match';
 
+import SquadUtil from '../../util/squad';
+
 export default class Timeline extends Component {
 
 	constructor(props) {
@@ -26,21 +28,26 @@ export default class Timeline extends Component {
 
 		return {
 			matches: matches,
-			squad: [],
 			showAll: false,
 			selectedPlayer: null};
 	}
 
   render() {
+		var mobile = this.getMobileView();
+
     return (
       <div className="Timeline">
 				<br/>
-				{this.getDesktopView()}	
-				<div className="show-mobile">
-					{this.getMobileView()}	
+				<div className="hide-mobile">
+					{this.getDesktopView()}	
+					<br/>
+					<Squad squad={this.props.squad} selectPlayer={this.selectPlayer} />
 				</div>
-				<br/>
-				<Squad squad={this.props.squad} selectPlayer={this.selectPlayer} />
+				<div className="show-mobile">
+					{mobile.view}	
+					<br/>
+					<Squad squad={mobile.squad} selectPlayer={this.selectPlayer} />
+				</div>
       </div>
     );
   }
@@ -66,7 +73,7 @@ export default class Timeline extends Component {
 		let sum = this.getMatchSummary(allMatches);
 
 		if (this.state.showAll || sum.unplayed === 0) {
-			return this.getMatchesView(this.state.matches);
+			return {squad: this.props.squad, view: this.getMatchesView(this.state.matches)};
 		}
 
 		var i, match;
@@ -87,8 +94,10 @@ export default class Timeline extends Component {
 		for (i = startIndex; i <= endIndex; i++) {
 			matches.push(allMatches[i]);
 		}
+
+		const squad = SquadUtil.getSquadArray({team: this.props.team, competitions: [{matches: matches}]});
 		
-		return (
+		var view = (
 			<div>
 				<div className="flex-container text-center" onClick={() => this.showAll()}>
 					<div className="flex-1">
@@ -103,6 +112,8 @@ export default class Timeline extends Component {
 				{this.getSeparator(endIndex, allMatches.length - 1)}
 			</div>
 		);
+		
+		return {squad: squad, view: view};
 	}
 
 	getMatchSummary(matches) {

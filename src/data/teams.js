@@ -184,12 +184,17 @@ const teams = {
 	'Zenit St. Petersburg': {id: 52826, name: 'Zenit'},
 	'Zorya Lugansk': {id: 65130, name: 'Lugansk'},
 
-	// national teams
+	// AFC
 	'Australia': {id: 'AUS', name: 'Australia', url: 'australien-team'},
 	'Iran': {id: 'IRN', name: 'Iran', url: 'iran-team'},
 	'Japan': {id: 'JPN', name: 'Japan', url: 'japan-team'},
 	'Saudi Arabia': {id: 'KSA', name: 'Saudi Arabia', url: 'saudi-arabien-team'},
 	'South Korea': {id: 'KOR', name: 'South Korea', url: 'suedkorea-team'},
+
+	// other national teams
+	'Germany': {id: 'GER', name: 'Germany'},
+	'Mexico': {id: 'MEX', name: 'Mexico'},
+	'Sweden': {id: 'SWE', name: 'Sweden'},
 };
 
 export default teams;

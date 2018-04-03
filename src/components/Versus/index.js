@@ -94,6 +94,11 @@ export default class Versus extends Component {
 	getSeasonSpan(year) {
 		var a = year - 1;
 		var b = year;
+
+		if (this.state.teamAUrl.endsWith('-team')) {
+			return <span>{year}</span>;
+		}
+
 		return (
 			<span>
 				<span className="hide-mobile">{a}-{b}</span>

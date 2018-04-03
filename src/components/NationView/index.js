@@ -6,9 +6,9 @@ import './style.css';
 import {Team} from '../Common';
 
 import Timeline from '../Timeline';
-import Summary from '../Summary';
+//import Summary from '../Summary';
 import Statistics from '../Statistics';
-import Standings from '../Standings';
+//import Standings from '../Standings';
 
 import {nations} from '../data';
 
