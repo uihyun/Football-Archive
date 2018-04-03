@@ -95,7 +95,8 @@ export default class Versus extends Component {
 		var a = year - 1;
 		var b = year;
 
-		if (this.state.teamAUrl.endsWith('-team')) {
+		if (this.state.teamAUrl.endsWith('-team') ||
+				this.state.teamBUrl.endsWith('-team')) {
 			return <span>{year}</span>;
 		}
 
