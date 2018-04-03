@@ -25,9 +25,13 @@ export default class Timeline extends Component {
 
 	newState(props) {
 		const matches = this.getMatches(props.data.competitions);
+		const shortenedMatches = this.getShortenedMatches(matches);
+		const shortenedSquad = this.getShortenedSquad(props.team, shortenedMatches);
 
 		return {
 			matches: matches,
+			shortenedMatches: shortenedMatches,
+			shortenedSquad: shortenedSquad,
 			showAll: false,
 			selectedPlayer: null};
 	}
@@ -57,7 +61,7 @@ export default class Timeline extends Component {
 	}
 
 	showAll() {
-		this.setState({ showAll: true });
+		this.setState({ showAll: true, selectedPlayer: null });
 	}
 
 	getDesktopView() {
@@ -67,15 +71,8 @@ export default class Timeline extends Component {
 			</div>
 		);
 	}
-	
-	getMobileView() {
-		let allMatches = this.state.matches;
-		let sum = this.getMatchSummary(allMatches);
 
-		if (this.state.showAll || sum.unplayed === 0) {
-			return {squad: this.props.squad, view: this.getMatchesView(this.state.matches)};
-		}
-
+	getShortenedMatches(allMatches) {
 		var i, match;
 		var lastMatchIndex;
 		for (i = allMatches.length - 1; i >= 0; i--) {
@@ -95,7 +92,22 @@ export default class Timeline extends Component {
 			matches.push(allMatches[i]);
 		}
 
-		const squad = SquadUtil.getSquadArray({team: this.props.team, competitions: [{matches: matches}]});
+		return matches;
+	}
+
+	getShortenedSquad(team, matches) {
+		return SquadUtil.getSquadArray({team: team, competitions: [{matches: matches}]});
+	}
+	
+	getMobileView() {
+		let allMatches = this.state.matches;
+		let sum = this.getMatchSummary(allMatches);
+
+		if (this.state.showAll || sum.unplayed === 0) {
+			return {squad: this.props.squad, view: this.getMatchesView(this.state.matches)};
+		}
+
+		const matches = this.state.shortenedMatches;
 		
 		var view = (
 			<div>
@@ -109,11 +121,11 @@ export default class Timeline extends Component {
 				</div>
 				<br/>
 				{this.getMatchesView(matches)}
-				{this.getSeparator(endIndex, allMatches.length - 1)}
+				{this.getSeparator(sum.unplayed)}
 			</div>
 		);
 		
-		return {squad: squad, view: view};
+		return {squad: this.state.shortenedSquad, view: view};
 	}
 
 	getMatchSummary(matches) {
@@ -128,8 +140,8 @@ export default class Timeline extends Component {
 		return sum;
 	}
 
-	getSeparator(a, b) {
-		return b > a ? <div className="text-center">▼</div> : null;
+	getSeparator(unplayed) {
+		return unplayed > 5 ? <div className="text-center">▼</div> : null;
 	}
 
 	getMatchesView(matches) {
