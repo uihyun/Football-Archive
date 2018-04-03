@@ -36,13 +36,18 @@ export default class Scoreboard extends Component {
 			const side = (summary.r === this.props.team) ? 'r' : 'l';
 
 			if (this.props.player && this.props.player.fullname) {
-				var fullname = this.props.player.fullname;
-				bg = this.playerBackground(summary.players[side], fullname, scoreStyle);
-				if (this.playerPlayed(summary.players[side], fullname)) {
-					score = this.playerScored(summary.goals, side, fullname);
-				} else {
-					scoreStyle += '-didNotPlay';
+
+				if (summary.players === undefined) {
 					score = null;
+				} else {
+					var fullname = this.props.player.fullname;
+					bg = this.playerBackground(summary.players[side], fullname, scoreStyle);
+					if (this.playerPlayed(summary.players[side], fullname)) {
+						score = this.playerScored(summary.goals, side, fullname);
+					} else {
+						scoreStyle += '-didNotPlay';
+						score = null;
+					}
 				}
 			}
 		} else {

@@ -17,9 +17,16 @@ my $json = "{";
 get_sides($tables->[0]);
 $json .= ",\n";
 get_goals($tables->[1]);
-$json .= ",\n";
 
 my $player_table_index = get_player_table_index($tables);
+
+if ($player_table_index == -1) {
+	$json .= "}";
+	print $json;
+	exit;
+}
+
+$json .= ",\n";
 
 #players on the left side
 $json .= "\"players\": {\n";
@@ -119,6 +126,10 @@ sub get_player_table_index($)
 {
 	my $tables = shift;
 	my $index = 2;
+	my $tds = $tables->[$index]->find('td');
+
+	return -1 if $tds->size == 0;
+
 	my $td = $tables->[$index]->find('td')->[0];
 
 	if (trim($td->all_text) =~ /Penalty/) {

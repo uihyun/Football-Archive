@@ -25,6 +25,10 @@ export default class SquadUtil {
 					continue;
 
 				summary = match.summary;
+
+				if (summary.players === undefined)
+					continue;
+
 				side = (summary.r === team) ? 'r' : 'l';
 				players = summary.players[side];
 

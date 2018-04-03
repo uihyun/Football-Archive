@@ -174,6 +174,9 @@ export default class Statistics extends Component {
 					}
 				}
 
+				if (summary.players === undefined)
+					continue;
+
 				players = summary.players[side];
 				
 				for (k = 0; k < players.start.length; k++) {
