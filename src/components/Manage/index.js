@@ -63,7 +63,7 @@ export default class Manage extends Component {
 							);
 						})}
 						<div>
-							Fifa
+							Nations
 							<ul>
 							{nationYears.map(year => {
 								return <li key={year} onClick={() => this.selectNationYear(year)}>{year}</li>;

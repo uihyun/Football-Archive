@@ -7,23 +7,18 @@ module.exports = function(router, db) {
 
 	function isTournament(competition) {
 		switch (competition) {
-			case 'Premier League':
-			case 'Primera División':
-			case 'Bundesliga':
-			case 'Serie A':
-			case 'Ligue 1':
-			case 'Champions League Qual.':
-			case 'Europa League Qual.':
-			case 'UEFA-Supercup':
-			case 'Club World Cup':
-			case 'FA Community Shield':
-			case 'Supercopa':
-			case 'Supercup':
-			case 'Supercoppa':
-			case 'Trophée des Champions':
-				return false;
-			default:
+			case 'Champions League':
+			case 'Europa League':
+			case 'FA Cup':
+			case 'Copa del Rey':
+			case 'Coppa Italia':
+			case 'DFB-Pokal':
+			case 'Coupe de France':
+			case 'League Cup':
+			case 'Coupe de la Ligue':
 				return true;
+			default:
+				return false;
 		}
 	}
 

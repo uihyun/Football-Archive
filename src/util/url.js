@@ -1,9 +1,9 @@
-import {teams, clubs} from '../data';
+import {teams, clubs, nations} from '../data';
 
 export default class UrlUtil {
 	static getTeamUrl(team) {
 
-		if (teams[team].url)
+		if (teams[team] && teams[team].url)
 			return teams[team].url;
 
 		team = team.replace(/á/g, 'a');
@@ -60,20 +60,28 @@ export default class UrlUtil {
 		return '/' + logoID + '.png';
 	}
 
-	static canLink(year, team) {
+	static getLink(year, team) {
 		if (year === undefined)
-			return false;
+			return null;
 
-		for (var i in clubs.seasons) {
+		var i;
+
+		for (i in clubs.seasons) {
 			if (clubs.seasons[i].teams[year] === undefined) {
 				continue;
 			}
 
 			if (clubs.seasons[i].teams[year].includes(team)) {
-				return true;
+				return '/club/' + year + '/' + this.getTeamUrl(team);
 			}
 		}
 
-		return false;
+		for (i in nations.countries) {
+			if (nations.countries[i].includes(team)) {
+				return '/nation/' + year + '/' + this.getTeamUrl(team);
+			}
+		}
+
+		return null;
 	}
 }	

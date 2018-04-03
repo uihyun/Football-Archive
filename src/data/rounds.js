@@ -68,7 +68,7 @@ const rounds = {
 	},
 	'Supercopa': {
 		'Final': 'F',
-	}
+	},
 };
 
 export default rounds;

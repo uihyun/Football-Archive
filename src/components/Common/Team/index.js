@@ -34,11 +34,11 @@ export default class Team extends Component {
 			);
 		}
 
-		var teamUrl = UrlUtil.getTeamUrl(team);
+		var link = UrlUtil.getLink(this.props.year, team);
 
-		if (UrlUtil.canLink(this.props.year, team)) {
+		if (link) {
 			return (
-				<Link to={"/club/" + this.props.year + "/" + teamUrl}>
+				<Link to={link}>
 					{inside}
 				</Link>
 			);

@@ -1,4 +1,8 @@
 const competitions = {
+	'World Cup 2018 Russia': {order: 1, name: 'World Cup', sh: 'WC', code: 'WC'},
+	'Asian Cup 2015 Australien': {order: 2, name: 'Asian Cup', sh: 'CC', code: 'CC'},
+	'WC Qualifiers Asia 2015-': {order: 3, name: 'World Cup Qualifiers', sh: 'WCQ', code: 'WQ'},
+	'Friendlies': {order: 2, name: 'Friendlies', sh: 'Fr', code: 'F'},
 	'Champions League': {order: 2, name: 'Champions League', sh: 'UCL', code: 'I'},
 	'Champions League Qual.': {order: 2, name: 'Champions League', sh: 'UCL', code: 'I'},
 	'Europa League': {order: 3, name: 'Europa League', sh: 'UEL', code: 'I'},
