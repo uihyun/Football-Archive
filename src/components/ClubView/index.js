@@ -58,10 +58,24 @@ export default class ClubView extends Component {
 	}
 
 	render() {
+		var prevYear = this.state.year - 1;
+		var canLinkPrevYear = UrlUtil.canLink(prevYear, this.state.team);
+		var nextYear = prevYear + 2;
+		var canLinkNextYear = UrlUtil.canLink(nextYear, this.state.team);
+
 		return (
 			<div>
 				<div className="ClubView-team-name text-center">{this.state.team}</div>
 				<div className="flex-container text-center">
+					<div className="flex-1">
+						{canLinkPrevYear &&
+							<Link to={'/club/' + prevYear + '/' + this.state.teamUrl}>
+								<div className="ClubView-view-selector">
+									◁ {prevYear}
+								</div>
+							</Link>
+						}
+					</div>
 					<div className="flex-2">
 						<Link to={'/club/' + this.state.year}>
 						  <b>
@@ -76,6 +90,15 @@ export default class ClubView extends Component {
         	      </div>
       	      </b>
 						</Link>
+					</div>
+					<div className="flex-1">
+						{canLinkNextYear &&
+							<Link to={'/club/' + nextYear + '/' + this.state.teamUrl}>
+								<div className="ClubView-view-selector">
+									{nextYear} ▷
+								</div>
+							</Link>
+						}
 					</div>
 				</div>
 				<div className="text-center flex-container">
