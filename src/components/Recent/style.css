@@ -8,6 +8,10 @@
 	margin-right: 3px;
 }
 
+.Recent-team-small {
+	height: 21px;
+}
+
 .Recent-flex-container {
 	display: flex;
 	flex-flow: row wrap;

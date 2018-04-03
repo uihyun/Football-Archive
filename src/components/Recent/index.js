@@ -47,9 +47,13 @@ export default class Home extends Component {
 												<Team team={match.teams[1]} emblemLarge={true} year={year}/>
 											</div>
 											<div className="show-mobile-flex flex-container flex-container-center">
-												<Team team={match.teams[0]} emblemSmall={true} year={year}/>
+												<div className="Recent-team-small">
+													<Team team={match.teams[0]} emblemSmall={true} year={year}/>
+												</div>
 												<Scoreboard team={match.teams[0]} match={match} player={this.state.player} />
-												<Team team={match.teams[1]} emblemSmall={true} year={year}/>
+												<div className="Recent-team-small">
+													<Team team={match.teams[1]} emblemSmall={true} year={year}/>
+												</div>
 											</div>
 										</div>
 									);
