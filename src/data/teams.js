@@ -182,7 +182,14 @@ const teams = {
 	'SL Benfica': {id: 50147, name: 'Benfica'},
 	'Sporting Braga': {id: 52336, name: 'Braga'},
 	'Zenit St. Petersburg': {id: 52826, name: 'Zenit'},
-	'Zorya Lugansk': {id: 65130, name: 'Lugansk'}
+	'Zorya Lugansk': {id: 65130, name: 'Lugansk'},
+
+	// national teams
+	'Australia': {id: 'AUS', name: 'Australia', url: 'australien-team'},
+	'Iran': {id: 'IRN', name: 'Iran', url: 'iran-team'},
+	'Japan': {id: 'JPN', name: 'Japan', url: 'japan-team'},
+	'Saudi Arabia': {id: 'KSA', name: 'Saudi Arabia', url: 'saudi-arabien-team'},
+	'South Korea': {id: 'KOR', name: 'South Korea', url: 'suedkorea-team'},
 };
 
 export default teams;

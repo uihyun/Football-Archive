@@ -3,16 +3,26 @@ open(my $fh, '<:encoding(UTF-8)', $filename) or die;
 
 while (my $row = <$fh>) {
 	if ($row =~ /id: (\d+),/) {
-		download($1);
+		downloadUEFA($1);
+	}
+	
+	if ($row =~ /id: \'(\D+?)\',/) {
+		downloadFIFA($1);
 	}
 }
 		
-download(2608043);
+downloadUEFA(2608043);
 
-sub download($)
+sub downloadUEFA($)
 {
 	my $id = shift;
 	my $imgSrc = "http://img.uefa.com/imgml/TP/teams/logos/50x50/$id.png";
 	system("curl $imgSrc -o ../img/$id.png");
 }
 
+sub downloadFIFA($)
+{
+	my $id = shift;
+	my $imgSrc = "http://img.uefa.com/imgml/flags/50x50/$id.png";
+	system("curl $imgSrc -o ../img/$id.png");
+}

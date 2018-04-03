@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './style.css';
 
 import {Team} from '../Common';
-import {clubs} from '../data';
+import {clubs, nations} from '../data';
 
 import UrlUtil from '../../util/url';
 
@@ -24,8 +24,8 @@ export default class Manage extends Component {
 			fetchedTeams: {}
 		};
 
-
 		this.selectYear = this.selectYear.bind(this);
+		this.selectNationYear = this.selectNationYear.bind(this);
 		this.fetchSeason = this.fetchSeason.bind(this);
 		this.clearSeason = this.clearSeason.bind(this);
 		this.fetchMatches = this.fetchMatches.bind(this);
@@ -41,6 +41,8 @@ export default class Manage extends Component {
 
   render() {
 
+		var nationYears = this.getYears(nations.years);
+
     return (
       <div className="Manage">
         <h2 className="text-center">
@@ -49,10 +51,9 @@ export default class Manage extends Component {
 				<div className="flex-container">
 					<div className="flex-1">
 						{clubs.countries.map(country => {
-							const url = 'https://img.uefa.com/imgml/flags/50x50/' + country + '.png';
 							return (
 								<div key={country}>
-									<img src={url} alt="" />
+									{country}
 									<ul>
 									{clubs.seasons[country].years.map(year => {
 										return <li key={year} onClick={() => this.selectYear(country, year)}>{year}</li>;
@@ -61,6 +62,14 @@ export default class Manage extends Component {
 								</div>
 							);
 						})}
+						<div>
+							Fifa
+							<ul>
+							{nationYears.map(year => {
+								return <li key={year} onClick={() => this.selectNationYear(year)}>{year}</li>;
+							})}
+							</ul>
+						</div>
 					</div>
 					<div className="flex-2">
 						<div className="flex-container Manage-team">
@@ -103,7 +112,71 @@ export default class Manage extends Component {
     );
   }
 
+	getYears(years) {
+		var array = [];
+		var i;
+
+		for (i = years.min; i <= years.max; i++) {
+			array.push(i);
+		}
+
+		array.reverse();
+		return array;
+	}
+
+	getNationTeams() {
+		var i, j, countries;
+		var teams = [];
+
+		for (i = 0 ; i < nations.confederations.length; i++) {
+			countries = nations.countries[nations.confederations[i]];
+
+			for (j = 0; j < countries.length; j++) {
+				teams.push(countries[j]);
+			}
+		}
+
+		return teams;
+	}
+
+	selectNationYear(year) {
+		const that = this;
+		const url = '/api/season/select/' + year;
+		const teams = this.getNationTeams();
+
+		fetch(url)
+			.then(function(response) {
+				return response.json();
+			})
+			.then(function(data) {
+				var fetchedTeams = {};
+				var team, i, j;
+				for (i in data) {
+					if (data[i]) {
+						for (j = 0; j < teams.length; j++) {
+							team = teams[j];
+							if (team === data[i].team) {
+								fetchedTeams[team] = true;
+							}
+						}
+					}
+				}
+
+				that.setState({
+					selectedCountry: 'FIFA',
+					selectedYear: year,
+					teams: teams,
+					fetchedTeams: fetchedTeams
+				});
+			});
+	}
+
 	selectYear(country, year) {
+		if (country === 'FIFA') {
+			this.selectNationYear(year);
+			return;
+		}
+
 		const that = this;
 		const url = '/api/season/select/' + year;
 		const teams = clubs.seasons[country].teams[year];

@@ -16,7 +16,7 @@ export default class Home extends Component {
 					<div className="flex-1">
 						<NavLink to={'/club/' + clubs.years.max} activeClassName="Home-selected">Clubs</NavLink>
 					</div>
-					<div className="flex-1 Home-not-yet">Countries</div>
+					<div className="flex-1 Home-not-yet">Nations</div>
 					<div className="flex-1 Home-not-yet">Aggregate</div>
 					<div className="flex-1">
 						<NavLink to="/manage" activeClassName="Home-selected">Manage</NavLink>

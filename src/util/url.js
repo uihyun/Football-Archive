@@ -2,6 +2,10 @@ import {teams, clubs} from '../data';
 
 export default class UrlUtil {
 	static getTeamUrl(team) {
+
+		if (teams[team].url)
+			return teams[team].url;
+
 		team = team.replace(/á/g, 'a');
 		team = team.replace(/é/g, 'e');
 		team = team.replace(/É/g, 'E');

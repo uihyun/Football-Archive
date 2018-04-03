@@ -1,7 +1,42 @@
 'use strict';
 
 module.exports = {
+	mapArray: [
+  	{name: 'Australia', url: 'australien-team'},
+	  {name: 'Iran', url: 'iran-team'},
+		{name: 'Japan', url: 'japan-team'},
+		{name: 'Saudi Arabia', url: 'saudi-arabien-team'},
+		{name: 'South Korea', url: 'suedkorea-team'},
+		{name: '', url: ''}
+	],
+	getUrlToNameMap: function() {
+		var map = {};
+		var i, entry;
+
+		for (i = 0; i < this.mapArray.length; i++) {
+			entry = this.mapArray[i];
+			map[entry.url] = entry.name;
+		}
+
+		return map;
+	},
+	getNameToUrlMap: function() {
+		var map = {};
+		var i, entry;
+
+		for (i = 0; i < this.mapArray.length; i++) {
+			entry = this.mapArray[i];
+			map[entry.name] = entry.url;
+		}
+
+		return map;
+	},
 	getTeamNameFromUrl: function(teamUrl) {
+		var map = this.getUrlToNameMap();
+		if (map[teamUrl]) {
+			return map[teamUrl];
+		}
+
 		var team = teamUrl.replace(/-/g, ' ');
 
 		if (team === 'Brighton Hove Albion') {
@@ -41,6 +76,11 @@ module.exports = {
 		return team;
 	},
 	getUrlFromTeamName: function(team) {
+		var map = this.getNameToUrlMap();
+		if (map[team]) {
+			return map[team];
+		}
+
 		var url = team;
 
 		if (url === 'Brighton & Hove Albion') {
