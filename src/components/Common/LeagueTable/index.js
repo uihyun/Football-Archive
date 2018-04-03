@@ -29,14 +29,13 @@ export default class LeagueTable extends Component {
 				{table.map(team => {
 					const games = team.games;
 					const goals = team.goals;
+					const teamComp = <Team team={team.name} year={league.season} />
 					return (
 						<div key={team.name} className="flex-container LeagueTable-row">
 							<div className="flex-1">
 								<div className="flex-container">
 									<div className="LeagueTable-rank text-center">{team.rank} </div>
-									{team.name === this.props.team ?
-										<b><Team name={team.name} /></b> : <Team name={team.name} />
-									}
+									{team.name === this.props.team ? <b>{teamComp}</b> : teamComp}
 								</div>
 							</div>
 							<div className="flex-1">

@@ -77,7 +77,7 @@ export default class Summary extends Component {
 												: round.hideEmpty || <div className="Summary-empty-match" />
 											}
 											<div className="flex-1 Summary-right">
-												<Team name={round.team} hideMobileName={true} showShortName={true} />
+												<Team team={round.team} hideMobileName={true} showShortName={true} year={this.props.year} />
 											</div>
 										</div>
 									);
@@ -103,7 +103,7 @@ export default class Summary extends Component {
 									})
 								}
 								<div className="flex-1 Summary-right">
-									<Team name={team.name} hideMobileName={true} showShortName={true} />
+									<Team team={team.name} hideMobileName={true} showShortName={true} year={this.props.year}/>
 								</div>
 							</div>
 						);
@@ -127,7 +127,7 @@ export default class Summary extends Component {
 												: round.round !== 'Final' && <div className="Summary-empty-match" />
 											}
 											<div className="flex-1 Summary-right">
-												<Team name={round.team} hideMobileName={true} showShortName={true} />
+												<Team team={round.team} hideMobileName={true} showShortName={true} year={this.props.year}/>
 											</div>
 										</div>
 									);

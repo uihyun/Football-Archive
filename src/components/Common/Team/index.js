@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import './style.css';
 
@@ -9,32 +10,40 @@ import UrlUtil from '../../../util/url';
 export default class Team extends Component {
 
 	render() {
+		var team = this.props.team;
+		var name = (teams[team] !== undefined) ? teams[team].name : team;
+		var imgSrc = UrlUtil.getEmblemUrl(team);
 
-		var name = this.props.name;
-		var imgSrc = UrlUtil.getEmblemUrl(name);
-
-		if (teams[name] !== undefined) {
-			name = teams[name].name;
-		}
+		var inside = null;
 
 		if (this.props.emblemLarge) {
-			return <img src={imgSrc} className="Team-emblem-large" alt="" />;
+			inside = <img src={imgSrc} className="Team-emblem-large" alt="" />;
+		} else if (this.props.emblemSmall) {
+			inside = <img src={imgSrc} className="Team-emblem-small" alt="" />;
+		} else {
+			inside = (
+				<div className="Team flex-container">
+					<img src={imgSrc} className="Team-emblem-small" alt="" />
+					{ this.props.hideMobileName ||
+						<div className="show-mobile flex-1">{name}</div>
+					}
+					<div className="hide-mobile flex-1">
+						{ this.props.showShortName ? name : team }
+					</div>
+				</div>
+			);
 		}
 
-		if (this.props.emblemSmall) {
-			return <img src={imgSrc} className="Team-emblem-small" alt="" />;
+		var teamUrl = UrlUtil.getTeamUrl(team);
+
+		if (UrlUtil.canLink(this.props.year, team)) {
+			return (
+				<Link to={"/club/" + this.props.year + "/" + teamUrl}>
+					{inside}
+				</Link>
+			);
 		}
-		
-		return (
-			<div className="Team flex-container">
-				<img src={imgSrc} className="Team-emblem-small" alt="" />
-				{ this.props.hideMobileName ||
-					<div className="show-mobile flex-1">{name}</div>
-				}
-				<div className="hide-mobile flex-1">
-					{ this.props.showShortName ? name : this.props.name }
-				</div>
-			</div>
-		);
+
+		return inside;
 	}
 }

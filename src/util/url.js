@@ -1,4 +1,4 @@
-import {teams} from '../data';
+import {teams, seasons} from '../data';
 
 export default class UrlUtil {
 	static getTeamUrl(team) {
@@ -57,5 +57,22 @@ export default class UrlUtil {
 		}
 
 		return '/' + logoID + '.png';
+	}
+
+	static canLink(year, team) {
+		if (year === undefined)
+			return false;
+
+		for (var i in seasons.seasons) {
+			if (seasons.seasons[i].teams[year] === undefined) {
+				continue;
+			}
+
+			if (seasons.seasons[i].teams[year].includes(team)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }	

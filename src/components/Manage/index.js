@@ -81,7 +81,7 @@ export default class Manage extends Component {
 							return (
 								<div className="flex-container Manage-team" key={team}>
 									<div className="flex-1">
-										<Team name={team} />
+										<Team team={team} />
 									</div>
 									<div className="flex-1">
 										{ this.state.fetchedTeams[team] ?

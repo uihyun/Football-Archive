@@ -20,6 +20,8 @@ export default class Home extends Component {
 	}
 
 	render() {
+		const year = seasons.years.max;
+
 		return (
 			<div className="Recent">
 				{this.state.competitions.map(comp => {
@@ -38,16 +40,16 @@ export default class Home extends Component {
 								rows[i][j] = (
 										<div key={i * 4 + j} className="flex-1">
 											<div className="hide-mobile flex-container flex-container-center">
-												<Team name={match.teams[0]} emblemLarge={true} />
+												<Team team={match.teams[0]} emblemLarge={true} year={year}/>
 												<div className="Recent-long-scoreboard">
 													<Scoreboard team={match.teams[0]} match={match} player={this.state.player} />
 												</div>
-												<Team name={match.teams[1]} emblemLarge={true} />
+												<Team team={match.teams[1]} emblemLarge={true} year={year}/>
 											</div>
 											<div className="show-mobile-flex flex-container flex-container-center">
-												<Team name={match.teams[0]} emblemSmall={true} />
+												<Team team={match.teams[0]} emblemSmall={true} year={year}/>
 												<Scoreboard team={match.teams[0]} match={match} player={this.state.player} />
-												<Team name={match.teams[1]} emblemSmall={true} />
+												<Team team={match.teams[1]} emblemSmall={true} year={year}/>
 											</div>
 										</div>
 									);

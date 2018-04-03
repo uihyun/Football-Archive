@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import './style.css';
 
-import {EmblemLarge} from '../Common';
+import {Team} from '../Common';
 
 import Timeline from '../Timeline';
 import Summary from '../Summary';
@@ -44,7 +44,17 @@ export default class ClubView extends Component {
 	}
 
 	componentDidMount() {
-		this.fetchSeason();
+		this.fetchSeason(this.state.year, this.state.teamUrl);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		const year = nextProps.match.params.year;
+		const teamUrl = nextProps.match.params.team;
+
+		if (this.state.year !== year || this.state.teamUrl !== teamUrl) {
+			this.setState({ year: year, teamUrl: teamUrl });
+			this.fetchSeason(year, teamUrl);
+		}
 	}
 
 	render() {
@@ -59,7 +69,7 @@ export default class ClubView extends Component {
     	            <div className="flex-1 ClubView-view-selector text-right ClubView-year">
 										{this.state.year - 1}
 	                </div>
-	              	<div><EmblemLarge team={this.state.team} /></div>
+	              	<div><Team team={this.state.team} emblemLarge={true}/></div>
               	  <div className="flex-1 ClubView-view-selector text-left ClubView-year">
 										{this.state.year}
           	      </div>
@@ -98,9 +108,9 @@ export default class ClubView extends Component {
 		this.selectView('Match');
 	}
 
-	fetchSeason() {
+	fetchSeason(year, teamUrl) {
 		const that = this;
-		const url = UrlUtil.getSeasonSelectUrl(this.state.year, this.state.teamUrl);
+		const url = UrlUtil.getSeasonSelectUrl(year, teamUrl);
 
 		fetch(url)
 		.then(function(response) {
@@ -125,7 +135,6 @@ export default class ClubView extends Component {
 					} else {
 						var prevView = that.state.prevView;
 						state.view = prevView.pop();
-						state.prevView = prevView;
 					}
 				}
 
@@ -153,7 +162,7 @@ export default class ClubView extends Component {
 			return (<Timeline data={this.state.data} squad={this.state.squad} team={this.state.team}
 					              selectMatch={this.handleMatchSelection}/>);
 		} else if (this.state.view === 'Summary') {
-			return (<Summary data={this.state.data} squad={this.state.squad} team={this.state.team}
+			return (<Summary data={this.state.data} squad={this.state.squad} team={this.state.team} year={this.state.year}
 					             selectMatch={this.handleMatchSelection}/>);
 		} else if (this.state.view === 'Statistics') {
 			return (<Statistics data={this.state.data} team={this.state.team} />);

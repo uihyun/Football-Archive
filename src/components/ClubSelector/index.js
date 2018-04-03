@@ -39,9 +39,7 @@ export default class ClubSelector extends Component {
 									{country.teams.map(team => {
 										return (
 											<div className="ClubSelector-team" key={team}>
-												<Link to={url + '/' + UrlUtil.getTeamUrl(team)}> 
-													<Team name={team} emblemLarge={true}/>
-												</Link>
+												<Team team={team} emblemLarge={true} year={year}/>
 											</div>
 										);
 									})}
@@ -62,7 +60,7 @@ export default class ClubSelector extends Component {
 												{korean.name}
 											</div>
 											<div className="ClubSelector-team">
-												<Team name={korean.team} emblemLarge={true}/>
+												<Team team={korean.team} emblemLarge={true}/>
 											</div>
 										</Link>
 									</div>

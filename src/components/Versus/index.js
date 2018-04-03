@@ -13,7 +13,6 @@ export default class Versus extends Component {
 	constructor(props) {
 		super(props);
 
-
 		this.state = {header: [], seasons: []};
 	}
 
@@ -25,8 +24,8 @@ export default class Versus extends Component {
 		return (
 			<div>
 				<div className="text-center">
-					<Team name={this.props.teamA} emblemLarge={true}/>
-					<Team name={this.props.teamB} emblemLarge={true}/>
+					<Team team={this.props.teamA} emblemLarge={true}/>
+					<Team team={this.props.teamB} emblemLarge={true}/>
 				</div>
 				<div className="flex-container text-center Versus-header">
 					<div className="flex-1">Season</div>

@@ -28,6 +28,12 @@ export default class MatchDetails extends Component {
 			r = summary.r;
 			goals = summary.goals;
 		}
+	
+		var year = parseInt(match.date.substring(6, 10), 10);
+		var month = parseInt(match.date.substring(0, 2), 10);
+
+		if (month >= 8)
+			year++;
 
 		return (
 			<div>
@@ -38,14 +44,17 @@ export default class MatchDetails extends Component {
 				<div className="flex-container">
 					<div className="flex-1 hide-mobile"></div>
 					<div className="flex-2">
-						<div className="flex-container" onClick={this.props.showVersus}>
-							<div className="flex-1"><Team name={l} emblemLarge={true}/></div>
+						<div className="flex-container">
+							<div className="flex-1"><Team team={l} emblemLarge={true} year={year}/></div>
 							<div className="flex-1 text-center MatchDetails-score">{this.getScore()}</div>
-							<div className="flex-1 text-right"><Team name={r} emblemLarge={true}/></div>
+							<div className="flex-1 text-right"><Team team={r} emblemLarge={true} year={year}/></div>
 						</div>
 						{goals.map((goal, index) => {return (this.getGoalDiv(goal, index));})}
 					</div>
 					<div className="flex-1 hide-mobile"></div>
+				</div>
+				<div className="text-center" onClick={this.props.showVersus}>
+					see history
 				</div>
 			</div>
 		);

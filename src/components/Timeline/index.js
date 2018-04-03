@@ -135,7 +135,7 @@ export default class Timeline extends Component {
 				<Scoreboard classNames="Timeline-margin" team={this.props.team} match={match} 
 				 player={this.state.selectedPlayer}/>
 				<div className="flex-1 Timeline-margin Match-team">
-					<Team name={match.vs} />
+					<Team team={match.vs} />
 				</div>
 			</div>
 		);

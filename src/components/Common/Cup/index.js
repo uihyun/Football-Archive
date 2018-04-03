@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import './style.css';
 
-import {rounds, teams} from '../data';
+import {rounds} from '../data';
+
+import UrlUtil from '../../../util/url';
 
 export default class Cup extends Component {
 
@@ -28,6 +31,7 @@ export default class Cup extends Component {
 
 		var lastRound = [];
 		let lastRoundIndex = this.getLastRound(sorted);
+		var image;
 
 		for (i = 0; i < grid.length; i++) {
 			round = grid[i];
@@ -76,21 +80,28 @@ export default class Cup extends Component {
 				x = cx + r * Math.cos(theta) - hsize;
 				y = cy + r * Math.sin(theta) - hsize;
 
-				teams.push(<image key={level + team} xlinkHref={this.getImgSrc(team)} x={x} y={y} width={size} height={size} />);
+				image = <image key={level + team} xlinkHref={UrlUtil.getEmblemUrl(team)} x={x} y={y} width={size} height={size} />;
+				teams.push(this.getLink(image, team));
 
 				if (((i === 0 && cup.winner) || (i > 0 && i < grid.length - 1)) &&
 						grid[i + 1].teams[2 * j] === team) {
 					theta += dTheta;
 					x = cx + r * Math.cos(theta) - hlsize;
 					y = cy + r * Math.sin(theta) - hlsize;
-					teams.push(<image key={level + team + '2'} xlinkHref={this.getImgSrc(team)}
-											x={x} y={y} width={lsize} height={lsize} filter={filterUrl} />);
+					image = <image key={level + team + '2'} xlinkHref={UrlUtil.getEmblemUrl(team)} x={x} y={y} width={lsize} height={lsize} filter={filterUrl} />;
+					teams.push(this.getLink(image, team));
 				}
 			}
 		}
 
 		let wsize = 40;
 		let hwsize = wsize / 2;
+		var cupWinner = null;
+
+		if (cup.winner) {
+			image = <image xlinkHref={UrlUtil.getEmblemUrl(cup.winner)} x={cx - hwsize}  y={cy - hwsize} width={wsize} height={wsize} />;
+			cupWinner = this.getLink(image, cup.winner);
+		}
 
 		return (
 			<div className="Cup">
@@ -100,9 +111,7 @@ export default class Cup extends Component {
 						{lastRound}
 						{teams}
 						{circles}
-						{cup.winner &&
-							<image xlinkHref={this.getImgSrc(cup.winner)} x={cx - hwsize}  y={cy - hwsize} width={wsize} height={wsize} />
-						}
+						{cupWinner}
 						<filter id={filterId}>
 							<feColorMatrix type="matrix"
 							 values="0.3333	0.3333 0.3333 0.3 0 
@@ -226,12 +235,23 @@ export default class Cup extends Component {
 		return null;
 	}
 
-	getImgSrc(team) {
-		var logoID = 2608043;
-    if (teams[team] !== undefined) {
-      logoID = teams[team].id;
-    }
+	getLink(image, team) {
+		if (image === null) {
+			return null;
+		}
 
-    return 'http://img.uefa.com/imgml/TP/teams/logos/50x50/' + logoID + '.png';
+		var year = this.props.cup.season;
+
+		if (UrlUtil.canLink(year, team)) {
+			var teamUrl = UrlUtil.getTeamUrl(team);
+
+			return (
+				<Link key={image.key} to={"/club/" + this.props.cup.season + "/" + teamUrl}>
+					{image}
+				</Link>
+			);
+		}
+
+		return image;
 	}
 }
