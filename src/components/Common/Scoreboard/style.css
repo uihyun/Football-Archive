@@ -2,8 +2,11 @@
 	width: 35px;
 	height: 21px;
 	text-align: center;
-	color: white;
 	position: relative;
+}
+
+.Scoreboard a {
+	color: white;
 }
 
 .Scoreboard-inner {

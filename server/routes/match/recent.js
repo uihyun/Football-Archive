@@ -41,6 +41,7 @@ module.exports = function(router, db) {
 										round: match.round,
 										date: match.date,
 										teams: teams,
+										url: match.url,
 									};
 								}
 							}

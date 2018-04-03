@@ -15,38 +15,35 @@ export default class UrlUtil {
 	}
 	
 	static getRecentMatchesUrl(season) {
-		var url = '/api/match/recent/' + season;
-		return url;
+		return '/api/match/recent/' + season;
 	}
 
 	static getSeasonSelectUrl(season, team) {
-		var url = '/api/season/select/' + season + '/' + this.getTeamUrl(team);
-		return url;
+		return '/api/season/select/' + season + '/' + this.getTeamUrl(team);
 	}
 
 	static getSeasonFetchUrl(season, team) {
-		var url = '/api/season/fetch/' + season + '/' + this.getTeamUrl(team);
-		return url;
+		return '/api/season/fetch/' + season + '/' + this.getTeamUrl(team);
 	}
 
 	static getSeasonClearUrl(season, team) {
-		var url = '/api/season/clear/' + season + '/' + this.getTeamUrl(team);
-		return url;
+		return '/api/season/clear/' + season + '/' + this.getTeamUrl(team);
 	}
 
 	static getMatchFetchUrl(season, team) {
-		var url = '/api/match/fetch/' + season + '/' + this.getTeamUrl(team);
-		return url;
+		return '/api/match/fetch/' + season + '/' + this.getTeamUrl(team);
 	}
 
 	static getMatchClearUrl(season, team) {
-		var url = '/api/match/clear/' + season + '/' + this.getTeamUrl(team);
-		return url;
+		return '/api/match/clear/' + season + '/' + this.getTeamUrl(team);
 	}
 	
 	static getVersusSelectUrl(teamA, teamB) {
-		var url = '/api/versus/select/' + teamA + '/' + teamB;
-		return url;
+		return '/api/versus/select/' + teamA + '/' + teamB;
+	}
+	
+	static getMatchSelectUrl(url) {
+		return '/api/match/select/' + url;
 	}
 
 	static getEmblemUrl(team) {

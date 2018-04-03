@@ -127,8 +127,7 @@ export default class Timeline extends Component {
 
 	getMatchView(match, index) {
 		return (
-			<div key={index} className="flex-container"
-			 onClick={() => this.props.selectMatch(match)}>
+			<div key={index} className="flex-container">
 				<div className="flex-1 Timeline-margin flex-container-right-aligned">
 					<Competition name={match.competition} round={match.round} />
 				</div>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import './style.css';
 
@@ -13,19 +14,32 @@ export default class Versus extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {header: [], seasons: []};
+		const teamAUrl = this.props.match.params.teamA;
+		const teamBUrl = this.props.match.params.teamB;
+
+		this.state = {header: [], seasons: [], teamAUrl: teamAUrl, teamBUrl: teamBUrl, teamA: '', teamB: ''};
 	}
 
 	componentDidMount() {
-		this.fetch();
+		this.fetch(this.state.teamAUrl, this.state.teamBUrl);
 	}
+
+  componentWillReceiveProps(nextProps) {
+		const teamAUrl = nextProps.match.params.teamA;
+		const teamBUrl = nextProps.match.params.teamB;
+
+    if (this.state.teamAUrl !== teamAUrl || this.state.teamBUrl !== teamBUrl) {
+      this.setState({header: [], seasons: [], teamAUrl: teamAUrl, teamBUrl: teamBUrl, teamA: '', teamB: ''});
+			this.fetch(teamAUrl, teamBUrl);
+    }
+  }
 
 	render() {
 		return (
 			<div>
 				<div className="text-center">
-					<Team team={this.props.teamA} emblemLarge={true}/>
-					<Team team={this.props.teamB} emblemLarge={true}/>
+					<Team team={this.state.teamA} emblemLarge={true}/>
+					<Team team={this.state.teamB} emblemLarge={true}/>
 				</div>
 				<div className="flex-container text-center Versus-header">
 					<div className="flex-1">Season</div>
@@ -47,8 +61,8 @@ export default class Versus extends Component {
 									<div key={index} className="flex-1">
 										<div className="flex-container">
 											<div className="flex-1"></div>
-											{this.getScoreboard(competition[0])}
-											{this.getScoreboard(competition[1])}
+												{this.getScoreboard(competition[0])}
+												{this.getScoreboard(competition[1])}
 											<div className="flex-1"></div>
 										</div>
 									</div>
@@ -57,6 +71,11 @@ export default class Versus extends Component {
 						</div>
 					);
 				})}
+				<div className="text-center">
+					<Link to={'/versus/' + this.state.teamBUrl + '/' + this.state.teamAUrl}>
+						swap left & right
+					</Link>
+				</div>
 			</div>
 		);
 	}
@@ -89,17 +108,17 @@ export default class Versus extends Component {
 		}
 
 		return (
-			<div onClick={() => this.props.selectMatch(match)}>
-				<Scoreboard team={this.props.teamA} match={match} 
+			<div>
+				<Scoreboard team={this.state.teamA} match={match} 
 				 shrinkOnMobile={true} />
 			</div>
 		);
 	}
 
-	fetch() {
+	fetch(teamAUrl, teamBUrl) {
 		const that = this;
-		const url = UrlUtil.getVersusSelectUrl(this.props.teamA, this.props.teamB);
-		
+		const url = UrlUtil.getVersusSelectUrl(teamAUrl, teamBUrl);
+
 		fetch(url)
 		.then(function(response) {
 			return response.json();
@@ -109,7 +128,8 @@ export default class Versus extends Component {
 		});
 	}
 
-	groupMatches(matches) {
+	groupMatches(data) {
+		var matches = data.matches;
 		var seasonMap = {};
 		var comps = [];
 		var i, j;
@@ -153,7 +173,7 @@ export default class Versus extends Component {
 			comp = competitions[match.competition];
 			compIndex = comps[comp.order];
 
-			matchIndex = (match.summary.l === this.props.teamA) ? 0 : 1;
+			matchIndex = (match.summary.l === data.teamA) ? 0 : 1;
 			seasonMap[match.season].competitions[compIndex][matchIndex] = match;
 		}
 
@@ -166,6 +186,6 @@ export default class Versus extends Component {
 
 		seasons.sort(function (a, b) {return a.year - b.year;});
 
-		return {header: header, seasons: seasons};
+		return {header: header, seasons: seasons, teamA: data.teamA, teamB: data.teamB};
 	}
 }

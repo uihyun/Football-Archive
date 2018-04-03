@@ -67,7 +67,7 @@ module.exports = function(router, db) {
 				}
 			}
 
-			res.json(out.matches);
+			res.json({teamA: teamA, teamB: teamB, matches: out.matches});
 		});
 	});
 };

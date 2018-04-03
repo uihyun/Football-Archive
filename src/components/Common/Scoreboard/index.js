@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 
 import './style.css';
 
@@ -23,6 +24,7 @@ export default class Scoreboard extends Component {
 
 		if (summary) {
 			score = (
+				<Link to={'/match/' + match.url}>
 				<div className="flex-container text-center Scoreboard-score">
 					<div className="flex-1"></div>
 					<div className="flex-2">{sum.goalsScored}</div>
@@ -30,6 +32,7 @@ export default class Scoreboard extends Component {
 					<div className="flex-2">{sum.goalsConceded}</div>
 					<div className="flex-1"></div>
 				</div>
+				</Link>
 			);
 			
 			const side = (summary.r === this.props.team) ? 'r' : 'l';

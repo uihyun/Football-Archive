@@ -1,33 +1,37 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import './style.css';
 
 import {Team} from '../Common';
 
 import PlayerName from '../../util/playerName';
+import UrlUtil from '../../util/url';
 
 export default class MatchDetails extends Component {
+	
+	constructor(props) {
+		super(props);
+
+		const url = this.props.match.params.url;
+
+		this.state = {url: url, match: null};
+	}
+
+	componentDidMount() {
+		this.fetch();
+	}
 
 	render() {
-		const match = this.props.match;
-		const summary = match.summary;
-		var l = '';
-		var r = '';
-		var goals = [];
-
-		if (summary === undefined) {
-			if (match.place === 'H') {
-				l = this.props.team;
-				r = match.vs;
-			} else {
-				l = match.vs;
-				r = this.props.team;
-			}
-		} else {
-			l = summary.l;
-			r = summary.r;
-			goals = summary.goals;
+		if (this.state.match === null) {
+			return null;
 		}
+
+		const match = this.state.match;
+		const summary = match.summary;
+		var l = summary.l;
+		var r = summary.r;
+		var goals = summary.goals;
 	
 		var year = parseInt(match.date.substring(6, 10), 10);
 		var month = parseInt(match.date.substring(0, 2), 10);
@@ -54,7 +58,9 @@ export default class MatchDetails extends Component {
 					<div className="flex-1 hide-mobile"></div>
 				</div>
 				<div className="text-center" onClick={this.props.showVersus}>
-					see history
+					<Link to={'/versus/' + UrlUtil.getTeamUrl(l) + '/' + UrlUtil.getTeamUrl(r)}>
+						see history
+					</Link>
 				</div>
 			</div>
 		);
@@ -86,12 +92,7 @@ export default class MatchDetails extends Component {
 	}
 
 	getScore() {
-
-		if (this.props.match.summary === undefined) {
-			return '';
-		}
-
-		const goals = this.props.match.summary.goals;
+		const goals = this.state.match.summary.goals;
 		var l = 0;
 		var r = 0;
 
@@ -105,4 +106,18 @@ export default class MatchDetails extends Component {
 
 		return l + ' : ' + r;
 	}
+
+	fetch() {
+		const that = this;
+		const url = UrlUtil.getMatchSelectUrl(this.state.url);
+
+		fetch(url)
+		.then(function(response) {
+			return response.json();
+		})
+		.then(function(data) {
+			that.setState({match: data});
+		});
+	}
+
 }

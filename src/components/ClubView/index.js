@@ -9,8 +9,6 @@ import Timeline from '../Timeline';
 import Summary from '../Summary';
 import Statistics from '../Statistics';
 import Standings from '../Standings';
-import MatchDetails from '../MatchDetails';
-import Versus from '../Versus';
 
 import UrlUtil from '../../util/url';
 import SquadUtil from '../../util/squad';
@@ -32,15 +30,11 @@ export default class ClubView extends Component {
 			teamUrl: this.props.match.params.team,
 			view: 'Timeline',
 			team: '',
-			prevView: [],
 			data: {competition: []},
 			squad: [],
-			match: null
 		};
 
 		this.selectView = this.selectView.bind(this);
-		this.handleMatchSelection = this.handleMatchSelection.bind(this);
-		this.showVersus = this.showVersus.bind(this);
 	}
 
 	componentDidMount() {
@@ -122,15 +116,6 @@ export default class ClubView extends Component {
 		);
 	}
 
-	showVersus() {
-		this.selectView('Versus');
-	}
-
-	handleMatchSelection(match) {
-		this.setState({match: match});
-		this.selectView('Match');
-	}
-
 	fetchSeason(year, teamUrl) {
 		const that = this;
 		const url = UrlUtil.getSeasonSelectUrl(year, teamUrl);
@@ -148,18 +133,7 @@ export default class ClubView extends Component {
 					team: team,
 					data: data,
 					squad: squad,
-					match: null
 				};
-
-				if (that.state.view === 'Match' ||
-						that.state.view === 'Versus') {
-					if (that.state.prevView.length === 0) {
-						state.view = 'Timeline'; // default fallback
-					} else {
-						var prevView = that.state.prevView;
-						state.view = prevView.pop();
-					}
-				}
 
 				that.setState(state);
 			}
@@ -168,43 +142,19 @@ export default class ClubView extends Component {
 
 	selectView(view) {
 		if (view !== this.state.view) {
-			if (this.state.view !== 'Match' &&
-					this.state.view !== 'Versus') {
-				const prevView = this.state.prevView.concat([this.state.view]);
-				this.setState({view: view, prevView: prevView});
-			} else {
-				this.setState({view: view});
-			}
+			this.setState({view: view});
 		}
 	}
 
 	getView() {
-		if (this.state.view === 'Match') {
-			return (<MatchDetails match={this.state.match} team={this.state.team} showVersus={this.showVersus}/>);
-		} else if (this.state.view === 'Timeline') {
-			return (<Timeline data={this.state.data} squad={this.state.squad} team={this.state.team}
-					              selectMatch={this.handleMatchSelection}/>);
+		if (this.state.view === 'Timeline') {
+			return (<Timeline data={this.state.data} squad={this.state.squad} team={this.state.team} year={this.state.year} />);
 		} else if (this.state.view === 'Summary') {
-			return (<Summary data={this.state.data} squad={this.state.squad} team={this.state.team} year={this.state.year}
-					             selectMatch={this.handleMatchSelection}/>);
+			return (<Summary data={this.state.data} squad={this.state.squad} team={this.state.team} year={this.state.year} />);
 		} else if (this.state.view === 'Statistics') {
 			return (<Statistics data={this.state.data} team={this.state.team} />);
 		} else if (this.state.view === 'Standings') {
 			return (<Standings data={this.state.data} team={this.state.team}/>);
-		} else if (this.state.view === 'Versus') {
-			var teamB;
-			if (this.state.match.vs) {
-				teamB = this.state.match.vs;
-			} else {
-				if (this.state.match.summary.l === this.state.team) {
-					teamB = this.state.match.summary.r;
-				} else {
-					teamB = this.state.match.summary.l;
-				}
-			}
-
-			return (<Versus teamA={this.state.team} teamB={teamB}
-					            selectMatch={this.handleMatchSelection}/>);
 		}
 
 		return (<div>{this.state.view} View under development</div>);
