@@ -31,6 +31,7 @@ module.exports = function(router, db) {
 							match = comp.matches[j];
 
 							if (match.url === url) {
+								result.season = season.season;
 								result.competition = comp.name;
 								result.round = match.round;
 								result.date = match.date;

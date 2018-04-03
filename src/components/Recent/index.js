@@ -4,7 +4,7 @@ import './style.css';
 
 import {Team, Scoreboard} from '../Common';
 
-import {seasons, competitions} from '../data';
+import {clubs, competitions} from '../data';
 import UrlUtil from '../../util/url';
 
 export default class Home extends Component {
@@ -20,7 +20,7 @@ export default class Home extends Component {
 	}
 
 	render() {
-		const year = seasons.years.max;
+		const year = clubs.years.max;
 
 		return (
 			<div className="Recent">
@@ -82,7 +82,7 @@ export default class Home extends Component {
 
 	fetch() {
 		const that = this;
-		const url = UrlUtil.getRecentMatchesUrl(seasons.years.max);
+		const url = UrlUtil.getRecentMatchesUrl(clubs.years.max);
 
 		fetch(url)
 		.then(function(response) {

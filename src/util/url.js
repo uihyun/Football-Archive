@@ -1,4 +1,4 @@
-import {teams, seasons} from '../data';
+import {teams, clubs} from '../data';
 
 export default class UrlUtil {
 	static getTeamUrl(team) {
@@ -60,12 +60,12 @@ export default class UrlUtil {
 		if (year === undefined)
 			return false;
 
-		for (var i in seasons.seasons) {
-			if (seasons.seasons[i].teams[year] === undefined) {
+		for (var i in clubs.seasons) {
+			if (clubs.seasons[i].teams[year] === undefined) {
 				continue;
 			}
 
-			if (seasons.seasons[i].teams[year].includes(team)) {
+			if (clubs.seasons[i].teams[year].includes(team)) {
 				return true;
 			}
 		}

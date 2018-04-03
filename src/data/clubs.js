@@ -1,10 +1,9 @@
-const seasons = {
+const clubs = {
 	years: {max: 2018, min: 2006},
 	countries: ['ENG', 'ESP', 'GER', 'ITA', 'FRA'],
 	seasons: {
 		ENG: {
 			league: 'Premier-League',
-			years: [2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006],
 			teams: {
 				2018: [
 					'Chelsea FC',
@@ -296,7 +295,6 @@ const seasons = {
 		},
 		ESP: {
 			league: 'Primera-División',
-			years: [2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009],
 			teams: {
 				2018: [
 					'Real Madrid',
@@ -522,7 +520,6 @@ const seasons = {
 		},
 		GER: {
 			league: 'Bundesliga',
-			years: [2018],
 			teams: {
 				2018: [
 					'Bayern München',
@@ -548,7 +545,6 @@ const seasons = {
 		},
 		ITA: {
 			league: 'Serie-A',
-			years: [2018],
 			teams: {
 				2018: [
 					'Juventus',
@@ -576,7 +572,6 @@ const seasons = {
 		},
 		FRA: {
 			league: 'Ligue-1',
-			years: [2018],
 			teams: {
 				2018: [
 					'AS Monaco',
@@ -605,4 +600,4 @@ const seasons = {
 	}
 };
 
-export default seasons;
+export default clubs;

@@ -5,7 +5,7 @@ import './style.css';
 
 import Recent from '../Recent';
 
-import {seasons} from '../data';
+import {clubs} from '../data';
 
 export default class Home extends Component {
 
@@ -14,7 +14,7 @@ export default class Home extends Component {
 			<div className="Home">
 				<div className="flex-container flex-container-space-evenly text-center">
 					<div className="flex-1">
-						<NavLink to={'/club/' + seasons.years.max} activeClassName="Home-selected">Clubs</NavLink>
+						<NavLink to={'/club/' + clubs.years.max} activeClassName="Home-selected">Clubs</NavLink>
 					</div>
 					<div className="flex-1 Home-not-yet">Countries</div>
 					<div className="flex-1 Home-not-yet">Aggregate</div>

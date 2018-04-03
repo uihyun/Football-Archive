@@ -5,7 +5,7 @@ import './style.css';
 
 import {Team} from '../Common';
 
-import {seasons, koreans} from '../data';
+import {clubs, koreans} from '../data';
 import UrlUtil from '../../util/url';
 
 export default class ClubSelector extends Component {
@@ -15,8 +15,8 @@ export default class ClubSelector extends Component {
 		const year = this.props.match.params.year;
 		var countries = [];
 
-		seasons.countries.forEach(country => {
-			var teams = seasons.seasons[country].teams[year];
+		clubs.countries.forEach(country => {
+			var teams = clubs.seasons[country].teams[year];
 			if (teams) {
 				countries.push({ code: country, teams: teams });
 			}
@@ -77,7 +77,7 @@ export default class ClubSelector extends Component {
 		var years = [];
 		var i, style = 'ClubSelector-year';
 
-		for (i = seasons.years.min; i <= seasons.years.max; i++) {
+		for (i = clubs.years.min; i <= clubs.years.max; i++) {
 			if (i === parseInt(year, 10)) {
 				years.push((
 					<div key={i} className={style + " ClubSelector-year-selected"}>

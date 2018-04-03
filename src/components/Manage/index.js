@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './style.css';
 
 import {Team} from '../Common';
-import {seasons} from '../data';
+import {clubs} from '../data';
 
 import UrlUtil from '../../util/url';
 
@@ -12,8 +12,8 @@ export default class Manage extends Component {
 	constructor(props) {
 		super(props);
 
-		const selectedCountry = seasons.countries[0];
-		const country = seasons.seasons[selectedCountry];
+		const selectedCountry = clubs.countries[0];
+		const country = clubs.seasons[selectedCountry];
 		const selectedYear = country.years[0];
 		const teams = country.teams[selectedYear];
 
@@ -48,13 +48,13 @@ export default class Manage extends Component {
 				</h2>
 				<div className="flex-container">
 					<div className="flex-1">
-						{seasons.countries.map(country => {
+						{clubs.countries.map(country => {
 							const url = 'https://img.uefa.com/imgml/flags/50x50/' + country + '.png';
 							return (
 								<div key={country}>
 									<img src={url} alt="" />
 									<ul>
-									{seasons.seasons[country].years.map(year => {
+									{clubs.seasons[country].years.map(year => {
 										return <li key={year} onClick={() => this.selectYear(country, year)}>{year}</li>;
 									})}
 									</ul>
@@ -93,14 +93,6 @@ export default class Manage extends Component {
 												Fetch Season
 											</button>
 										}
-										{/*
-										<button onClick={() => this.fetchMatches(team)}>
-											Fetch Matches
-										</button>
-										<button className="Manage-clear-btn" onClick={() => this.clearMatches(team)}>
-											Clear Matches
-										</button>
-										*/}
 									</div>
 								</div>
 							);
@@ -114,7 +106,7 @@ export default class Manage extends Component {
 	selectYear(country, year) {
 		const that = this;
 		const url = '/api/season/select/' + year;
-		const teams = seasons.seasons[country].teams[year];
+		const teams = clubs.seasons[country].teams[year];
 
 		fetch(url)
 			.then(function(response) {
@@ -190,11 +182,11 @@ export default class Manage extends Component {
 		var leagues = [];
 		var i, country;
 
-		for (i = 0; i < seasons.countries.length; i++) {
-			country = seasons.countries[i];
+		for (i = 0; i < clubs.countries.length; i++) {
+			country = clubs.countries[i];
 
-			if (seasons.seasons[country].teams[year]) {
-				leagues.push(seasons.seasons[country].league);
+			if (clubs.seasons[country].teams[year]) {
+				leagues.push(clubs.seasons[country].league);
 			}
 		}
 

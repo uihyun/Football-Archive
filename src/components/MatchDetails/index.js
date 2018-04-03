@@ -28,6 +28,7 @@ export default class MatchDetails extends Component {
 		}
 
 		const match = this.state.match;
+		const year = match.season;
 		const summary = match.summary;
 		var l, r, goals;
 
@@ -41,12 +42,6 @@ export default class MatchDetails extends Component {
 			goals = [];
 		}
 	
-		var year = parseInt(match.date.substring(6, 10), 10);
-		var month = parseInt(match.date.substring(0, 2), 10);
-
-		if (month >= 8)
-			year++;
-
 		return (
 			<div>
 				<h3 className="text-center">
