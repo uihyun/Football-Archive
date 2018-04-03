@@ -15,6 +15,13 @@ export default class Competition extends Component {
 			round = '';
 		}
 
+		if (comp.code === 'WQ') {
+			round = round.replace(/2ndR/, '2R');
+			round = round.replace(/3rdR/, '3R');
+			round = round.replace(/Relegation/, '4R');
+			round = round.replace(/Matches/, 'Play-offs');
+		}
+
 		return (
 			<span>
 				<span className="hide-mobile">{comp.name}</span>
