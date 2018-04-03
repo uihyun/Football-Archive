@@ -1,3 +1,5 @@
+import {teams} from '../data';
+
 export default class UrlUtil {
 	static getTeamUrl(team) {
 		team = team.replace(/á/g, 'a');
@@ -45,5 +47,15 @@ export default class UrlUtil {
 	static getVersusSelectUrl(teamA, teamB) {
 		var url = '/api/versus/select/' + teamA + '/' + teamB;
 		return url;
+	}
+
+	static getEmblemUrl(team) {
+		var logoID = 2608043;
+
+		if (teams[team] !== undefined) {
+			logoID = teams[team].id;
+		}
+
+		return '/' + logoID + '.png';
 	}
 }	

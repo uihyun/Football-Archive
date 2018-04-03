@@ -4,19 +4,19 @@ import './style.css';
 
 import {teams} from '../data';
 
+import UrlUtil from '../../../util/url';
+
 export default class Team extends Component {
 
 	render() {
 
-		var logoID = 2608043;
 		var name = this.props.name;
 
 		if (teams[name] !== undefined) {
-			logoID = teams[name].id;
 			name = teams[name].name;
 		}
 
-		var imgSrc = '/' + logoID + '.png';
+		var imgSrc = UrlUtil.getEmblemUrl(this.props.team);
 
 		if (this.props.emblemOnly) {
 			return <img src={imgSrc} className="Team-logo" alt="" />;

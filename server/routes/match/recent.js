@@ -12,6 +12,7 @@ module.exports = function(router, db) {
 		const season = req.params._season;
 		var matchMap = {};
 		var now = new Date();
+		var tomorrow = new Date(now.getTime() + (1 * 24 * 60 * 60 * 1000));
 		var weekBefore = new Date(now.getTime() - (5 * 24 * 60 * 60 * 1000));
 		var matchDate;
 		
@@ -33,7 +34,7 @@ module.exports = function(router, db) {
 								match = comp.matches[k];
 								matchDate = new Date(match.date);
 
-								if (matchDate >= weekBefore && matchDate <= now) {
+								if (matchDate >= weekBefore && matchDate <= tomorrow) {
 									teams = (match.place === 'A') ? [match.vs, season.team] : [season.team, match.vs];
 									matchMap[match.url] = {
 										competition: comp.name,
