@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import {EmblemLarge} from '../Common';
+import {Team} from '../Common';
 
 import PlayerName from '../../util/playerName';
 
@@ -39,9 +39,9 @@ export default class MatchDetails extends Component {
 					<div className="flex-1 hide-mobile"></div>
 					<div className="flex-2">
 						<div className="flex-container" onClick={this.props.showVersus}>
-							<div className="flex-1"><EmblemLarge team={l} /></div>
+							<div className="flex-1"><Team name={l} emblemLarge={true}/></div>
 							<div className="flex-1 text-center MatchDetails-score">{this.getScore()}</div>
-							<div className="flex-1 text-right"><EmblemLarge team={r} /></div>
+							<div className="flex-1 text-right"><Team name={r} emblemLarge={true}/></div>
 						</div>
 						{goals.map((goal, index) => {return (this.getGoalDiv(goal, index));})}
 					</div>

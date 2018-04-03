@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import {Team, Scoreboard, EmblemLarge} from '../Common';
+import {Team, Scoreboard} from '../Common';
 
 import {seasons, competitions} from '../data';
 import UrlUtil from '../../util/url';
@@ -38,16 +38,16 @@ export default class Home extends Component {
 								rows[i][j] = (
 										<div key={i * 4 + j} className="flex-1">
 											<div className="hide-mobile flex-container flex-container-center">
-												<EmblemLarge team={match.teams[0]} />
+												<Team name={match.teams[0]} emblemLarge={true} />
 												<div className="Recent-long-scoreboard">
 													<Scoreboard team={match.teams[0]} match={match} player={this.state.player} />
 												</div>
-												<EmblemLarge team={match.teams[1]} />
+												<Team name={match.teams[1]} emblemLarge={true} />
 											</div>
 											<div className="show-mobile-flex flex-container flex-container-center">
-												<Team name={match.teams[0]} emblemOnly={true} />
+												<Team name={match.teams[0]} emblemSmall={true} />
 												<Scoreboard team={match.teams[0]} match={match} player={this.state.player} />
-												<Team name={match.teams[1]} emblemOnly={true} />
+												<Team name={match.teams[1]} emblemSmall={true} />
 											</div>
 										</div>
 									);

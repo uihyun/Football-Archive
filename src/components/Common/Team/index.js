@@ -11,20 +11,23 @@ export default class Team extends Component {
 	render() {
 
 		var name = this.props.name;
+		var imgSrc = UrlUtil.getEmblemUrl(name);
 
 		if (teams[name] !== undefined) {
 			name = teams[name].name;
 		}
 
-		var imgSrc = UrlUtil.getEmblemUrl(this.props.team);
+		if (this.props.emblemLarge) {
+			return <img src={imgSrc} className="Team-emblem-large" alt="" />;
+		}
 
-		if (this.props.emblemOnly) {
-			return <img src={imgSrc} className="Team-logo" alt="" />;
+		if (this.props.emblemSmall) {
+			return <img src={imgSrc} className="Team-emblem-small" alt="" />;
 		}
 		
 		return (
 			<div className="Team flex-container">
-				<img src={imgSrc} className="Team-logo" alt="" />
+				<img src={imgSrc} className="Team-emblem-small" alt="" />
 				{ this.props.hideMobileName ||
 					<div className="show-mobile flex-1">{name}</div>
 				}

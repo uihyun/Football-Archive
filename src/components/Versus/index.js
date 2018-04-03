@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import {Scoreboard, EmblemLarge} from '../Common';
+import {Scoreboard, Team} from '../Common';
 
 import UrlUtil from '../../util/url';
 
@@ -25,8 +25,8 @@ export default class Versus extends Component {
 		return (
 			<div>
 				<div className="text-center">
-					<EmblemLarge team={this.props.teamA} />
-					<EmblemLarge team={this.props.teamB} />
+					<Team name={this.props.teamA} emblemLarge={true}/>
+					<Team name={this.props.teamB} emblemLarge={true}/>
 				</div>
 				<div className="flex-container text-center Versus-header">
 					<div className="flex-1">Season</div>

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import './style.css';
 
-import {EmblemLarge} from '../Common';
+import {Team} from '../Common';
 
 import {seasons, koreans} from '../data';
 import UrlUtil from '../../util/url';
@@ -40,7 +40,7 @@ export default class ClubSelector extends Component {
 										return (
 											<div className="ClubSelector-team" key={team}>
 												<Link to={url + '/' + UrlUtil.getTeamUrl(team)}> 
-													<EmblemLarge team={team} />
+													<Team name={team} emblemLarge={true}/>
 												</Link>
 											</div>
 										);
@@ -62,7 +62,7 @@ export default class ClubSelector extends Component {
 												{korean.name}
 											</div>
 											<div className="ClubSelector-team">
-												<EmblemLarge team={korean.team} />
+												<Team name={korean.team} emblemLarge={true}/>
 											</div>
 										</Link>
 									</div>
