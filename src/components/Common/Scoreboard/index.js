@@ -24,7 +24,6 @@ export default class Scoreboard extends Component {
 
 		if (summary) {
 			score = (
-				<Link to={'/match/' + match.url}>
 				<div className="flex-container text-center Scoreboard-score">
 					<div className="flex-1"></div>
 					<div className="flex-2">{sum.goalsScored}</div>
@@ -32,7 +31,6 @@ export default class Scoreboard extends Component {
 					<div className="flex-2">{sum.goalsConceded}</div>
 					<div className="flex-1"></div>
 				</div>
-				</Link>
 			);
 			
 			const side = (summary.r === this.props.team) ? 'r' : 'l';
@@ -53,7 +51,16 @@ export default class Scoreboard extends Component {
 
 		let className = this.props.classNames + ' Scoreboard ' + shrink + scoreStyle;
 
-    return (<div className={className}>{bg}<div className='Scoreboard-inner'>{score}</div></div>);
+    return (
+			<div className={className}>
+				{bg}
+				<div className='Scoreboard-inner'>
+					<Link to={'/match/' + match.url}>
+						{score}
+					</Link>
+				</div>
+			</div>
+		);
 	}
 
 	playerBackground(players, player, style) {

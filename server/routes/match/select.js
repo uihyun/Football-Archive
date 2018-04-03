@@ -12,7 +12,9 @@ module.exports = function(router, db) {
 		function getMatch(result) {
 			return Matches.findOne({url: url})
 				.then(function(match) {
-					result.summary = match.summary;
+					if (match) {
+						result.summary = match.summary;
+					}
 				});
 		}
 
@@ -32,6 +34,9 @@ module.exports = function(router, db) {
 								result.competition = comp.name;
 								result.round = match.round;
 								result.date = match.date;
+								result.teams = [season.team, match.vs];
+								if (match.place = 'A')
+									result.teams.reverse();
 								return;
 							}
 						}

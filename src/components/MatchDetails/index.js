@@ -29,9 +29,17 @@ export default class MatchDetails extends Component {
 
 		const match = this.state.match;
 		const summary = match.summary;
-		var l = summary.l;
-		var r = summary.r;
-		var goals = summary.goals;
+		var l, r, goals;
+
+		if (summary) {
+			l = summary.l;
+			r = summary.r;
+			goals = summary.goals;
+		} else {
+			l = match.teams[0];
+			r = match.teams[1];
+			goals = [];
+		}
 	
 		var year = parseInt(match.date.substring(6, 10), 10);
 		var month = parseInt(match.date.substring(0, 2), 10);
@@ -92,6 +100,10 @@ export default class MatchDetails extends Component {
 	}
 
 	getScore() {
+		if (this.state.match.summary === undefined) {
+			return '';
+		}
+
 		const goals = this.state.match.summary.goals;
 		var l = 0;
 		var r = 0;

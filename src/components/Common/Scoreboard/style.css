@@ -64,7 +64,7 @@
 	background-color: hsl( 20,  80%, 80%);
 }
 
-.Scoreboard-unplayed {
+.Scoreboard-unplayed a {
 	color: black;
 }
 
