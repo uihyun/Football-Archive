@@ -6,7 +6,7 @@ import './style.css';
 import {Team} from '../Common';
 
 import Timeline from '../Timeline';
-//import Summary from '../Summary';
+import Summary from '../Summary';
 import Statistics from '../Statistics';
 //import Standings from '../Standings';
 
@@ -164,7 +164,7 @@ export default class NationView extends Component {
 				}
 			}
 
-			result = {season: year, team: team, competitions: compArray};
+			result = {season: year, team: team, competitions: compArray, leagues: []};
 			const squad = SquadUtil.getSquadArray(result);
 
 			var state = {
@@ -173,8 +173,6 @@ export default class NationView extends Component {
 				data: result,
 				squad: squad,
 			};
-
-			console.log(state);
 
 			that.setState(state);
 		});
@@ -189,6 +187,8 @@ export default class NationView extends Component {
 	getView() {
 		if (this.state.view === 'Timeline') {
 			return (<Timeline data={this.state.data} squad={this.state.squad} team={this.state.team} year={this.state.year} />);
+		} else if (this.state.view === 'Summary') {
+			return (<Summary data={this.state.data} squad={this.state.squad} team={this.state.team} year={this.state.year} />);
 		} else if (this.state.view === 'Statistics') {
 			return (<Statistics data={this.state.data} team={this.state.team} />);
 		}

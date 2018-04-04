@@ -1,0 +1,25 @@
+.Progress-neutral {
+	width: 70px;
+}
+
+.Progress-self {
+	width: 70px;
+	text-align: center;
+}
+
+.Progress-team {
+	height: 21px;
+	line-height: 21px;
+}
+
+.Progress-empty-match {
+	width: 35px;
+}
+
+.Progress-left {
+	margin-right: 3px;
+}
+
+.Progress-right {
+	margin-left: 3px;
+}

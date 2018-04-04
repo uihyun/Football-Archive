@@ -148,7 +148,7 @@ const koreans = {
 		'Kyung-won Kwon': '권경원',
 		'Min-jae Kim': '김민재',
 		'Seong-uk Jin': '진성욱',
-		'Seung-hyun Jeong': '전승현',
+		'Seung-hyun Jeong': '정승현',
 		'Yong-joon Heo': '허용준',
 		'Jun-ho Son': '손준호',
 		'Seong-jun Kim': '김성준',

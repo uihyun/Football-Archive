@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import {Scoreboard, Squad, Team} from '../Common';
+import {Squad, Progress} from '../Common';
 
-import {rounds, competitions} from '../data';
+import {competitions} from '../data';
 
 export default class Summary extends Component {
 
@@ -15,7 +15,7 @@ export default class Summary extends Component {
 
 		this.selectPlayer = this.selectPlayer.bind(this);
 	}
-
+	
 	componentWillReceiveProps(nextProps) {
 		this.setState(this.newState(nextProps));
 	}
@@ -24,273 +24,73 @@ export default class Summary extends Component {
 		this.setState({ player: player });
 	}
 
-	getScoreboard(match, key) {
+  render() {
+		const team = this.props.team;
+		const year = this.props.year;
+
 		return (
-			<div className="flex-container" key={key}
-					 onClick={() => this.props.selectMatch(match)}>
-				<Scoreboard key={key} team={this.props.team} match={match} player={this.state.player} />
+			<div className="Summary">
+				<div className="flex-container">
+					{this.state.groups.map((group, index) => {
+						return (
+							<div key={index} className="flex-1">
+								{group.map(comp => {
+									var leagueTable = this.state.leagueTableMap[comp.name];
+									return <Progress key={comp.name} team={team} year={year} player={this.state.player}
+														competition={comp} leagueTable={leagueTable} />;
+								})}
+							</div>
+						);
+					})}
+				</div>
+				<br/>
+				<Squad squad={this.props.squad} selectPlayer={this.selectPlayer} />
 			</div>
 		);
-	}
-
-  render() {
-		function displayRank(rank) {
-			if (rank === 1) {
-				return rank + 'st';
-			} else if (rank === 2) {
-				return rank + 'nd';
-			} else {
-				return rank + 'th';
-			}
-		}
-
-		function displayRound(cup, round) {
-			if (rounds[cup] !== undefined) {
-				if (rounds[cup][round] !== undefined) {
-					return rounds[cup][round];
-				}
-			}
-
-			if (round.match(/^Group/)) {
-				return 'G';
-			}
-
-			return round;
-		}
-
-    return (
-			<div>
-			<div className="flex-container">
-				{this.state.europe.length > 0 &&
-				<div className="flex-1">
-					{this.state.europe.map(cup => {
-						return (
-							<div key={cup.name}>
-								<h3 className="text-center">{cup.name}</h3>
-								{cup.rounds.map(round => {
-									return (
-										<div className="flex-container Summary-team" key={round.team}>
-											<div className="flex-1 flex-container-right-aligned Summary-left">{displayRound(cup.name, round.round)}</div>
-											{this.getScoreboard(round.matches[0])}
-											{round.matches.length > 1 ?
-												this.getScoreboard(round.matches[1])
-												: round.hideEmpty || <div className="Summary-empty-match" />
-											}
-											<div className="flex-1 Summary-right">
-												<Team team={round.team} hideMobileName={true} showShortName={true} year={this.props.year} />
-											</div>
-										</div>
-									);
-								})}
-							</div>
-						);
-					})}
-				</div>
-				}
-				<div className="flex-1">
-					<h3 className="text-center">{this.state.league.name}</h3>
-					{this.state.league.map(team => {
-						return (
-							<div className="flex-container Summary-team" key={team.name}>
-								<div className="flex-1 flex-container-right-aligned Summary-left">
-									{team.name !== this.props.team && team.rank}
-								</div>
-								{
-									team.name === this.props.team
-									? <div className="Summary-self">{displayRank(team.rank)}</div>
-									: team.matches.map(match => {
-										return this.getScoreboard(match, match.place);
-									})
-								}
-								<div className="flex-1 Summary-right">
-									<Team team={team.name} hideMobileName={true} showShortName={true} year={this.props.year}/>
-								</div>
-							</div>
-						);
-					})}
-				</div>
-				<div className="flex-1">
-					{this.state.cups.map(cup => {
-						return (
-							<div key={cup.name}>
-								<h3 className="text-center">{cup.name}</h3>
-								{cup.rounds.map(round => {
-									return (
-										<div className="flex-container Summary-team" key={round.round}>
-											<div className="flex-1 flex-container-right-aligned Summary-left">{displayRound(cup.name, round.round)}</div>
-											{round.matches[0] ?
-												this.getScoreboard(round.matches[0])
-												: round.round !== 'Final' && <div className="Summary-empty-match" />
-											}
-											{round.matches[1] ?
-												this.getScoreboard(round.matches[1])
-												: round.round !== 'Final' && <div className="Summary-empty-match" />
-											}
-											<div className="flex-1 Summary-right">
-												<Team team={round.team} hideMobileName={true} showShortName={true} year={this.props.year}/>
-											</div>
-										</div>
-									);
-								})}
-							</div>
-						);
-					})}
-				</div>
-			</div>
-			<br/>
-			<Squad squad={this.props.squad} selectPlayer={this.selectPlayer} />
-		</div>
-    );
   }
-
+	
 	newState(props) {
 		const data = props.data;
-		var out = {league: [], cups: [], europe: [], player: null};
+		var state = { groups: [], leagueTableMap: {}, player: null };
 
 		if (data.leagues === undefined) {
-			return out; // data not yet fetched
+			return state; // data not yet fetched
 		}
 
-		var i;
-		var entry;
-		var table = [];
-		var teams = {};
-		for (i = 0; i < data.leagues[0].table.length; i++) {
-			entry = data.leagues[0].table[i];
-			table[i] = { name: entry.name, matches: [], rank: entry.rank };
-			teams[entry.name] = table[i];
+		var i, league;
+		var compMap = {};
+		var comp, name, entry, group;
+
+		for (i = 0; i < data.leagues.length; i++) {
+			league = data.leagues[i];
+			state.leagueTableMap[league.name] = league.table;
 		}
-		out.league = table;
-
-		var j, k;
-		var match;
-		var team;
-		var cup, prevMatch, found, round, comp;
-		for (i = 0; i < data.competitions.length; i++) {
-			entry = data.competitions[i];
-			comp = competitions[entry.name];
-
-			if (comp.code === 'L') {
-				out.league.name = comp.name;
-				for (j = 0; j < entry.matches.length; j++) {
-					match = entry.matches[j];
-
-					team = teams[match.vs];
-
-					if (team === undefined)
-						continue;
-
-					if (match.place === 'A') {
-						team.matches[1] = match;
-					} else {
-						team.matches[0] = match;
-					}
-				}
-			} else if (comp.code === 'C') {
-				cup = {name: comp.name, rounds: []};
-
-				prevMatch = {};
-				for (j = 0; j < entry.matches.length; j++) {
-					match = entry.matches[j];
-					if (match.round === prevMatch.round) {
-						if (match.place === 'A') {
-							round.matches[1] = match;
-						} else {
-							round.matches[0] = match;
-						}
-					} else {
-						round = {
-							round: match.round,
-							team: match.vs,
-							matches: []
-						};
-
-						if (match.place === 'A') {
-							round.matches[1] = match;
-						} else {
-							round.matches[0] = match;
-						}
-
-						cup.rounds.push(round);
-						prevMatch = match;
-					}
-				}
-
-				cup.rounds.reverse();
-				out.cups.push(cup);
-			} else if (comp.code === 'I') {
-				cup = {name: comp.name, rounds: []};
-				for (j = 0; j < out.europe.length; j++) {
-					if (out.europe[j].name === comp.name) {
-						cup = out.europe[j];
-					}
-				}
-
-				if (cup.rounds.length === 0) {
-					out.europe.push(cup);
-				}
-
-				prevMatch = {};
-				for (j = 0; j < entry.matches.length; j++) {
-					match = entry.matches[j];
-					if (match.round === prevMatch.round) {
-						if (match.round.match(/^Group/)) {
-							found = false;
-							for (k = 0; k < cup.rounds.length; k++) {
-								if (cup.rounds[k].team === match.vs) {
-									cup.rounds[k].matches[1] = match;
-									if (cup.rounds[k].matches[0].place === 'A') {
-										cup.rounds[k].matches.reverse();
-									}
-									found = true;
-									break;
-								}
-							}
-
-							if (found === false) {
-								cup.rounds.push({
-									round: match.round,
-									team: match.vs,
-									matches: [match]
-								});
-							}
-						} else {
-							cup.rounds[cup.rounds.length - 1].matches[1] = match;
-							if (match.place === 'H') {
-								cup.rounds[cup.rounds.length - 1].matches.reverse();
-							}
-						}
-					} else {
-						cup.rounds.push({
-							round: match.round,
-							team: match.vs,
-							matches: [match]
-						});
-						prevMatch = match;
-					}
-				}
-
-				for (j = 0; j < cup.rounds.length; j++) {
-					round = cup.rounds[j];
-					if (entry.name.match(/^Club/) || round.round === 'Final') {
-						round.hideEmpty = true;
-					}
-				}
+		
+		for (i in competitions) {
+			if (i) {
+				compMap[i] = {name: i, matches: [], group: competitions[i].group};
 			}
 		}
 
-		for (i = 0; i < out.europe.length; i++) {
-			cup = out.europe[i];
-			cup.rounds.sort(function (a, b) {
-				var aDate = a.matches[0].date.split('/');
-				var bDate = b.matches[0].date.split('/');
-				var aStr = aDate[2] + aDate[0] + aDate[1];
-				var bStr = bDate[2] + bDate[0] + bDate[1];
+		for (i = 0; i < data.competitions.length; i++) {
+			comp = data.competitions[i];
+			name = comp.name.replace(/ Qual.$/, '');
+			entry = compMap[name];
+			entry.matches = entry.matches.concat(comp.matches);
+		}
+		
+		for (i in compMap) {
+			if (compMap[i] && compMap[i].matches.length > 0) {
+				group = compMap[i].group;
 
-				return bStr - aStr;
-			});
+				if (state.groups[group] === undefined) {
+					state.groups[group] = [];
+				}
+
+				state.groups[group].push(compMap[i]);
+			}
 		}
 
-		return out;
+		return state;
 	}
 }

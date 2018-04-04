@@ -135,7 +135,7 @@ export default class Cup extends Component {
 
 	getSorted() {
 		let cup = this.props.cup;
-		let roundNumber = rounds[cup.name];
+		let roundNumber = rounds.getRoundNumbers(cup.name);
 
 		var array = [];
 		cup.rounds.forEach(function (round) {
@@ -168,7 +168,7 @@ export default class Cup extends Component {
 
 	getGrid(sorted) {
 		let cup = this.props.cup;
-		let roundNumber = rounds[this.props.cup.name];
+		let roundNumber = rounds.getRoundNumbers(cup.name);
 		var grid = [];
 		var round, prevLevel, prevMap;
 		var i, j;
