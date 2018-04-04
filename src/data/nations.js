@@ -1,6 +1,6 @@
 const nations = {
 	years: {max: 2018, min: 2014},
-	confederations: ['AFC'],//, 'CAF', 'CONCACAF', 'CONMEBOL', 'OFC', 'UEFA'],
+	confederations: ['AFC', 'UEFA', 'CONCACAF'],//, 'CAF', 'CONMEBOL', 'OFC'],
 	countries: {
 		AFC: [
 			'Australia',
@@ -8,6 +8,13 @@ const nations = {
 			'Japan',
 			'Saudi Arabia',
 			'South Korea',
+		],
+		UEFA: [
+			'Germany',
+			'Sweden',
+		],
+		CONCACAF: [
+			'Mexico',
 		],
 	}
 };

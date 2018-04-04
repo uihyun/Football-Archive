@@ -174,6 +174,8 @@ export default class NationView extends Component {
 				squad: squad,
 			};
 
+			console.log(state);
+
 			that.setState(state);
 		});
 	}

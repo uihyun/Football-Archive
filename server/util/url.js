@@ -2,11 +2,17 @@
 
 module.exports = {
 	mapArray: [
+		// AFC
   	{name: 'Australia', url: 'australien-team'},
 	  {name: 'Iran', url: 'iran-team'},
 		{name: 'Japan', url: 'japan-team'},
 		{name: 'Saudi Arabia', url: 'saudi-arabien-team'},
 		{name: 'South Korea', url: 'suedkorea-team'},
+		// UEFA
+		{name: 'Germany', url: 'deutschland-team'},
+		{name: 'Sweden', url: 'schweden-team'},
+		// CONCACAF
+		{name: 'Mexico', url: 'mexiko-team'},
 		{name: '', url: ''}
 	],
 	getUrlToNameMap: function() {

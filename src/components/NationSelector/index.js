@@ -21,11 +21,10 @@ export default class NationSelector extends Component {
 
     return (
       <div className="NationSelector text-center">
-				<br />
-				<div className="flex-container">
+				<div>
 					{countries.map(country => {
 						return (
-							<div key={country.code} className="flex-1">
+							<div key={country.code}>
 								<h3>{country.code}</h3>
 								<div className="ClubSelector-flex-container">
 									{country.teams.map(team => {

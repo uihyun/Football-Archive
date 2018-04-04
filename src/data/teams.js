@@ -191,10 +191,14 @@ const teams = {
 	'Saudi Arabia': {id: 'KSA', name: 'Saudi Arabia', url: 'saudi-arabien-team'},
 	'South Korea': {id: 'KOR', name: 'South Korea', url: 'suedkorea-team'},
 
+	// UEFA
+	'Germany': {id: 'GER', name: 'Germany', url: 'deutschland-team'},
+	'Sweden': {id: 'SWE', name: 'Sweden', url: 'schweden-team'},
+
+	// CONCACAF
+	'Mexico': {id: 'MEX', name: 'Mexico', url: 'mexiko-team'},
+	
 	// other national teams
-	'Germany': {id: 'GER', name: 'Germany'},
-	'Mexico': {id: 'MEX', name: 'Mexico'},
-	'Sweden': {id: 'SWE', name: 'Sweden'},
 };
 
 export default teams;

@@ -58,12 +58,12 @@ export default class Scoreboard extends Component {
 
     return (
 			<div className={className}>
-				{bg}
-				<div className='Scoreboard-inner'>
-					<Link to={'/match/' + match.url}>
+				<Link to={'/match/' + match.url}>
+					{bg}
+					<div className='Scoreboard-inner'>
 						{score}
-					</Link>
-				</div>
+					</div>
+				</Link>
 			</div>
 		);
 	}

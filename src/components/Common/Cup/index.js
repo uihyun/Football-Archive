@@ -240,13 +240,11 @@ export default class Cup extends Component {
 			return null;
 		}
 
-		var year = this.props.cup.season;
+		var link = UrlUtil.getLink(this.props.cup.season, team);
 
-		if (UrlUtil.canLink(year, team)) {
-			var teamUrl = UrlUtil.getTeamUrl(team);
-
+		if (link) {
 			return (
-				<Link key={image.key} to={"/club/" + this.props.cup.season + "/" + teamUrl}>
+				<Link key={image.key} to={link}>
 					{image}
 				</Link>
 			);
