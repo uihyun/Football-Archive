@@ -13,7 +13,7 @@ module.exports = function(router, db) {
 		var matchMap = {};
 		var now = new Date();
 		var tomorrow = new Date(now.getTime() + (1 * 24 * 60 * 60 * 1000));
-		var weekBefore = new Date(now.getTime() - (5 * 24 * 60 * 60 * 1000));
+		var weekBefore = new Date(now.getTime() - (3 * 24 * 60 * 60 * 1000));
 		var matchDate;
 		
 		Seasons.find({season: season}).toArray()
