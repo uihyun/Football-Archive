@@ -52,6 +52,7 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 			my $url_link = $td_col->[6]->find('a');
 
 			next if $url_link->size == 0;
+			next if trim($url_link->[0]->all_text) =~ '^dnp$';
 
 			my $url = $url_link->[0]->attr('href');
 
@@ -69,3 +70,11 @@ $json .= "]}" if $comp_count;
 $json .= "]\n";
 
 print $json;
+
+sub trim($)
+{
+  my $text = shift;
+  $text =~ s/^\s+|\s+$//g;
+  return $text;
+}
+

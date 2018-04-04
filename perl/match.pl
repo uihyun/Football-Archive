@@ -149,7 +149,7 @@ sub get_penalties($)
 {
 	my $table = shift;
 	
-	$json .= "\"penalties\": [\n";
+	$json .= ",\n\"penalties\": [\n";
 
 	my $penalties = $table->find('tr');
 	for my $index (1 .. $penalties->size - 1) {
@@ -170,7 +170,7 @@ sub get_penalties($)
 		$json .= "{\"side\": \"$side\", \"player\": \"$player\", \"result\": $result}";
 		$json .= ",\n" if $index < $penalties->size - 1;
 	}
-	$json .= "],\n";
+	$json .= "]";
 }
 
 sub get_player($)
