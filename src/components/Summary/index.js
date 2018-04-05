@@ -74,7 +74,7 @@ export default class Summary extends Component {
 
 		for (i = 0; i < data.competitions.length; i++) {
 			comp = data.competitions[i];
-			name = comp.name.replace(/ Qual.$/, '');
+			name = comp.name;
 			entry = compMap[name];
 			entry.matches = entry.matches.concat(comp.matches);
 		}

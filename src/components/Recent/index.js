@@ -113,7 +113,7 @@ export default class Home extends Component {
 				comps[i].matches.sort((a, b) => {
 					if (a.dateO.toString() === b.dateO.toString()) {
 						if ((a.summary && b.summary) || !(a.summary || b.summary)) {
-							return 0;
+							return a.teams[0] < b.teams[0] ? -1 : 1;
 						} else {
 							return a.summary ? -1 : 1;
 						}

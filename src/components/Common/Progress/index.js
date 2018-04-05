@@ -117,6 +117,8 @@ export default class Progress extends Component {
 	getRoundKey(competition, match) {
 		if (competition.name === 'Friendlies') {
 			return match.date;
+		} else if (competition.name === 'WC Qualifiers South America') {
+			return match.vs;
 		} else {
 			return match.round + match.vs;
 		}
@@ -125,6 +127,8 @@ export default class Progress extends Component {
 	getRoundName(competition, match) {
 		if (competition.name === 'Friendlies') {
 			return match.date.substring(8, 10);
+		} else if (competition.name === 'WC Qualifiers South America') {
+			return '1R';
 		} else {
 			return match.round;
 		}

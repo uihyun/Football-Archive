@@ -190,15 +190,70 @@ const teams = {
 	'Japan': {id: 'JPN', name: 'Japan', url: 'japan-team'},
 	'Saudi Arabia': {id: 'KSA', name: 'Saudi Arabia', url: 'saudi-arabien-team'},
 	'South Korea': {id: 'KOR', name: 'South Korea', url: 'suedkorea-team'},
+	'China': {id: 'CHN', name: 'China'},
+	'Iraq': {id: 'IRQ', name: 'Iraq'},
+	'Jordan': {id: 'JOR', name: 'Jordan'},
+	'Kuwait': {id: 'KUW', name: 'Kuwait'},
+	'Laos': {id: 'LAO', name: 'Laos'},
+	'Lebanon': {id: 'LIB', name: 'Lebanon'},
+	'Myanmar': {id: 'MYA', name: 'Myanmar'},
+	'North Korea': {id: 'PRK', name: 'North Korea'},
+	'Oman': {id: 'OMA', name: 'Oman'},
+	'Qatar': {id: 'QAT', name: 'QATAR'},
+	'Syria': {id: 'SYR', name: 'Syria'},
+	'Thailand': {id: 'THA', name: 'Thailand'},
+	'UA Emirates': {id: 'UAE', name: 'UAE'},
+	'Uzbekistan': {id: 'UZB', name: 'Uzbekistan'},
 
 	// UEFA
+	'Belgium': {id: 'BEL', name: 'Belgium', url: 'belgien-team'},
+	'Croatia': {id: 'CRO', name: 'Croatia', url: 'kroatien-team'},
+	'Czech Republic': {id: 'CZE', name: 'Czech'},
+	'Denmark': {id: 'DEN', name: 'Denmark', url: 'daenemark-team'},
+	'France': {id: 'FRA', name: 'France', url: 'frankreich-team'},
+	'England': {id: 'ENG', name: 'England', url: 'england-team'},
 	'Germany': {id: 'GER', name: 'Germany', url: 'deutschland-team'},
+	'Greece': {id: 'GRE', name: 'Greece'},
+	'Iceland': {id: 'ISL', name: 'Iceland', url: 'island-team'},
+	'Latvia': {id: 'LVA', name: 'Latvia'},
+	'Moldova': {id: 'MDA', name: 'Moldova'},
+	'Northern Ireland': {id: 'NIR', name: 'Northern Ireland'},
+	'Poland': {id: 'POL', name: 'Poland', url: 'polen-team'},
+	'Portugal': {id: 'POR', name: 'Portugal', url: 'portugal-team'},
+	'Russia': {id: 'RUS', name: 'Russia', url: 'russland-team'},
+	'Serbia': {id: 'SRB', name: 'Serbia', url: 'serbien-team'},
+	'Spain': {id: 'ESP', name: 'Spain', url: 'spanien-team'},
 	'Sweden': {id: 'SWE', name: 'Sweden', url: 'schweden-team'},
+	'Switzerland': {id: 'SUI', name: 'Switzerland', url: 'schweiz-team'},
+
+	// CONMEBOL
+	'Argentina': {id: 'ARG', name: 'Argentina', url: 'argentinien-team'},
+	'Brazil': {id: 'BRA', name: 'Colombia', url: 'brasilien-team'},
+	'Colombia': {id: 'COL', name: 'Colombia', url: 'kolumbien-team'},
+	'Paraguay': {id: 'PAR', name: 'Paraguay'},
+	'Peru': {id: 'PER', name: 'Peru', url: 'peru-team'},
+	'Uruguay': {id: 'URU', name: 'Uruguay', url: 'uruguay-team'},
+	'Venezuela': {id: 'VEN', name: 'Venezuela'},
 
 	// CONCACAF
+	'Canada': {id: 'CAN', name: 'Canada'},
+	'Costa Rica': {id: 'CRC', name: 'Costa Rica', url: 'costa-rica-team'},
 	'Mexico': {id: 'MEX', name: 'Mexico', url: 'mexiko-team'},
+	'Jamaica': {id: 'JAM', name: 'Jamaica'},
+	'Panama': {id: 'PAN', name: 'Panama', url: 'panama-team'},
+	'USA': {id: 'USA', name: 'USA'},
 	
-	// other national teams
+	// CAF
+	'Algeria': {id: 'ALG', name: 'Algeria'},
+	'Egypt': {id: 'EGY', name: 'Egypt', url: 'aegypten-team'},
+	'Ghana': {id: 'GHA', name: 'Ghana'},
+	'Morocco': {id: 'MAR', name: 'Morocco', url: 'marokko-team'},
+	'Nigeria': {id: 'NGA', name: 'Nigeria', url: 'nigeria-team'},
+	'Tunisia': {id: 'TUN', name: 'Tunisia', url: 'tunesien-team'},
+	'Senegal': {id: 'SEN', name: 'Senegal', url: 'senegal-team'},
+
+	// OFC
+	'New Zealand': {id: 'NZL', name: 'New Zealand'},
 };
 
 export default teams;

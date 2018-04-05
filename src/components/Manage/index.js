@@ -33,6 +33,7 @@ export default class Manage extends Component {
 		this.fetchAllMatches = this.fetchAllMatches.bind(this);
 		this.updateLeague = this.updateLeague.bind(this);
 		this.updateSeason = this.updateSeason.bind(this);
+		this.fetchAllSeasons = this.fetchAllSeasons.bind(this);
 	}
 
 	componentDidMount() {
@@ -73,7 +74,6 @@ export default class Manage extends Component {
 					</div>
 					<div className="flex-2">
 						<div className="flex-container Manage-team">
-							<div className="flex-1" />
 							<div className="flex-1">
 								<button onClick={() => this.fetchAllMatches()}>
 									Fetch All Matches
@@ -83,6 +83,9 @@ export default class Manage extends Component {
 								</button>
 								<button onClick={() => this.updateSeason()}>
 									Update Season
+								</button>
+								<button onClick={() => this.fetchAllSeasons()}>
+									Fetch All Seasons
 								</button>
 							</div>
 						</div>
@@ -205,6 +208,27 @@ export default class Manage extends Component {
 					teams: teams,
 					fetchedTeams: fetchedTeams
 				});
+			});
+	}
+
+	fetchAllSeasons() {
+		const that = this;
+		const year = this.state.selectedYear;
+		const teams = this.state.teams;
+		
+		var i, url;
+		var promises = [];
+
+		for (i = 0; i < teams.length; i++) {
+			if (this.state.fetchedTeams[teams[i]] !== true) {
+				url = UrlUtil.getSeasonFetchUrl(year, teams[i]);
+				promises.push(fetch(url));
+			}
+		}
+
+		Promise.all(promises)
+			.then(function(data) {
+				that.selectYear(that.state.selectedCountry, that.state.selectedYear);
 			});
 	}
 

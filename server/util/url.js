@@ -9,10 +9,36 @@ module.exports = {
 		{name: 'Saudi Arabia', url: 'saudi-arabien-team'},
 		{name: 'South Korea', url: 'suedkorea-team'},
 		// UEFA
+		{name: 'Belgium', url: 'belgien-team'},
+		{name: 'Croatia', url: 'kroatien-team'},
+		{name: 'Denmark', url: 'daenemark-team'},
+		{name: 'England', url: 'england-team'},
+		{name: 'France', url: 'frankreich-team'},
 		{name: 'Germany', url: 'deutschland-team'},
+		{name: 'Iceland', url: 'island-team'},
+		{name: 'Poland', url: 'polen-team'},
+		{name: 'Portugal', url: 'portugal-team'},
+		{name: 'Russia', url: 'russland-team'},
+		{name: 'Serbia', url: 'serbien-team'},
+		{name: 'Spain', url: 'spanien-team'},
 		{name: 'Sweden', url: 'schweden-team'},
+		{name: 'Switzerland', url: 'schweiz-team'},
+		// CONMEBOL
+		{name: 'Argentina', url: 'argentinien-team'},
+		{name: 'Brazil', url: 'brasilien-team'},
+		{name: 'Colombia', url: 'kolumbien-team'},
+		{name: 'Peru', url: 'peru-team'},
+		{name: 'Uruguay', url: 'uruguay-team'},
 		// CONCACAF
+		{name: 'Costa Rica', url: 'costa-rica-team'},
 		{name: 'Mexico', url: 'mexiko-team'},
+		{name: 'Panama', url: 'panama-team'},
+		// CAF
+		{name: 'Egypt', url: 'aegypten-team'},
+		{name: 'Morocco', url: 'marokko-team'},
+		{name: 'Nigeria', url: 'nigeria-team'},
+		{name: 'Tunisia', url: 'tunesien-team'},
+		{name: 'Senegal', url: 'senegal-team'},
 		{name: '', url: ''}
 	],
 	getUrlToNameMap: function() {

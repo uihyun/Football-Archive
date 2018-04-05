@@ -19,7 +19,13 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 
 	if ($comp_td->size) {
 		$comp = $comp_td->[0]->all_text;
-		$comp =~ s/\d+\/\d+.*$|\d+.*$//;
+
+		if ($comp =~ 'Ligue 1') {
+			$comp =~ s/\d+\/\d+.*$//;
+		} else {
+			$comp =~ s/\d+\/\d+.*$|\d+.*$//;
+		}
+
 		$comp =~ s/\s+$//;
 
 		next if $comp =~ '^Friendlies' && !($team =~ '-team$');
