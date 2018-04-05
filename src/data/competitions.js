@@ -12,6 +12,7 @@ const competitions = {
 	'WC Qualifiers CONCACAF': {order: 4, name: 'World Cup Qualifiers', sh: 'WCQ', type: '2', group: 0},
 	'EURO Qualifiers': {order: 5, name: 'EURO Qualifiers', sh: 'CCQ', type: '2', group: 1},
 	'Nations League A': {order: 6, name: 'Nations League A', sh: 'NL', type: '2', group: 1},
+	'Nations League B': {order: 6, name: 'Nations League B', sh: 'NL', type: '2', group: 1},
 	'Friendlies': {order: 7, name: 'Friendlies', sh: 'Fr', type: '2', group: 2},
 
 	'Champions League': {order: 2, name: 'Champions League', sh: 'UCL', type: '2', group: 0},

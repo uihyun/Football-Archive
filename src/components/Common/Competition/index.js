@@ -11,15 +11,15 @@ export default class Competition extends Component {
 		var comp = competitions[this.props.name];
 		var round = ' ' + this.props.round.replace(/ Round/, 'R');
 
-		if (comp.code === 'F') {
+		if (comp.sh === 'Fr') {
 			round = '';
 		}
 
-		if (comp.code === 'WQ') {
+		if (comp.sh === 'WCQ') {
 			round = round.replace(/2ndR/, '2R');
 			round = round.replace(/3rdR/, '3R');
 			round = round.replace(/Relegation/, '4R');
-			round = round.replace(/Matches/, 'Play-offs');
+			round = round.replace(/Matches/, '');
 		}
 
 		return (
