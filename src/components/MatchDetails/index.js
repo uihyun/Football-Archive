@@ -5,6 +5,8 @@ import './style.css';
 
 import {Team} from '../Common';
 
+import {teams} from '../data';
+
 import PlayerName from '../../util/playerName';
 import UrlUtil from '../../util/url';
 
@@ -41,6 +43,9 @@ export default class MatchDetails extends Component {
 			r = match.teams[1];
 			goals = [];
 		}
+
+		const shortL = (teams[l] !== undefined) ? teams[l].name : l;
+		const shortR = (teams[r] !== undefined) ? teams[r].name : r;
 	
 		return (
 			<div>
@@ -51,6 +56,10 @@ export default class MatchDetails extends Component {
 				<div className="flex-container">
 					<div className="flex-1 hide-mobile"></div>
 					<div className="flex-2">
+						<div className="flex-container MatchDetails-team">
+							<div className="flex-1"><span className="hide-mobile">{l}</span><span className="show-mobile">{shortL}</span></div>
+							<div className="flex-1 text-right"><span className="hide-mobile">{r}</span><span className="show-mobile">{shortR}</span></div>
+						</div>
 						<div className="flex-container">
 							<div className="flex-1"><Team team={l} emblemLarge={true} year={year}/></div>
 							<div className="flex-1 text-center MatchDetails-score">{this.getScore()}</div>
