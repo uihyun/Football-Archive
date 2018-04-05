@@ -35,7 +35,8 @@ export default class Progress extends Component {
 								})
 							}
 							<div className="flex-1 Progress-right">
-								<Team team={row.team} hideMobileName={true} showShortName={true} year={this.props.year}/>								</div>
+								<Team team={row.team} hideMobileName={true} showShortName={true} year={this.props.year}/>
+							</div>
 						</div>
 					);
 				})}
@@ -158,13 +159,12 @@ export default class Progress extends Component {
 
 		array.sort(function (a, b) { return b.dateMin - a.dateMin; });
 
-		if (array[array.length - 1].round === 'Final') {
-			row = array[array.length - 1];
-			row.matches = row.matches.filter(a => { return a !== null; });
-		}
-
 		for (i = 0; i < array.length; i++) {
 			row = array[i];
+
+			if (row.round === 'Final')
+				continue;
+
 			if (row.matches.length === 2) {
 				if (row.matches[0].place !== 'H') {
 					place = row.matches[0].place + row.matches[1].place;
