@@ -53,21 +53,14 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 			my $opponent = $td_col->[5]->all_text;
 			$opponent =~ s/^\s+|\s+$//g;
 
-			my $url = "";
+			my $url = getUrl($td_col->[6]);
 
-			my $url_link = $td_col->[6]->find('a');
-
-			next if $url_link->size == 0;
-			next if trim($url_link->[0]->all_text) =~ '^dnp$';
-
-			my $url = $url_link->[0]->attr('href');
-
-			$url =~ s/liveticker\/$//;
-			$url =~ s/^\/report//;
-			$url =~ s/^\/|\/$//g;
+			next if $url =~ '^dnp$';
 
 			$json .= ",\n" if $match_count++;
-			$json .= "{\"date\": \"$date\", \"place\": \"$place\", \"round\": \"$round\", \"vs\": \"$opponent\", \"url\": \"$url\"}";
+			$json .= "{\"date\": \"$date\", \"place\": \"$place\", \"round\": \"$round\", \"vs\": \"$opponent\"";
+			$json .= ", \"url\": \"$url\"" if $url ne '';
+			$json .= "}";
 		}
 	}
 }
@@ -76,6 +69,26 @@ $json .= "]}" if $comp_count;
 $json .= "]\n";
 
 print $json;
+
+sub getUrl($)
+{
+	my $td_col = shift;
+			
+	my $url_link = $td_col->find('a');
+
+	if ($url_link->size == 0) {
+		return (trim($td_col->all_text) eq 'dnp') ? 'dnp' : '';
+	}
+	return 'dnp' if trim($url_link->[0]->all_text) eq 'dnp';
+
+	my $url = $url_link->[0]->attr('href');
+
+	$url =~ s/liveticker\/$//;
+	$url =~ s/^\/report//;
+	$url =~ s/^\/|\/$//g;
+
+	return $url;
+}
 
 sub trim($)
 {

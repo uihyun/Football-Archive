@@ -55,14 +55,16 @@ export default class Scoreboard extends Component {
 		}
 
 		let className = this.props.classNames + ' Scoreboard ' + shrink + scoreStyle;
+		var inner = [bg, (<div className='Scoreboard-inner'>{score}</div>)];
+
+		if (match.url === undefined) {
+	    return (<div className={className}>{inner}</div>);
+		}
 
     return (
 			<div className={className}>
 				<Link to={'/match/' + match.url}>
-					{bg}
-					<div className='Scoreboard-inner'>
-						{score}
-					</div>
+					{inner}
 				</Link>
 			</div>
 		);
