@@ -39,9 +39,10 @@ export default class Standings extends Component {
 					cup = this.props.data.cups[j];
 
 					if (i === cup.name) {
+						competition = competitions[i];
 						views.push({
-							name: competitions[cup.name].name,
-							sh: competitions[cup.name].sh,
+							name: competition.name,
+							sh: competition.sh,
 							view: (<Cup cup={cup} team={team} />)
 						});
 						break;
