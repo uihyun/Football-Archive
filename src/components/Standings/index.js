@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import {LeagueTable, Cup} from '../Common';
+import {LeagueTable} from '../Common';
+import {Cup} from '../SVG';
 import {competitions} from '../data';
 
 export default class Standings extends Component {

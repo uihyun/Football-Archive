@@ -1,5 +1,4 @@
 export {default as Competition} from './Competition';
-export {default as Cup} from './Cup';
 export {default as LeagueTable} from './LeagueTable';
 export {default as Progress} from './Progress';
 export {default as Scoreboard} from './Scoreboard';
