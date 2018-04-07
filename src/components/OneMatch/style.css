@@ -1,14 +1,14 @@
-.MatchDetails-score {
+.OneMatch-score {
 	line-height: 50px;
 	font-size: 1.5em;
 }
 
-.MatchDetails-team {
+.OneMatch-team {
 	font-size: 1.5em;
 	margin-bottom: 3px;
 }
 
-.MatchDetails-minute {
+.OneMatch-minute {
 	line-height: 40px;
 	font-size: 25px;
 	width: 40px;
@@ -16,30 +16,30 @@
 	margin-right: 5px;
 }
 
-.MatchDetails-scorer {
+.OneMatch-scorer {
 	margin-top: 3px;	
 }
 
-.MatchDetails-assist {
+.OneMatch-assist {
 	font-size: 14px;
 	color: gray;
 }
 
-.MatchDetails-r-goal {
+.OneMatch-r-goal {
 	-webkit-flex-direction: row-reverse;
 	flex-direction: row-reverse;
 }
 
 @media screen and (max-width: 543px) {
-	.MatchDetails-score {
+	.OneMatch-score {
 		line-height: 37px;
 		font-size: 25px;
 	}
-	.MatchDetails-minute {
+	.OneMatch-minute {
 		margin: 0px;
 	}
 
-	.MatchDetails-player {
+	.OneMatch-player {
 		margin-left: 5px;
 		margin-right: 5px;
 	}

@@ -7,7 +7,7 @@ import ClubSelector from './components/ClubSelector';
 import NationView from './components/NationView';
 import NationSelector from './components/NationSelector';
 import Versus from './components/Versus';
-import MatchDetails from './components/MatchDetails';
+import OneMatch from './components/OneMatch';
 import Manage from './components/Manage';
 
 const ClubRoutes = ({ match }) => (
@@ -32,7 +32,7 @@ const Routes = (props) => (
 			<Route path="/club" component={ClubRoutes} />
 			<Route path="/nation" component={NationRoutes} />
 			<Route path="/versus/:teamA/:teamB" component={Versus} />
-			<Route path="/match/:url" component={MatchDetails} />
+			<Route path="/match/:url" component={OneMatch} />
 			<Route path="/manage" component={Manage} />
 		</div>
 	</BrowserRouter>

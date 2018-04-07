@@ -10,7 +10,7 @@ import {teams} from '../data';
 import PlayerName from '../../util/playerName';
 import UrlUtil from '../../util/url';
 
-export default class MatchDetails extends Component {
+export default class OneMatch extends Component {
 	
 	constructor(props) {
 		super(props);
@@ -56,13 +56,13 @@ export default class MatchDetails extends Component {
 				<div className="flex-container">
 					<div className="flex-1 hide-mobile"></div>
 					<div className="flex-2">
-						<div className="flex-container MatchDetails-team">
+						<div className="flex-container OneMatch-team">
 							<div className="flex-1"><span className="hide-mobile">{l}</span><span className="show-mobile">{shortL}</span></div>
 							<div className="flex-1 text-right"><span className="hide-mobile">{r}</span><span className="show-mobile">{shortR}</span></div>
 						</div>
 						<div className="flex-container">
 							<div className="flex-1"><Team team={l} emblemLarge={true} year={year}/></div>
-							<div className="flex-1 text-center MatchDetails-score">{this.getScore()}</div>
+							<div className="flex-1 text-center OneMatch-score">{this.getScore()}</div>
 							<div className="flex-1 text-right"><Team team={r} emblemLarge={true} year={year}/></div>
 						</div>
 						{goals.map((goal, index) => {return (this.getGoalDiv(goal, index));})}
@@ -80,20 +80,20 @@ export default class MatchDetails extends Component {
 
 	getGoalDiv(goal, index) {
 		const side = goal.side;
-		const minute = (<div className="MatchDetails-minute text-center">{goal.minute}</div>);
+		const minute = (<div className="OneMatch-minute text-center">{goal.minute}</div>);
 		const player = (
-			<div className="MatchDetails-player">
-				<div className="MatchDetails-scorer">
+			<div className="OneMatch-player">
+				<div className="OneMatch-scorer">
 					{PlayerName.getDisplayName(goal.scorer)}
 					{goal.style === 'own goal' && ' (own goal)'}
 				</div>
-				{goal.assist && <div className="MatchDetails-assist">assist by {PlayerName.getDisplayName(goal.assist)}</div>}
+				{goal.assist && <div className="OneMatch-assist">assist by {PlayerName.getDisplayName(goal.assist)}</div>}
 			</div>
 		);
 		
 		var style = '';
 		if (side === 'r') {
-			style = 'MatchDetails-r-goal text-right';
+			style = 'OneMatch-r-goal text-right';
 		}
 
 		return (
