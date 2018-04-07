@@ -6,7 +6,7 @@ import './style.css';
 import Match from '../../../util/match';
 import UrlUtil from '../../../util/url';
 
-export default class Year extends Component {
+export default class Circle extends Component {
 
 	constructor(props) {
 		super(props);
@@ -28,17 +28,10 @@ export default class Year extends Component {
 			summaries[i] = Match.summarizeResult(matches[i], props.team);
 		}
 
-		const firstDay = this.getFirstDay(matches);
-		const lastDay = this.getLastDay(matches);
-		const monthEndmarks = this.getMonthEndmarks(firstDay, lastDay);
-
 		return {
 			matches: matches,
-			summaries: summaries,
-			firstDay: firstDay,
-			lastDay: lastDay,
-			monthEndmarks: monthEndmarks,
-			selectedPlayer: null};
+			summaries: summaries
+		};
 	}
 	
 	render() {
@@ -51,6 +44,7 @@ export default class Year extends Component {
 		const circle = <circle cx={cx} cy={cy} r={circleR} stroke="black" strokeWidth="1" fill="none" />;
 
 		var i, match;
+		var dnps = [];
 		var matches = [];
 		var ticks = [];
 		var teams = [];
@@ -64,7 +58,8 @@ export default class Year extends Component {
 		var dTheta, thetaOffset, theta, theta1, theta2;
 		var d;
 		var x, y, x1, y1, x2, y2;
-		var stroke, path;
+		var result;
+		var stroke, playerMinutes;
 		var image, vs, url;
 		const tickWidth = 5;
 		var prevTheta;
@@ -74,6 +69,13 @@ export default class Year extends Component {
 			win: 'hsl(210, 100%, 50%)',
 			draw: 'hsl( 40, 100%, 50%)',
 			loss: 'hsl(360,  90%, 50%)', 
+			unplayed: 'lightgray'
+		};
+		
+		const colorsDNP = {
+			win: 'hsl(210, 100%, 90%)',
+			draw: 'hsl( 40, 100%, 90%)',
+			loss: 'hsl(360,  90%, 90%)', 
 			unplayed: 'lightgray'
 		};
 
@@ -102,6 +104,26 @@ export default class Year extends Component {
 			);
 		}
 
+		function getPath(url, key, d, stroke) {
+			var	path = <path key={key} d={d} stroke={stroke} fill="none" strokeWidth="20" />;
+
+			if (url) {
+				path = <Link key={key} to={'/match/' + url}>{path}</Link>;
+			}
+
+			return path;
+		}
+
+		function getPlayerD(playerMinutes) {
+			var theta1 = dTheta * (i + playerMinutes[0]) + thetaOffset;
+			var theta2 = dTheta * (i + playerMinutes[1]) + thetaOffset;
+			var x1 = cx + matchR * Math.cos(theta1);
+			var y1 = cx + matchR * Math.sin(theta1);
+			var x2 = cx +	matchR * Math.cos(theta2);
+			var y2 = cx + matchR * Math.sin(theta2);
+			return 'M ' + x1 + ' ' + y1 + Astr + rot + ' 0 1 ' + x2 + ' ' + y2;
+		}
+
 		for (i = 0; i < this.state.matches.length; i++) {
 			match = this.state.matches[i];
 			rot = dRot * i;
@@ -112,12 +134,22 @@ export default class Year extends Component {
 			x2 = cx +	matchR * Math.cos(theta2);
 			y2 = cx + matchR * Math.sin(theta2);
 			d = 'M ' + x1 + ' ' + y1 + Astr + rot + ' 0 1 ' + x2 + ' ' + y2;
-			stroke = colors[this.state.summaries[i].result];
-			path = <path key={i} d={d} stroke={stroke} fill="none" strokeWidth="20" />;
-			if (match.url) {
-				path = <Link key={i} to={'/match/' + match.url}>{path}</Link>;
+			result = this.state.summaries[i].result;
+
+			if (this.props.player) {
+				stroke = colorsDNP[result];
+				dnps.push(getPath(match.url, i, d, stroke));
+
+				playerMinutes = this.playerMinutes(match);
+				if (playerMinutes) {
+					d = getPlayerD(playerMinutes);
+					stroke = colors[result];
+					matches.push(getPath(match.url, i, d, stroke));
+				}
+			} else {
+				stroke = colors[result];
+				matches.push(getPath(match.url, i, d, stroke));
 			}
-			matches.push(path);
 
 			theta = dTheta * (i + 0.5) + thetaOffset;
 			x = cx + teamR * Math.cos(theta) - teamSize / 2;
@@ -152,9 +184,10 @@ export default class Year extends Component {
 		}
 
 		return (
-			<div className="Year flex-container flex-container-center">
+			<div className="Circle flex-container flex-container-center">
 				<svg width={width} height={width}>
 					{ticks}
+					{dnps}
 					{matches}
 					{teams}
 					{months}
@@ -184,46 +217,44 @@ export default class Year extends Component {
 
 		return image;
 	}
+	
+	playerMinutes(match) {
+		const player = this.props.player;
+		const summary = match.summary;
+				
+		if (summary === undefined || summary.players === undefined)
+			return null;
 
-	getFirstDay(matches) {
-		if (matches.length === 0)
-			return new Date();
+		const side = (summary.r === this.props.team) ? 'r' : 'l';
+		const players = summary.players[side];
+		const matchLength = summary.aet ? 121 : 91;
+		const name = player.fullname;
+		var entry;
 
-		const match = matches[0];
-		var array = match.date.split('/');
-		return new Date(array[2], array[0] - 1, 1);
-	}
-
-	getLastDay(matches) {
-		if (matches.length === 0)
-			return new Date();
-
-		const match = matches[matches.length - 1];
-		var array = match.date.split('/');
-		return new Date(array[2], array[0] - 0, 0);
-	}
-
-	getMonthEndmarks(firstDay, lastDay) {
-		var cur;
-		var array = [];
-			
-		cur = firstDay;
-		cur = new Date(cur.getFullYear(), cur.getMonth(), 0);
-
-		while (true) {
-			cur = new Date(cur.getFullYear(), cur.getMonth() + 2, 0);
-			array.push(cur);
-
-			if (cur.getFullYear() === lastDay.getFullYear() &&
-					cur.getMonth() === lastDay.getMonth()) {
-				break;
+		for (var i = 0; i < players.start.length; i++) {
+			entry = players.start[i];
+			if (entry.name === name) {
+				if (entry.card && (entry.card.type === 'red' || entry.card.type === 'Second yellow')) {
+					return [0, entry.card.minute / matchLength];
+				}
+				return [0, entry.sub ? (entry.sub / matchLength) : 1];
+			}
+		}
+		
+		let length = players.sub === undefined ? 0 : players.sub.length;
+		for (i = 0; i < length; i++) {
+			entry = players.sub[i];
+			if (entry.sub && entry.name === name) {
+				if (entry.sub.length) {
+					return [entry.sub[0] / matchLength, entry.sub[1] / matchLength];
+				} else if (entry.card && (entry.card.type === 'red' || entry.card.type === 'Second yellow')) {
+					return [entry.sub / matchLength, entry.card.minute / matchLength];
+				} else {
+					return [entry.sub / matchLength, 1];
+				}
 			}
 		}
 
-		return array;
-	}
-
-	getDayPercentage(date) {
-		return (date - this.state.firstDay) / (this.state.lastDay - this.state.firstDay);
+		return null;
 	}
 }

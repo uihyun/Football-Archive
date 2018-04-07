@@ -6,7 +6,7 @@ import {Squad, ViewSelector} from '../Common';
 
 import Timeline from './Timeline';
 import Summary from './Summary';
-import Year from './Year';
+import Circle from './Circle';
 
 import SquadUtil from '../../util/squad';
 
@@ -58,8 +58,8 @@ export default class AllMatches extends Component {
 			view: (<Summary data={data} squad={squad} team={team} year={year} player={player} />)
 		});
 		views.push({
-			name: 'Year',
-			view: (<Year data={data} squad={squad} team={team} year={year} player={player} />)
+			name: 'Circle',
+			view: (<Circle data={data} squad={squad} team={team} year={year} player={player} />)
 		});
 
 		return views;
