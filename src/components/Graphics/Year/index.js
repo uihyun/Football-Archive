@@ -95,7 +95,7 @@ export default class Year extends Component {
 			var x = cx + monthR * Math.cos(theta);
 			var y = cx + monthR * Math.sin(theta);
 			return (
-				<text key={month} x={x} y={y} alignmentBaseline="middle" textAnchor="middle" fontSize="1.5em"
+				<text key={theta} x={x} y={y} alignmentBaseline="middle" textAnchor="middle" fontSize="1.5em"
 				 fill="gray">
 					{month}
 				</text>

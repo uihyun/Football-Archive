@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 
 import './style.css';
 
-import {Team} from '../Common';
+import {Team, ViewSelector} from '../Common';
+import {Year} from '../Graphics';
 
 import Timeline from '../Timeline';
 import Summary from '../Summary';
@@ -14,13 +15,6 @@ import {nations} from '../data';
 
 import UrlUtil from '../../util/url';
 import SquadUtil from '../../util/squad';
-		
-const views = [
-	{name: 'Timeline', order: -2},
-	{name: 'Summary', order: -1},
-	{name: 'Statistics', order: 1},
-	{name: 'Standings', order: 2},
-];
 
 export default class NationView extends Component {
 
@@ -30,13 +24,10 @@ export default class NationView extends Component {
 		this.state = {
 			year: this.props.match.params.year,
 			teamUrl: this.props.match.params.team,
-			view: 'Timeline',
 			team: '',
 			data: {competition: []},
 			squad: [],
 		};
-
-		this.selectView = this.selectView.bind(this);
 	}
 
 	componentDidMount() {
@@ -97,23 +88,7 @@ export default class NationView extends Component {
 						}
 					</div>
 				</div>
-				<div className="text-center flex-container">
-					{views.map(view => {
-						var style = { order: view.order };
-
-						if (view.name === this.state.view) {
-							style.fontWeight = 'bold';
-						}
-
-						return (
-							<div key={view.name} style={style} className="flex-1"
-									 onClick={() => this.selectView(view.name)}>
-								{view.name}
-							</div>
-						);
-					})}
-				</div>
-				{this.getView()}
+				<ViewSelector views={this.getViews()} />
 			</div>
 		);
 	}
@@ -178,21 +153,30 @@ export default class NationView extends Component {
 		});
 	}
 
-	selectView(view) {
-		if (view !== this.state.view) {
-			this.setState({view: view});
-		}
-	}
+	getViews() {
+		const data = this.state.data;
+		const squad = this.state.squad;
+		const team = this.state.team;
+		const year = this.state.year;
 
-	getView() {
-		if (this.state.view === 'Timeline') {
-			return (<Timeline data={this.state.data} squad={this.state.squad} team={this.state.team} year={this.state.year} />);
-		} else if (this.state.view === 'Summary') {
-			return (<Summary data={this.state.data} squad={this.state.squad} team={this.state.team} year={this.state.year} />);
-		} else if (this.state.view === 'Statistics') {
-			return (<Statistics data={this.state.data} team={this.state.team} />);
-		}
+		var views = [];
+		views.push({
+			name: 'Timeline',
+			view: (<Timeline data={data} squad={squad} team={team} year={year} />)
+		});
+		views.push({
+			name: 'Summary',
+			view: (<Summary data={data} squad={squad} team={team} year={year} />)
+		});
+		views.push({
+			name: 'Year',
+			view: (<Year data={data} squad={squad} team={team} year={year} />)
+		});
+		views.push({
+			name: 'Statistics',
+			view: (<Statistics data={data} team={team} />)
+		});
 
-		return (<div>{this.state.view} View under development</div>);
+		return views;
 	}
 }

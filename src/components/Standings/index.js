@@ -2,118 +2,46 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import {LeagueTable} from '../Common';
+import {LeagueTable, ViewSelector} from '../Common';
 import {Cup} from '../Graphics';
 import {competitions} from '../data';
 
 export default class Standings extends Component {
 	
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			comp: 'L'
-		};
-
-		this.selectComp = this.selectComp.bind(this);
-	}
-
-
 	render() {
 		return (
 			<div>
-				{this.getDesktopView()}
-				{this.getMobileView()}
+				<ViewSelector views={this.getViews()} />
 			</div>
 		);
 	}
 
-	getDesktopView() {
-		return (
-			<div className="hide-mobile">
-				{this.props.data.leagues[0] &&
-					<LeagueTable league={this.props.data.leagues[0]} team={this.props.team} />
-				}
-				<div className="flex-container-adaptive flex-container-space-evenly">
-					{this.props.data.cups.map(cup => {
-						let style = { order: competitions[cup.name].order };
+	getViews() {
+		const leagues = this.props.data.leagues;
+		const team = this.props.team;
 
-						return (
-							<div key={cup.name} style={style}>
-								<Cup team={this.props.team} cup={cup} />
-							</div>
-						);
-					})}
-				</div>
-			</div>
-		);
-	}
-	
-	getMobileView() {
-		let headers = this.getMobileHeaders();
+		var views = [];
 
-		return (
-			<div className="show-mobile">
-				<div className="text-center flex-container">
-					{headers.map(header => {
-						var style = {};
-
-						if (header === this.state.comp) {
-							style.fontWeight = 'bold';
-						}
-
-						return (
-							<div key={header} style={style} className="flex-1" onClick={() => this.selectComp(header)}>
-								{header}
-							</div>
-						);
-					})}
-				</div>
-				{this.getMobileSubView()}
-			</div>
-		);
-	}
-
-	getMobileHeaders() {
-		var headers = ['L'];
-		var cups = [];
-
-		this.props.data.cups.forEach(cup => {
-			cups.push(cup.name);
-		});
-
-		cups.sort(function (a, b) { return competitions[a].order - competitions[b].order });
-
-		cups.forEach(cup => {
-			headers.push(competitions[cup].sh);
-		});
-
-		return headers;
-	}
-
-	getMobileSubView() {
-		if (this.state.comp === 'L') {
-			if (this.props.data.leagues[0] === undefined) {
-				return null;
-			}
-
-			return (<LeagueTable league={this.props.data.leagues[0]} team={this.props.team} />);
-		} else {
-			var cup;
-
-			for (var i = 0; i < this.props.data.cups.length; i++) {
-				cup = this.props.data.cups[i];
-
-				if (competitions[cup.name].sh === this.state.comp) {
-					return (<Cup team={this.props.team} cup={cup} />);
-				}
-			}
+		if (leagues[0]) {
+			views.push({
+				name: competitions[leagues[0].name].name,
+				sh: competitions[leagues[0].name].sh,
+				view: (<LeagueTable league={leagues[0]} team={team} />)
+			});
+		}
+			
+		var i, cup;
+		
+		for (i = 0; i < this.props.data.cups.length; i++) {
+			cup = this.props.data.cups[i];
+		
+			views.push({
+				name: competitions[cup.name].name,
+				sh: competitions[cup.name].sh,
+				view: (<Cup cup={cup} team={team} />)
+			});
 		}
 
-		return null;
-	}
-
-	selectComp(comp) {
-		this.setState({ comp: comp });
+		return views;
 	}
 }
