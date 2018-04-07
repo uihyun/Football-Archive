@@ -5,7 +5,6 @@ import './style.css';
 import {Squad, Competition, Team, Scoreboard} from '../Common';
 
 import Match from '../../util/match';
-
 import SquadUtil from '../../util/squad';
 
 export default class Timeline extends Component {
@@ -24,7 +23,7 @@ export default class Timeline extends Component {
 	}
 
 	newState(props) {
-		const matches = this.getMatches(props.data.competitions);
+		const matches = Match.extractAndSort(props.data);
 		const shortenedMatches = this.getShortenedMatches(matches);
 		const shortenedSquad = this.getShortenedSquad(props.team, shortenedMatches);
 
@@ -161,33 +160,5 @@ export default class Timeline extends Component {
 				</div>
 			</div>
 		);
-	}
-
-	getMatches(competitions) {
-		var out = [];
-		var competition;
-		var match;
-
-		if (competitions === undefined)
-			return out;
-
-		for (var i = 0; i < competitions.length; i++) {
-			competition = competitions[i];
-
-			for (var j = 0; j < competition.matches.length; j++) {
-				match = JSON.parse(JSON.stringify(competition.matches[j]));
-				match.competition = competition.name;
-				match.dateO = new Date(match.date);
-				out.push(match);
-			}
-		}
-
-		out.sort(function(a, b) {
-			a = a.dateO;
-			b = b.dateO;
-			return a > b ? 1 : a < b ? -1 : 0;
-		});
-
-		return out;
 	}
 }

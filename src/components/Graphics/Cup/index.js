@@ -15,11 +15,11 @@ export default class Cup extends Component {
 		let grid = this.getGrid(sorted);
 
 		let width = 350;
-		let heigth = 350;
+		let height = 350;
 		
 		var circles = [];
 		let cx = width / 2;
-		let cy = heigth / 2;
+		let cy = height / 2;
 
 		var teams = [];
 		var i, j, round, level, team;
@@ -107,7 +107,7 @@ export default class Cup extends Component {
 			<div className="Cup">
 				<h3 className="text-center">{cup.name}</h3>
 				<div className="Cup-flex-container">
-					<svg width={width} height={width}>
+					<svg width={width} height={height}>
 						{lastRound}
 						{teams}
 						{circles}

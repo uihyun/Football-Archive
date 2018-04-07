@@ -53,4 +53,31 @@ export default class Match {
 
 		return sum;
 	}
+
+	static extractAndSort(data) {
+		const competitions = data.competitions;
+		var out = [];
+		var competition;
+		var match;
+		var array;
+
+		if (competitions === undefined)
+			return out;
+
+		for (var i = 0; i < competitions.length; i++) {
+			competition = competitions[i];
+
+			for (var j = 0; j < competition.matches.length; j++) {
+				match = JSON.parse(JSON.stringify(competition.matches[j]));
+				match.competition = competition.name;
+				array = match.date.split('/');
+				match.dateI = parseInt(array[2] + array[0] + array[1], 10); // mm/dd/yyyy -> yyyymmdd
+				out.push(match);
+			}
+		}
+
+		out.sort((a, b) => { return a.dateI - b.dateI });
+
+		return out;
+	}
 }

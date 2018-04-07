@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import './style.css';
 
 import {Team} from '../Common';
+import {Year} from '../Graphics';
 
 import Timeline from '../Timeline';
 import Summary from '../Summary';
@@ -16,6 +17,7 @@ import SquadUtil from '../../util/squad';
 const views = [
 	{name: 'Timeline', order: -2},
 	{name: 'Summary', order: -1},
+	{name: 'Year', order: 0},
 	{name: 'Statistics', order: 1},
 	{name: 'Standings', order: 2},
 ];
@@ -151,6 +153,8 @@ export default class ClubView extends Component {
 			return (<Timeline data={this.state.data} squad={this.state.squad} team={this.state.team} year={this.state.year} />);
 		} else if (this.state.view === 'Summary') {
 			return (<Summary data={this.state.data} squad={this.state.squad} team={this.state.team} year={this.state.year} />);
+		} else if (this.state.view === 'Year') {
+			return (<Year data={this.state.data} squad={this.state.squad} team={this.state.team} year={this.state.year} />);
 		} else if (this.state.view === 'Statistics') {
 			return (<Statistics data={this.state.data} team={this.state.team} />);
 		} else if (this.state.view === 'Standings') {
