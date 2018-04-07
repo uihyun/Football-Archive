@@ -22,7 +22,7 @@ export default class NationView extends Component {
 			year: this.props.match.params.year,
 			teamUrl: this.props.match.params.team,
 			team: '',
-			data: {competition: []},
+			data: {competitions: []},
 		};
 	}
 
