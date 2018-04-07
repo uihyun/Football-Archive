@@ -4,15 +4,12 @@ import { Link } from 'react-router-dom';
 import './style.css';
 
 import {Team, ViewSelector} from '../Common';
-import {Year} from '../Graphics';
 
-import Timeline from '../Timeline';
-import Summary from '../Summary';
+import AllMatches from '../AllMatches';
 import Statistics from '../Statistics';
 import Standings from '../Standings';
 
 import UrlUtil from '../../util/url';
-import SquadUtil from '../../util/squad';
 
 export default class ClubView extends Component {
 
@@ -23,8 +20,7 @@ export default class ClubView extends Component {
 			year: this.props.match.params.year,
 			teamUrl: this.props.match.params.team,
 			team: '',
-			data: {competition: []},
-			squad: [],
+			data: {competitions: []},
 		};
 	}
 
@@ -101,13 +97,11 @@ export default class ClubView extends Component {
 		})
 		.then(function(data) {
 			const team = data.team;
-			const squad = SquadUtil.getSquadArray(data);
 
 			if (data.season) {
 				var state = {
 					team: team,
 					data: data,
-					squad: squad,
 				};
 
 				that.setState(state);
@@ -117,22 +111,16 @@ export default class ClubView extends Component {
 
 	getViews() {
 		const data = this.state.data;
-		const squad = this.state.squad;
 		const team = this.state.team;
 		const year = this.state.year;
 
 		var views = [];
+		if (data.competitions.length === 0)
+			return views;
+
 		views.push({
-			name: 'Timeline',
-			view: (<Timeline data={data} squad={squad} team={team} year={year} />)
-		});
-		views.push({
-			name: 'Summary',
-			view: (<Summary data={data} squad={squad} team={team} year={year} />)
-		});
-		views.push({
-			name: 'Year',
-			view: (<Year data={data} squad={squad} team={team} year={year} />)
+			name: 'All Matches',
+			view: (<AllMatches data={data} team={team} year={year} />)
 		});
 		views.push({
 			name: 'Statistics',

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import {Squad, Progress} from '../Common';
+import {Progress} from '../../Common';
 
 import {competitions} from '../data';
 
@@ -12,21 +12,16 @@ export default class Summary extends Component {
 		super(props);
 		
 		this.state = this.newState(this.props);
-
-		this.selectPlayer = this.selectPlayer.bind(this);
 	}
 	
 	componentWillReceiveProps(nextProps) {
 		this.setState(this.newState(nextProps));
 	}
 
-	selectPlayer(player) {
-		this.setState({ player: player });
-	}
-
   render() {
 		const team = this.props.team;
 		const year = this.props.year;
+		const player = this.props.player;
 
 		return (
 			<div className="Summary">
@@ -36,22 +31,20 @@ export default class Summary extends Component {
 							<div key={index} className="flex-1">
 								{group.map(comp => {
 									var leagueTable = this.state.leagueTableMap[comp.name];
-									return <Progress key={comp.name} team={team} year={year} player={this.state.player}
+									return <Progress key={comp.name} team={team} year={year} player={player}
 														competition={comp} leagueTable={leagueTable} />;
 								})}
 							</div>
 						);
 					})}
 				</div>
-				<br/>
-				<Squad squad={this.props.squad} selectPlayer={this.selectPlayer} />
 			</div>
 		);
   }
 	
 	newState(props) {
 		const data = props.data;
-		var state = { groups: [], leagueTableMap: {}, player: null };
+		var state = { groups: [], leagueTableMap: {} };
 
 		if (data.leagues === undefined) {
 			return state; // data not yet fetched

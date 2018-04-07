@@ -17,6 +17,21 @@ export default class ViewSelector extends Component {
 		
 		this.selectView = this.selectView.bind(this);
 	}
+	
+	componentWillReceiveProps(props) {
+		var i, view;
+		if (props.views.length > 0) {
+			for (i = 0; i < props.views.length; i++) {
+				view = props.views[i];
+
+				if (view.name === this.state.view) {
+					return;
+				}
+			}
+			
+			this.setState({view: props.views[0].name});
+		}
+	}
 
 	render() {
 		return (
