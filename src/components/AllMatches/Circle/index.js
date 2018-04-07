@@ -49,6 +49,7 @@ export default class Circle extends Component {
 		var ticks = [];
 		var teams = [];
 		var months = [];
+		var goals = [];
 	
 		const matchR = 135;
 		const Astr = ' A ' + matchR + ' ' + matchR + ' ';
@@ -64,6 +65,8 @@ export default class Circle extends Component {
 		const tickWidth = 5;
 		var prevTheta;
 		var month;
+		var playerGoals;
+		var j;
 
 		const colors = {
 			win: 'hsl(210, 100%, 50%)',
@@ -124,6 +127,19 @@ export default class Circle extends Component {
 			return 'M ' + x1 + ' ' + y1 + Astr + rot + ' 0 1 ' + x2 + ' ' + y2;
 		}
 
+		function getGoal(i, j) {
+			const goalR = 119;
+			var theta = dTheta * (i + 0.5) + thetaOffset;
+			var x = cx + (goalR - 10 * j) * Math.cos(theta);
+			var y = cy + (goalR - 10 * j) * Math.sin(theta);
+			var key = i + ' ' + j;
+			return (
+				<text key={key} x={x} y={y} alignmentBaseline="middle" textAnchor="middle" fontSize="0.5em">
+					⚽
+				</text>
+			);
+		}
+
 		for (i = 0; i < this.state.matches.length; i++) {
 			match = this.state.matches[i];
 			rot = dRot * i;
@@ -145,6 +161,12 @@ export default class Circle extends Component {
 					d = getPlayerD(playerMinutes);
 					stroke = colors[result];
 					matches.push(getPath(match.url, i, d, stroke));
+				}
+
+				playerGoals = this.playerGoals(match);
+
+				for (j = 0; j < playerGoals; j++) {
+					goals.push(getGoal(i, j));
 				}
 			} else {
 				stroke = colors[result];
@@ -191,6 +213,7 @@ export default class Circle extends Component {
 					{matches}
 					{teams}
 					{months}
+					{goals}
 				</svg>
 			</div>
 		);
@@ -256,5 +279,27 @@ export default class Circle extends Component {
 		}
 
 		return null;
+	}
+
+	playerGoals(match) {
+		const player = this.props.player;
+		const summary = match.summary;
+		var count = 0;
+				
+		if (summary === undefined || summary.goals === undefined)
+			return count;
+		
+		const side = (summary.r === this.props.team) ? 'r' : 'l';
+		const goals = summary.goals;
+		var i, goal;
+
+		for (i = 0; i < goals.length; i++) {
+			goal = goals[i];
+			if (goal.side === side && goal.scorer === player.fullname) {
+				count++;
+			}
+		}
+
+		return count;
 	}
 }
