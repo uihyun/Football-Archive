@@ -17,7 +17,8 @@ export default class Standings extends Component {
 	}
 
 	getViews() {
-		const leagues = this.props.data.leagues;
+		const data = this.props.data;
+		const leagues = data.leagues;
 		const team = this.props.team;
 
 		var views = [];
@@ -30,17 +31,25 @@ export default class Standings extends Component {
 			});
 		}
 			
-		var i, cup;
-		
-		for (i = 0; i < this.props.data.cups.length; i++) {
-			cup = this.props.data.cups[i];
-		
-			views.push({
-				name: competitions[cup.name].name,
-				sh: competitions[cup.name].sh,
-				view: (<Cup cup={cup} team={team} />)
-			});
+		var i, j, competition, cup;
+
+		for (i in competitions) {
+			if (i) {
+				for (j = 0; j < data.cups.length; j++) {
+					cup = this.props.data.cups[j];
+
+					if (i === cup.name) {
+						views.push({
+							name: competitions[cup.name].name,
+							sh: competitions[cup.name].sh,
+							view: (<Cup cup={cup} team={team} />)
+						});
+						break;
+					}
+				}
+			}
 		}
+		
 
 		return views;
 	}
