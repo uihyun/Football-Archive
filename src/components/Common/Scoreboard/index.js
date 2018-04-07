@@ -55,7 +55,7 @@ export default class Scoreboard extends Component {
 		}
 
 		let className = this.props.classNames + ' Scoreboard ' + shrink + scoreStyle;
-		var inner = [bg, (<div className='Scoreboard-inner'>{score}</div>)];
+		var inner = [bg, (<div key={1} className='Scoreboard-inner'>{score}</div>)];
 
 		if (match.url === undefined) {
 	    return (<div className={className}>{inner}</div>);
@@ -74,7 +74,7 @@ export default class Scoreboard extends Component {
 		for (var i = 0; i < players.start.length; i++) {
 			if (players.start[i].name === player) {
 				if (players.start[i].sub) {
-					return <div className={style + '-out Scoreboard-out'}></div>;
+					return <div key={0} className={style + '-out Scoreboard-out'}></div>;
 				} else {
 					return null;
 				}
@@ -86,7 +86,7 @@ export default class Scoreboard extends Component {
 		for (i = 0; i < length; i++) {
 			if (players.sub[i].name === player) {
 				if (players.sub[i].sub) {
-					return <div className={style + '-in Scoreboard-in'}></div>;
+					return <div key={0} className={style + '-in Scoreboard-in'}></div>;
 				} else {
 					return null;
 				}
