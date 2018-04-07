@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './style.css';
 
 import {LeagueTable} from '../Common';
-import {Cup} from '../SVG';
+import {Cup} from '../Graphics';
 import {competitions} from '../data';
 
 export default class Standings extends Component {
