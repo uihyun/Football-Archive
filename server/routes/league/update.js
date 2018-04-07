@@ -223,4 +223,24 @@ module.exports = function(router, db) {
 				res.sendStatus(200);
 			});
 	});
+		
+	router.get('/api/league/update-all/:_season/', function(req, res) {
+		const season = req.params._season;
+
+		Leagues.find({season: season}).toArray()
+			.then(function(leagues) {
+				var promises = [];
+				var i, league;
+
+				for (i = 0; i < leagues.length; i++) {
+					league = leagues[i];
+					promises.push(updateLeague(season, league.name));
+				}
+
+				Promise.all(promises)
+					.then(function () {
+						res.sendStatus(200);
+					});
+			});
+	});
 };
