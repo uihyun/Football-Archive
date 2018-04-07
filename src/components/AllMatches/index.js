@@ -5,6 +5,7 @@ import './style.css';
 import {Squad, ViewSelector} from '../Common';
 
 import Timeline from './Timeline';
+import Form from './Form';
 import Summary from './Summary';
 import Circle from './Circle';
 
@@ -49,6 +50,10 @@ export default class AllMatches extends Component {
 		const player = this.state.player;
 
 		var views = [];
+		views.push({
+			name: 'Form',
+			view: (<Form data={data} squad={squad} team={team} year={year} player={player} />)
+		});
 		views.push({
 			name: 'Timeline',
 			view: (<Timeline data={data} squad={squad} team={team} year={year} player={player} />)
