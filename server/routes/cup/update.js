@@ -1,26 +1,11 @@
 'use strict';
 
+const CupUtil = require('../../util/cup');
+
 module.exports = function(router, db) {
   const Seasons = db.collection('Seasons');
   const Matches = db.collection('Matches');
   const Cups = db.collection('Cups');
-
-	function isTournament(competition) {
-		switch (competition) {
-			case 'Champions League':
-			case 'Europa League':
-			case 'FA Cup':
-			case 'Copa del Rey':
-			case 'Coppa Italia':
-			case 'DFB-Pokal':
-			case 'Coupe de France':
-			case 'League Cup':
-			case 'Coupe de la Ligue':
-				return true;
-			default:
-				return false;
-		}
-	}
 
 	function replaceCup(season, cup) {
 		return Cups.findOneAndReplace({season: season, name: cup.name}, cup, {upsert: true});
@@ -65,7 +50,7 @@ module.exports = function(router, db) {
 				for (j in season.competitions) {
 					competition = season.competitions[j];
 
-					if (isTournament(competition.name) == false) {
+					if (CupUtil.isValid(competition.name) == false) {
 						continue;
 					}
 
@@ -170,10 +155,14 @@ module.exports = function(router, db) {
 
 	router.get('/api/cup/update/:_season/', function(req, res) {
     const season = req.params._season;
+			
+		res.sendStatus(200);
 
+		/*
 		updateCup(season)
 		.then(function() {
 			res.sendStatus(200);
 		});
+		*/
 	});
 };

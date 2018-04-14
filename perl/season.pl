@@ -47,7 +47,7 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 
 			my $date = $td_col->[1]->all_text;
 
-			# convert: dd/mmy/yyyy -> mm/dd/yyyy
+			# convert: dd/mm/yyyy -> mm/dd/yyyy
 			$date =~ /(\d+)\/(\d+)\/(\d+)/;
 			$date = "$2/$1/$3";
 

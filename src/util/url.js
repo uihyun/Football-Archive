@@ -21,6 +21,10 @@ export default class UrlUtil {
 	static getRecentMatchesUrl(season) {
 		return '/api/match/recent/' + season;
 	}
+	
+	static getCupFetchUrl(season) {
+		return '/api/cup/fetch/' + season;
+	}
 
 	static getSeasonSelectUrl(season, team) {
 		return '/api/season/select/' + season + '/' + this.getTeamUrl(team);

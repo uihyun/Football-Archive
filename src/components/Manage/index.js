@@ -30,6 +30,7 @@ export default class Manage extends Component {
 		this.fetchAllMatches = this.fetchAllMatches.bind(this);
 		this.updateLeague = this.updateLeague.bind(this);
 		this.updateSeason = this.updateSeason.bind(this);
+		this.updateCup = this.updateCup.bind(this);
 		this.fetchAllSeasons = this.fetchAllSeasons.bind(this);
 	}
 
@@ -74,6 +75,9 @@ export default class Manage extends Component {
 								</button>
 								<button onClick={() => this.updateLeague()}>
 									Update League
+								</button>
+								<button onClick={() => this.updateCup()}>
+									Update Cup
 								</button>
 								<button onClick={() => this.updateSeason()}>
 									Update Season
@@ -278,11 +282,7 @@ export default class Manage extends Component {
 				const url = '/api/league/update/' + year + '?leagues=' + leagues;
 				fetch(url)
 					.then(function(response) {
-						const url = '/api/cup/update/' + year;
-						fetch(url)
-							.then(function(response) {
-								alert('Fetch All Matches: Done');
-							});
+						alert('Fetch All Matches: Done');
 					});
 			});
 	}
@@ -299,12 +299,22 @@ export default class Manage extends Component {
 	}
 	
 	updateSeason() {
-		const that = this;
-		const url = '/api/season/update/' + that.state.selectedYear;
+		const year = this.state.selectedYear;
+		const url = '/api/season/update/' + year;
 		
 		fetch(url)
 			.then(function(response) {
 				alert('Update Season: Done');
+			});
+	}
+	
+	updateCup() {
+		const year = this.state.selectedYear;
+		const url = UrlUtil.getCupFetchUrl(year);
+		
+		fetch(url)
+			.then(function(response) {
+				alert('Update Cup: Done');
 			});
 	}
 }

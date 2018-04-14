@@ -51,7 +51,7 @@ export default class ClubSelector extends Component {
 				{koreans[year] && (
 					<div>
 						<br className="hide-mobile" />
-						<div className="flex-container flex-container-space-around">
+						<div className="flex-container flex-container-space-around flex-container-wrap">
 							{koreans[year].map(korean => {
 								var i, name;
 								var more = [];
