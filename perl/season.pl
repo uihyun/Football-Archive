@@ -10,8 +10,8 @@ my $url = "http://www.worldfootball.net/teams/$team/$year/3/";
 my $html = get($url);
 my $dom = Mojo::DOM->new($html);
 my $comp_count = 0;
-my $match_count;
 my $comp;
+my $match_count;
 my $json = "[";
 
 for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
@@ -30,8 +30,10 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 
 		next if $comp =~ '^Friendlies' && !($team =~ '-team$');
 
+		my $href = $tr->find('a')->first->attr('href');
+
 		$json .= "]}\n," if $comp_count++;
-		$json .= "{\"name\": \"$comp\", \"matches\": [\n";
+		$json .= "{\"name\": \"$comp\", \"url\": \"$href\", \"matches\": [\n";
 
 		$match_count = 0;
 	} else {
