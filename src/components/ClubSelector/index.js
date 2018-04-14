@@ -53,8 +53,17 @@ export default class ClubSelector extends Component {
 						<br className="hide-mobile" />
 						<div className="flex-container flex-container-space-around">
 							{koreans[year].map(korean => {
+								var i, name;
+								var more = [];
+
+								if (korean.more) {
+									for (i = 0; i < korean.more.length; i++) {
+										name = korean.more[i];
+										more.push(<div key={name}>{name}</div>);
+									}
+								}
 								return (
-									<div key={korean.name} className="text-center">
+									<div key={korean.name + korean.team} className="text-center">
 										<Link to={url + '/' + UrlUtil.getTeamUrl(korean.team)}> 
 											<div>
 												{korean.name}
@@ -62,6 +71,7 @@ export default class ClubSelector extends Component {
 											<div className="ClubSelector-team">
 												<Team team={korean.team} emblemLarge={true}/>
 											</div>
+											{more}
 										</Link>
 									</div>
 								);

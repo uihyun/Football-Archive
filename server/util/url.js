@@ -39,6 +39,20 @@ module.exports = {
 		{name: 'Nigeria', url: 'nigeria-team'},
 		{name: 'Tunisia', url: 'tunesien-team'},
 		{name: 'Senegal', url: 'senegal-team'},
+		// Club teams
+		{name: '1. FC Kaiserslautern', url: '1-fc-kaiserslautern'},
+		{name: '1. FC Nürnberg', url: '1-fc-nuernberg'},
+		{name: 'AC Arles-Avignon', url: 'ac-arles-avignon'},
+		{name: 'Cádiz CF', url: 'cadiz-cf'},
+		{name: 'Évian Thonon Gaillard', url: 'evian-thonon-gaillard'},
+		{name: 'FC Messina', url: 'acr-messina'},
+		{name: 'FC St. Pauli', url: 'fc-st-pauli'},
+		{name: 'Fortuna Düsseldorf', url: 'fortuna-duesseldorf'},
+		{name: 'Gimnàstic', url: 'gimnastic'},
+		{name: 'Le Mans UC 72', url: 'le-mans-fc'},
+		{name: 'Reggina Calcio', url: 'reggina-1914'},
+		{name: 'SpVgg Greuther Fürth', url: 'spvgg-greuther-fuerth'},
+		{name: 'Treviso FBC', url: 'a-c-d-treviso'},
 		{name: '', url: ''}
 	],
 	getUrlToNameMap: function() {

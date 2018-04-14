@@ -26,6 +26,7 @@ const competitions = {
 	'Champions League Qual.': {order: 2, name: 'Champions League Qualifiers', sh: 'UCL', type: '2', group: 0},
 	'Europa League': {order: 3, name: 'Europa League', sh: 'UEL', type: '2', group: 0},
 	'Europa League Qual.': {order: 3, name: 'Europa League Qualifiers', sh: 'UEL', type: '2', group: 0},
+	'UI-Cup': {order: 3, name: 'Intertoto Cup', sh: 'UIC', type: '2', group: 0},
 	'Club World Cup': {order: 5, name: 'Club World Cup', sh: 'CWC', type: 'H', group: 0},
 	'UEFA-Supercup' : {order: 4, name: 'UEFA Supercup', sh: 'USC', type: 'H', group: 0},
 	'Premier League': {order: 1, name: 'Premier League', sh: 'L', type: 'L', group: 1},

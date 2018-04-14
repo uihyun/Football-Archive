@@ -118,6 +118,14 @@ module.exports = function(router, db) {
 					teamL = teams[match.l];
 					teamR = teams[match.r];
 
+					if (teamL === undefined) {
+						console.log(match.l);
+					}
+
+					if (teamR === undefined) {
+						console.log(match.r);
+					}
+
 					h2hL = teamL.h2h[match.r];
 					h2hR = teamR.h2h[match.l];
 
@@ -167,6 +175,21 @@ module.exports = function(router, db) {
 					team.goals.d = team.goals.f - team.goals.a;
 					team.points = 3 * team.games.w + team.games.d;
 					teamArray.push(team);
+				}
+
+				if (leagueName === 'Serie A') {
+					if (season === '2006') {
+						teams['Juventus'].points -= 91;
+						teams['AC Milan'].points -= 30;
+						teams['ACF Fiorentina'].points -= 30;
+						teams['Lazio Roma'].points -= 30;
+					} else if (season === '2007') {
+						teams['ACF Fiorentina'].points -= 15;
+						teams['Reggina Calcio'].points -= 11;
+						teams['AC Milan'].points -= 8;
+						teams['Lazio Roma'].points -= 3;
+						teams['AC Siena'].points -= 1;
+					}
 				}
 
 				var cmpFn = compareFn;

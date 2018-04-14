@@ -29,13 +29,21 @@ const rounds = {
 	'Coppa Italia': {
 		'4 Round': '32',
 		'3 Round': '64',
+		'2 Round': '128',
+		'1 Round': '256',
 	},
 	'Coupe de la Ligue': {
+		'1 Round': '32',
 		'3 Round': '32',
+		'4 Round': '32',
 	},
 	'Coupe de France': {
 		'10 Round': '32',
 		'9 Round': '64',
+	},
+	'Europa League': {
+		'3 Round': '32',
+		'2 Round': '32',
 	},
 	'Supercopa': {
 		'Final': '',

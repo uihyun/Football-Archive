@@ -53,7 +53,7 @@ export default class UrlUtil {
 	static getEmblemUrl(team) {
 		var logoID = 2608043;
 
-		if (teams[team] !== undefined) {
+		if (teams[team] !== undefined && teams[team].id) {
 			logoID = teams[team].id;
 		}
 

@@ -12,20 +12,17 @@ export default class Manage extends Component {
 	constructor(props) {
 		super(props);
 
-		const selectedCountry = clubs.countries[0];
-		const country = clubs.seasons[selectedCountry];
-		const selectedYear = country.years[0];
-		const teams = country.teams[selectedYear];
+		const selectedCountry = 'Club';
+		const selectedYear = clubs.years.max;
 
 		this.state = {
 			selectedCountry: selectedCountry,
 			selectedYear: selectedYear,
-			teams: teams,
+			teams: [],
 			fetchedTeams: {}
 		};
 
 		this.selectYear = this.selectYear.bind(this);
-		this.selectNationYear = this.selectNationYear.bind(this);
 		this.fetchSeason = this.fetchSeason.bind(this);
 		this.clearSeason = this.clearSeason.bind(this);
 		this.fetchMatches = this.fetchMatches.bind(this);
@@ -42,32 +39,29 @@ export default class Manage extends Component {
 
   render() {
 
+		var clubYears = this.getYears(clubs.years);
 		var nationYears = this.getYears(nations.years);
 
     return (
       <div className="Manage">
         <h2 className="text-center">
-					{this.state.selectedCountry} {this.state.selectedYear} Season
+					{this.state.selectedCountry.toUpperCase()} {this.state.selectedYear} Season
 				</h2>
 				<div className="flex-container">
 					<div className="flex-1">
-						{clubs.countries.map(country => {
-							return (
-								<div key={country}>
-									{country}
-									<ul>
-									{clubs.seasons[country].years.map(year => {
-										return <li key={year} onClick={() => this.selectYear(country, year)}>{year}</li>;
-									})}
-									</ul>
-								</div>
-							);
-						})}
+						<div>
+							Clubs
+							<ul>
+							{clubYears.map(year => {
+								return <li key={year} onClick={() => this.selectYear('Club', year)}>{year}</li>;
+							})}
+							</ul>
+						</div>
 						<div>
 							Nations
 							<ul>
 							{nationYears.map(year => {
-								return <li key={year} onClick={() => this.selectNationYear(year)}>{year}</li>;
+								return <li key={year} onClick={() => this.selectYear('FIFA', year)}>{year}</li>;
 							})}
 							</ul>
 						</div>
@@ -127,11 +121,26 @@ export default class Manage extends Component {
 		return array;
 	}
 
+	getClubTeams(year) {
+		var i, teams;
+		var array = [];
+
+		for (i = 0; i < clubs.countries.length; i++) {
+			teams = clubs.seasons[clubs.countries[i]].teams[year];
+
+			if (teams) {
+				array = array.concat(teams);
+			}
+		}
+
+		return array;
+	}
+
 	getNationTeams() {
 		var i, j, countries;
 		var teams = [];
 
-		for (i = 0 ; i < nations.confederations.length; i++) {
+		for (i = 0; i < nations.confederations.length; i++) {
 			countries = nations.countries[nations.confederations[i]];
 
 			for (j = 0; j < countries.length; j++) {
@@ -142,47 +151,16 @@ export default class Manage extends Component {
 		return teams;
 	}
 
-	selectNationYear(year) {
-		const that = this;
-		const url = '/api/season/select/' + year;
-		const teams = this.getNationTeams();
-
-		fetch(url)
-			.then(function(response) {
-				return response.json();
-			})
-			.then(function(data) {
-				var fetchedTeams = {};
-				var team, i, j;
-				for (i in data) {
-					if (data[i]) {
-						for (j = 0; j < teams.length; j++) {
-							team = teams[j];
-							if (team === data[i].team) {
-								fetchedTeams[team] = true;
-							}
-						}
-					}
-				}
-
-				that.setState({
-					selectedCountry: 'FIFA',
-					selectedYear: year,
-					teams: teams,
-					fetchedTeams: fetchedTeams
-				});
-			});
-	}
-
 	selectYear(country, year) {
-		if (country === 'FIFA') {
-			this.selectNationYear(year);
-			return;
-		}
-
 		const that = this;
 		const url = '/api/season/select/' + year;
-		const teams = clubs.seasons[country].teams[year];
+		var teams = [];
+
+		if (country === 'FIFA') {
+			teams = this.getNationTeams();
+		} else {
+			teams = this.getClubTeams(year);
+		}
 
 		fetch(url)
 			.then(function(response) {

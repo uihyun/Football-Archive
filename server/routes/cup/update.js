@@ -34,7 +34,7 @@ module.exports = function(router, db) {
 		score = {l: 0, r: 0};
 		if (match.penalties) {
 			for (j in match.penalties) {
-				score[match.goals[j].side]++;
+				score[match.penalties[j].side]++;
 			}
 		} else {
 			for (j in match.goals) {
