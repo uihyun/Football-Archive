@@ -27,7 +27,7 @@ const NationRoutes = ({ match }) => (
 const Routes = (props) => (
 	<BrowserRouter>
 		<div>
-			<div className="text-center header"><Link to="/">Football Archive</Link></div>
+			<div className="text-center header"><Link to="/">Football Archiv</Link><Link to="/manage">e</Link></div>
 			<Route exact path="/" component={Home} />
 			<Route path="/club" component={ClubRoutes} />
 			<Route path="/nation" component={NationRoutes} />

@@ -20,9 +20,6 @@ export default class Home extends Component {
 						<NavLink to="/nation" activeClassName="Home-selected">Nations</NavLink>
 					</div>
 					<div className="flex-1 Home-not-yet">Aggregate</div>
-					<div className="flex-1">
-						<NavLink to="/manage" activeClassName="Home-selected">Manage</NavLink>
-					</div>
 				</div>
 				<Recent />
 			</div>
