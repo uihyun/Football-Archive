@@ -10,7 +10,8 @@ var Promise = require('bluebird');
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var assert = require('assert');
-var url = 'mongodb://localhost:27017/fa';
+var url = 'mongodb://localhost:27017';
+var dbname = 'fa';
 
 Promise.promisifyAll(mongodb);
 
@@ -36,9 +37,11 @@ var addDirs = function(db) {
 		});
 };
 
-MongoClient.connect(url, function(err, db) {
+MongoClient.connect(url, function(err, client) {
 	assert.equal(null, err);
 	console.log("Connected succesfully to mongoDB server");
+
+	const db = client.db(dbname);
 	addDirs(db);
 
 	// For all other routes return the main index.html, so react-router render the route in the client
