@@ -151,6 +151,7 @@ export default class NationView extends Component {
 		const data = this.state.data;
 		const team = this.state.team;
 		const year = this.state.year;
+		const showForm = (year === nations.years.max + '');
 
 		var views = [];
 		if (data.competitions.length === 0)
@@ -158,7 +159,7 @@ export default class NationView extends Component {
 
 		views.push({
 			name: 'All Matches',
-			view: (<AllMatches data={data} team={team} year={year} />)
+			view: (<AllMatches data={data} team={team} year={year} showForm={showForm} />)
 		});
 		views.push({
 			name: 'Statistics',

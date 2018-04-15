@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 
 import './style.css';
 
-import {Team, ViewSelector} from '../Common';
+import { Team, ViewSelector } from '../Common';
+import { clubs} from '../data';
 
 import AllMatches from '../AllMatches';
 import Statistics from '../Statistics';
@@ -113,6 +114,7 @@ export default class ClubView extends Component {
 		const data = this.state.data;
 		const team = this.state.team;
 		const year = this.state.year;
+		const showForm = (year === clubs.years.max + '');
 
 		var views = [];
 		if (data.competitions.length === 0)
@@ -120,7 +122,7 @@ export default class ClubView extends Component {
 
 		views.push({
 			name: 'All Matches',
-			view: (<AllMatches data={data} team={team} year={year} />)
+			view: (<AllMatches data={data} team={team} year={year} showForm={showForm} />)
 		});
 		views.push({
 			name: 'Statistics',
