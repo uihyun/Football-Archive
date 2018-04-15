@@ -15,14 +15,13 @@ export default class Cup extends Component {
 			return null;
 
 		this.makeGrid(cup, rounds);
-		this.calculateBase(rounds);
 		
 		let lastRoundIndex = this.getLastRound(rounds);
 
 		let filterId = 'greyscale' + Math.random();
 		let filterUrl = 'url(#' + filterId + ')';
 
-		var lastRound = [];
+		var lastRound = null;
 		var teams = [];
 		var circles = [];
 		var cupWinner = null;
@@ -30,6 +29,8 @@ export default class Cup extends Component {
 		
 		let width = 350;
 		let height = 350;
+		
+		this.calculate(rounds, width);
 		
 		let cx = width / 2;
 		let cy = height / 2;
@@ -41,15 +42,20 @@ export default class Cup extends Component {
 		var x, y, r, theta, log2, dTheta;
 		var size, hsize, lsize, hlsize;
 
+		var thetaOffset = 0;
+
+		if (rounds[0].level > 2) {
+			thetaOffset = Math.PI / rounds[0].level;
+		}
+
 		for (i = 0; i < rounds.length; i++) {
 			round = rounds[i];
 			level = round.level;
 			log2 = round.log2;
 			dTheta = 2 * Math.PI / level;
 
-			r = 25 * log2 + 6;
-
-			size = 28 - log2 * 2;
+			r = round.r;
+			size = round.size;
 			hsize = size / 2;
 
 			lsize = size - 4;
@@ -57,13 +63,13 @@ export default class Cup extends Component {
 			
 			if (i === lastRoundIndex) {
 				if (i === 0) {
-					lastRound.push(<circle key={0} cx={cx} cy={cy} r={r + 13} fill="#f0f0f0" />);
+					lastRound = <circle key={0} cx={cx} cy={cy} r={r + hsize + 1} fill="#f0f0f0" />;
 				} else {
-					lastRound.push(<circle key={0} cx={cx} cy={cy} r={r} stroke="#f0f0f0" strokeWidth="25" fill="none" />);
+					lastRound = <circle key={0} cx={cx} cy={cy} r={r} stroke="#f0f0f0" strokeWidth={size + 2} fill="none" />;
 				}
 			}
 			
-			circles.push(<circle key={r} cx={cx} cy={cy} r={r + 13} stroke="lightgrey" strokeWidth="1" fill="none" />);
+			circles.push(<circle key={r} cx={cx} cy={cy} r={r + hsize + 1} stroke="lightgrey" strokeWidth="0.5" fill="none" />);
 		
 			if (i === 0) {
 				if (log2 > 1 || cup.winner === undefined) {
@@ -81,7 +87,7 @@ export default class Cup extends Component {
 						(cup.winner && i + j === 0))
 					continue;
 				
-				theta = dTheta * (j - 1);
+				theta = dTheta * (j - 1) + thetaOffset;
 				if (i === 0 && log2 !== 1) {
 					theta += dTheta;
 				}
@@ -144,7 +150,7 @@ export default class Cup extends Component {
 		return null;
 	}
 
-	calculateBase(rounds) {
+	calculate(rounds, width) {
 		var base = 1;
 		var log2 = 0;
 		var i, round;
@@ -161,6 +167,20 @@ export default class Cup extends Component {
 			round = rounds[i];
 			round.level = base << i;
 			round.log2 = log2 + i;
+		}
+
+		var count = round.log2 * 2 + 1;
+		var winnerSize = 40;
+		var bufferSize = round.log2 * 2 * 3;
+		var baseSize = (width - bufferSize - winnerSize - 5) / count;
+		var r = 20 + 3 + (log2 - 1) * (baseSize + 3);
+		
+		for (i = 0; i < rounds.length; i++) {
+			round = rounds[i];
+			round.size = baseSize + (rounds.length / 2 - i) * 2;
+			round.r = r + round.size / 2;
+
+			r += round.size + 3;
 		}
 	}
 
