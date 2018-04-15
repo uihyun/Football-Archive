@@ -32,6 +32,7 @@ export default class Standings extends Component {
 		}
 			
 		var i, j, competition, cup;
+		var name, sh;
 
 		for (i in competitions) {
 			if (i) {
@@ -40,17 +41,19 @@ export default class Standings extends Component {
 
 					if (i === cup.name) {
 						competition = competitions[i];
-						views.push({
-							name: competition.name,
-							sh: competition.sh,
-							view: (<Cup cup={cup} team={team} />)
-						});
-						break;
+						name = competition.name;
+						sh = competition.sh;
+
+						if (this.props.showYear) {
+							name += ' ' + cup.season;
+							sh += ' ' + cup.season;
+						}
+
+						views.push({ name: name, sh: sh, view: (<Cup cup={cup} team={team} />) });
 					}
 				}
 			}
 		}
-		
 
 		return views;
 	}

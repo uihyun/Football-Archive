@@ -7,7 +7,7 @@ import {Team, ViewSelector} from '../Common';
 
 import AllMatches from '../AllMatches';
 import Statistics from '../Statistics';
-//import Standings from '../Standings';
+import Standings from '../Standings';
 
 import {nations} from '../data';
 
@@ -113,6 +113,7 @@ export default class NationView extends Component {
 			var i, data, j, competition;
 			var result = {}
 			var compMap = {};
+			var cups = [];
 
 			for (i = 0; i < dataArray.length; i++) {
 				data = dataArray[i];
@@ -126,6 +127,8 @@ export default class NationView extends Component {
 
 					compMap[competition.name].matches = compMap[competition.name].matches.concat(competition.matches);
 				}
+
+				cups = cups.concat(data.cups);
 			}
 
 			var compArray = [];
@@ -135,7 +138,7 @@ export default class NationView extends Component {
 				}
 			}
 
-			result = {season: year, team: team, competitions: compArray, leagues: []};
+			result = {season: year, team: team, competitions: compArray, leagues: [], cups: cups};
 
 			var state = {
 				yearMin: yearMin,
@@ -164,6 +167,10 @@ export default class NationView extends Component {
 		views.push({
 			name: 'Statistics',
 			view: (<Statistics data={data} team={team} />)
+		});
+		views.push({
+			name: 'Standings',
+			view: (<Standings data={data} team={team} showYear={true}/>)
 		});
 
 		return views;

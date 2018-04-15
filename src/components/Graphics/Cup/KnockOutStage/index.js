@@ -79,6 +79,9 @@ export default class KnockOutStage extends Component {
 				}
 			}
 			
+			size = Math.min(size, wsize)
+			hsize = size / 2;
+			
 			for (j = 0; j < round.grid.length; j++) {
 				team = round.grid[j];
 
@@ -267,6 +270,10 @@ export default class KnockOutStage extends Component {
 
 			if (round.name.includes('Group')) {
 				rounds = []; // removes rounds before group stage
+				continue;
+			}
+			
+			if (round.name.includes('place')) {
 				continue;
 			}
 
