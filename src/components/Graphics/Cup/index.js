@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 
 import './style.css';
 
-import {rounds} from '../data';
-
 import UrlUtil from '../../../util/url';
 
 export default class Cup extends Component {
@@ -18,9 +16,8 @@ export default class Cup extends Component {
 
 		this.makeGrid(cup, rounds);
 		this.calculateBase(rounds);
-
-		console.log(cup);
-		console.log(rounds);
+		
+		let lastRoundIndex = this.getLastRound(rounds);
 
 		let filterId = 'greyscale' + Math.random();
 		let filterUrl = 'url(#' + filterId + ')';
@@ -57,6 +54,14 @@ export default class Cup extends Component {
 
 			lsize = size - 4;
 			hlsize = lsize / 2;
+			
+			if (i === lastRoundIndex) {
+				if (i === 0) {
+					lastRound.push(<circle key={0} cx={cx} cy={cy} r={r + 13} fill="#f0f0f0" />);
+				} else {
+					lastRound.push(<circle key={0} cx={cx} cy={cy} r={r} stroke="#f0f0f0" strokeWidth="25" fill="none" />);
+				}
+			}
 			
 			circles.push(<circle key={r} cx={cx} cy={cy} r={r + 13} stroke="lightgrey" strokeWidth="1" fill="none" />);
 		
@@ -124,6 +129,20 @@ export default class Cup extends Component {
 			</div>
 		);
 	}
+	
+	getLastRound(rounds) {
+		var i, round;
+
+		for (i = 0; i < rounds.length; i++) {
+			round = rounds[i];
+
+			if (round.map[this.props.team] !== undefined) {
+				return i;
+			}
+		}
+
+		return null;
+	}
 
 	calculateBase(rounds) {
 		var base = 1;
@@ -133,7 +152,7 @@ export default class Cup extends Component {
 		for (i = 0; i < rounds.length; i++) {
 			round = rounds[i];
 			while (base << i < round.grid.length) {
-				base = base << 1;
+				base <<= 1;
 				log2++;
 			}
 		}
@@ -164,7 +183,7 @@ export default class Cup extends Component {
 		var i, round;
 		var j, teamL, teamR, index;
 		var k, offset;
-		var map, prevGrid, grid;
+		var map, grid;
 
 		round = rounds[0];
 		round.grid = round.teams;
@@ -173,6 +192,7 @@ export default class Cup extends Component {
 			round.grid.reverse();
 		}
 
+		rounds[0].map = this.arrayToMap(rounds[0].grid);
 		for (i = 1; i < rounds.length; i++) {
 			round = rounds[i];
 			rounds[i - 1].map = this.arrayToMap(rounds[i - 1].grid);
@@ -208,6 +228,7 @@ export default class Cup extends Component {
 			}
 
 			round.grid = grid;
+			round.map = this.arrayToMap(grid);
 		}
 	}
 
@@ -223,7 +244,6 @@ export default class Cup extends Component {
 		var i, round;
 		var j, match;
 		var map, teams;
-		var count;
 
 		for (i = 0; i < cup.rounds.length; i++) {
 			round = cup.rounds[i];
@@ -241,10 +261,7 @@ export default class Cup extends Component {
 				this.addIfNew(match.r, map, teams);
 			}
 
-			rounds.push({
-				raw: round,
-				teams: teams
-			});
+			rounds.push({ teams: teams });
 		}
 
 		rounds.reverse();
