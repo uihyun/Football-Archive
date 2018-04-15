@@ -26,7 +26,9 @@ export default class GroupStage extends Component {
 		var image;
 		var x, y, dx, dy;
 		var url;
+		var isTeamInGroup;
 		var style;
+		var bg = null;
 
 		const teamSize = 20;
 		const hTeamSize = teamSize / 2;
@@ -39,10 +41,15 @@ export default class GroupStage extends Component {
 			x = dx * (i + 0.5);
 			y = dy * 0.5;
 
-			style = this.getHeaderStyle(group);
+			isTeamInGroup = this.isTeamInGroup(group);
+			style = this.getHeaderStyle(isTeamInGroup);
+
+			if (isTeamInGroup) {
+				bg = <rect x={dx * i} y={0} width={dx} height={height} fill="#f0f0f0" />;
+			}
 
 			header = (
-				<text key={i} x={x} y={y} alignmentBaseline="middle" textAnchor="middle" fontSize="1.5em" style={style}>
+				<text key={i} x={x} y={y} style={style}>
 					{group.name}
 				</text>
 			);
@@ -64,24 +71,36 @@ export default class GroupStage extends Component {
 		
 		return (
 			<svg className="GroupStage" width={width} height={height}>
+				{bg}
 				{headers}
 				{teams}
 			</svg>
 		);
 	}
 
-	getHeaderStyle(group) {
-		var style = {fill: 'gray'};
+	isTeamInGroup(group) {
 		var i, team;
 
 		for (i = 0; i < group.table.length; i++) {
 			team = group.table[i].name;
 
-			if (team === this.props.team) {
+			if (team === this.props.team)
+				return true;
+		}
+
+		return false;
+	}
+
+	getHeaderStyle(highlight) {
+		var style = {
+			fill: 'gray',
+			alignmentBaseline: 'middle',
+			textAnchor: 'middle',
+			fontSize: '1.5em'
+		};
+
+		if (highlight) {
 				style.fill = 'black';
-				style.fontWeight = 'bold';
-				break;
-			}
 		}
 
 		return style;
