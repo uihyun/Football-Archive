@@ -34,6 +34,47 @@ export default class ViewSelector extends Component {
 	}
 
 	render() {
+		const defaultView = this.getDefaultView();
+		if (this.props.expand) {
+			return (
+				<div>
+					<div className="hide-mobile">
+						{this.getExpandedView()}
+					</div>
+					<div className="show-mobile">
+						{defaultView}
+					</div>
+				</div>
+			);
+		} else {
+			return defaultView;
+		}
+	}
+
+	getExpandedView() {
+		const views = this.props.views;
+		const rowLimits = this.props.rows ? this.props.rows : [views.length];
+
+		var i, rowLimit, j, view, inner;
+		var rows = [];
+
+		j = 0;
+		for (i = 0; i < rowLimits.length; i++) {
+			rowLimit = rowLimits[i];
+			inner = [];
+
+			for ( ; j < rowLimit; j++) {
+				view = views[j];
+				inner.push(<div key={view.name} className="flex-1">{view.view}</div>);
+			}
+
+			rows.push(<div key={i} className="flex-container flex-container-wrap">{inner}</div>);
+		}
+
+		return rows;
+	}
+
+	getDefaultView() {
 		return (
 			<div className="ViewSelector">
 				<div className="ViewSelector text-center flex-container">

@@ -9,9 +9,11 @@ import {competitions} from '../data';
 export default class Standings extends Component {
 	
 	render() {
+		const [views, rows] = this.getViews();
+
 		return (
 			<div>
-				<ViewSelector views={this.getViews()} />
+				<ViewSelector views={views} expand={true} rows={rows} />
 			</div>
 		);
 	}
@@ -22,13 +24,18 @@ export default class Standings extends Component {
 		const team = this.props.team;
 
 		var views = [];
+		var rows = [];
+		var view;
 
 		if (leagues[0]) {
-			views.push({
+			view = {
 				name: competitions[leagues[0].name].name,
 				sh: competitions[leagues[0].name].sh,
 				view: (<LeagueTable league={leagues[0]} team={team} />)
-			});
+			};
+
+			views.push(view);
+			rows.push(1);
 		}
 			
 		var i, j, competition, cup;
@@ -54,7 +61,9 @@ export default class Standings extends Component {
 				}
 			}
 		}
+			
+		rows.push(views.length);
 
-		return views;
+		return [views, rows];
 	}
 }

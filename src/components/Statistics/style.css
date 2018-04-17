@@ -1,5 +1,4 @@
-
-.Statistics-flex-item {
+.Statistics-item {
 	margin-left: 10px;
 	margin-right: 10px;
 }
@@ -40,19 +39,7 @@
 
 @media screen and (max-width: 543px) {
 
-	.Statistics-flex-item {
+	.Statistics-item {
 		margin: 0px;
-	}
-
-	.Statistics-goals {
-		order: 1;
-	}
-	
-	.Statistics-assists {
-		order: 2;
-	}
-
-	.Statistics-appearances {
-		order: 3;
 	}
 }

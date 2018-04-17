@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import './style.css';
 
+import {ViewSelector} from '../Common';
+
 import PlayerName from '../../util/playerName';
 
 export default class Statistics extends Component {
@@ -17,85 +19,107 @@ export default class Statistics extends Component {
 	}
 
   render() {
+		const views = [this.getAppearances(), this.getGoals(), this.getAssists()];
     return (
       <div className="Statistics">
-				<div className="flex-container-adaptive">
-					<div className="flex-1 Statistics-appearances Statistics-flex-item">
-						<h3>
-							Appearances <small>({this.state.appearances.length} players)</small>
-						</h3>
-						{this.state.appearances.map(player => {
-							return (
-								<div key={player.name} className="flex-container Statistics-row">
-									<div className={"Statistics-backnumber text-center" + (player.sub ? " Statistics-backnumber-sub" : "")}>
-										{player.number}
-									</div>
-									<div className="Statistics-name flex-1">
-										{this.getStylizedName(player)}
-									</div>
-									<div className="Statistics-value text-right">
-										{
-											player.startMatches.length > 0 &&
-											player.startMatches.length
-										}
-									</div>
-									<div className="Statistics-value text-right">
-										{
-											player.subMatches.length > 0 &&
-											<small>{player.subMatches.length}</small>
-										}
-									</div>
-									<div className="Statistics-value-long text-right">
-										{player.minutes}'
-									</div>
-								</div>
-							);
-						})}
-					</div>
-					<div className="flex-1 Statistics-goals Statistics-flex-item">
-						<h3>
-							Goals <small>({this.state.goals.length} players)</small>
-						</h3>
-						{this.state.goals.map(player => {
-							return (
-								<div key={player.name} className="flex-container Statistics-row">
-									<div className="Statistics-backnumber text-center">
-										{player.number}
-									</div>
-									<div className="Statistics-name flex-1">
-										{this.getStylizedName(player)}
-									</div>
-									<div className="Statistics-value text-right">
-										{player.goalMatches.length}
-									</div>
-								</div>
-							);
-						})}
-					</div>
-					<div className="flex-1 Statistics-assists Statistics-flex-item">
-						<h3>
-							Assists <small>({this.state.assists.length} players)</small>
-						</h3>
-						{this.state.assists.map(player => {
-							return (
-								<div key={player.name} className="flex-container Statistics-row">
-									<div className="Statistics-backnumber text-center">
-										{player.number}
-									</div>
-									<div className="Statistics-name flex-1">
-										{this.getStylizedName(player)}
-									</div>
-									<div className="Statistics-value text-right">
-										{player.assistMatches.length}
-									</div>
-								</div>
-							);
-						})}
-					</div>
-				</div>
+				<ViewSelector views={views} expand={true} />
       </div>
     );
   }
+
+	getAppearances() {
+		const view = (
+			<div className="Statistics-item">
+				<h3>
+					Appearances <small>({this.state.appearances.length} players)</small>
+				</h3>
+				{this.state.appearances.map(player => {
+					return (
+						<div key={player.name} className="flex-container Statistics-row">
+							<div className={"Statistics-backnumber text-center" + (player.sub ? " Statistics-backnumber-sub" : "")}>
+								{player.number}
+							</div>
+							<div className="Statistics-name flex-1">
+								{this.getStylizedName(player)}
+							</div>
+							<div className="Statistics-value text-right">
+								{
+									player.startMatches.length > 0 &&
+									player.startMatches.length
+								}
+							</div>
+							<div className="Statistics-value text-right">
+								{
+									player.subMatches.length > 0 &&
+									<small>{player.subMatches.length}</small>
+								}
+							</div>
+							<div className="Statistics-value-long text-right">
+								{player.minutes}'
+							</div>
+						</div>
+					);
+				})}
+			</div>
+		);
+
+		return { name: 'Appearances', sh: 'App', view: view };
+	}
+
+	getGoals() {
+		const view = (
+			<div className="Statistics-item">
+				<h3>
+					Goals <small>({this.state.goals.length} players)</small>
+				</h3>
+				{this.state.goals.map(player => {
+					return (
+						<div key={player.name} className="flex-container Statistics-row">
+							<div className="Statistics-backnumber text-center">
+								{player.number}
+							</div>
+							<div className="Statistics-name flex-1">
+								{this.getStylizedName(player)}
+							</div>
+							<div className="Statistics-value text-right">
+								{player.goalMatches.length}
+							</div>
+						</div>
+					);
+				})}
+			</div>
+		);
+
+		return { name: 'Goals', sh: 'Goal', view: view };
+	}
+
+	getAssists() {
+		const view = (
+			<div className="Statistics-item">
+				<h3>
+					Assists <small>({this.state.assists.length} players)</small>
+				</h3>
+				{this.state.assists.map(player => {
+					return (
+						<div key={player.name} className="flex-container Statistics-row">
+							<div className="Statistics-backnumber text-center">
+								{player.number}
+							</div>
+							<div className="Statistics-name flex-1">
+								{this.getStylizedName(player)}
+							</div>
+							<div className="Statistics-value text-right">
+								{player.assistMatches.length}
+							</div>
+						</div>
+					);
+				})}
+			</div>
+		);
+
+		return { name: 'Assists', sh: 'Ass', view: view };
+
+	}
 
 	insertHardHyphen(string) {
 		let index = string.indexOf('-');
