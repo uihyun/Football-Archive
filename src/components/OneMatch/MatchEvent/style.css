@@ -1,0 +1,49 @@
+.MatchEvent-minute {
+	line-height: 40px;
+	font-size: 25px;
+	width: 40px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.MatchEvent-scorer {
+	margin-top: 3px;
+}
+
+.MatchEvent-assist {
+	font-size: 14px;
+	color: gray;
+}
+
+.MatchEvent-solo {
+	line-height: 40px;
+}
+
+.MatchEvent-card {
+	line-height: 37px;
+}
+
+.MatchEvent-r-goal {
+	-webkit-flex-direction: row-reverse;
+	flex-direction: row-reverse;
+}
+
+.MatchEvent-sub {
+	color: gray;
+}
+
+.MatchEvent-sub .MatchEvent-assist {
+	color: lightgray;
+}
+
+@media screen and (max-width: 543px) {
+	
+	.MatchEvent-minute {
+		margin: 0px;
+	}
+
+	.MatchEvent-player {
+		margin-left: 5px;
+		margin-right: 5px;
+	}
+}

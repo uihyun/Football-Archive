@@ -8,39 +8,10 @@
 	margin-bottom: 3px;
 }
 
-.OneMatch-minute {
-	line-height: 40px;
-	font-size: 25px;
-	width: 40px;
-	margin-left: 5px;
-	margin-right: 5px;
-}
-
-.OneMatch-scorer {
-	margin-top: 3px;	
-}
-
-.OneMatch-assist {
-	font-size: 14px;
-	color: gray;
-}
-
-.OneMatch-r-goal {
-	-webkit-flex-direction: row-reverse;
-	flex-direction: row-reverse;
-}
-
 @media screen and (max-width: 543px) {
+
 	.OneMatch-score {
 		line-height: 37px;
 		font-size: 25px;
-	}
-	.OneMatch-minute {
-		margin: 0px;
-	}
-
-	.OneMatch-player {
-		margin-left: 5px;
-		margin-right: 5px;
 	}
 }
