@@ -142,8 +142,6 @@ export default class OneMatch extends Component {
 			}
 		}
 
-		console.log(subs);
-
 		return subs;
 	}
 
