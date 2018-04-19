@@ -91,7 +91,7 @@ export default class KnockOutStage extends Component {
 					continue;
 				
 				theta = dTheta * (j - 1) + thetaOffset;
-				if (i === 0 && log2 !== 1) {
+				if (i === 0) {
 					theta += dTheta;
 				}
 				
