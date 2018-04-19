@@ -116,27 +116,6 @@ export default class Statistics extends Component {
 		);
 
 		return { name: 'Assists', sh: 'Ass', view: view };
-
-	}
-
-	insertHardHyphen(string) {
-		let index = string.indexOf('-');
-
-		if (index >= 0) {
-			return <span>{string.substr(0, index)}&#8209;{string.substr(index + 1)}</span>
-		} else {
-			return string;
-		}
-	}
-
-	getStylizedName(player) {
-		let name = PlayerName.divide(player.name);
-
-		if (name.first === '') {
-			return <b>{this.insertHardHyphen(name.last)}</b>;
-		} else {
-			return <span>{this.insertHardHyphen(name.first)} <b>{this.insertHardHyphen(name.last)}</b></span>;
-		}
 	}
 
 	newState(data, team) {
