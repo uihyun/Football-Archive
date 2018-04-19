@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import {ViewSelector} from '../Common';
-
-import PlayerName from '../../util/playerName';
+import { PlayerName, ViewSelector } from '../Common';
 
 export default class Statistics extends Component {
 
@@ -40,7 +38,7 @@ export default class Statistics extends Component {
 								{player.number}
 							</div>
 							<div className="Statistics-name flex-1">
-								{this.getStylizedName(player)}
+								<PlayerName player={player.name} />
 							</div>
 							<div className="Statistics-value text-right">
 								{
@@ -79,7 +77,7 @@ export default class Statistics extends Component {
 								{player.number}
 							</div>
 							<div className="Statistics-name flex-1">
-								{this.getStylizedName(player)}
+								<PlayerName player={player.name} />
 							</div>
 							<div className="Statistics-value text-right">
 								{player.goalMatches.length}
@@ -106,7 +104,7 @@ export default class Statistics extends Component {
 								{player.number}
 							</div>
 							<div className="Statistics-name flex-1">
-								{this.getStylizedName(player)}
+								<PlayerName player={player.name} />
 							</div>
 							<div className="Statistics-value text-right">
 								{player.assistMatches.length}

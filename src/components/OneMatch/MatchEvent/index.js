@@ -53,8 +53,12 @@ export default class MatchEvent extends Component {
 		const card = this.props.card;
 		const colors = {yellow: 'hsl( 40, 100%, 50%)', red: 'hsl(360,  90%, 50%)'};
 		const cardColor = {yellow: colors.yellow, red: colors.red, 'Second yellow': colors.red};
-		const style = {color: cardColor[card.type]};
-		const type = (<div className="MatchEvent-minute text-center MatchEvent-card" style={style}>▮ </div>);
+		const style = {fill: cardColor[card.type]};
+		const type = (
+			<svg width={40} height={40}>
+				<rect x={12} y={8} width={16} height={24} style={style} />
+			</svg>
+		);
 		const detail = (
 			<div className="MatchEvent-player MatchEvent-solo">
 				{PlayerName.getDisplayName(card.player)}
@@ -65,10 +69,19 @@ export default class MatchEvent extends Component {
 	}
 	
 	renderSub() {
+		const side = this.props.side;
 		const sub = this.props.sub;
 		const minute = (<div className="MatchEvent-minute text-center MatchEvent-sub">{this.props.minute}</div>);
-		const type = (<div className="MatchEvent-minute text-center MatchEvent-sub">⇅</div>);
-		//const type = (<div className="MatchEvent-minute text-center MatchEvent-sub">↑↓</div>);
+		const type = (
+			<div className="MatchEvent-inout text-center MatchEvent-sub">
+				<div className="MatchEvent-scorer">
+					{side === 'r' ? '◀' : '▶'}
+				</div>
+				<div className="MatchEvent-assist">
+					{side === 'l' ? '◀' : '▶'}
+				</div>
+			</div>
+		);
 		const detail = (
 			<div className="MatchEvent-player MatchEvent-sub">
 				<div className="MatchEvent-scorer">

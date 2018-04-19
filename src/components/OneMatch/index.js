@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 import './style.css';
 
 import MatchEvent from './MatchEvent';
-import {Team} from '../Common';
+import Lineup from './Lineup';
+import { Team, ViewSelector } from '../Common';
 
-import {teams} from '../data';
+import { teams } from '../data';
 
 import UrlUtil from '../../util/url';
 
@@ -49,6 +50,7 @@ export default class OneMatch extends Component {
 		const cards = this.getCards();
 		const subs = this.getSubs();
 		const events = this.getEvents(goals, cards, subs);
+		const views = this.getViews(events);
 	
 		return (
 			<div>
@@ -68,7 +70,7 @@ export default class OneMatch extends Component {
 							<div className="flex-1 text-center OneMatch-score">{this.getScore()}</div>
 							<div className="flex-1 text-right"><Team team={r} emblemLarge={true} year={year}/></div>
 						</div>
-						{events.map((e, index) => {return (this.getEventDiv(e, index));})}
+						<ViewSelector views={views} />
 					</div>
 					<div className="flex-1 hide-mobile"></div>
 				</div>
@@ -172,9 +174,6 @@ export default class OneMatch extends Component {
 					player = players[pos][k];
 				
 					if (player.card) {
-						if (player.card.type === 'yellow')
-							continue;
-
 						cards.push({
 							minute: player.card.minute,
 							side: side,
@@ -219,6 +218,26 @@ export default class OneMatch extends Component {
 			<MatchEvent key={index} minute={e.minute} side={e.side}
 									goal={e.goal} card={e.card} sub={e.sub} />
 		);
+	}
+
+	getEventsView(events) {
+		return events.map((e, index) => { return this.getEventDiv(e, index); });
+	}
+
+	getViews(events) {
+		var views = [];
+
+		if (this.state.match.summary === undefined) {
+			return views;
+		}
+
+		var majorEvents = events.filter(e => { return e.goal || (e.card && e.card.type !== 'yellow') });
+
+		views.push({ name: 'Goals', view: this.getEventsView(majorEvents) });
+		views.push({ name: 'Subs & Cards', view: this.getEventsView(events) });
+		views.push({ name: 'Lineup', view: (<Lineup match={this.state.match.summary} />) });
+
+		return views;
 	}
 
 	getScore() {

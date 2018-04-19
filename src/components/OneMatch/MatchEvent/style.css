@@ -19,13 +19,15 @@
 	line-height: 40px;
 }
 
-.MatchEvent-card {
-	line-height: 37px;
-}
-
 .MatchEvent-r-goal {
 	-webkit-flex-direction: row-reverse;
 	flex-direction: row-reverse;
+}
+
+.MatchEvent-inout {
+	width: 40px;
+	margin-left: 5px;
+	margin-right: 5px;
 }
 
 .MatchEvent-sub {
@@ -39,6 +41,10 @@
 @media screen and (max-width: 543px) {
 	
 	.MatchEvent-minute {
+		margin: 0px;
+	}
+
+	.MatchEvent-inout {
 		margin: 0px;
 	}
 

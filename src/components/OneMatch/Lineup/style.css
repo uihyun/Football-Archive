@@ -1,0 +1,12 @@
+.Lineup-backnumber {
+	width: 20px;
+}
+
+.Lineup-player > div {
+	margin-left: 3px;
+	margin-right: 3px;
+}
+
+.Lineup-card {
+	height: 20px;
+}
