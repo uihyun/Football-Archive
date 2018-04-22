@@ -162,9 +162,6 @@ export default class Progress extends Component {
 		for (i = 0; i < array.length; i++) {
 			row = array[i];
 
-			if (row.round === 'Final')
-				continue;
-
 			if (row.matches.length === 2) {
 				if (row.matches[0].place !== 'H') {
 					place = row.matches[0].place + row.matches[1].place;

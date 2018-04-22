@@ -1,5 +1,6 @@
 const rounds = {
 	Common: {
+		'Final': 'F',
 		'Semi-finals': '4',
 		'Quarter-finals': '8',
 		'Round of 16': '16',
