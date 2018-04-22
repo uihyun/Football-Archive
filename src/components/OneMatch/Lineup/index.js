@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import './style.css';
 
 import { PlayerName, ViewSelector } from '../../Common';
+import { Assist, Goal } from '../../Graphics';
 
 import { teams } from '../../data';
 
@@ -32,7 +33,11 @@ export default class Lineup extends Component {
 		for (i = 0; i < goals.length; i++) {
 			goal = goals[i];
 			if (goal.scorer === player.name) {
-				array.push(<div key={'goal' + i}>⚽</div>);
+				array.push(<div key={'goal' + i} className="Lineup-goal"><Goal og={goal.style === 'own goal'} /></div>);
+			}
+
+			if (goal.assist === player.name) {
+				array.push(<div key={'assist' + i} className="Lineup-goal"><Assist /></div>);
 			}
 		}
 

@@ -38,6 +38,10 @@
 	color: lightgray;
 }
 
+.MatchEvent-svg {
+	height: 40px;
+}
+
 @media screen and (max-width: 543px) {
 	
 	.MatchEvent-minute {

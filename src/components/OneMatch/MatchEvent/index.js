@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import './style.css';
 
 import PlayerName from '../../../util/playerName';
+import { Goal } from '../../Graphics';
 
 export default class MatchEvent extends Component {
 
@@ -34,7 +35,7 @@ export default class MatchEvent extends Component {
 
 	renderGoal() {
 		const goal = this.props.goal;
-		const type = (<div className="MatchEvent-minute text-center">⚽</div>);
+		const type = (<div className="MatchEvent-minute MatchEvent-svg"><Goal og={goal.style === 'own goal'} size={40}/></div>);
 		const className = goal.assist ? 'MatchEvent-scorer' : 'MatchEvent-solo';
 		const detail = (
 			<div className="MatchEvent-player">
@@ -55,9 +56,11 @@ export default class MatchEvent extends Component {
 		const cardColor = {yellow: colors.yellow, red: colors.red, 'Second yellow': colors.red};
 		const style = {fill: cardColor[card.type]};
 		const type = (
-			<svg width={40} height={40}>
-				<rect x={12} y={8} width={16} height={24} style={style} />
-			</svg>
+			<div className="MatchEvent-minute MatchEvent-svg">
+				<svg width={40} height={40}>
+					<rect x={12} y={8} width={16} height={24} style={style} />
+				</svg>
+			</div>
 		);
 		const detail = (
 			<div className="MatchEvent-player MatchEvent-solo">
