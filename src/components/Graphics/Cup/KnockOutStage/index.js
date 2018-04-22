@@ -86,12 +86,13 @@ export default class KnockOutStage extends Component {
 				team = round.grid[j];
 
 				if ((team === undefined) ||
-						(i > 0 && j % 2 === 0) ||
+						(i > 0 && j % 2 === 0 && j < rounds[i - 1].grid.length * 2) ||
 						(cup.winner && i + j === 0))
 					continue;
 				
 				theta = dTheta * (j - 1) + thetaOffset;
-				if (i === 0 && (log2 === 1 && cup.winner === undefined)) {
+				if ((i === 0 && (log2 > 1 || cup.winner === undefined)) || 
+						(i > 0 && j >= rounds[i - 1].grid.length * 2)) {
 					theta += dTheta;
 				}
 				
@@ -101,7 +102,7 @@ export default class KnockOutStage extends Component {
 				image = <image key={log2 + team} xlinkHref={UrlUtil.getEmblemUrl(team)} x={x} y={y} width={size} height={size} />;
 				teams.push(this.getLink(image, team));
 				
-				if (((i === 0 && cup.winner) || (i > 0 && i < rounds.length - 1)) &&
+				if (((i === 0 && cup.winner) || (i > 0 && i < rounds.length - 1 && j < rounds[i - 1].grid.length * 2)) &&
 						rounds[i + 1].grid[2 * j] === team) {
 					theta += dTheta;
 					x = cx + r * Math.cos(theta) - hlsize;
