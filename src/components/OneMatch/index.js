@@ -35,8 +35,6 @@ export default class OneMatch extends Component {
 		const summary = match.summary;
 		var l, r;
 
-		console.log(match);
-
 		if (summary) {
 			l = summary.l;
 			r = summary.r;
@@ -54,8 +52,6 @@ export default class OneMatch extends Component {
 		const events = this.getEvents(goals, cards, subs);
 		const views = this.getViews(events);
 
-		console.log(subs);
-	
 		return (
 			<div>
 				<h3 className="text-center">
