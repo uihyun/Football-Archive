@@ -43,7 +43,7 @@ module.exports = function(router, db) {
 					var matches = [];
 					var cup;
 
-					for (i = cup.rounds.length - 1; i > 0; i--) {
+					for (i = cup.rounds.length - 1; i >= 0; i--) {
 						round = cup.rounds[i];
 
 						for (j = 0; j < round.matches.length; j++) {
