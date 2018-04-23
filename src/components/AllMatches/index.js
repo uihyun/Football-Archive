@@ -58,16 +58,16 @@ export default class AllMatches extends Component {
 			});
 		}
 		views.push({
-			name: 'Timeline',
-			view: (<Timeline data={data} squad={squad} team={team} year={year} player={player} />)
-		});
-		views.push({
 			name: 'Summary',
 			view: (<Summary data={data} squad={squad} team={team} year={year} player={player} />)
 		});
 		views.push({
 			name: 'Circle',
 			view: (<Circle data={data} squad={squad} team={team} year={year} player={player} />)
+		});
+		views.push({
+			name: 'Timeline',
+			view: (<Timeline data={data} squad={squad} team={team} year={year} player={player} />)
 		});
 
 		return views;
