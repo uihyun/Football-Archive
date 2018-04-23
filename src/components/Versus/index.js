@@ -103,7 +103,7 @@ export default class Versus extends Component {
 		return (
 			<span>
 				<span className="hide-mobile">{a}-{b}</span>
-				<span className="show-mobile">{this.formatShortYear(a)}-{this.formatShortYear(b)}</span>
+				<span className="show-mobile">{this.formatShortYear(a)}{this.formatShortYear(b)}</span>
 			</span>
 		);
 	}

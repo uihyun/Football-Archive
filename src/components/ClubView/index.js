@@ -74,10 +74,15 @@ export default class ClubView extends Component {
 						</Link>
 					</div>
 					<div className="flex-1">
-						{nextYearLink &&
+						{nextYearLink ?
 							<Link to={nextYearLink}>
 								<div className="ClubView-view-selector">
 									{nextYear} ▷
+								</div>
+							</Link> :
+							<Link to={'/history/club/' + UrlUtil.getTeamUrl(this.state.team)}>
+								<div className="ClubView-view-selector">
+									History
 								</div>
 							</Link>
 						}

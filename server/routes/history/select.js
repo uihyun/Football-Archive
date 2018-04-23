@@ -88,7 +88,7 @@ module.exports = function(router, db) {
 				return Promise.all(promises);
 			}).then(function (result) {
 				var out = result.filter(r => { return r !== null; });
-				res.json(out);
+				res.json({team: team, data: out});
 			});
 	});
 };

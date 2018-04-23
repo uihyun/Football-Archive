@@ -53,6 +53,10 @@ export default class UrlUtil {
 	static getMatchSelectUrl(url) {
 		return '/api/match/select/' + url;
 	}
+	
+	static getClubHistoryUrl(team) {
+		return '/api/history/team/' + this.getTeamUrl(team);
+	}
 
 	static getEmblemUrl(team) {
 		var logoID = 2608043;
