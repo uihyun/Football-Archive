@@ -104,12 +104,14 @@ export default class Club extends Component {
 
 		return (
 			<div className="flex-container">
+				<div className="flex-2 hide-mobile" />
 				<div className="flex-1">
 					{result}
 				</div>
 				<div className="flex-1">
 					<Team team={vs} year={competition.season} emblemSmall={true} />
 				</div>
+				<div className="flex-2 hide-mobile" />
 			</div>
 		);
 				
