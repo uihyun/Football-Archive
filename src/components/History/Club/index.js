@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom';
 
 import './style.css';
 
+import { Team } from '../../Common';
+
 import UrlUtil from '../../../util/url';
 
-import {competitions} from '../data';
+import { competitions, rounds } from '../data';
 
 export default class Club extends Component {
 	
@@ -25,10 +27,15 @@ export default class Club extends Component {
 	}
 
 	render() {
+		const teamNameStyle = { fontSize: '1.5em' };
+		const seasonStyle = { lineHeight: '32px' };
+		const rankStyle = { fontSize: '1.5em' };
+
 		return (
 			<div className="ClubHistory text-center">
-				<div fontSize="1.5em">{this.state.team}</div>
-				<div className="flex-container text-center Versus-header">
+				<div style={teamNameStyle}>{this.state.team}</div>
+				<div><Team team={this.state.team} emblemLarge={true} /></div>
+				<div className="flex-container text-center">
 					<div className="flex-1">Season</div>
 					{this.state.headers.map(competition => {
 						return (
@@ -41,11 +48,11 @@ export default class Club extends Component {
 				</div>
 				{this.state.seasons.map(season => {
 					return (
-						<div key={season.year} className="flex-container">
-							<div className="flex-1 text-center">{this.getSeasonSpan(season.year)}</div>
+						<div key={season.year} className="flex-container" style={seasonStyle}>
+							<div className="flex-1" style={seasonStyle} >{this.getSeasonSpan(season.year)}</div>
 							{season.competitions.map((competition, index) => {
 								return (
-									<div key={index} className="flex-1">
+									<div key={index} className="flex-1" style={rankStyle}>
 										{this.getLeagueView(competition)}
 										{this.getCupView(competition)}
 									</div>
@@ -75,8 +82,37 @@ export default class Club extends Component {
 		if (competition === null || competition.cup === undefined)
 			return null;
 
-		if (competition.cup.winner === this.state.team)
-			return this.getTrophy();
+		const cup = competition.cup;
+
+		var i, row;
+		if (cup.table) {
+			for (i = 0; i < cup.table.length; i++) {
+				row = cup.table[i];
+
+				if (row.name === this.state.team) {
+					return 'G' + row.rank;
+				}
+			}
+		}
+
+		const vs = cup.matches[0].l === this.state.team ? cup.matches[0].r : cup.matches[0].l;
+		const round = cup.round.replace(/\./, '');
+		var result = rounds.getShortForm(competition.name, round).replace(/F/, '2');
+
+		if (cup.winner === this.state.team)
+			result = this.getTrophy();
+
+		return (
+			<div className="flex-container">
+				<div className="flex-1">
+					{result}
+				</div>
+				<div className="flex-1">
+					<Team team={vs} year={competition.season} emblemSmall={true} />
+				</div>
+			</div>
+		);
+				
 	}
 
 	formatShortYear(year) {
