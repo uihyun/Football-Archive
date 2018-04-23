@@ -29,7 +29,7 @@ module.exports = function(router, db) {
 	function getEmptyH2H() {
 		return {
 			games: {p: 0, w: 0, d: 0, l: 0},
-			goals: {d: 0, f: 0, a: 0},
+			goals: {d: 0, f: 0, a: 0, away: 0},
 			points: 0
 		};
 	}
@@ -45,11 +45,13 @@ module.exports = function(router, db) {
 	}
 
 	function compareFnH2H(a, b) {
-		if (a.points === b.points && a.h2h[b.name].games.p === 2) {
+		if (a.points === b.points) {
 			var h2h = compareFn(a.h2h[b.name], b.h2h[a.name]);
 
 			if (h2h !== 0) {
 				return h2h;
+			} else if (a.h2h[b.name].goals.away !== b.h2h[a.name].goals.away) {
+				return b.h2h[a.name].goals.away - a.h2h[b.name].goals.away;
 			}
 		}
 			
@@ -121,15 +123,16 @@ module.exports = function(router, db) {
 				h2hR.points++;
 			}
 					
-			teamL.goals.f += score.l;
-			teamL.goals.a += score.r;
-			teamR.goals.f += score.r;
-			teamR.goals.a += score.l;
+			teamL.goals.f += score[0];
+			teamL.goals.a += score[1];
+			teamR.goals.f += score[1];
+			teamR.goals.a += score[0];
 
-			h2hL.goals.f += score.l;
-			h2hL.goals.a += score.r;
-			h2hR.goals.f += score.r;
-			h2hR.goals.a += score.l;
+			h2hL.goals.f += score[0];
+			h2hL.goals.a += score[1];
+			h2hR.goals.f += score[1];
+			h2hR.goals.a += score[0];
+			h2hR.goals.away += score[1];
 
 			h2hL.games.p++;
 			h2hR.games.p++;
