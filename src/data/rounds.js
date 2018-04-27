@@ -49,6 +49,9 @@ const rounds = {
 	'Supercopa': {
 		'Final': '',
 	},
+	'Relegation Bundesliga': {
+		'Matches': 'PO',
+	},
 	'WC Qualifiers Asia': {
 		'Relegation': 'PO',
 	},

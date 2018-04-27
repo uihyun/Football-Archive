@@ -46,6 +46,7 @@ const competitions = {
 	'Supercup': {order: 8, name: 'Supercup', sh: 'CS', type: 'H', group: 2},
 	'Supercoppa': {order: 8, name: 'Supercoppa', sh: 'CS', type: 'H', group: 2},
 	'Trophée des Champions': {order: 8, name: 'Trophée des Champions', sh: 'CS', type: 'H', group: 2},
+	'Relegation Bundesliga': {order: 9, name: 'Relegation', sh: 'R', type: '2', group: 1},
 };
 
 export default competitions;
