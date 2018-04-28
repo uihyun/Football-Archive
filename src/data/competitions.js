@@ -30,14 +30,14 @@ const competitions = {
 	'Club World Cup': {order: 5, name: 'Club World Cup', sh: 'CWC', type: 'H', group: 0},
 	'UEFA-Supercup' : {order: 4, name: 'UEFA Supercup', sh: 'USC', type: 'H', group: 0},
 	'Premier League': {order: 1, name: 'Premier League', sh: 'L', type: 'L', group: 1},
-	'Primera División': {order: 1, name: 'Primera División', sh: 'L', type: 'L', group: 1},
+	'Primera División': {order: 1, name: 'Primera División', sh: 'L', type: 'L', group: 1, url: 'Primera-Division'},
 	'Bundesliga': {order: 1, name: 'Bundesliga', sh: 'L', type: 'L', group: 1},
 	'Serie A': {order: 1, name: 'Serie A', sh: 'L', type: 'L', group: 1},
 	'Ligue 1': {order: 1, name: 'Ligue 1', sh: 'L', type: 'L', group: 1},
 	'FA Cup': {order: 6, name: 'FA Cup', sh: 'Cup', type: '2', group: 2},
 	'Copa del Rey': {order: 6, name: 'Copa del Rey', sh: 'Cup', type: '2', group: 2},
-	'Coppa Italia': {order: 6, name: 'Coppa Italia', sh: 'Cup', type: '2', group: 2},
 	'DFB-Pokal': {order: 6, name: 'DFB-Pokal', sh: 'Cup', type: '2', group: 2},
+	'Coppa Italia': {order: 6, name: 'Coppa Italia', sh: 'Cup', type: '2', group: 2},
 	'Coupe de France': {order: 6, name: 'Coupe de France', sh: 'Cup', type: '2', group: 2},
 	'League Cup': {order: 7, name: 'League Cup', sh: 'LC', type: '2', group: 2},
 	'Coupe de la Ligue': {order: 7, name: 'Coupe de la Ligue', sh: 'LC', type: '2', group: 2},
@@ -47,6 +47,35 @@ const competitions = {
 	'Supercoppa': {order: 8, name: 'Supercoppa', sh: 'CS', type: 'H', group: 2},
 	'Trophée des Champions': {order: 8, name: 'Trophée des Champions', sh: 'CS', type: 'H', group: 2},
 	'Relegation Bundesliga': {order: 9, name: 'Relegation', sh: 'R', type: '2', group: 1},
+
+	domestic: {
+		legend: ['League', 'Cup', 'League Cup'],
+		clubs: {
+			ENG: {
+				'League': 'Premier League',
+				'Cup': 'FA Cup',
+				'League Cup': 'League Cup',
+			},
+			ESP: {
+				'League': 'Primera División',
+				'Cup': 'Copa del Rey',
+			},
+			GER: {
+				'League': 'Bundesliga',
+				'Cup': 'DFB-Pokal',
+			},
+			ITA: {
+				'League': 'Serie A',
+				'Cup': 'Coppa Italia',
+			},
+			FRA: {
+				'League': 'Ligue 1',
+				'Cup': 'Coupe de France',
+				'League Cup': 'Coupe de la Ligue',
+			},
+		}
+	},
+	europe: ['Champions League', 'Europa League'],
 };
 
 export default competitions;

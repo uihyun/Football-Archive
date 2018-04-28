@@ -1,4 +1,4 @@
-import {teams, clubs, nations} from '../data';
+import {teams, competitions, clubs, nations} from '../data';
 
 export default class UrlUtil {
 	static getTeamUrl(team) {
@@ -16,6 +16,13 @@ export default class UrlUtil {
 		team = team.replace(/í/g, 'i');
 		team = team.replace(/\./g, '');
 		return team.replace(/ & | /g, '-');
+	}
+
+	static getCompUrl(comp) {
+		if (competitions[comp] && competitions[comp].url)
+			return competitions[comp].url;
+
+		return comp.replace(/ /g, '-');
 	}
 	
 	static getRecentMatchesUrl(season) {
@@ -44,6 +51,10 @@ export default class UrlUtil {
 
 	static getMatchClearUrl(season, team) {
 		return '/api/match/clear/' + season + '/' + this.getTeamUrl(team);
+	}
+
+	static getCompetitionSelectUrl(season, team) {
+		return '/api/competition/select/' + season + '/' + this.getTeamUrl(team);
 	}
 	
 	static getVersusSelectUrl(teamA, teamB) {
@@ -91,6 +102,36 @@ export default class UrlUtil {
 				}
 
 				return '/nation/' + year + '/' + this.getTeamUrl(team);
+			}
+		}
+
+		return null;
+	}
+
+	static getCompLink(year, comp) {
+		if (year === undefined || comp === undefined)
+			return null;
+
+		var i, j;
+		var country, map;
+		const url = this.getCompUrl(comp);
+		const link = '/competition/' + year + '/' + url;
+
+		for (i = 0; i < clubs.countries.length; i++) {
+			country = clubs.countries[i];
+			map = competitions.domestic.clubs[country];
+			if (map) {
+				for (j in map) {
+					if (map[j] === comp) {
+						return link;
+					}
+				}
+			}
+		}
+
+		for (i = 0; i < competitions.europe.length; i++) {
+			if (competitions.europe[i] === comp) {
+				return link;
 			}
 		}
 

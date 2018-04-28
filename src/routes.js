@@ -9,6 +9,8 @@ import NationSelector from './components/NationSelector';
 import Versus from './components/Versus';
 import OneMatch from './components/OneMatch';
 import ClubHistory from './components/History/Club';
+import CompetitionView from './components/CompetitionView';
+import CompetitionSelector from './components/CompetitionSelector';
 import Manage from './components/Manage';
 
 const ClubRoutes = ({ match }) => (
@@ -25,6 +27,13 @@ const NationRoutes = ({ match }) => (
 	</div>
 );
 
+const CompetitionRoutes = ({ match }) => (
+	<div>
+		<Route path={`${match.url}/:year/:comp`} component={CompetitionView} />
+		<Route exact path={`${match.url}`} component={CompetitionSelector} />
+	</div>
+);
+
 const Routes = (props) => (
 	<BrowserRouter>
 		<div>
@@ -32,6 +41,7 @@ const Routes = (props) => (
 			<Route exact path="/" component={Home} />
 			<Route path="/club" component={ClubRoutes} />
 			<Route path="/nation" component={NationRoutes} />
+			<Route path="/competition" component={CompetitionRoutes} />
 			<Route path="/versus/:teamA/:teamB" component={Versus} />
 			<Route path="/match/:url" component={OneMatch} />
 			<Route path="/history/club/:team" component={ClubHistory} />
