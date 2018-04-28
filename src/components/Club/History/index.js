@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 
 import './style.css';
 
-import { Team } from '../../Common';
+import { Team, Year } from '../../Common';
 
 import UrlUtil from '../../../util/url';
 
 import { competitions, rounds } from '../data';
 
-export default class Club extends Component {
+export default class ClubHistory extends Component {
 	
 	constructor(props) {
 		super(props);
@@ -137,29 +137,8 @@ export default class Club extends Component {
 				
 	}
 
-	formatShortYear(year) {
-		year %= 100;
-		if (year === 0) {
-			return '00';
-		} else if (year < 10) {
-			return '0' + year;
-		}
-
-		return year;
-	}
-
 	getSeasonSpan(year) {
-		var a = year - 1;
-		var b = year;
-
-		const span = (
-			<span>
-				<span className="hide-mobile">{a}-{b}</span>
-				<span className="show-mobile">{this.formatShortYear(a)}{this.formatShortYear(b)}</span>
-			</span>
-		);
-
-
+		const span = <Year year={year} />;
 		const link = UrlUtil.getLink(year, this.state.team);
 
 		if (link === null)

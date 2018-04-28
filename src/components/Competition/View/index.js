@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import { LeagueTable } from '../../Common';
+import { LeagueTable, Year } from '../../Common';
 import { Cup } from '../../Graphics';
 
 import UrlUtil from '../../../util/url';
@@ -27,10 +27,15 @@ export default class CompetitionView extends Component {
 	render() {
 		return (
 			<div className="CompetitionView">
+				<div style={{fontSize: '1.5em'}} className="text-center">
+					{this.state.name + ' '} 
+					<Year year={this.state.year} />
+				</div>
+				<br/>
 				{this.state.data.league &&
-					<LeagueTable league={this.state.data.league} />}
+					<LeagueTable league={this.state.data.league} hideName={true} />}
 				{this.state.data.cup &&
-					<Cup cup={this.state.data.cup} />}
+					<Cup cup={this.state.data.cup} hideName={true} />}
 			</div>
 		);
 	}

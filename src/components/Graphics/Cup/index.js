@@ -14,7 +14,9 @@ export default class Cup extends Component {
 
 		return (
 			<div className="Cup">
-				<h3 className="text-center">{cup.name}</h3>
+				{this.props.hideName ||
+					<h3 className="text-center">{cup.name}</h3>
+				}
 				<div className="Cup-flex-container">
 					<KnockOutStage cup={cup} team={team} size={size} />
 				</div>

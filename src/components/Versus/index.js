@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 
 import './style.css';
 
-import {Scoreboard, Team} from '../Common';
+import { Scoreboard, Team, Year } from '../Common';
 
 import UrlUtil from '../../util/url';
 
-import {competitions} from '../data';
+import { competitions } from '../data';
 
 export default class Versus extends Component {
 	
@@ -80,32 +80,10 @@ export default class Versus extends Component {
 		);
 	}
 
-	formatShortYear(year) {
-		year %= 100;
-		if (year === 0) {
-			return '00';
-		} else if (year < 10) {
-			return '0' + year;
-		}
-
-		return year;
-	}
-
 	getSeasonSpan(year) {
-		var a = year - 1;
-		var b = year;
+		var fullyear = (this.state.teamAUrl.endsWith('-team') || this.state.teamBUrl.endsWith('-team'));
 
-		if (this.state.teamAUrl.endsWith('-team') ||
-				this.state.teamBUrl.endsWith('-team')) {
-			return <span>{year}</span>;
-		}
-
-		return (
-			<span>
-				<span className="hide-mobile">{a}-{b}</span>
-				<span className="show-mobile">{this.formatShortYear(a)}{this.formatShortYear(b)}</span>
-			</span>
-		);
+		return <Year year={year} fullyear={fullyear} />;
 	}
 
 	getScoreboard(match) {
