@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import { LeagueTable, Year } from '../../Common';
-import { Cup } from '../../Graphics';
+import { Cup, LeagueTable, Year } from '../../Common';
 
 import UrlUtil from '../../../util/url';
 

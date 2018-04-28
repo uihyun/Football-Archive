@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import { PlayerName, ViewSelector } from '../../Common';
-import { Assist, Goal } from '../../Graphics';
+import { Assist, Goal, PlayerName, ViewSelector } from '../../Common';
 
 import { teams, colors } from '../data';
 

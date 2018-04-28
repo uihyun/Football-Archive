@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './style.css';
 
 import PlayerName from '../../../util/playerName';
-import { Goal } from '../../Graphics';
+import { Goal } from '../../Common';
 import { colors } from '../data';
 
 export default class MatchEvent extends Component {
