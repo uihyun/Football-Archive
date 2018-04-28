@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import './style.css';
 
@@ -63,9 +64,16 @@ export default class Home extends Component {
 						}
 					}
 
+					const link = UrlUtil.getCompLink(year, comp.name);
+					var nameDiv = <div className="Recent-comp text-center">{comp.name}</div>;
+
+					if (link !== null) {
+						nameDiv = <Link to={link}>{nameDiv}</Link>;
+					}
+
 					return (
 						<div key={comp.name}>
-							<div className="Recent-comp text-center">{comp.name}</div>
+							{nameDiv}
 							{rows.map((row, index) => {
 								return (
 									<div key={index} className="Recent-flex-container">

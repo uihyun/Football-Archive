@@ -27,6 +27,9 @@ export default class Summary extends Component {
 			<div className="Summary">
 				<div className="flex-container">
 					{this.state.groups.map((group, index) => {
+						if (group.length === 0)
+							return null;
+
 						return (
 							<div key={index} className="flex-1">
 								{group.map(comp => {
@@ -110,6 +113,8 @@ export default class Summary extends Component {
 				}
 			}
 		}
+
+		console.log(state.groups);
 
 		return state;
 	}

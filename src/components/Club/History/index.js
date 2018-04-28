@@ -51,12 +51,19 @@ export default class Club extends Component {
 						<div key={season.year} className="flex-container" style={seasonStyle}>
 							<div className="flex-1" style={seasonStyle} >{this.getSeasonSpan(season.year)}</div>
 							{season.competitions.map((competition, index) => {
-								return (
+
+								var link = null;
+								if (competition !== null)
+									link = UrlUtil.getCompLink(competition.season, competition.name);
+
+								var div = (
 									<div key={index} className="flex-1" style={rankStyle}>
-										{this.getLeagueView(competition)}
-										{this.getCupView(competition)}
+										{this.getLeagueView(competition, link)}
+										{this.getCupView(competition, link)}
 									</div>
 								);
+
+								return div;
 							})}
 						</div>
 					);
@@ -69,20 +76,25 @@ export default class Club extends Component {
 		return '🏆';
 	}
 
-	getLeagueView(competition) {
+	getLeagueView(competition, link) {
 		if (competition === null || competition.league === undefined)
 			return null;
 
 		const rank = competition.league.rank;
+		var text = rank === 1 ? this.getTrophy() : rank;
 
-		return rank === 1 ? this.getTrophy() : rank;
+		if (link)
+			text = <Link to={link}>{text}</Link>;
+
+		return text;
 	}
 
-	getCupView(competition) {
+	getCupView(competition, link) {
 		if (competition === null || competition.cup === undefined)
 			return null;
 
 		const cup = competition.cup;
+		var result;
 
 		var i, row;
 		if (cup.table) {
@@ -90,17 +102,25 @@ export default class Club extends Component {
 				row = cup.table[i];
 
 				if (row.name === this.state.team) {
-					return 'G' + row.rank;
+					result = 'G' + row.rank;
+		
+					if (link)
+						result = <Link to={link}>{result}</Link>;
+
+					return result;
 				}
 			}
 		}
 
 		const vs = cup.matches[0].l === this.state.team ? cup.matches[0].r : cup.matches[0].l;
 		const round = cup.round.replace(/\./, '');
-		var result = rounds.getShortForm(competition.name, round).replace(/F/, '2');
+		result = rounds.getShortForm(competition.name, round).replace(/F/, '2');
 
 		if (cup.winner === this.state.team)
 			result = this.getTrophy();
+
+		if (link)
+			result = <Link to={link}>{result}</Link>;
 
 		return (
 			<div className="flex-container">

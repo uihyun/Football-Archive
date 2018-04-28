@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import './style.css';
 
 import {competitions} from '../data';
+
+import UrlUtil from '../../../util/url';
 
 export default class Competition extends Component {
 
@@ -23,12 +26,19 @@ export default class Competition extends Component {
 			
 		round = round.replace(/Matches/, '');
 
-		return (
+		const link = UrlUtil.getCompLink(this.props.year, comp.name);
+		var span = (
 			<span>
 				<span className="hide-mobile">{comp.name}</span>
 				<span className="show-mobile">{comp.sh}</span>
 				{round}
 			</span>
 		);
+
+		if (link) {
+			span = <Link to={link}>{span}</Link>;
+		}
+
+		return span;
 	}
 }
