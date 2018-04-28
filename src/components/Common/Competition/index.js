@@ -10,15 +10,16 @@ import UrlUtil from '../../../util/url';
 export default class Competition extends Component {
 
 	render() {
-
 		var comp = competitions[this.props.name];
+		var name = comp.name;
+		var sh = comp.sh;
 		var round = ' ' + this.props.round.replace(/ Round/, 'R');
 
-		if (comp.sh === 'Fr') {
+		if (sh === 'Fr') {
 			round = '';
 		}
 
-		if (comp.sh === 'WCQ') {
+		if (sh === 'WCQ') {
 			round = round.replace(/2ndR/, '2R');
 			round = round.replace(/3rdR/, '3R');
 			round = round.replace(/Relegation/, '4R');
@@ -26,11 +27,14 @@ export default class Competition extends Component {
 			
 		round = round.replace(/Matches/, '');
 
+		if (this.props.showFull)
+			sh = name;
+
 		const link = UrlUtil.getCompLink(this.props.year, comp.name);
 		var span = (
 			<span>
-				<span className="hide-mobile">{comp.name}</span>
-				<span className="show-mobile">{comp.sh}</span>
+				<span className="hide-mobile">{name}</span>
+				<span className="show-mobile">{sh}</span>
 				{round}
 			</span>
 		);

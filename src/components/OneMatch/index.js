@@ -55,7 +55,7 @@ export default class OneMatch extends Component {
 		return (
 			<div>
 				<h3 className="text-center">
-					<Competition name={match.competition} round={match.round} year={year} />
+					<Competition name={match.competition} round={match.round} year={year} showFull={true} />
 					<div><small>{match.date}</small></div>
 				</h3>
 				<div className="flex-container">
