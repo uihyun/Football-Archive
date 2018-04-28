@@ -2,8 +2,6 @@
 
 const Promise = require('bluebird');
 
-const UrlUtil = require('../../util/url');
-
 module.exports = function(router, db) {
 	const Seasons = db.collection('Seasons');
 	const Matches = db.collection('Matches');

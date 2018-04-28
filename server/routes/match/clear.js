@@ -13,7 +13,7 @@ module.exports = function(router, db) {
 	
 	router.get('/api/match/clear/:_season/:_teamUrl', function(req, res) {
 		const season = req.params._season;
-		const team = UrlUtil.getTeamNameFromUrl(req.params._teamUrl);
+		const team = UrlUtil.getNameFromUrl(req.params._teamUrl);
 		
 		Seasons.find({season: season, team: team}).toArray()
 			.then(function(seasons) {

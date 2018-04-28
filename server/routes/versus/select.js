@@ -9,8 +9,8 @@ module.exports = function(router, db) {
 	const Matches = db.collection('Matches');
 	
 	router.get('/api/versus/select/:_teamA/:_teamB', function(req, res) {
-		const teamA = UrlUtil.getTeamNameFromUrl(req.params._teamA);
-		const teamB = UrlUtil.getTeamNameFromUrl(req.params._teamB);
+		const teamA = UrlUtil.getNameFromUrl(req.params._teamA);
+		const teamB = UrlUtil.getNameFromUrl(req.params._teamB);
 
 		var out = {};
 

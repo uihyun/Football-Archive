@@ -12,7 +12,7 @@ module.exports = function(router, db) {
 
 	router.get('/api/season/select/:_season/:_teamUrl', function(req, res) {
 		const season = req.params._season;
-		const team = UrlUtil.getTeamNameFromUrl(req.params._teamUrl);
+		const team = UrlUtil.getNameFromUrl(req.params._teamUrl);
 
 		function getMatches(urls, map) {
 			return Matches.find({url: {$in: urls}}).toArray()

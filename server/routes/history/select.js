@@ -10,7 +10,7 @@ module.exports = function(router, db) {
   const Cups = db.collection('Cups');
 
 	router.get('/api/history/team/:_teamUrl', function (req, res) {
-    const team = UrlUtil.getTeamNameFromUrl(req.params._teamUrl);
+    const team = UrlUtil.getNameFromUrl(req.params._teamUrl);
 
 		function getLeagueTable(season, name) {
 			return Leagues.findOne({season: season, name: name})

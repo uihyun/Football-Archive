@@ -53,6 +53,9 @@ module.exports = {
 		{name: 'Reggina Calcio', url: 'reggina-1914'},
 		{name: 'SpVgg Greuther Fürth', url: 'spvgg-greuther-fuerth'},
 		{name: 'Treviso FBC', url: 'a-c-d-treviso'},
+		// Competitions
+		{name: 'Primera División', url: 'Primera-Division'},
+		{name: 'DFB-Pokal', url: 'DFB-Pokal'},
 		{name: '', url: ''}
 	],
 	getUrlToNameMap: function() {
@@ -77,57 +80,57 @@ module.exports = {
 
 		return map;
 	},
-	getTeamNameFromUrl: function(teamUrl) {
+	getNameFromUrl: function(url) {
 		var map = this.getUrlToNameMap();
-		if (map[teamUrl]) {
-			return map[teamUrl];
+		if (map[url]) {
+			return map[url];
 		}
 
-		var team = teamUrl.replace(/-/g, ' ');
+		var name = url.replace(/-/g, ' ');
 
-		if (team === 'Brighton Hove Albion') {
-			team = 'Brighton & Hove Albion';
-		} else if (team === 'Atletico Madrid') {
-			team = 'Atlético Madrid';
-		} else if (team === 'CD Alaves') {
-			team = 'CD Alavés';
-		} else if (team === 'Malaga CF') {
-			team = 'Málaga CF';
-		} else if (team === 'Deportivo La Coruna') {
-			team = 'Deportivo La Coruña';
-		} else if (team === 'CD Leganes') {
-			team = 'CD Leganés';
-		} else if (team === '1 FC Koeln') {
-			team = '1. FC Köln';
-		} else if (team === 'Bayern Muenchen') {
-			team = 'Bayern München';
-		} else if (team === 'Bor Moenchengladbach') {
-			team = 'Bor. Mönchengladbach';
-		} else if (team === '1 FSV Mainz 05') {
-			team = '1. FSV Mainz 05';
-		} else if (team === 'Paris Saint Germain') {
-			team = 'Paris Saint-Germain';
-		} else if (team === 'AS Saint Etienne') {
-			team = 'AS Saint-Étienne';
-		} else if (team === 'Sporting Gijon') {
-			team = 'Sporting Gijón';
-		} else if (team === 'UD Almeria') {
-			team = 'UD Almería';
-		} else if (team === 'Cordoba CF') {
-			team = 'Córdoba CF';
-		} else if (team === 'Hercules CF') {
-			team = 'Hércules CF';
+		if (name === 'Brighton Hove Albion') {
+			name = 'Brighton & Hove Albion';
+		} else if (name === 'Atletico Madrid') {
+			name = 'Atlético Madrid';
+		} else if (name === 'CD Alaves') {
+			name = 'CD Alavés';
+		} else if (name === 'Malaga CF') {
+			name = 'Málaga CF';
+		} else if (name === 'Deportivo La Coruna') {
+			name = 'Deportivo La Coruña';
+		} else if (name === 'CD Leganes') {
+			name = 'CD Leganés';
+		} else if (name === '1 FC Koeln') {
+			name = '1. FC Köln';
+		} else if (name === 'Bayern Muenchen') {
+			name = 'Bayern München';
+		} else if (name === 'Bor Moenchengladbach') {
+			name = 'Bor. Mönchengladbach';
+		} else if (name === '1 FSV Mainz 05') {
+			name = '1. FSV Mainz 05';
+		} else if (name === 'Paris Saint Germain') {
+			name = 'Paris Saint-Germain';
+		} else if (name === 'AS Saint Etienne') {
+			name = 'AS Saint-Étienne';
+		} else if (name === 'Sporting Gijon') {
+			name = 'Sporting Gijón';
+		} else if (name === 'UD Almeria') {
+			name = 'UD Almería';
+		} else if (name === 'Cordoba CF') {
+			name = 'Córdoba CF';
+		} else if (name === 'Hercules CF') {
+			name = 'Hércules CF';
 		}
 
-		return team;
+		return name;
 	},
-	getUrlFromTeamName: function(team) {
+	getUrlFromName: function(name) {
 		var map = this.getNameToUrlMap();
-		if (map[team]) {
-			return map[team];
+		if (map[name]) {
+			return map[name];
 		}
 
-		var url = team;
+		var url = name;
 
 		if (url === 'Brighton & Hove Albion') {
 			url = 'Brighton Hove Albion';
