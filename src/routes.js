@@ -30,7 +30,7 @@ const NationRoutes = ({ match }) => (
 const CompetitionRoutes = ({ match }) => (
 	<div>
 		<Route path={`${match.url}/:year/:comp`} component={CompetitionView} />
-		<Route exact path={`${match.url}`} component={CompetitionSelector} />
+		<Route exact path={`${match.url}/:year`} component={CompetitionSelector} />
 	</div>
 );
 

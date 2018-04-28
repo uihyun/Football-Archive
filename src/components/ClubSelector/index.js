@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 
 import './style.css';
 
-import {Team} from '../Common';
+import { Team, YearSelector } from '../Common';
 
-import {clubs, koreans} from '../data';
+import { clubs, koreans } from '../data';
 import UrlUtil from '../../util/url';
 
 export default class ClubSelector extends Component {
@@ -25,11 +25,7 @@ export default class ClubSelector extends Component {
     return (
       <div className="ClubSelector text-center">
 				<br />
-				<div className="flex-container flex-container-center">
-					<div className="ClubSelector-flex-container-year">
-						{this.getYears(year)}
-					</div>
-				</div>
+				<YearSelector year={year} min={clubs.years.min} max={clubs.years.max} link={'club'} />
 				<div className="flex-container">
 					{countries.map(country => {
 						return (
@@ -82,27 +78,4 @@ export default class ClubSelector extends Component {
       </div>
     );
   }
-
-	getYears(year) {
-		var years = [];
-		var i, style = 'ClubSelector-year';
-
-		for (i = clubs.years.min; i <= clubs.years.max; i++) {
-			if (i === parseInt(year, 10)) {
-				years.push((
-					<div key={i} className={style + " ClubSelector-year-selected"}>
-						{i}
-					</div>
-				));
-			} else {
-				years.push((
-					<div key={i} className={style}>
-						<Link to={'/club/' + i}>{i}</Link>
-					</div>
-				));
-			}
-		}
-
-		return years;
-	}
 }
