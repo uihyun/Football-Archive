@@ -6,7 +6,7 @@ import Selector from './Selector';
 
 const Competition = ({ match }) => (
 	<div>
-		<Route path={`${match.url}/:year/:team`} component={View} />
+		<Route path={`${match.url}/:year/:comp`} component={View} />
 		<Route exact path={`${match.url}/:year`} component={Selector} />
 	</div>
 );
