@@ -17,6 +17,8 @@ export default class CompetitionSelector extends Component {
 		const legend = domestic.legend;
 		const countries = clubs.countries;
 
+		const large = {fontSize: '1.5em'};
+
 		return (
 			<div className="CompetitionSelector text-center">
 				<br/>
@@ -25,7 +27,7 @@ export default class CompetitionSelector extends Component {
 				<div className="flex-container">
 					{competitions.europe.map(comp => {
 						return (
-							<div key={comp} className="flex-1">
+							<div key={comp} className="flex-1" style={large}>
 								{this.getCompLink(comp)}
 							</div>
 						);
@@ -35,7 +37,7 @@ export default class CompetitionSelector extends Component {
 				<div className="flex-container">
 					{countries.map(country => {
 						return (
-							<div key={country} className="flex-1">
+							<div key={country} className="flex-1" style={large}>
 								{country}
 							</div>
 						);

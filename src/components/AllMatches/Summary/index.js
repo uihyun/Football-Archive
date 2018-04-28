@@ -114,8 +114,6 @@ export default class Summary extends Component {
 			}
 		}
 
-		console.log(state.groups);
-
 		return state;
 	}
 }
