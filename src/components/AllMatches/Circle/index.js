@@ -95,14 +95,14 @@ export default class Circle extends Component {
 			return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="gray" strokeWidth="1" />;
 		}
 
-		function getMonth(month, theta) {
-			const monthR = month.length > 2 ? 90 : 100;
-			var x = cx + monthR * Math.cos(theta);
-			var y = cx + monthR * Math.sin(theta);
+		function getTime(time, theta) {
+			const timeR = time.length > 2 ? 90 : 100;
+			var x = cx + timeR * Math.cos(theta);
+			var y = cx + timeR * Math.sin(theta);
 			return (
 				<text key={theta} x={x} y={y} alignmentBaseline="middle" textAnchor="middle" fontSize="1.5em"
 				 fill="gray">
-					{month}
+					{parseInt(time, 10)}
 				</text>
 			);
 		}
@@ -186,7 +186,7 @@ export default class Circle extends Component {
 
 				if (prevTheta !== undefined) {
 					theta = (prevTheta + theta1) / 2;
-					times.push(getMonth(this.state.time[i - 1], theta));
+					times.push(getTime(this.state.time[i - 1], theta));
 				}
 
 				prevTheta = theta1;
@@ -197,7 +197,7 @@ export default class Circle extends Component {
 				
 				if (prevTheta !== undefined) {
 					theta = (prevTheta + theta2) / 2;
-					times.push(getMonth(this.state.time[i], theta));
+					times.push(getTime(this.state.time[i], theta));
 				}
 			}
 		}
