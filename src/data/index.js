@@ -1,4 +1,5 @@
 export {default as clubs} from './clubs';
+export {default as colors} from './colors';
 export {default as competitions} from './competitions';
 export {default as koreans} from './koreans';
 export {default as nations} from './nations';

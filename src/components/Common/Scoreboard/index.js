@@ -3,9 +3,12 @@ import {Link} from 'react-router-dom';
 
 import './style.css';
 
+import { colors } from '../data';
+
 import Match from '../../../util/match'
 
 export default class Scoreboard extends Component {
+
   render() {
 		const shrink = this.props.shrinkOnMobile ? ' Scoreboard-shrink ' : '';
 		if (this.props.isEmpty) {
@@ -20,7 +23,14 @@ export default class Scoreboard extends Component {
 		let score = null;
 		let bg = null;
 		const sum = Match.summarizeResult(match, this.props.team);
-		let scoreStyle = 'Scoreboard-' + sum.resultFull;
+		const result = sum.resultFull;
+		var style = { backgroundColor: colors[Match.getColor(result)] };
+		var linkStyle = { color: 'white' };
+
+		if (result === 'unplayed') {
+			style.backgroundColor = 'white';
+			linkStyle.color = 'black';
+		}
 
 		if (summary) {
 			score = (
@@ -41,11 +51,11 @@ export default class Scoreboard extends Component {
 					score = null;
 				} else {
 					var fullname = this.props.player.fullname;
-					bg = this.playerBackground(summary.players[side], fullname, scoreStyle);
+					bg = this.playerBackground(summary.players[side], fullname, result);
 					if (this.playerPlayed(summary.players[side], fullname)) {
 						score = this.playerScored(summary.goals, side, fullname);
 					} else {
-						scoreStyle += '-didNotPlay';
+						style.backgroundColor = colors[Match.getColorDNP(result)];
 						score = null;
 					}
 				}
@@ -54,27 +64,31 @@ export default class Scoreboard extends Component {
 			score = <span className='Scoreboard-date'>{mm + '/' + dd}</span>;
 		}
 
-		let className = this.props.classNames + ' Scoreboard ' + shrink + scoreStyle;
+		let className = this.props.classNames + ' Scoreboard ' + shrink;
 		var inner = [bg, (<div key={1} className='Scoreboard-inner'>{score}</div>)];
 
 		if (match.url === undefined) {
-	    return (<div className={className}>{inner}</div>);
+	    return (<div className={className} style={style}>{inner}</div>);
 		}
 
     return (
-			<div className={className}>
-				<Link to={'/match/' + match.url}>
+			<div className={className} style={style}>
+				<Link to={'/match/' + match.url} style={linkStyle}>
 					{inner}
 				</Link>
 			</div>
 		);
 	}
 
-	playerBackground(players, player, style) {
+	playerBackground(players, player, result) {
+		const color = colors[Match.getColorDNP(result)];
+		const styleIn = { borderColor: color + ' transparent transparent transparent' };
+		const styleOut = { borderColor: 'transparent transparent ' + color + ' transparent' };
+		
 		for (var i = 0; i < players.start.length; i++) {
 			if (players.start[i].name === player) {
 				if (players.start[i].sub) {
-					return <div key={0} className={style + '-out Scoreboard-out'}></div>;
+					return <div key={0} className="Scoreboard-out" style={styleOut}></div>;
 				} else {
 					return null;
 				}
@@ -86,7 +100,7 @@ export default class Scoreboard extends Component {
 		for (i = 0; i < length; i++) {
 			if (players.sub[i].name === player) {
 				if (players.sub[i].sub) {
-					return <div key={0} className={style + '-in Scoreboard-in'}></div>;
+					return <div key={0} className="Scoreboard-in" style={styleIn}></div>;
 				} else {
 					return null;
 				}

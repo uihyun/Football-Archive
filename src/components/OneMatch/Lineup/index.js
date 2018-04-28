@@ -5,7 +5,7 @@ import './style.css';
 import { PlayerName, ViewSelector } from '../../Common';
 import { Assist, Goal } from '../../Graphics';
 
-import { teams } from '../../data';
+import { teams, colors } from '../data';
 
 export default class Lineup extends Component {
 
@@ -56,7 +56,6 @@ export default class Lineup extends Component {
 			array.push(<div key="g" className="flex-container">{goals}</div>);
 
 		if (player.card) {
-			const colors = {yellow: 'hsl( 40, 100%, 50%)', red: 'hsl(360,  90%, 50%)'};
 			const cardColor = {yellow: colors.yellow, red: colors.red, 'Second yellow': colors.red};
 			const style = {fill: cardColor[player.card.type]};
 

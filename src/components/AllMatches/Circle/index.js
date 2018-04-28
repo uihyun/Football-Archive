@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 
 import './style.css';
 
+import { colors } from '../data';
+
 import Match from '../../../util/match';
 import UrlUtil from '../../../util/url';
 
@@ -67,20 +69,6 @@ export default class Circle extends Component {
 		var month;
 		var playerGoals;
 		var j;
-
-		const colors = {
-			win: 'hsl(210, 100%, 50%)',
-			draw: 'hsl( 40, 100%, 50%)',
-			loss: 'hsl(360,  90%, 50%)', 
-			unplayed: 'lightgray'
-		};
-		
-		const colorsDNP = {
-			win: 'hsl(210, 100%, 90%)',
-			draw: 'hsl( 40, 100%, 90%)',
-			loss: 'hsl(360,  90%, 90%)', 
-			unplayed: 'lightgray'
-		};
 
 		dRot = 360 / (this.state.matches.length + 2);
 		dTheta = 2 * Math.PI / (this.state.matches.length + 2);
@@ -153,13 +141,13 @@ export default class Circle extends Component {
 			result = this.state.summaries[i].result;
 
 			if (this.props.player) {
-				stroke = colorsDNP[result];
+				stroke = colors[Match.getColorDNP(result)];
 				dnps.push(getPath(match.url, i, d, stroke));
 
 				playerMinutes = this.playerMinutes(match);
 				if (playerMinutes) {
 					d = getPlayerD(playerMinutes);
-					stroke = colors[result];
+					stroke = colors[Match.getColor(result)];
 					matches.push(getPath(match.url, i, d, stroke));
 				}
 
@@ -169,7 +157,7 @@ export default class Circle extends Component {
 					goals.push(getGoal(i, j));
 				}
 			} else {
-				stroke = colors[result];
+				stroke = colors[Match.getColor(result)];
 				matches.push(getPath(match.url, i, d, stroke));
 			}
 

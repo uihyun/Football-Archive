@@ -4,6 +4,7 @@ import './style.css';
 
 import PlayerName from '../../../util/playerName';
 import { Goal } from '../../Graphics';
+import { colors } from '../data';
 
 export default class MatchEvent extends Component {
 
@@ -52,7 +53,6 @@ export default class MatchEvent extends Component {
 
 	renderCard() {
 		const card = this.props.card;
-		const colors = {yellow: 'hsl( 40, 100%, 50%)', red: 'hsl(360,  90%, 50%)'};
 		const cardColor = {yellow: colors.yellow, red: colors.red, 'Second yellow': colors.red};
 		const style = {fill: cardColor[card.type]};
 		const type = (

@@ -80,4 +80,27 @@ export default class Match {
 
 		return out;
 	}
+
+	static getColor(result) {
+		switch (result) {
+			case 'win':
+				return 'blue';
+			case 'win-pso':
+				return 'green';
+			case 'draw':
+				return 'yellow';
+			case 'loss-pso':
+				return 'orange';
+			case 'loss':
+				return 'red';
+			case 'unplayed':
+				return 'gray';
+			default:
+				return 'white';
+		}
+	}
+
+	static getColorDNP(result) {
+		return 'light' + this.getColor(result);
+	}
 }
