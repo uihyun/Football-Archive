@@ -25,14 +25,27 @@ export default class Circle extends Component {
 	newState(props) {
 		const matches = Match.extractAndSort(props.data);
 		var summaries = [];
+		var time = [];
+		var indices = [0, 2];
+
+		if (matches.length > 1) {
+			var y1 = parseInt(matches[matches.length - 1].date.substring(6, 10), 10);
+			var y0 = parseInt(matches[0].date.substring(6, 10), 10);
+
+			if (y1 - y0 > 1) {
+				indices = [6, 10];
+			}
+		}
 
 		for (var i = 0; i < matches.length; i++) {
 			summaries[i] = Match.summarizeResult(matches[i], props.team);
+			time[i] = matches[i].date.substring(indices[0], indices[1]);
 		}
 
 		return {
 			matches: matches,
-			summaries: summaries
+			summaries: summaries,
+			time: time
 		};
 	}
 	
@@ -50,7 +63,7 @@ export default class Circle extends Component {
 		var matches = [];
 		var ticks = [];
 		var teams = [];
-		var months = [];
+		var times = [];
 		var goals = [];
 	
 		const matchR = 135;
@@ -66,7 +79,6 @@ export default class Circle extends Component {
 		var image, vs, url;
 		const tickWidth = 5;
 		var prevTheta;
-		var month;
 		var playerGoals;
 		var j;
 
@@ -84,7 +96,7 @@ export default class Circle extends Component {
 		}
 
 		function getMonth(month, theta) {
-			const monthR = 100;
+			const monthR = month.length > 2 ? 90 : 100;
 			var x = cx + monthR * Math.cos(theta);
 			var y = cx + monthR * Math.sin(theta);
 			return (
@@ -169,14 +181,12 @@ export default class Circle extends Component {
 			image = <image key={i} xlinkHref={url} x={x} y={y} width={teamSize} height={teamSize} />;
 			teams.push(this.getLink(image, vs));
 
-			if (i === 0 ||
-					(this.state.matches[i - 1].date.substring(0, 2) !== match.date.substring(0, 2))) {
+			if (i === 0 || this.state.time[i - 1] !== this.state.time[i]) {
 				ticks.push(getTick(theta1, i));
 
 				if (prevTheta !== undefined) {
 					theta = (prevTheta + theta1) / 2;
-					month = parseInt(this.state.matches[i - 1].date.substring(0, 2), 10);
-					months.push(getMonth(month, theta));
+					times.push(getMonth(this.state.time[i - 1], theta));
 				}
 
 				prevTheta = theta1;
@@ -187,8 +197,7 @@ export default class Circle extends Component {
 				
 				if (prevTheta !== undefined) {
 					theta = (prevTheta + theta2) / 2;
-					month = parseInt(match.date.substring(0, 2), 10);
-					months.push(getMonth(month, theta));
+					times.push(getMonth(this.state.time[i], theta));
 				}
 			}
 		}
@@ -200,7 +209,7 @@ export default class Circle extends Component {
 					{dnps}
 					{matches}
 					{teams}
-					{months}
+					{times}
 					{goals}
 				</svg>
 			</div>
