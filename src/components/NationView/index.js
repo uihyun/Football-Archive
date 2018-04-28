@@ -168,7 +168,8 @@ export default class NationView extends Component {
 
 		views.push({
 			name: 'All Matches',
-			view: (<AllMatches data={data} team={team} year={year} showForm={showForm} />)
+			view: (<AllMatches data={data} team={team} year={year} showForm={showForm}
+							showSummaryYear={true} />)
 		});
 		views.push({
 			name: 'Statistics',

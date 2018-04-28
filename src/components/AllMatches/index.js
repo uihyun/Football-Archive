@@ -59,7 +59,8 @@ export default class AllMatches extends Component {
 		}
 		views.push({
 			name: 'Summary',
-			view: (<Summary data={data} squad={squad} team={team} year={year} player={player} />)
+			view: (<Summary data={data} squad={squad} team={team} year={year} player={player} 
+							showYear={this.props.showSummaryYear} />)
 		});
 		views.push({
 			name: 'Circle',

@@ -32,8 +32,9 @@ export default class Summary extends Component {
 								{group.map(comp => {
 									const leagueTable = this.state.leagueTableMap[comp.name];
 									const cup = this.state.cupMap[comp.url];
-									return <Progress key={comp.name} team={team} year={year} player={player}
-														competition={comp} leagueTable={leagueTable} cup={cup} />;
+									return <Progress key={comp.url} team={team} year={year} player={player}
+														competition={comp} leagueTable={leagueTable} cup={cup} 
+														showYear={this.props.showYear} />;
 								})}
 							</div>
 						);
@@ -79,6 +80,33 @@ export default class Summary extends Component {
 						continue;
 
 					state.groups[group].push(comp);
+				}
+			}
+		}
+
+		if (this.props.showYear) {
+			var maxDate = {};
+			var match, max, date, array;
+
+			for (i = 0; i < data.competitions.length; i++) {
+				comp = data.competitions[i];
+				max = 0;
+				
+				for (j = 0; j < comp.matches.length; j++) {
+					match = comp.matches[j];
+					array = match.date.split('/');
+					date = parseInt(array[2] + array[0] + array[1], 10); // mm/dd/yyyy -> yyyymmdd
+					max = Math.max(max, date);
+				}
+
+				maxDate[comp.url] = max;
+			}
+
+			for (i = 0; i < state.groups.length; i++) {
+				group = state.groups[i];
+
+				if (group) {
+					group.sort((a, b) => { return maxDate[b.url] - maxDate[a.url]; });
 				}
 			}
 		}

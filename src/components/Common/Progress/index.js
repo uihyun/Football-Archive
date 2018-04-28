@@ -10,12 +10,12 @@ export default class Progress extends Component {
 
 	render() {
 		const team = this.props.team;
-		const compName= this.props.competition.name;
+		const compName = this.props.competition.name;
 		var rows = this.buildRows();
 
 		return (
 			<div className="Progress">
-				<h3 className="text-center">{competitions[compName].name}</h3>
+				<h3 className="text-center">{this.getTitle()}</h3>
 				{rows.map((row, index) => {
 					return (
 						<div className="flex-container Progress-team" key={index}>
@@ -42,6 +42,31 @@ export default class Progress extends Component {
 				})}
 			</div>
 		);
+	}
+
+	getTitle() {
+		const competition = this.props.competition;
+		const matches = competition.matches;
+		var title = competitions[competition.name].name;
+		var years = {min: 3000, max: 1000};
+		var i, year;
+
+		if (this.props.showYear) {
+
+			for (i = 0; i < matches.length; i++) {
+				year = parseInt(competition.matches[i].date.substring(6, 10), 10);
+				years.min = Math.min(year, years.min);
+				years.max = Math.max(year, years.max);
+			}
+
+			title += ' ' + years.min;
+
+			if (years.min !== years.max) {
+				title += '-' + years.max;
+			}
+		}
+
+		return title;
 	}
 
 	getRankSuffix(rank) {
