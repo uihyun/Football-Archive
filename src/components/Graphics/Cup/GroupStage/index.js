@@ -10,12 +10,16 @@ export default class GroupStage extends Component {
 	render() {
 		let cup = this.props.cup;
 		let groups = this.getGroups(cup);
-		
-		let width = this.props.size;
-		let height = width / 3;
 
 		if (groups.length === 0)
 			return null;
+
+		let groupCount = this.getGroupCount(groups);
+
+		console.log(groupCount);
+		
+		let width = this.props.size;
+		let height = width / 3;
 
 		var headers = [];
 		var teams = [];
@@ -34,7 +38,7 @@ export default class GroupStage extends Component {
 		const hTeamSize = teamSize / 2;
 
 		dx = width / groups.length;
-		dy = height / 5;
+		dy = height / (groupCount + 1);
 		for (i = 0; i < groups.length; i++) {
 			group = groups[i];
 
@@ -42,7 +46,7 @@ export default class GroupStage extends Component {
 			y = dy * 0.5;
 
 			isTeamInGroup = this.isTeamInGroup(group);
-			style = this.getHeaderStyle(isTeamInGroup);
+			style = this.getHeaderStyle(isTeamInGroup, groupCount);
 
 			if (isTeamInGroup) {
 				bg = <rect x={dx * i} y={0} width={dx} height={height} fill="#f0f0f0" />;
@@ -91,12 +95,12 @@ export default class GroupStage extends Component {
 		return false;
 	}
 
-	getHeaderStyle(highlight) {
+	getHeaderStyle(highlight, groupCount) {
 		var style = {
 			fill: 'gray',
 			alignmentBaseline: 'middle',
 			textAnchor: 'middle',
-			fontSize: '1.5em'
+			fontSize: '1.' + ((6 - groupCount) * 2.5) + 'em'
 		};
 
 		if (highlight) {
@@ -119,6 +123,16 @@ export default class GroupStage extends Component {
 		}
 
 		return groups;
+	}
+
+	getGroupCount(groups) {
+		var i, max = 0;
+
+		for (i = 0; i < groups.length; i++) {
+			max = Math.max(groups[i].table.length, max);
+		}
+
+		return max;
 	}
 
 	getLink(image, team) {
