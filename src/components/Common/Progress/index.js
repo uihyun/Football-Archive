@@ -101,20 +101,6 @@ export default class Progress extends Component {
 		return parseInt(array[2] + array[0] + array[1], 10); // mm/dd/yyyy
 	}
 		
-	formatRound(compName, round) {
-		if (rounds[compName] !== undefined) {
-			if (rounds[compName][round] !== undefined) {
-				return rounds[compName][round];
-			}
-		}
-
-		if (round.match(/^Group/)) {
-			return 'G';
-		}
-
-		return round;
-	}
-
 	getRoundKey(competition, match) {
 		if (competition.name === 'Friendlies') {
 			return match.date;
@@ -133,6 +119,74 @@ export default class Progress extends Component {
 		} else {
 			return match.round;
 		}
+	}
+
+	formatGroupStage(rows, width) {
+		var index = { min: rows.length, max: 0 };
+		var roundName;
+		var i, row, round;
+
+		if (this.props.cup === undefined)
+			return rows;
+
+		for (i = 0; i < rows.length; i++) {
+			row = rows[i];
+
+			if (row.round.match(/^Group/)) {
+				index.min = Math.min(index.min, i);
+				index.max = Math.max(index.max, i);
+				roundName = row.round;
+			}
+		}
+
+		if (roundName === undefined)
+			return rows;
+
+		var newRows = [];
+		var j, team, k, rank;
+		var style, selfview;
+
+		for (i = 0; i < index.min; i++) {
+			newRows[i] = rows[i];
+		}
+
+		for (i = index.max + 1; i < rows.length; i++) {
+			newRows[i + 1] = rows[i];
+		}
+
+		for (i = 0; i < this.props.cup.rounds.length; i++) {
+			round = this.props.cup.rounds[i];
+
+			if (round.name === roundName && round.table) {
+				for (j = 0; j < round.table.length; j++) {
+					team = round.table[j];
+					rank = 'G' + team.rank;
+
+					for (k = index.min; k <= index.max; k++) {
+						row = rows[k];
+
+						if (row.team === team.name) {
+							row.round = rank;
+							newRows[index.min + j] = row;
+							break;
+						} else if (team.name === this.props.team) {
+							rank = this.getRankSuffix(team.rank);
+
+							if (width === 2) {
+								rank = <span><small>Group </small>{rank}</span>;
+							}
+
+							style = { width: 35 * width, textAlign: 'center' };
+							selfview = (<div style={style}>{rank}</div>);
+							newRows[index.min + j] = { team: team.name, round: '', view: selfview };
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		return newRows;
 	}
 
 	build2LeggedRows() {
@@ -190,6 +244,8 @@ export default class Progress extends Component {
 			}
 		}
 
+		array = this.formatGroupStage(array, 2);
+
 		return array;
 	}
 
@@ -205,6 +261,8 @@ export default class Progress extends Component {
 		}
 
 		array.sort(function (a, b) { return b.date - a.date; });
+
+		array = this.formatGroupStage(array, 1);
 
 		return array;
 	}

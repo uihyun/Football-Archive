@@ -114,18 +114,24 @@ export default class NationView extends Component {
 			var result = {}
 			var compMap = {};
 			var cups = [];
+			var url;
 
 			for (i = 0; i < dataArray.length; i++) {
 				data = dataArray[i];
 
 				for (j = 0; j < data.competitions.length; j++) {
 					competition = data.competitions[j];
+					url = competition.url;
 
-					if (compMap[competition.name] === undefined) {
-						compMap[competition.name] = {name: competition.name, matches: []};
+					if (competition.name === 'Friendlies') {
+						url = 'Friendlies';
 					}
 
-					compMap[competition.name].matches = compMap[competition.name].matches.concat(competition.matches);
+					if (compMap[url] === undefined) {
+						compMap[url] = {name: competition.name, url: url, matches: []};
+					}
+
+					compMap[url].matches = compMap[url].matches.concat(competition.matches);
 				}
 
 				cups = cups.concat(data.cups);
