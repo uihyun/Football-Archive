@@ -5,7 +5,7 @@ import './style.css';
 
 import MatchEvent from './MatchEvent';
 import Lineup from './Lineup';
-import { Team, ViewSelector } from '../Common';
+import { Competition, Team, ViewSelector } from '../Common';
 
 import { teams } from '../data';
 
@@ -55,7 +55,7 @@ export default class OneMatch extends Component {
 		return (
 			<div>
 				<h3 className="text-center">
-					<div>{match.competition} {match.round}</div>
+					<Competition name={match.competition} round={match.round} year={year} />
 					<div><small>{match.date}</small></div>
 				</h3>
 				<div className="flex-container">
