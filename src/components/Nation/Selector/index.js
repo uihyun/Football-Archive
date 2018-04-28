@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import {Team} from '../Common';
+import {Team} from '../../Common';
 
 import {nations} from '../data';
 

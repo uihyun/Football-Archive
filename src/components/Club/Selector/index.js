@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 
 import './style.css';
 
-import { Team, YearSelector } from '../Common';
+import { Team, YearSelector } from '../../Common';
 
 import { clubs, koreans } from '../data';
-import UrlUtil from '../../util/url';
+import UrlUtil from '../../../util/url';
 
 export default class ClubSelector extends Component {
 

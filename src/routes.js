@@ -2,49 +2,23 @@ import React from 'react';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 import Home from './components/Home';
-import ClubView from './components/ClubView';
-import ClubSelector from './components/ClubSelector';
-import NationView from './components/NationView';
-import NationSelector from './components/NationSelector';
+import Club from './components/Club';
+import Nation from './components/Nation';
+import Competition from './components/Competition';
 import Versus from './components/Versus';
 import OneMatch from './components/OneMatch';
-import ClubHistory from './components/History/Club';
-import CompetitionView from './components/CompetitionView';
-import CompetitionSelector from './components/CompetitionSelector';
 import Manage from './components/Manage';
-
-const ClubRoutes = ({ match }) => (
-	<div>
-		<Route path={`${match.url}/:year/:team`} component={ClubView} />
-		<Route exact path={`${match.url}/:year`} component={ClubSelector} />
-	</div>
-);
-
-const NationRoutes = ({ match }) => (
-	<div>
-		<Route path={`${match.url}/:year/:team`} component={NationView} />
-		<Route exact path={`${match.url}`} component={NationSelector} />
-	</div>
-);
-
-const CompetitionRoutes = ({ match }) => (
-	<div>
-		<Route path={`${match.url}/:year/:comp`} component={CompetitionView} />
-		<Route exact path={`${match.url}/:year`} component={CompetitionSelector} />
-	</div>
-);
 
 const Routes = (props) => (
 	<BrowserRouter>
 		<div>
 			<div className="text-center header"><Link to="/">Football Archiv</Link><Link to="/manage">e</Link></div>
 			<Route exact path="/" component={Home} />
-			<Route path="/club" component={ClubRoutes} />
-			<Route path="/nation" component={NationRoutes} />
-			<Route path="/competition" component={CompetitionRoutes} />
+			<Route path="/club" component={Club} />
+			<Route path="/nation" component={Nation} />
+			<Route path="/competition" component={Competition} />
 			<Route path="/versus/:teamA/:teamB" component={Versus} />
 			<Route path="/match/:url" component={OneMatch} />
-			<Route path="/history/club/:team" component={ClubHistory} />
 			<Route path="/manage" component={Manage} />
 		</div>
 	</BrowserRouter>

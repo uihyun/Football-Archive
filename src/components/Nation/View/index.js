@@ -3,15 +3,15 @@ import { Link } from 'react-router-dom';
 
 import './style.css';
 
-import {Team, ViewSelector} from '../Common';
+import {Team, ViewSelector} from '../../Common';
 
-import AllMatches from '../AllMatches';
-import Statistics from '../Statistics';
-import Standings from '../Standings';
+import AllMatches from '../../AllMatches';
+import Statistics from '../../Statistics';
+import Standings from '../../Standings';
 
 import {nations} from '../data';
 
-import UrlUtil from '../../util/url';
+import UrlUtil from '../../../util/url';
 
 export default class NationView extends Component {
 

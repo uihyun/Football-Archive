@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 
 import './style.css';
 
-import { Team, ViewSelector } from '../Common';
+import { Team, ViewSelector } from '../../Common';
 import { clubs} from '../data';
 
-import AllMatches from '../AllMatches';
-import Statistics from '../Statistics';
-import Standings from '../Standings';
+import AllMatches from '../../AllMatches';
+import Statistics from '../../Statistics';
+import Standings from '../../Standings';
 
-import UrlUtil from '../../util/url';
+import UrlUtil from '../../../util/url';
 
 export default class ClubView extends Component {
 
@@ -80,7 +80,7 @@ export default class ClubView extends Component {
 									{nextYear} ▷
 								</div>
 							</Link> :
-							<Link to={'/history/club/' + UrlUtil.getTeamUrl(this.state.team)}>
+							<Link to={'/club/history/' + UrlUtil.getTeamUrl(this.state.team)}>
 								<div className="ClubView-view-selector">
 									History
 								</div>

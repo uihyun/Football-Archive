@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import { LeagueTable } from '../Common';
-import { Cup } from '../Graphics';
+import { LeagueTable } from '../../Common';
+import { Cup } from '../../Graphics';
 
-import UrlUtil from '../../util/url';
+import UrlUtil from '../../../util/url';
 
 export default class CompetitionView extends Component {
 
