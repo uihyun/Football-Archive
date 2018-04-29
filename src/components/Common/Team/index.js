@@ -21,9 +21,10 @@ export default class Team extends Component {
 		} else if (this.props.emblemSmall) {
 			inside = <img src={imgSrc} className="Team-emblem-small" alt="" />;
 		} else {
+			var style = { marginRight: '5px' };
 			inside = (
 				<div className="Team flex-container">
-					<img src={imgSrc} className="Team-emblem-small" alt="" />
+					<img src={imgSrc} className="Team-emblem-small" alt="" style={style} />
 					{ this.props.hideMobileName ||
 						<div className="show-mobile flex-1">{name}</div>
 					}

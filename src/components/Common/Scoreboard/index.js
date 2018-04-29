@@ -16,13 +16,10 @@ export default class Scoreboard extends Component {
 		}
 
 		const match = this.props.match;
-		const dateA = match.date.split('/');
-		const mm = dateA[0];
-		const dd = dateA[1];
 		const summary = match.summary;
-		let score = null;
 		let bg = null;
 		const sum = Match.summarizeResult(match, this.props.team);
+		var score = this.getScore(sum);
 		const result = sum.resultFull;
 		var style = { backgroundColor: colors[Match.getColor(result)] };
 		var linkStyle = { color: 'white' };
@@ -33,16 +30,6 @@ export default class Scoreboard extends Component {
 		}
 
 		if (summary) {
-			score = (
-				<div className="flex-container text-center Scoreboard-score">
-					<div className="flex-1"></div>
-					<div className="flex-2">{sum.goalsScored}</div>
-					<div>:</div>
-					<div className="flex-2">{sum.goalsConceded}</div>
-					<div className="flex-1"></div>
-				</div>
-			);
-			
 			const side = (summary.r === this.props.team) ? 'r' : 'l';
 
 			if (this.props.player && this.props.player.fullname) {
@@ -60,14 +47,15 @@ export default class Scoreboard extends Component {
 					}
 				}
 			}
-		} else {
-			score = <span className='Scoreboard-date'>{mm + '/' + dd}</span>;
 		}
 
 		let className = this.props.classNames + ' Scoreboard ' + shrink;
 		var inner = [bg, (<div key={1} className='Scoreboard-inner'>{score}</div>)];
 
 		if (match.url === undefined) {
+			if (result !== 'unplayed')
+				style.color = 'white';
+
 	    return (<div className={className} style={style}>{inner}</div>);
 		}
 
@@ -76,6 +64,26 @@ export default class Scoreboard extends Component {
 				<Link to={'/match/' + match.url} style={linkStyle}>
 					{inner}
 				</Link>
+			</div>
+		);
+	}
+
+	getScore(sum) {
+		if (sum.result === 'unplayed') {
+			const match = this.props.match;
+			const dateA = match.date.split('/');
+			const mm = dateA[0];
+			const dd = dateA[1];
+			return <span className='Scoreboard-date'>{mm + '/' + dd}</span>;
+		}
+
+		return (
+			<div className="flex-container text-center Scoreboard-score">
+				<div className="flex-1"></div>
+				<div className="flex-2">{sum.goalsScored}</div>
+				<div>:</div>
+				<div className="flex-2">{sum.goalsConceded}</div>
+				<div className="flex-1"></div>
 			</div>
 		);
 	}

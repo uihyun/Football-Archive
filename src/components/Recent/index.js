@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 
 import './style.css';
 
-import {Team, Scoreboard} from '../Common';
+import { Grid } from '../Common';
 
 import {clubs, competitions} from '../data';
 import UrlUtil from '../../util/url';
 
-export default class Home extends Component {
+export default class Recent extends Component {
 	
 	constructor(props) {
 		super(props);
@@ -29,40 +29,7 @@ export default class Home extends Component {
 					if (comp.matches.length === 0)
 						return null;
 
-					var rows = [];
-					var i, j, match;
-
-					for (i = 0; i < comp.matches.length / 4; i++) {
-						rows[i] = [];
-
-						for (j = 0; j < 4; j++) {
-							if (i * 4 + j < comp.matches.length) {
-								match = comp.matches[i * 4 + j];
-								rows[i][j] = (
-										<div key={i * 4 + j} className="flex-1">
-											<div className="hide-mobile flex-container flex-container-center">
-												<Team team={match.teams[0]} emblemLarge={true} year={year}/>
-												<div className="Recent-long-scoreboard">
-													<Scoreboard team={match.teams[0]} match={match} player={this.state.player} />
-												</div>
-												<Team team={match.teams[1]} emblemLarge={true} year={year}/>
-											</div>
-											<div className="show-mobile-flex flex-container flex-container-center">
-												<div className="Recent-team-small">
-													<Team team={match.teams[0]} emblemSmall={true} year={year}/>
-												</div>
-												<Scoreboard team={match.teams[0]} match={match} player={this.state.player} />
-												<div className="Recent-team-small">
-													<Team team={match.teams[1]} emblemSmall={true} year={year}/>
-												</div>
-											</div>
-										</div>
-									);
-							} else {
-								rows[i][j] = (<div key={i * 4 + j} className="flex-1" />);
-							}
-						}
-					}
+					var matches = this.groupMatches(comp.matches);
 
 					const link = UrlUtil.getCompLink(year, comp.name);
 					var nameDiv = <div className="Recent-comp text-center">{comp.name}</div>;
@@ -74,18 +41,28 @@ export default class Home extends Component {
 					return (
 						<div key={comp.name}>
 							{nameDiv}
-							{rows.map((row, index) => {
-								return (
-									<div key={index} className="Recent-flex-container">
-										{row}
-									</div>
-								);
-							})}
+							<Grid matches={matches} year={year} />
 						</div>
 					);
 				})}
 			</div>
 		);
+	}
+
+	groupMatches(matches) {
+		var group = [];
+
+		var i, match;
+
+		for (i = 0; i < matches.length; i++) {
+			match = matches[i];
+			group.push({
+				teams: match.teams,
+				matches: [match]
+			});
+		}
+
+		return group;
 	}
 
 	fetch() {

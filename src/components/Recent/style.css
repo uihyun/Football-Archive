@@ -2,26 +2,3 @@
 	margin: 5px;
 	font-size: 1.5em;
 }
-
-.Recent .Team-emblem-small {
-	margin-left: 3px;
-	margin-right: 3px;
-}
-
-.Recent-team-small {
-	height: 21px;
-}
-
-.Recent-flex-container {
-	display: flex;
-	flex-flow: row wrap;
-	justify-content: space-between;
-}
-
-.Recent-long-scoreboard {
-	display: flex;
-	flex-flow: column;
-	justify-content: center;
-	margin-left: 5px;
-	margin-right: 5px;
-}

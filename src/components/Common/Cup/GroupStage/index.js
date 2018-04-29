@@ -16,8 +16,6 @@ export default class GroupStage extends Component {
 
 		let groupCount = this.getGroupCount(groups);
 
-		console.log(groupCount);
-		
 		let width = this.props.size;
 		let height = width / 3;
 

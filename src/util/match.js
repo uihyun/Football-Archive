@@ -1,11 +1,12 @@
 export default class Match {
-	static summarizeResult(match, team) {
+
+	static getGoals(match, team) {
 		const summary = match.summary;
-		let sum = {result: 'unplayed', resultFull: 'unplayed'};
+    var goalsScored = 0;
+    var goalsConceded = 0;
+		var isValid = true;
 
 		if (summary) {
-      let goalsScored = 0;
-      let goalsConceded = 0;
       var goal;
       const side = (summary.r === team) ? 'r' : 'l';
 
@@ -17,6 +18,29 @@ export default class Match {
           goalsConceded++;
         }
       }
+		} else if (match.score) {
+			var array = match.score.split(':');
+
+			if (match.r === team)
+				array.reverse();
+
+			goalsScored = array[0];
+			goalsConceded = array[1];
+		} else {
+			isValid = false;
+		}
+
+		return [goalsScored, goalsConceded, isValid];
+	}
+
+	static summarizeResult(match, team) {
+		const summary = match.summary;
+		var sum = {result: 'unplayed', resultFull: 'unplayed'};
+		var [goalsScored, goalsConceded, isValid] = this.getGoals(match, team);
+    var i, goal;
+
+		if (isValid) {
+      const side = (summary && summary.r === team) ? 'r' : 'l';
 
       if (goalsScored > goalsConceded) {
         sum.result = sum.resultFull = 'win';
@@ -25,7 +49,7 @@ export default class Match {
       } else {
         sum.result = sum.resultFull = 'draw';
 
-        if (summary.penalties !== undefined) {
+        if (summary && summary.penalties !== undefined) {
           let pkFor = 0;
           let pkAgainst = 0;
           for (i = 0; i < summary.penalties.length; i++) {

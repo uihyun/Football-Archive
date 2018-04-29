@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import './style.css';
 
 import { Team, ViewSelector } from '../../Common';
-import { clubs} from '../data';
+import { clubs } from '../data';
 
 import AllMatches from '../../AllMatches';
 import Statistics from '../../Statistics';

@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import { Cup, LeagueTable, Year } from '../../Common';
+import { Year } from '../../Common';
+
+import CupView from '../Cup';
+import LeagueView from '../League';
 
 import UrlUtil from '../../../util/url';
 
@@ -32,9 +35,9 @@ export default class CompetitionView extends Component {
 				</div>
 				<br/>
 				{this.state.data.league &&
-					<LeagueTable league={this.state.data.league} hideName={true} />}
+					<LeagueView league={this.state.data.league} />}
 				{this.state.data.cup &&
-					<Cup cup={this.state.data.cup} hideName={true} />}
+					<CupView cup={this.state.data.cup} />}
 			</div>
 		);
 	}
