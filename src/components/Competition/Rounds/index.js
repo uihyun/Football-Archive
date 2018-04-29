@@ -16,14 +16,37 @@ export default class Rounds extends Component {
 
 	getViews() {
 		const comp = this.props.comp;
-		const rounds = this.props.rounds;
+		const [earlyRounds, finals] = this.groupFinals();
 		var views = [];
-		var i, round, group, rows, name;
+		var i, round, group, name;
 
-		console.log(rounds);
+		if (finals.length > 0) {
+			const style = {
+				fontSize: '1.5em',
+				textAlign: 'center'
+			};
 
-		for (i = 0; i < rounds.length; i++) {
-			round = rounds[i];
+			views.push({
+				name: 'Finals',
+				view: (
+					<div>
+						<br/>
+						{finals.map(round => {
+							return (
+								<div key={round.name}>
+									<div style={style}>{round.name}</div>
+									<Grid matches={round.group} year={this.props.comp.season} noFiller={true} />
+								</div>
+							);
+						})}
+					</div>
+				)
+			});
+
+		}
+
+		for (i = 0; i < earlyRounds.length; i++) {
+			round = earlyRounds[i];
 			group = this.groupMatches(round.matches);
 			name = round.name.replace(/\./, '');
 
@@ -72,5 +95,47 @@ export default class Rounds extends Component {
 		}
 
 		return group;
+	}
+
+	groupFinals() {
+		const rounds = this.props.rounds;
+		var earlyRounds = [];
+		var finals = [];
+		var i, round;
+		
+		for (i = 0; i < rounds.length; i++) {
+			round = rounds[i];
+
+			if (round.name === 'Final' ||
+					round.name === 'Semi-finals' ||
+					round.name === 'Quarter-finals') {
+				finals.push({name: round.name, group: this.groupMatches(round.matches)});
+			} else {
+				earlyRounds.push(round);
+			}
+		}
+		
+		var prev, group;
+		var j, k, l;
+
+		for (i = 1; i < finals.length; i++) {
+			prev = finals[i - 1];
+			round = finals[i];
+			group = [];
+
+			for (j = 0; j < prev.group.length; j++) {
+				for (k = 0; k < round.group.length; k++) {
+					for (l = 0; l < 2; l++) {
+						if (round.group[k].teams.includes(prev.group[j].teams[l])) {
+							group[j * 2 + l] = round.group[k];
+						}
+					}
+				}
+			}
+
+			round.group = group;
+		}
+
+		return [earlyRounds, finals];
 	}
 }

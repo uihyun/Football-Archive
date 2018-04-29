@@ -33,8 +33,8 @@ export default class Grid extends Component {
 			<div className="hide-mobile flex-container flex-container-center" key={0}>
 				<Team team={teams[0]} emblemLarge={true} year={year}/>
 				<div className="Grid-long-scoreboard">
-					{entry.matches.map(match => {
-						return <Scoreboard team={teams[0]} match={match} />;
+					{entry.matches.map((match, index) => {
+						return <Scoreboard key={index} team={teams[0]} match={match} />;
 					})}
 				</div>
 				<Team team={teams[1]} emblemLarge={true} year={year}/>
@@ -80,7 +80,7 @@ export default class Grid extends Component {
 	getRows() {
 		const matches = this.props.matches;
 		var rows = [];
-		var i, j, entry, match;
+		var i, j, entry;
 
 		for (i = 0; i < matches.length / 4; i++) {
 			rows[i] = [];
@@ -93,7 +93,7 @@ export default class Grid extends Component {
 							{this.getEntryView(entry)}
 						</div>
 					);
-				} else {
+				} else if (this.props.noFiller !== true) {
 					rows[i][j] = (<div key={i * 4 + j} className="flex-1" />);
 				}
 			}
