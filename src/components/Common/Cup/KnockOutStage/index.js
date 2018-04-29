@@ -73,7 +73,7 @@ export default class KnockOutStage extends Component {
 
 					lastRound = <circle key={0} cx={cx} cy={cy} r={r + hsize + 1} fill={color} />;
 				} else {
-					lastRound = <circle key={0} cx={cx} cy={cy} r={r - 1} stroke={colors.lightred} strokeWidth={size + 4} fill="none" />;
+					lastRound = <circle key={0} cx={cx} cy={cy} r={r - 0.5} stroke={colors.lightred} strokeWidth={size + 3} fill="none" />;
 				}
 			}
 			
