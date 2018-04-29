@@ -108,29 +108,23 @@ export default class UrlUtil {
 		return null;
 	}
 
-	static getCompLink(year, comp) {
-		if (year === undefined || comp === undefined)
+	static getCompLink(yearString, comp) {
+		if (yearString === undefined || comp === undefined)
 			return null;
 
-		var i, j;
-		var country, map;
 		const url = this.getCompUrl(comp);
-		const link = '/competition/' + year + '/' + url;
+		const link = '/competition/' + yearString + '/' + url;
+		const year = parseInt(yearString, 10);
+		var competition = competitions[comp];
 
-		for (i = 0; i < clubs.countries.length; i++) {
-			country = clubs.countries[i];
-			map = competitions.domestic.clubs[country];
-			if (map) {
-				for (j in map) {
-					if (map[j] === comp) {
-						return link;
-					}
-				}
+		if (competition) {
+			if (competition.years &&
+					competition.years.min <= year && competition.years.max >= year) {
+				return link;
 			}
-		}
 
-		for (i = 0; i < competitions.europe.length; i++) {
-			if (competitions.europe[i] === comp) {
+			if (competition.times &&
+					competition.times.includes(year)) {
 				return link;
 			}
 		}
