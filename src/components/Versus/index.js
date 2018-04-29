@@ -113,11 +113,14 @@ export default class Versus extends Component {
 	}
 
 	groupMatches(data) {
-		var matches = data.matches;
+		const matches = data.matches;
 		var seasonMap = {};
 		var comps = [];
 		var i, j;
 		var match, compName, comp;
+
+		if (matches.length === 0)
+			return {teamA: data.teamA, teamB: data.teamB};
 
 		var seasonMin = matches[0].season;
 		var seasonMax = seasonMin;
