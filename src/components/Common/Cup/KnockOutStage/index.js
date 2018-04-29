@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 
 import './style.css';
 
+import { colors } from '../../data';
+
 import UrlUtil from '../../../../util/url';
 
 export default class KnockOutStage extends Component {
@@ -43,6 +45,7 @@ export default class KnockOutStage extends Component {
 		var size, hsize, lsize, hlsize;
 
 		var thetaOffset = 0;
+		var color
 
 		if (rounds[0].level > 2) {
 			thetaOffset = Math.PI / rounds[0].level;
@@ -63,9 +66,14 @@ export default class KnockOutStage extends Component {
 			
 			if (i === lastRoundIndex) {
 				if (i === 0) {
-					lastRound = <circle key={0} cx={cx} cy={cy} r={r + hsize + 1} fill="#f0f0f0" />;
+					color = colors.lightyellow;
+
+					if (cup.winner)
+						color = (cup.winner === this.props.team) ? colors.lightblue : colors.lightred;
+
+					lastRound = <circle key={0} cx={cx} cy={cy} r={r + hsize + 1} fill={color} />;
 				} else {
-					lastRound = <circle key={0} cx={cx} cy={cy} r={r} stroke="#f0f0f0" strokeWidth={size + 2} fill="none" />;
+					lastRound = <circle key={0} cx={cx} cy={cy} r={r - 1} stroke={colors.lightred} strokeWidth={size + 3} fill="none" />;
 				}
 			}
 			

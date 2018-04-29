@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 
 import './style.css';
 
+import { colors } from '../../data';
+
 import UrlUtil from '../../../../util/url';
 
 export default class GroupStage extends Component {
@@ -47,7 +49,7 @@ export default class GroupStage extends Component {
 			style = this.getHeaderStyle(isTeamInGroup, groupCount);
 
 			if (isTeamInGroup) {
-				bg = <rect x={dx * i} y={0} width={dx} height={height} fill="#f0f0f0" />;
+				bg = <rect x={dx * i} y={0} width={dx} height={height} fill={this.getBackgroundColor()} />;
 			}
 
 			header = (
@@ -149,5 +151,30 @@ export default class GroupStage extends Component {
 		}
 
 		return image;
+	}
+
+	getBackgroundColor() {
+		const cup = this.props.cup;
+		var i, round;
+		var j, match;
+
+		if (cup.rounds[cup.rounds.length - 1].name.includes('Group')) {
+			return colors.lightyellow;
+		}
+
+		for (i = cup.rounds.length - 1; i >= 0; i--) {
+			round = cup.rounds[i];
+			for (j = 0; j < round.matches.length; j++) {
+				match = round.matches[j];
+
+				if (match.l === this.props.team || match.r === this.props.team) {
+					if (round.name.includes('Group')) {
+						return colors.lightred;
+					} else {
+						return colors.lightgray;
+					}
+				}
+			}
+		}
 	}
 }
