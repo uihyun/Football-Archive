@@ -18,6 +18,10 @@
 		font-size: smaller;
 		margin-top: 1px;
 	}
+
+	.LeagueTable-thin {
+		letter-spacing: -1px;
+	}
 }
 
 @media screen and (min-width: 544px) {

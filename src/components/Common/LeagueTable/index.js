@@ -43,16 +43,16 @@ export default class LeagueTable extends Component {
 							</div>
 							<div className="flex-1">
 								<div className="flex-container LeagueTable-small text-right">
-									<div className="flex-1"><b>{games.p}</b></div>
-									<div className="flex-1">{games.w}</div>
-									<div className="flex-1">{games.d}</div>
-									<div className="flex-1">{games.l}</div>
-									<div className="flex-1"><b>{team.points}</b></div>
+									<div className="flex-1"><b>{this.formatNumber(games.p)}</b></div>
+									<div className="flex-1">{this.formatNumber(games.w)}</div>
+									<div className="flex-1">{this.formatNumber(games.d)}</div>
+									<div className="flex-1">{this.formatNumber(games.l)}</div>
+									<div className="flex-1"><b>{this.formatNumber(team.points)}</b></div>
 									<div className="LeagueTable-buffer"></div>
-									<div className="flex-1 text-center">{goals.d}</div>
-									<div className="flex-1">{goals.f}</div>
+									<div className="flex-1 text-center">{this.formatNumber(goals.d)}</div>
+									<div className="flex-1">{this.formatNumber(goals.f)}</div>
 									<div>{team.name === 'Team' ? '/' : '-'}</div>
-									<div className="flex-1 text-left">{goals.a}</div>
+									<div className="flex-1 text-left">{this.formatNumber(goals.a)}</div>
 								</div>
 							</div>
 						</div>
@@ -63,5 +63,12 @@ export default class LeagueTable extends Component {
 				</div>
 			</div>
 		);
+	}
+
+	formatNumber(number) {
+		if (number < 100)
+			return number;
+
+		return <span className="LeagueTable-thin">{number}</span>;
 	}
 }
