@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import {Team} from '..';
+import { Team } from '..';
+
+import { colors } from '../data';
 
 export default class LeagueTable extends Component {
 
@@ -66,9 +68,14 @@ export default class LeagueTable extends Component {
 	}
 
 	formatNumber(number) {
-		if (number < 100)
-			return number;
+		var style = {};
 
-		return <span className="LeagueTable-thin">{number}</span>;
+		if (number < 0)
+			style.color = colors.red;
+
+		if (number < 100)
+			return <span style={style}>{number}</span>;
+
+		return <span className="LeagueTable-thin" style={style}>{number}</span>;
 	}
 }
