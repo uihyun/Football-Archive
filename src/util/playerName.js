@@ -6,6 +6,9 @@ export default class PlayerName {
 			return playerNameException[name];
 		}
 
+		if (name === undefined)
+			return {first: '', last: ''};
+
 		let index = name.indexOf(' ');
 
 		if (index > 0) {
