@@ -33,15 +33,47 @@ export default class Match {
 		return [goalsScored, goalsConceded, isValid];
 	}
 
-	static summarizeResult(match, team) {
+	static getPenalties(match, team) {
 		const summary = match.summary;
+		var pkFor = 0;
+		var pkAgainst = 0;
+		var hasPenalties = true;
+
+    if (summary && summary.penalties !== undefined) {
+			var goal;
+      const side = (summary.r === team) ? 'r' : 'l';
+			
+			for (var i = 0; i < summary.penalties.length; i++) {
+				goal = summary.penalties[i];
+				if (goal.result) {
+					if (goal.side === side) {
+						pkFor++;
+					} else {
+						pkAgainst++;
+					}
+				}
+			}
+		} else if (match.pk) {
+			var array = match.pk.split(':');
+
+			if (match.r === team)
+				array.reverse();
+
+			pkFor = array[0];
+			pkAgainst = array[1];
+		} else {
+			hasPenalties = false;
+		}
+
+		return [pkFor, pkAgainst, hasPenalties];
+	}
+
+	static summarizeResult(match, team) {
 		var sum = {result: 'unplayed', resultFull: 'unplayed'};
 		var [goalsScored, goalsConceded, isValid] = this.getGoals(match, team);
-    var i, goal;
+		var [pkFor, pkAgainst, hasPenalties] = this.getPenalties(match, team);
 
 		if (isValid) {
-      const side = (summary && summary.r === team) ? 'r' : 'l';
-
       if (goalsScored > goalsConceded) {
         sum.result = sum.resultFull = 'win';
       } else if (goalsScored < goalsConceded) {
@@ -49,20 +81,7 @@ export default class Match {
       } else {
         sum.result = sum.resultFull = 'draw';
 
-        if (summary && summary.penalties !== undefined) {
-          let pkFor = 0;
-          let pkAgainst = 0;
-          for (i = 0; i < summary.penalties.length; i++) {
-            goal = summary.penalties[i];
-            if (goal.result) {
-              if (goal.side === side) {
-                pkFor++;
-              } else {
-                pkAgainst++;
-              }
-            }
-          }
-
+				if (hasPenalties) {
           if (pkFor > pkAgainst) {
             sum.resultFull = 'win-pso';
           } else {

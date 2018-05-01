@@ -39,8 +39,14 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 			my $r = trim($td_col->[4]->all_text);
 
 			my $score = trim($td_col->[5]->all_text);
+			my $pk = '';
 
-			$score =~ s/\s\(.*//;
+			if ($score =~ /(\d+:\d+).*(\d:\d+)\) pso/) {
+				$score = $2;
+				$pk = $1;
+			} else {
+				$score =~ s/\s\(.*//;
+			}
 			
 			my $url = getUrl($td_col->[5]);
 
@@ -52,6 +58,7 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 			$json .= ",\n" if $match_count++;
 			$json .= "{\"date\": \"$date\", \"l\": \"$l\", \"r\": \"$r\"";
 			$json .= ", \"score\": \"$score\"" if $score ne '-:-';
+			$json .= ", \"pk\": \"$pk\"" if $pk ne '';
 			$json .= ", \"url\": \"$url\"" if $url ne '';
 			$json .= "}";
 		}
