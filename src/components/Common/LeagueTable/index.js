@@ -69,13 +69,14 @@ export default class LeagueTable extends Component {
 
 	formatNumber(number) {
 		var style = {};
+		var className = '';
 
 		if (number < 0)
 			style.color = colors.red;
 
-		if (number < 100)
-			return <span style={style}>{number}</span>;
+		if (number >= 100)
+			className += 'LeagueTable-thin';
 
-		return <span className="LeagueTable-thin" style={style}>{number}</span>;
+		return <span className={className} style={style}>{number}</span>;
 	}
 }
