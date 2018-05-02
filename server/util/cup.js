@@ -5,6 +5,7 @@ module.exports = {
 		switch (competition) {
 			// nations
 			case 'World Cup':
+			case 'Confederations Cup':
 			case 'Asian Cup':
 			case 'EURO':
 			case 'Copa América':

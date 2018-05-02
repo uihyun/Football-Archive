@@ -60,9 +60,6 @@ export default class KnockOutStage extends Component {
 			r = round.r;
 			size = round.size;
 			hsize = size / 2;
-
-			lsize = size - 4;
-			hlsize = lsize / 2;
 			
 			if (i === lastRoundIndex) {
 				if (i === 0) {
@@ -89,6 +86,8 @@ export default class KnockOutStage extends Component {
 			
 			size = Math.min(size, wsize)
 			hsize = size / 2;
+			lsize = size - 4;
+			hlsize = lsize / 2;
 			
 			for (j = 0; j < round.grid.length; j++) {
 				team = round.grid[j];

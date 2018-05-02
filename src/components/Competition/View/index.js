@@ -7,6 +7,8 @@ import { Year } from '../../Common';
 import CupView from '../Cup';
 import LeagueView from '../League';
 
+import { competitions } from '../data';
+
 import UrlUtil from '../../../util/url';
 
 export default class CompetitionView extends Component {
@@ -27,11 +29,15 @@ export default class CompetitionView extends Component {
 	}
 
 	render() {
+		if (this.state.name === '')
+			return null;
+
+		const comp = competitions[this.state.name];
 		return (
 			<div className="CompetitionView">
 				<div style={{fontSize: '1.5em'}} className="text-center">
 					{this.state.name + ' '} 
-					<Year year={this.state.year} />
+					<Year year={this.state.year} fullyear={comp.times !== undefined} />
 				</div>
 				<br/>
 				{this.state.data.league &&

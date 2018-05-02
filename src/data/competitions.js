@@ -2,13 +2,13 @@ import { clubs } from '.';
 
 const competitions = {
 	'World Cup': {order: 1, name: 'World Cup', sh: 'WC', type: 'H', group: 0, times: [2014, 2018]},
-	'Confederations Cup': {order: 3, name: 'Confed Cup', sh: 'CC', type: 'H', group: 1},
+	'Confederations Cup': {order: 3, name: 'Confed Cup', sh: 'CC', type: 'H', group: 1, times: [2017]},
 	'CONCACAF Confed Cup Playoff': {order: 5, name: 'Confed Cup Qualifiers', sh: 'CCQ', type: 'H', group: 1},
-	'Asian Cup': {order: 2, name: 'Asian Cup', sh: 'AS', type: 'H', group: 1},
-	'EURO': {order: 2, name: 'EURO', sh: 'EU', type: 'H', group: 1},
-	'Copa América': {order: 2, name: 'Copa América', sh: 'SA', type: 'H', group: 1},
-	'Gold Cup': {order: 2, name: 'Gold Cup', sh: 'NA', type: 'H', group: 1},
-	'Africa Cup': {order: 2, name: 'Africa Nations Cup', sh: 'AF', type: 'H', group: 1},
+	'Asian Cup': {order: 2, name: 'Asian Cup', sh: 'AS', type: 'H', group: 1, times: [2015]},
+	'EURO': {order: 2, name: 'EURO', sh: 'EU', type: 'H', group: 1, times: [2016]},
+	'Copa América': {order: 2, name: 'Copa América', sh: 'SA', type: 'H', group: 1, times: [2015, 2016]},
+	'Gold Cup': {order: 2, name: 'Gold Cup', sh: 'NA', type: 'H', group: 1, times: [2015, 2017]},
+	'Africa Cup': {order: 2, name: 'Africa Nations Cup', sh: 'AF', type: 'H', group: 1, times: [2015, 2017]},
 	'WC Qualifiers Play-offs': {order: 4, name: 'World Cup Qualifiers PO', sh: 'WCQ', type: '2', group: 0},
 	'WC Qualifiers Asia': {order: 4, name: 'World Cup Qualifiers', sh: 'WCQ', type: '2', group: 0},
 	'WC Qualifiers Europe': {order: 4, name: 'World Cup Qualifiers', sh: 'WCQ', type: '2', group: 0},
@@ -49,35 +49,6 @@ const competitions = {
 	'Supercoppa': {order: 8, name: 'Supercoppa', sh: 'CS', type: 'H', group: 2},
 	'Trophée des Champions': {order: 8, name: 'Trophée des Champions', sh: 'CS', type: 'H', group: 2},
 	'Relegation Bundesliga': {order: 9, name: 'Relegation', sh: 'R', type: '2', group: 1},
-
-	domestic: {
-		legend: ['League', 'Cup', 'League Cup'],
-		clubs: {
-			ENG: {
-				'League': 'Premier League',
-				'Cup': 'FA Cup',
-				'League Cup': 'League Cup',
-			},
-			ESP: {
-				'League': 'Primera División',
-				'Cup': 'Copa del Rey',
-			},
-			GER: {
-				'League': 'Bundesliga',
-				'Cup': 'DFB-Pokal',
-			},
-			ITA: {
-				'League': 'Serie A',
-				'Cup': 'Coppa Italia',
-			},
-			FRA: {
-				'League': 'Ligue 1',
-				'Cup': 'Coupe de France',
-				'League Cup': 'Coupe de la Ligue',
-			},
-		}
-	},
-	europe: ['Champions League', 'Europa League'],
 };
 
 export default competitions;

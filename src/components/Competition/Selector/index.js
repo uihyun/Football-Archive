@@ -9,13 +9,14 @@ import { clubs, competitions } from '../data';
 
 import UrlUtil from '../../../util/url';
 
+import layout from './layout';
+
 export default class CompetitionSelector extends Component {
 
   render() {
 		const year = this.props.match.params.year;
-		const domestic = competitions.domestic;
-		const legend = domestic.legend;
-		const countries = clubs.countries;
+		const domestic = layout.domestic;
+		const continental = layout.continental;
 
 		const large = {fontSize: '1.5em'};
 
@@ -25,7 +26,7 @@ export default class CompetitionSelector extends Component {
 				<YearSelector year={year} min={clubs.years.min} max={clubs.years.max} link={'competition'} />
 				<br/>
 				<div className="flex-container">
-					{competitions.europe.map(comp => {
+					{layout.europe.map(comp => {
 						return (
 							<div key={comp} className="flex-1" style={large}>
 								{this.getCompLink(comp)}
@@ -34,32 +35,59 @@ export default class CompetitionSelector extends Component {
 					})}
 				</div>
 				<br/>
+				{this.getHeaders(domestic.list, large)}
+				{this.getComps(domestic)}
+				<br/>
 				<div className="flex-container">
-					{countries.map(country => {
+					{layout.fifa.map(comp => {
+						if (competitions[comp].times === undefined ||
+								competitions[comp].times.includes(parseInt(year, 10)) !== true)
+							return null;
+
 						return (
-							<div key={country} className="flex-1" style={large}>
-								{country}
+							<div key={comp} className="flex-1" style={large}>
+								{this.getCompLink(comp)}
 							</div>
 						);
 					})}
 				</div>
-				{legend.map(type => {
-					return (
-						<div key={type} className="flex-container">
-							{countries.map(country => {
-								var comp = domestic.clubs[country][type];
+				<br/>
+				{this.getHeaders(continental.list, large)}
+				{this.getComps(continental)}
+			</div>
+		);
+	}
 
-								return (
-									<div key={country} className="flex-1">
-										{this.getCompLink(comp)}
-									</div>
-								);
-							})}
+	getHeaders(array, style) {
+		return (
+			<div className="flex-container">
+				{array.map(elem => {
+					return (
+						<div key={elem} className="flex-1" style={style}>
+							{elem}
 						</div>
 					);
 				})}
 			</div>
 		);
+	}
+
+	getComps(obj) {
+		return obj.legend.map(type => {
+			return (
+				<div key={type} className="flex-container">
+					{obj.list.map(entry => {
+						var comp = obj.groups[entry][type];
+
+						return (
+							<div key={entry} className="flex-1">
+								{this.getCompLink(comp)}
+							</div>
+						);
+					})}
+				</div>
+			);
+		});
 	}
 
 	getCompLink(comp) {
