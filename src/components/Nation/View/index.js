@@ -110,7 +110,9 @@ export default class NationView extends Component {
 
 			const team = dataArray[0].team;
 
-			var i, data, j, competition;
+			var i, data;
+			var j, competition;
+			var k, match;
 			var result = {}
 			var compMap = {};
 			var cups = [];
@@ -132,6 +134,11 @@ export default class NationView extends Component {
 					}
 
 					compMap[url].matches = compMap[url].matches.concat(competition.matches);
+
+					for (k = 0; k < competition.matches.length; k++) {
+						match = competition.matches[k];
+						match.season = data.season;
+					}
 				}
 
 				cups = cups.concat(data.cups);

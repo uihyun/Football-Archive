@@ -20,10 +20,11 @@ export default class Timeline extends Component {
   }
 
 	getMatchView(match, index) {
+		const year = match.season ? match.season : this.props.year;
 		return (
 			<div key={index} className="flex-container">
 				<div className="flex-1 Timeline-margin flex-container-right-aligned">
-					<Competition name={match.competition} round={match.round} year={this.props.year} />
+					<Competition name={match.competition} round={match.round} year={year} />
 				</div>
 				<Scoreboard classNames="Timeline-margin" team={this.props.team} match={match} 
 				 player={this.props.player}/>
