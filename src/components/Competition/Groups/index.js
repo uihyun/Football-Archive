@@ -17,8 +17,6 @@ export default class Groups extends Component {
 		var i, group;
 		var views = [];
 
-		console.log(groups);
-
 		for (i = 0; i < groups.length; i++) {
 			group = groups[i];
 
