@@ -12,6 +12,16 @@ export default class Cup extends Component {
 		const team = this.props.team;
 		const size = 350;
 
+		if (this.props.onlyGroup) {
+			return (
+			<div className="Cup">
+				<div className="Cup-flex-container">
+					<GroupStage cup={cup} team={team} size={size} />
+				</div>
+			</div>
+			);
+		}
+
 		return (
 			<div className="Cup">
 				{this.props.hideName ?

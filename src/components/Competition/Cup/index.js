@@ -24,15 +24,24 @@ export default class CupView extends Component {
 			name: 'Standings',
 			view: <Cup cup={cup} hideName={true} />
 		});
-		views.push({
-			name: 'Rounds',
-			view: <Rounds comp={cup} rounds={knockout} />
-		});
+		if (knockout.length) {
+			views.push({
+				name: 'Knockout',
+				view: <Rounds comp={cup} rounds={knockout} />
+			});
+		}	
 		if (group.length) {
 			views.push({
 				name: 'Group Stage',
 				sh: 'Groups',
-				view: <Groups comp={cup} groups={group} />
+				view: (
+					<div>
+						<br/>
+						<Cup cup={cup} onlyGroup={true} />
+						<br/>
+						<Groups comp={cup} groups={group} />
+					</div>
+				)
 			});
 		}
 
