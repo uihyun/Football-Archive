@@ -4,6 +4,7 @@ import './style.css';
 
 import { Cup, ViewSelector } from '../../Common';
 
+import Groups from '../Groups';
 import Rounds from '../Rounds';
 
 export default class CupView extends Component {
@@ -27,6 +28,13 @@ export default class CupView extends Component {
 			name: 'Rounds',
 			view: <Rounds comp={cup} rounds={knockout} />
 		});
+		if (group.length) {
+			views.push({
+				name: 'Group Stage',
+				sh: 'Groups',
+				view: <Groups comp={cup} groups={group} />
+			});
+		}
 
 		return views;
 	}

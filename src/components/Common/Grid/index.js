@@ -88,11 +88,15 @@ export default class Grid extends Component {
 			for (j = 0; j < 4; j++) {
 				if (i * 4 + j < matches.length) {
 					entry = matches[i * 4 + j];
-					rows[i][j] = (
-						<div key={i * 4 + j} className="flex-1">
-							{this.getEntryView(entry)}
-						</div>
-					);
+					if (entry === null || entry === undefined) {
+						rows[i][j] = (<div key={i * 4 + j} className="flex-1" />);
+					} else {
+						rows[i][j] = (
+							<div key={i * 4 + j} className="flex-1">
+								{this.getEntryView(entry)}
+							</div>
+						);
+					}	
 				} else if (this.props.noFiller !== true) {
 					rows[i][j] = (<div key={i * 4 + j} className="flex-1" />);
 				}
@@ -102,5 +106,3 @@ export default class Grid extends Component {
 		return rows;
 	}
 }
-
-

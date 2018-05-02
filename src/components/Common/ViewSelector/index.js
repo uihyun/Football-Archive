@@ -3,6 +3,11 @@ import React, { Component } from 'react';
 import './style.css';
 
 export default class ViewSelector extends Component {
+
+	/* Giving up on swipe to next view behavior.
+	 * react-swipable-views doesn't work well when stacked.
+	 * For css transitions, it becomes too heavy to show all possible views,
+	 * which happends after having stacked multiple layers of view selectors. */
 	
 	constructor(props) {
 		super(props);
