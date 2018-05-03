@@ -48,7 +48,7 @@ export default class Remaining extends Component {
 	}
 	
 	getRow(team) {
-		const style = { fontSize: '1.5em' };
+		const style = { fontSize: '1.5em', textAlign: 'center' };
 		const place = { width: '20px', textAlign: 'center' };
 		const year = this.props.league.season;
 
