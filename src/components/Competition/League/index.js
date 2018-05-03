@@ -23,7 +23,11 @@ export default class LeagueView extends Component {
 
 		views.push({
 			name: 'Points',
-			view: <PointMap league={league} />
+			view: (
+				<div className="flex-container flex-container-center">
+					<PointMap league={league} />
+				</div>
+			)
 		});
 
 		return views;

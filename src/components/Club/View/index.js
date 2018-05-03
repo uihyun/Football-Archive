@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import './style.css';
 
-import { Team, ViewSelector } from '../../Common';
+import { Team, ViewSelector, Year } from '../../Common';
 import { clubs } from '../data';
 
 import AllMatches from '../../AllMatches';
@@ -53,7 +53,7 @@ export default class ClubView extends Component {
 						{prevYearLink &&
 							<Link to={prevYearLink}>
 								<div className="ClubView-view-selector">
-									◁ {prevYear}
+									◁ <Year year={prevYear} />
 								</div>
 							</Link>
 						}
@@ -77,7 +77,7 @@ export default class ClubView extends Component {
 						{nextYearLink ?
 							<Link to={nextYearLink}>
 								<div className="ClubView-view-selector">
-									{nextYear} ▷
+									<Year year={nextYear} /> ▷
 								</div>
 							</Link> :
 							<Link to={'/club/history/' + UrlUtil.getTeamUrl(this.state.team)}>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import './style.css';
 
@@ -28,16 +29,60 @@ export default class CompetitionView extends Component {
 		this.fetchSeason(this.state.year, this.state.compUrl);
 	}
 
+	componentWillReceiveProps(nextProps) {
+		const year = nextProps.match.params.year;
+		const compUrl = nextProps.match.params.comp;
+
+		if (this.state.year !== year || this.state.comUrl !== compUrl) {
+			this.setState({ year: year, teamUrl: compUrl });
+			this.fetchSeason(year, compUrl);
+		}
+	}
+
 	render() {
 		if (this.state.name === '')
 			return null;
-
+		
 		const comp = competitions[this.state.name];
+		var prevYear = this.state.year - 1;
+		var prevYearLink = UrlUtil.getCompLink(prevYear, this.state.name);
+		var nextYear = prevYear + 2;
+		var nextYearLink = UrlUtil.getCompLink(nextYear, this.state.name);
+
 		return (
 			<div className="CompetitionView">
-				<div style={{fontSize: '1.5em'}} className="text-center">
-					{this.state.name + ' '} 
-					<Year year={this.state.year} fullyear={comp.times !== undefined} />
+				<div className="show-mobile">
+					<div style={{fontSize: '1.5em'}} className="text-center">
+						{this.state.name + ' '} 
+					</div>
+				</div>
+				<div className="flex-container text-center">
+					<div className="flex-1">
+						{prevYearLink &&
+							<Link to={prevYearLink}>
+								<div className="ClubView-view-selector">
+									◁ <Year year={prevYear} fullyear={comp.times !== undefined} />
+								</div>
+							</Link>
+						}
+					</div>
+					<div className="flex-2">
+						<div style={{fontSize: '1.5em'}} className="text-center">
+							<div className="hide-mobile">
+								{this.state.name + ' '} 
+							</div>
+							<Year year={this.state.year} fullyear={comp.times !== undefined} />
+						</div>
+					</div>
+					<div className="flex-1">
+						{nextYearLink &&
+							<Link to={nextYearLink}>
+								<div className="ClubView-view-selector">
+									<Year year={nextYear} fullyear={comp.times !== undefined} /> ▷
+								</div>
+							</Link>
+						}
+					</div>
 				</div>
 				<br/>
 				{this.state.data.league &&
