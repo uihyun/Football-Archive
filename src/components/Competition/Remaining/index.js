@@ -25,8 +25,7 @@ export default class Remaining extends Component {
 		);
 	}
 
-	getColumn(array, index) {
-		const color = [colors.lightred, colors.lightyellow, colors.lightblue];
+	getColumn(array, index, color) {
 		const style = { backgroundColor: color[index] };
 		const year = this.props.league.season;
 
@@ -51,6 +50,8 @@ export default class Remaining extends Component {
 		const style = { fontSize: '1.5em', textAlign: 'center' };
 		const place = { width: '20px', textAlign: 'center' };
 		const year = this.props.league.season;
+		const homeColor = [colors.mediumred, colors.mediumyellow, colors.mediumblue];
+		const awayColor = [colors.lightred, colors.lightyellow, colors.lightblue];
 
 		return (
 			<div className="flex-container" key={team.name}>
@@ -72,10 +73,10 @@ export default class Remaining extends Component {
 				</div>
 				<div className="flex-3">
 					<div className="flex-container">
-						{team.home.map((region, index) => { return this.getColumn(region, index); })}
+						{team.home.map((region, index) => { return this.getColumn(region, index, homeColor); })}
 					</div>
 					<div className="flex-container">
-						{team.away.map((region, index) => { return this.getColumn(region, index); })}
+						{team.away.map((region, index) => { return this.getColumn(region, index, awayColor); })}
 					</div>
 				</div>
 			</div>

@@ -6,6 +6,12 @@ const colors = {
 	blue:		'hsl(210, 100%, 50%)',
 	gray:		'hsl(360,   0%, 70%)',
 	white:	'white',
+	
+	mediumred:		'hsl(  0,  90%, 80%)',
+	mediumorange:	'hsl( 20,  80%, 80%)',
+	mediumyellow:	'hsl( 40, 100%, 80%)',
+	mediumgreen:	'hsl(125,  80%, 80%)',
+	mediumblue:		'hsl(210, 100%, 80%)',
 
 	lightred:			'hsl(  0,  90%, 90%)',
 	lightorange:	'hsl( 20,  80%, 90%)',
