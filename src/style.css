@@ -33,6 +33,11 @@ body {
 	flex: 2;
 }
 
+.flex-3 {
+	-webkit-flex: 3;
+	flex: 3;
+}
+
 .flex-container-right-aligned {
 	display: -webkit-flex;
 	display: flex;
@@ -73,6 +78,13 @@ body {
 .flex-container-space-around {
 	-webkit-justify-content: space-around;
 	justify-content: space-around;
+}
+	
+.flex-container-column-center {
+	-webkit-flex-direction: column;
+	flex-direction: column;
+	-webkit-justify-content: center;
+	justify-content: center;
 }
 
 .header {

@@ -36,10 +36,12 @@ export default class PointMap extends Component {
 		const teams = this.getTeams();
 
 		return (
-			<svg width={size} height={size}>
-				{axis}
-				{teams}
-			</svg>
+			<div className="flex-container flex-container-center">
+				<svg width={size} height={size}>
+					{axis}
+					{teams}
+				</svg>
+			</div>
 		);
 	}
 
@@ -80,7 +82,7 @@ export default class PointMap extends Component {
 				fontSize: '1.5em'
 			},
 			line: {
-				stroke: colors.gray,
+				stroke: colors.lightgray,
 				strokeWidth: '2px'
 			}
 		};

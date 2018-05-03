@@ -106,6 +106,7 @@ module.exports = function(router, db) {
 				var score;
 				var teamL, teamR;
 				var h2hL, h2hR;
+				var resultMap = {};
 
 				for (i in matches) {
 					match = matches[i].summary;
@@ -136,6 +137,7 @@ module.exports = function(router, db) {
 						h2hL.games.l++;
 						h2hR.games.w++;
 						h2hR.points += 3;
+						resultMap[match.l + match.r] = 'l';
 					} else if (score.l > score.r) {
 						teamL.games.w++;
 						teamR.games.l++;
@@ -143,6 +145,8 @@ module.exports = function(router, db) {
 						h2hL.games.w++;
 						h2hR.games.l++;
 						h2hL.points += 3;
+						resultMap[match.l + match.r] = 'w';
+						resultMap[teamL + teamR] = 'w';
 					} else {
 						teamL.games.d++;
 						teamR.games.d++;
@@ -151,6 +155,7 @@ module.exports = function(router, db) {
 						h2hR.games.d++;
 						h2hL.points++;
 						h2hR.points++;
+						resultMap[match.l + match.r] = 'd';
 					}
 					
 					teamL.goals.f += score.l;
@@ -212,8 +217,21 @@ module.exports = function(router, db) {
 						team.rank = prevRank = i+1;
 					}
 				}
+
 				
 				teamArray.sort(compareFnWithName);
+				
+				var results = [];
+				for (i = 0; i < teamArray.length; i++) {
+					teamL = teamArray[i].name;
+					results[i] = [];
+
+					for (j = 0; j < teamArray.length; j++) {
+						teamR = teamArray[j].name;
+
+						results[i][j] = resultMap[teamL + teamR];
+					}
+				}
 
 				for (i = 0; i < teamArray.length; i++) {
 					delete teamArray[i].h2h;
@@ -222,7 +240,8 @@ module.exports = function(router, db) {
 				const league = {
 					season: season,
 					name: leagueName,
-					table: teamArray
+					table: teamArray,
+					result: results,
 				};
 
 				return Leagues.findOneAndReplace({season: season, name: leagueName}, league, {upsert: true});

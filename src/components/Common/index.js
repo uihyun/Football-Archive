@@ -5,7 +5,6 @@ export {default as Goal} from './Goal';
 export {default as Grid} from './Grid';
 export {default as LeagueTable} from './LeagueTable';
 export {default as PlayerName} from './PlayerName';
-export {default as PointMap} from './PointMap';
 export {default as Progress} from './Progress';
 export {default as Scoreboard} from './Scoreboard';
 export {default as Squad} from './Squad';
