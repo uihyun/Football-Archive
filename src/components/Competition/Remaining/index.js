@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import './style.css';
 
 import { Team } from '../../Common';
 
 import { colors } from '../data';
+
+import UrlUtil from '../../../util/url';
 
 export default class Remaining extends Component {
 
@@ -32,9 +35,11 @@ export default class Remaining extends Component {
 				<div className="flex-container flex-container-center">
 					{array.map(vs => {
 						return (
-							<div key={vs.name} className="Remaining-team">
-								<Team team={vs.name} emblemSmall={true} year={year} />
-							</div>
+							<Link to={UrlUtil.getLink(year, vs.name)}>
+								<div key={vs.name} className="Remaining-team">
+									<Team team={vs.name} emblemSmall={true} />
+								</div>
+							</Link>
 						);
 					})}
 				</div>
@@ -51,8 +56,12 @@ export default class Remaining extends Component {
 			<div className="flex-container" key={team.name}>
 				<div className="flex-1 Remaining-points">
 					<div className="flex-container">
-						<div className="flex-1 flex-container flex-container-center flex-container-adaptive">
-							<Team team={team.name} emblemLarge={true} year={year} />
+						<div className="flex-1">
+							<Link to={UrlUtil.getLink(year, team.name)}>
+								<div className="Remaining-points flex-container flex-container-center flex-container-adaptive">
+									<Team team={team.name} emblemLarge={true} />
+								</div>
+							</Link>
 						</div>
 						<div className="flex-1" style={style}>{team.points}</div>
 					</div>
