@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import { LeagueTable, ViewSelector } from '../../Common';
+import { LeagueTable, PointMap, ViewSelector } from '../../Common';
 
 export default class LeagueView extends Component {
 	
@@ -19,6 +19,11 @@ export default class LeagueView extends Component {
 		views.push({
 			name: 'Table',
 			view: <LeagueTable league={league} hideName={true} />
+		});
+
+		views.push({
+			name: 'Points',
+			view: <PointMap league={league} />
 		});
 
 		return views;
