@@ -60,24 +60,24 @@ export default class CompetitionView extends Component {
 					<div className="flex-1">
 						{prevYearLink &&
 							<Link to={prevYearLink}>
-								<div className="ClubView-view-selector">
+								<div className="CompetitionView-view-selector">
 									◁ <Year year={prevYear} fullyear={comp.times !== undefined} />
 								</div>
 							</Link>
 						}
 					</div>
 					<div className="flex-2">
-						<div style={{fontSize: '1.5em'}} className="text-center">
-							<div className="hide-mobile">
+						<div style={{fontSize: '1.5em'}} className="text-center CompetitionView-view-selector">
+							<span className="hide-mobile">
 								{this.state.name + ' '} 
-							</div>
+							</span>
 							<Year year={this.state.year} fullyear={comp.times !== undefined} />
 						</div>
 					</div>
 					<div className="flex-1">
 						{nextYearLink &&
 							<Link to={nextYearLink}>
-								<div className="ClubView-view-selector">
+								<div className="CompetitionView-view-selector">
 									<Year year={nextYear} fullyear={comp.times !== undefined} /> ▷
 								</div>
 							</Link>
