@@ -13,7 +13,6 @@ export default class Timeline extends Component {
 
     return (
       <div className="Timeline">
-				<br/>
 				{matches.map((match, index) => {return this.getMatchView(match, index);})}
       </div>
     );

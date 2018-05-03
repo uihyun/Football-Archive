@@ -24,8 +24,7 @@ export default class LeagueTable extends Component {
 
 		return (
 			<div>
-				{this.props.hideName ?
-					<br/> :
+				{this.props.hideName ||
 					<h3 className="text-center">{league.name}</h3>
 				}
 				<div className="flex-container">

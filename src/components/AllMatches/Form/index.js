@@ -17,8 +17,7 @@ export default class Form extends Component {
 		
 		return (
 			<div className="Form">
-				<br/>
-				<div className="flex-container text-center" onClick={() => this.showAll()}>
+				<div className="flex-container text-center">
 					<div className="flex-1">
 						W <b>{sum.win}</b> D <b>{sum.draw}</b> L <b>{sum.loss}</b>
 					</div>

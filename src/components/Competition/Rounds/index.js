@@ -30,7 +30,6 @@ export default class Rounds extends Component {
 				name: 'Finals',
 				view: (
 					<div>
-						<br/>
 						{finals.map(round => {
 							return (
 								<div key={round.name}>

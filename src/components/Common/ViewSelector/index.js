@@ -101,6 +101,7 @@ export default class ViewSelector extends Component {
 						);
 					})}
 				</div>
+				<br />
 				{this.getView()}
 			</div>
 		);
