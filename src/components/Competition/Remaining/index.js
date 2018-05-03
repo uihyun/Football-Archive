@@ -25,6 +25,7 @@ export default class Remaining extends Component {
 	getColumn(array, index) {
 		const color = [colors.lightred, colors.lightyellow, colors.lightblue];
 		const style = { backgroundColor: color[index] };
+		const year = this.props.league.season;
 
 		return (
 			<div className="flex-1 Remaining-row" style={style} key={index}>
@@ -32,7 +33,7 @@ export default class Remaining extends Component {
 					{array.map(vs => {
 						return (
 							<div key={vs.name} className="Remaining-team">
-								<Team team={vs.name} emblemSmall={true} />
+								<Team team={vs.name} emblemSmall={true} year={year} />
 							</div>
 						);
 					})}
@@ -44,14 +45,14 @@ export default class Remaining extends Component {
 	getRow(team) {
 		const style = { fontSize: '1.5em' };
 		const place = { width: '20px', textAlign: 'center' };
-
+		const year = this.props.league.season;
 
 		return (
 			<div className="flex-container" key={team.name}>
 				<div className="flex-1 Remaining-points">
 					<div className="flex-container">
 						<div className="flex-1 flex-container flex-container-center flex-container-adaptive">
-							<Team team={team.name} emblemLarge={true} />
+							<Team team={team.name} emblemLarge={true} year={year} />
 						</div>
 						<div className="flex-1" style={style}>{team.points}</div>
 					</div>
