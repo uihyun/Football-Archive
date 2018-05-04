@@ -19,8 +19,6 @@ export default class LeagueView extends Component {
 		const league = this.props.league;
 		var views = [];
 
-		console.log(league);
-
 		views.push({
 			name: 'Table',
 			view: <LeagueTable league={league} hideName={true} />
