@@ -44,10 +44,8 @@ export default class CompetitionView extends Component {
 			return null;
 		
 		const comp = competitions[this.state.name];
-		var prevYear = this.state.year - 1;
-		var prevYearLink = UrlUtil.getCompLink(prevYear, this.state.name);
-		var nextYear = prevYear + 2;
-		var nextYearLink = UrlUtil.getCompLink(nextYear, this.state.name);
+		var [prevYear, prevYearLink] = this.getPrevLink();
+		var [nextYear, nextYearLink] = this.getNextLink();
 
 		return (
 			<div className="CompetitionView">
@@ -91,6 +89,42 @@ export default class CompetitionView extends Component {
 					<CupView cup={this.state.data.cup} />}
 			</div>
 		);
+	}
+
+	getPrevLink() {
+		const comp = competitions[this.state.name];
+		var year = parseInt(this.state.year, 10);
+		var prevYear = year - 1;
+		var curIndex;
+
+		if (comp.times) {
+			curIndex = comp.times.indexOf(year);
+
+			if (curIndex > 0) {
+				prevYear = comp.times[curIndex - 1];
+			}
+		}
+
+		var link = UrlUtil.getCompLink(prevYear, this.state.name);
+		return [prevYear, link];
+	}
+
+	getNextLink() {
+		const comp = competitions[this.state.name];
+		var year = parseInt(this.state.year, 10);
+		var nextYear = year + 1;
+		var curIndex;
+
+		if (comp.times) {
+			curIndex = comp.times.indexOf(year);
+
+			if (curIndex < comp.times.length - 1) {
+				nextYear = comp.times[curIndex + 1];
+			}
+		}
+
+		var link = UrlUtil.getCompLink(nextYear, this.state.name);
+		return [nextYear, link];
 	}
 
 	fetchSeason(year, compUrl) {
