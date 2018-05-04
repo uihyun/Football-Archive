@@ -84,7 +84,9 @@ export default class ViewSelector extends Component {
 			<div className="ViewSelector">
 				<div className="ViewSelector text-center flex-container">
 					{this.props.views.map(view => {
-						var style = {};
+						var style = {
+							lineHeight: '30px'
+						};
 
 						if (view.name === this.state.view) {
 							style.fontWeight = 'bold';
@@ -101,7 +103,6 @@ export default class ViewSelector extends Component {
 						);
 					})}
 				</div>
-				<br />
 				{this.getView()}
 			</div>
 		);
