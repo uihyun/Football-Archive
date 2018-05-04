@@ -103,8 +103,12 @@ export default class GroupStage extends Component {
 			fontSize: '1.' + ((6 - groupCount) * 2.5) + 'em'
 		};
 
+		if (window.innerWidth <= 350) {
+			style.fontSize = '1em';
+		}
+
 		if (highlight) {
-				style.fill = 'black';
+			style.fill = 'black';
 		}
 
 		return style;

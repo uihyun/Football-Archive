@@ -57,12 +57,20 @@ export default class Versus extends Component {
 						<div key={season.year} className="flex-container">
 							<div className="flex-1 text-center">{this.getSeasonSpan(season.year)}</div>
 							{season.competitions.map((competition, index) => {
+								var scoreboard0 = this.getScoreboard(competition[0]);
+								var scoreboard1 = this.getScoreboard(competition[1]);
+								var comp = this.state.header[index];
+								if (comp.type === 'H')
+									scoreboard1 = null;
+
+								console.log(comp);
+
 								return (
 									<div key={index} className="flex-1">
 										<div className="flex-container">
 											<div className="flex-1"></div>
-												{this.getScoreboard(competition[0])}
-												{this.getScoreboard(competition[1])}
+												{scoreboard0}
+												{scoreboard1}
 											<div className="flex-1"></div>
 										</div>
 									</div>
@@ -161,6 +169,8 @@ export default class Versus extends Component {
 			compIndex = comps[comp.order];
 
 			matchIndex = (match.summary.l === data.teamA) ? 0 : 1;
+			if (comp.type === 'H')
+				matchIndex = 0;
 			seasonMap[match.season].competitions[compIndex][matchIndex] = match;
 		}
 
