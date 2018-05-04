@@ -10,7 +10,7 @@ export default class Cup extends Component {
 	render() {
 		const cup = this.props.cup;
 		const team = this.props.team;
-		const size = 350;
+		const size = Math.min(350, window.innerWidth - 25);
 
 		if (this.props.onlyGroup) {
 			return (

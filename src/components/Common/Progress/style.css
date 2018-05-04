@@ -23,3 +23,19 @@
 .Progress-right {
 	margin-left: 3px;
 }
+
+@media screen and (max-width: 543px) {
+	.Progress-neutral {
+		width: 60px;
+	}
+
+	.Progress-self {
+		width: 60px;
+		text-align: center;
+	}
+
+	.Progress-empty-match {
+		width: 30px;
+	}
+}
+

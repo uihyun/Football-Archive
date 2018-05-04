@@ -34,8 +34,8 @@ export default class Remaining extends Component {
 				<div className="flex-container flex-container-center">
 					{array.map(vs => {
 						return (
-							<Link to={UrlUtil.getLink(year, vs.name)}>
-								<div key={vs.name} className="Remaining-team">
+							<Link to={UrlUtil.getLink(year, vs.name)} key={vs.name}>
+								<div className="Remaining-team">
 									<Team team={vs.name} emblemSmall={true} />
 								</div>
 							</Link>

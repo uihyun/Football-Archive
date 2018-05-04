@@ -50,8 +50,9 @@ export default class Circle extends Component {
 	}
 	
 	render() {
-		const width = 350;
-		const height = 350;
+		const size = Math.min(350, window.innerWidth - 25);
+		const width = size;
+		const height = size;
 		const cx = width / 2;
 		const cy = height / 2;
 		const circleR = 110;

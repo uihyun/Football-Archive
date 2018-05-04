@@ -13,15 +13,15 @@ export default class PointMap extends Component {
 		super(props);
 		
 		const [min, max] = this.getMinMax(props.league.table);
+		const size = Math.min(350, window.innerWidth - 25);
 
 		this.state = {
 			min: min,
 			max: max,
-			size: 350,
+			size: size,
 			inset: 20,
-			imageSize: 40,
+			imageSize: size / 10,
 		};
-		
 	}
 
 	componentWillReceiveProps(nextProps) {

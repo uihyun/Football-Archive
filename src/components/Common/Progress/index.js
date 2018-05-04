@@ -29,7 +29,8 @@ export default class Progress extends Component {
 	
 									return (
 										<div className="flex-container" key={index}>
-											<Scoreboard team={team} match={match} player={this.props.player} />
+											<Scoreboard team={team} match={match} player={this.props.player} 
+												shrinkOnMobile={true} />
 										</div>
 									);
 								})

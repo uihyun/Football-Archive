@@ -47,4 +47,11 @@
 	.Scoreboard-shrink .Scoreboard-inner {
 		width: 30px;
 	}
+	.Scoreboard-shrink .Scoreboard-out {
+		border-width: 0 0 21px 30px;
+	}
+	
+	.Scoreboard-shrink .Scoreboard-in {
+		border-width: 21px 30px 0 0;
+	}
 }
