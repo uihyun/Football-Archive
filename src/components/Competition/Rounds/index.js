@@ -21,27 +21,25 @@ export default class Rounds extends Component {
 		var i, round, group, name;
 
 		if (finals.length > 0) {
-			const style = {
-				fontSize: '1.5em',
-				textAlign: 'center'
-			};
 
 			views.push({
 				name: 'Finals',
 				view: (
 					<div>
-						{finals.map(round => {
-							return (
-								<div key={round.name}>
-									<div style={style}>{round.name}</div>
-									<Grid matches={round.group} year={this.props.comp.season} noFiller={true} />
-								</div>
-							);
-						})}
+						<div className="flex-container">
+							<div className="flex-1" />
+							<div className="flex-2">
+								{this.getFinalRoundView(this.getFinalByRoundName(finals, 'Final'))}
+							</div>
+							<div className="flex-1">
+								{this.getFinalRoundView(this.getFinalByRoundName(finals, '3/4'))}
+							</div>
+						</div>
+						{this.getFinalRoundView(this.getFinalByRoundName(finals, 'Semi-finals'))}
+						{this.getFinalRoundView(this.getFinalByRoundName(finals, 'Quarter-finals'))}
 					</div>
 				)
 			});
-
 		}
 
 		for (i = 0; i < earlyRounds.length; i++) {
@@ -96,9 +94,46 @@ export default class Rounds extends Component {
 		return group;
 	}
 
+	getFinalRoundView(round) {
+		if (round === null)
+			return null;
+			
+		var style = {
+			height: '32px',
+			fontSize: '1.5em',
+			textAlign: 'center'
+		};
+
+		if (round.name === '3/4') {
+			style.lineHeight = '32px';
+			style.fontSize = '1.2em';
+		}
+		
+		return (
+			<div>
+				<div style={style}>{round.name}</div>
+				<Grid matches={round.group} year={this.props.comp.season} noFiller={true} />
+			</div>
+		);
+	}
+
+	getFinalByRoundName(rounds, name) {
+		var i, round;
+		
+		for (i = 0; i < rounds.length; i++) {
+			round = rounds[i];
+
+			if (round.name === name)
+				return round;
+		}
+
+		return null;
+	}
+
 	groupFinals() {
 		const rounds = this.props.rounds;
 		var earlyRounds = [];
+		var third = null;
 		var finals = [];
 		var i, round;
 		
@@ -109,6 +144,8 @@ export default class Rounds extends Component {
 					round.name === 'Semi-finals' ||
 					round.name === 'Quarter-finals') {
 				finals.push({name: round.name, group: this.groupMatches(round.matches)});
+			} else if (round.name === 'Third place' || round.name === '3td place') {
+				third = {name: '3/4', group: this.groupMatches(round.matches)};
 			} else {
 				earlyRounds.push(round);
 			}
@@ -133,6 +170,10 @@ export default class Rounds extends Component {
 			}
 
 			round.group = group;
+		}
+
+		if (third !== null) {
+			finals.push(third);
 		}
 
 		return [earlyRounds, finals];
