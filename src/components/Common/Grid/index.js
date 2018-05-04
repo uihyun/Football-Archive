@@ -28,12 +28,15 @@ export default class Grid extends Component {
 		var match;
 		var emptyTeamStyle = { width: '26px' };
 		var smallTeamStyle = { marginLeft: '3px', marginRight: '3px', height: '21px' };
+		var shrink = false;
 
 		if (window.innerWidth <= 350) {
 			emptyTeamStyle.width = '22px';
 			smallTeamStyle.marginLeft = '1px';
 			smallTeamStyle.marginRight = '1px';
+			shrink = true;
 		}
+
 
 		const largeView = (
 			<div className="hide-mobile flex-container flex-container-center" key={0}>
@@ -56,7 +59,7 @@ export default class Grid extends Component {
 					<div style={smallTeamStyle}>
 						<Team team={teams[0]} emblemSmall={true} year={year}/>
 					</div>
-					<Scoreboard team={teams[0]} match={match} shrinkOnMobile={true} />
+					<Scoreboard team={teams[0]} match={match} shrinkOnMobile={shrink} />
 					<div style={smallTeamStyle}>
 						<Team team={teams[1]} emblemSmall={true} year={year}/>
 					</div>
@@ -69,12 +72,12 @@ export default class Grid extends Component {
 					<div style={smallTeamStyle}>
 						<Team team={teams[0]} emblemSmall={true} year={year}/>
 					</div>
-					<Scoreboard team={teams[0]} match={entry.matches[0]} shrinkOnMobile={true} />
+					<Scoreboard team={teams[0]} match={entry.matches[0]} shrinkOnMobile={shrink} />
 					<div style={emptyTeamStyle}></div>
 				</div>,
 				<div className="show-mobile-flex flex-container flex-container-center" key={2}>
 					<div style={emptyTeamStyle}></div>
-					<Scoreboard team={teams[0]} match={entry.matches[1]} shrinkOnMobile={true} />
+					<Scoreboard team={teams[0]} match={entry.matches[1]} shrinkOnMobile={shrink} />
 					<div style={smallTeamStyle}>
 						<Team team={teams[1]} emblemSmall={true} year={year}/>
 					</div>
