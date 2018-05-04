@@ -136,9 +136,11 @@ export default class CompetitionView extends Component {
 			return response.json();
 		})
 		.then(function(data) {
-			if (data.name) {
+			var name = data.name;
+
+			if (name) {
 				var state = {
-					name: data.name,
+					name: name,
 					data: data,
 				};
 
