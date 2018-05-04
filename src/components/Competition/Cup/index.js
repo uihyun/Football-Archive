@@ -37,6 +37,7 @@ export default class CupView extends Component {
 				view: (
 					<div>
 						<Cup cup={cup} onlyGroup={true} />
+						<br/>
 						<Groups comp={cup} groups={group} />
 					</div>
 				)
