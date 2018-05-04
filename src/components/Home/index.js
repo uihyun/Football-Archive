@@ -10,9 +10,10 @@ import {clubs} from '../data';
 export default class Home extends Component {
 
 	render() {
+		const style = { lineHeight: '30px' }
 		return (
 			<div className="Home">
-				<div className="flex-container flex-container-space-evenly text-center">
+				<div className="flex-container flex-container-space-evenly text-center" style={style}>
 					<div className="flex-1">
 						<NavLink to={'/club/' + clubs.years.max} activeClassName="Home-selected">Clubs</NavLink>
 					</div>
