@@ -319,6 +319,7 @@ const teams = {
 
 	// UEFA
 	'Belgium': {id: 'BEL', name: 'Belgium', url: 'belgien-team'},
+	'Bosnia-Herzegovina': {id: 'BIH', name: 'Bosnia'},
 	'Croatia': {id: 'CRO', name: 'Croatia', url: 'kroatien-team'},
 	'Czech Republic': {id: 'CZE', name: 'Czech'},
 	'Denmark': {id: 'DEN', name: 'Denmark', url: 'daenemark-team'},
@@ -327,8 +328,10 @@ const teams = {
 	'Germany': {id: 'GER', name: 'Germany', url: 'deutschland-team'},
 	'Greece': {id: 'GRE', name: 'Greece'},
 	'Iceland': {id: 'ISL', name: 'Iceland', url: 'island-team'},
+	'Italy': {id: 'ITA', name: 'Italy'},
 	'Latvia': {id: 'LVA', name: 'Latvia'},
 	'Moldova': {id: 'MDA', name: 'Moldova'},
+	'Netherlands': {id: 'NED', name: 'Netherlands'},
 	'Northern Ireland': {id: 'NIR', name: 'Northern Ireland'},
 	'Poland': {id: 'POL', name: 'Poland', url: 'polen-team'},
 	'Portugal': {id: 'POR', name: 'Portugal', url: 'portugal-team'},
@@ -341,7 +344,9 @@ const teams = {
 	// CONMEBOL
 	'Argentina': {id: 'ARG', name: 'Argentina', url: 'argentinien-team'},
 	'Brazil': {id: 'BRA', name: 'Colombia', url: 'brasilien-team'},
+	'Chile': {id: 'Chi', name: 'Chile'},
 	'Colombia': {id: 'COL', name: 'Colombia', url: 'kolumbien-team'},
+	'Ecuador': {id: 'ECU', name: 'Ecuador'},
 	'Paraguay': {id: 'PAR', name: 'Paraguay'},
 	'Peru': {id: 'PER', name: 'Peru', url: 'peru-team'},
 	'Uruguay': {id: 'URU', name: 'Uruguay', url: 'uruguay-team'},
@@ -350,15 +355,18 @@ const teams = {
 	// CONCACAF
 	'Canada': {id: 'CAN', name: 'Canada'},
 	'Costa Rica': {id: 'CRC', name: 'Costa Rica', url: 'costa-rica-team'},
-	'Mexico': {id: 'MEX', name: 'Mexico', url: 'mexiko-team'},
+	'Honduras': {id: 'HON', name: 'Honduras'},
 	'Jamaica': {id: 'JAM', name: 'Jamaica'},
+	'Mexico': {id: 'MEX', name: 'Mexico', url: 'mexiko-team'},
 	'Panama': {id: 'PAN', name: 'Panama', url: 'panama-team'},
 	'USA': {id: 'USA', name: 'USA'},
 	
 	// CAF
 	'Algeria': {id: 'ALG', name: 'Algeria'},
+	'Cameroon': {id: 'CMR', name: 'Cameroon'},
 	'Egypt': {id: 'EGY', name: 'Egypt', url: 'aegypten-team'},
 	'Ghana': {id: 'GHA', name: 'Ghana'},
+	'Ivory Coast': {id: 'CIV', name: 'Côte d\'Ivoire'},
 	'Morocco': {id: 'MAR', name: 'Morocco', url: 'marokko-team'},
 	'Nigeria': {id: 'NGA', name: 'Nigeria', url: 'nigeria-team'},
 	'Tunisia': {id: 'TUN', name: 'Tunisia', url: 'tunesien-team'},

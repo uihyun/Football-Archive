@@ -1,6 +1,7 @@
 const rounds = {
 	Common: {
 		'Final': 'F',
+		'Third place': '3rd',
 		'Semi-finals': '4',
 		'Quarter-finals': '8',
 		'Round of 16': '16',
@@ -57,9 +58,6 @@ const rounds = {
 	},
 	'WC Qualifiers Play-offs': {
 		'Matches': 'PO',
-	},
-	'Confederations Cup': {
-		'Third place': '3rd',
 	},
 	getShortForm: function(comp, round) {
 		if (this[comp] !== undefined) {
