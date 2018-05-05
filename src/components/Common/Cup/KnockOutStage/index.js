@@ -63,10 +63,10 @@ export default class KnockOutStage extends Component {
 			
 			if (i === lastRoundIndex) {
 				if (i === 0) {
-					color = colors.lightyellow;
+					color = colors.mediumyellow;
 
 					if (cup.winner)
-						color = (cup.winner === this.props.team) ? colors.lightblue : colors.lightred;
+						color = (cup.winner === this.props.team) ? colors.mediumblue : colors.mediumred;
 
 					lastRound = <circle key={0} cx={cx} cy={cy} r={r + hsize + 1} fill={color} />;
 				} else {
@@ -144,6 +144,10 @@ export default class KnockOutStage extends Component {
 	
 	getLastRound(rounds) {
 		var i, round;
+
+		if (this.props.team === undefined && this.props.cup.winner === undefined) {
+			return 0;
+		}
 
 		for (i = 0; i < rounds.length; i++) {
 			round = rounds[i];
