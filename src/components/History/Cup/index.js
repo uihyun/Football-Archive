@@ -127,6 +127,7 @@ export default class CupHistory extends Component {
 					if (teams[k] === null) {
 						teams[k] = { active: true, name: group[j].teams[0] };
 						teams[k + 1] = { active: true, name: group[j].teams[1] };
+						break;
 					} else {
 						index = group[j].teams.indexOf(teams[k].name);
 
