@@ -5,6 +5,7 @@ import './style.css';
 
 import { Team, Year } from '../../Common';
 
+import MatchUtil from '../../../util/match';
 import UrlUtil from '../../../util/url';
 
 import { competitions, rounds, teams } from '../data';
@@ -126,6 +127,12 @@ export default class TeamHistory extends Component {
 		result = rounds.getShortForm(competition.name, round);
 		result = result.replace(/F/, '2');
 		result = result.replace(/3rd/, '3');
+
+		if (result === '3') {
+			var sum = MatchUtil.summarizeResult(cup.matches[0], this.state.team);
+			if (sum.result === 'loss')
+				result = '4';
+		}
 
 		if (cup.winner === this.state.team)
 			result = this.getTrophy();
