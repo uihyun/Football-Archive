@@ -21,7 +21,7 @@ module.exports = function(router, db) {
 		}
 
 		function getCup() {
-			return Cups.findOne({season: season, name: comp})
+			return Cups.findOne({season: season, name: comp}, {teams: 0})
 				.then(function(cup)	{
 					result.cup = cup;
 				});

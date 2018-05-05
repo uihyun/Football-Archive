@@ -66,7 +66,7 @@ module.exports = function(router, db) {
 		}
 	}
 
-	function getGroupTable(group) {
+	function getGroupTable(group, competition) {
 		var teamMap = {};
 		var i, match;
 		var teamL, teamR;
@@ -148,7 +148,7 @@ module.exports = function(router, db) {
 			teamArray.push(team);
 		}
 				
-		var cmpFn = compareFnH2H;
+		var cmpFn = CupUtil.useH2H(competition) ? compareFnH2H : compareFn;
 		teamArray.sort(cmpFn);
 
 		var prevRank = 1;
@@ -188,6 +188,7 @@ module.exports = function(router, db) {
 				var i, round;
 				var j, match;
 				var score;
+				var teams = {};
 
 				for (i = 0; i < data.length; i++) {
 					round = data[i];
@@ -199,22 +200,35 @@ module.exports = function(router, db) {
 								cup.teamMap[match.r] !== true) {
 							delete match.url;
 						}
+
+						teams[match.l] = true;
+						teams[match.r] = true;
 					}
 
 					if (round.name.startsWith('Group')) {
-						round.table = getGroupTable(round);
+						round.table = getGroupTable(round, cup.name);
 					}
 					
 					if (round.name === 'Final' && 
 							round.matches.length === 1 && 
 							round.matches[0].score !== undefined) {
-						score = match.score.split(':').map(a => { return parseInt(a, 10); });
+						if (match.pk !== undefined) {
+							score = match.pk.split(':').map(a => { return parseInt(a, 10); });
+						} else {
+							score = match.score.split(':').map(a => { return parseInt(a, 10); });
+						}
 						cup.winner = score[0] < score[1] ? match.r : match.l;
 					}
 				}
 
 				delete cup.teamMap;
 				cup.rounds = data;
+
+				var teamArray = [];
+				for (i in teams) {
+					teamArray.push(i);
+				}
+				cup.teams = teamArray;
 		
 				return Cups.findOneAndReplace({season: cup.season, name: cup.name}, cup, {upsert: true});
 			}).catch(function (error) {

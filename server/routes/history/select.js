@@ -12,83 +12,89 @@ module.exports = function(router, db) {
 	router.get('/api/history/team/:_teamUrl', function (req, res) {
     const team = UrlUtil.getNameFromUrl(req.params._teamUrl);
 
-		function getLeagueTable(season, name) {
-			return Leagues.findOne({season: season, name: name})
-				.then(function (league) {
-					if (league === null) {
-						return null;
-					}
+		function formatLeague(league) {
+			var i, row;
 
-					var i, row;
+			for (i = 0; i < league.table.length; i++) {
+				row = league.table[i];
 
-					for (i = 0; i < league.table.length; i++) {
-						row = league.table[i];
-
-						if (row.name === team) {
-							return { season: season, name: name, league: row };
-						}
-					}
-				});
+				if (row.name === team) {
+					return row;
+				}
+			}
 		}
 
-		function getCup(season, name) {
-			return Cups.findOne({season: season, name: name})
-				.then(function (cup) {
-					if (cup === null) {
-						return null;
-					}
+		function getLeague() {
+			return Leagues.find({'table.name': team}).toArray()
+			.then(leagues => {
+				var i, row;
+				var result = [];
 
-					var i, round;
-					var j, match;
-					var matches = [];
-					var cup;
+				for (i = 0; i < leagues.length; i++) {
+					row = leagues[i];
+					result.push({ season: row.season, name: row.name, league: formatLeague(row) });
+				}
 
-					for (i = cup.rounds.length - 1; i >= 0; i--) {
-						round = cup.rounds[i];
-
-						for (j = 0; j < round.matches.length; j++) {
-							match = round.matches[j];
-
-							if (match.l === team || match.r === team) {
-								matches.push(match);
-							}
-						}
-
-						if (matches.length > 0) {
-							cup = { round: round.name, matches: matches, winner: cup.winner };
-
-							if (round.table) {
-								cup.table = round.table;
-							}
-
-							return { season: season, name: name, cup: cup };
-						}
-					}
-				});
+				return result;
+			});
 		}
 
-    Seasons.find({team: team}).toArray()
-      .then(function (seasons) {
-				var promises = [];
+		function formatCup(cup) {
+			var i, round;
+			var j, match;
+			var matches = [];
+			var result;
 
-				var i, season;
-				var j, competition;
+			for (i = cup.rounds.length - 1; i >= 0; i--) {
+				round = cup.rounds[i];
 
-				for (i = 0; i < seasons.length; i++) {
-					season = seasons[i];
+				for (j = 0; j < round.matches.length; j++) {
+					match = round.matches[j];
 
-					for (j = 0; j < season.competitions.length; j++) {
-						competition = season.competitions[j];
-
-						promises.push(getLeagueTable(season.season, competition.name));
-						promises.push(getCup(season.season, competition.name));
+					if (match.l === team || match.r === team) {
+						matches.push(match);
 					}
 				}
 
-				return Promise.all(promises);
-			}).then(function (result) {
-				var out = result.filter(r => { return r !== null; });
-				res.json({team: team, data: out});
+				if (matches.length > 0) {
+					result = { round: round.name, matches: matches, winner: cup.winner };
+
+					if (round.table) {
+						result.table = round.table;
+					}
+
+					return result;
+				}
+			}
+		}
+		
+		function getCup() {
+			return Cups.find({teams: team}).toArray()
+			.then(cups => {
+				var i, row;
+				var result = [];
+
+				for (i = 0; i < cups.length; i++) {
+					row = cups[i];
+					result.push({ season: row.season, name: row.name, cup: formatCup(row) });
+				}
+
+				return result;
 			});
+		}
+				
+		var promises = [];
+		promises.push(getLeague());
+		promises.push(getCup());
+		
+		Promise.all(promises)
+		.then(array => {
+			var result = [];
+			array.forEach(elem => {
+				result = result.concat(elem);
+			});
+
+			res.json({team: team, data: result});
+		});
 	});
 };

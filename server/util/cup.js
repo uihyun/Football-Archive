@@ -26,6 +26,18 @@ module.exports = {
 				return false;
 		}
 	},
+	useH2H: function (competition) {
+		switch (competition) {
+			// nations
+			case 'EURO':
+			// clubs
+			case 'Champions League':
+			case 'Europa League':
+				return true;
+			default:
+				return false;
+		}
+	},
 	oldCups: [
 		{ season: '2010', name:	'World Cup', url: '/all_matches/wm-2010-in-suedafrika/' },
 		{ season: '2006', name:	'World Cup', url: '/all_matches/wm-2006-in-deutschland/' },

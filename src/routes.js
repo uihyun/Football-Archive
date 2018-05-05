@@ -7,6 +7,7 @@ import Nation from './components/Nation';
 import Competition from './components/Competition';
 import Versus from './components/Versus';
 import OneMatch from './components/OneMatch';
+import History from './components/History';
 import Manage from './components/Manage';
 
 const Routes = (props) => (
@@ -19,6 +20,7 @@ const Routes = (props) => (
 			<Route path="/competition" component={Competition} />
 			<Route path="/versus/:teamA/:teamB" component={Versus} />
 			<Route path="/match/:url" component={OneMatch} />
+			<Route path="/history" component={History} />
 			<Route path="/manage" component={Manage} />
 		</div>
 	</BrowserRouter>
