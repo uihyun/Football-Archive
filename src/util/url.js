@@ -65,8 +65,12 @@ export default class UrlUtil {
 		return '/api/match/select/' + url;
 	}
 	
-	static getClubHistoryUrl(team) {
+	static getTeamHistoryUrl(team) {
 		return '/api/history/team/' + this.getTeamUrl(team);
+	}
+	
+	static getCompetitionHistoryUrl(competition) {
+		return '/api/history/competition/' + this.getCompUrl(competition);
 	}
 
 	static getEmblemUrl(team) {

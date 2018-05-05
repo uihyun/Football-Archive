@@ -146,4 +146,36 @@ export default class Match {
 	static getColorDNP(result) {
 		return 'light' + this.getColor(result);
 	}
+
+	static groupMatches(matches) {
+		var group = [];
+
+		var i, match;
+		var j, entry;
+		var found;
+
+		for (i = 0; i < matches.length; i++) {
+			match = matches[i];
+			found = false;
+
+			for (j = 0; j < group.length; j++) {
+				entry = group[j];
+
+				if (entry.teams.includes(match.l)) {
+					entry.matches.push(match);
+					found = true;
+					break;
+				}
+			}
+
+			if (found === false) {
+				group.push({
+					teams: [match.l, match.r],
+					matches: [match]
+				});
+			}
+		}
+
+		return group;
+	}
 }

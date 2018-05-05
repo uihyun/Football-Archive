@@ -130,7 +130,7 @@ export default class TeamHistory extends Component {
 
 		if (result === '3') {
 			var sum = MatchUtil.summarizeResult(cup.matches[0], this.state.team);
-			if (sum.result === 'loss')
+			if (sum.resultFull.includes('loss'))
 				result = '4';
 		}
 
@@ -181,7 +181,7 @@ export default class TeamHistory extends Component {
 
 	fetch(teamUrl) {
 		const that = this;
-		const url = UrlUtil.getClubHistoryUrl(teamUrl);
+		const url = UrlUtil.getTeamHistoryUrl(teamUrl);
 
 		fetch(url)
 		.then(function(response) {
