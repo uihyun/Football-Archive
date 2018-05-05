@@ -53,7 +53,7 @@ export default class GroupStage extends Component {
 			}
 
 			header = (
-				<text key={i} x={x} y={y} style={style}>
+				<text key={i + Math.random()} x={x} y={y} style={style}>
 					{group.name}
 				</text>
 			);
