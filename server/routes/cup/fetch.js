@@ -268,6 +268,23 @@ module.exports = function(router, db) {
 		});
 	}
 
+	router.get('/api/cup/fetch/old/', function(req, res) {
+		const oldCups = CupUtil.oldCups;
+		var promises = [];
+		var i, cup;
+		
+		for (i = 0; i < oldCups.length; i++) {
+			cup = oldCups[i];
+			cup.teamMap = {};
+			promises.push(fetchCup(cup));
+		}
+
+		Promise.all(promises)
+		.then(_ => {
+			res.sendStatus(200);
+		});
+	});
+
 	router.get('/api/cup/fetch/:_season/', function(req, res) {
     const season = req.params._season;
 			
