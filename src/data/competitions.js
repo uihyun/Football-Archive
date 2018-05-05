@@ -19,6 +19,7 @@ const competitions = {
 	'Gold Cup Quali.': {order: 5, name: 'Gold Cup Qualifiers', sh: 'CCQ', type: '2', group: 1},
 	'Copa America Qualifiers': {order: 5, name: 'Copa América Qualifiers', sh: 'CCQ', type: '2', group: 1},
 	'Africa Cup Qual.': {order: 2, name: 'Africa Cup Qualifiers', sh: 'CC', type: '2', group: 1},
+	'Asian Cup Qual.': {order: 2, name: 'Asian Cup Qualifiers', sh: 'CC', type: '2', group: 1},
 	'Nations League A': {order: 6, name: 'Nations League A', sh: 'NL', type: '2', group: 1},
 	'Nations League B': {order: 6, name: 'Nations League B', sh: 'NL', type: '2', group: 1},
 	'Nations League C': {order: 6, name: 'Nations League C', sh: 'NL', type: '2', group: 1},
