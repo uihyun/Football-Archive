@@ -11,6 +11,10 @@ export default class Competition extends Component {
 
 	render() {
 		var comp = competitions[this.props.name];
+
+		if (comp === undefined)
+			return <b>{this.props.name}</b>;
+
 		var name = comp.name;
 		var sh = comp.sh;
 		var round = ' ' + this.props.round.replace(/ Round/, 'R');
