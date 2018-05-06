@@ -63,8 +63,6 @@ export default class Versus extends Component {
 								if (comp.type === 'H')
 									scoreboard1 = null;
 
-								console.log(comp);
-
 								return (
 									<div key={index} className="flex-1">
 										<div className="flex-container">
@@ -168,9 +166,16 @@ export default class Versus extends Component {
 			comp = competitions[match.competition];
 			compIndex = comps[comp.order];
 
-			matchIndex = (match.summary.l === data.teamA) ? 0 : 1;
+			
+			if (match.place) {
+				matchIndex = (match.place.team === data.teamA && match.place.place === 'H') ? 0 : 1;
+			} else {
+				matchIndex = (match.summary.l === data.teamA) ? 0 : 1;
+			}
+
 			if (comp.type === 'H')
 				matchIndex = 0;
+
 			seasonMap[match.season].competitions[compIndex][matchIndex] = match;
 		}
 
