@@ -8,7 +8,7 @@ package-lock.json
 coverage
 
 # production
-build
+#build
 
 # misc
 .DS_Store
@@ -17,4 +17,4 @@ npm-debug.log
 src/dummy
 README.md
 *.swp
-img
+#img
