@@ -46,7 +46,10 @@ export default class CupHistory extends Component {
 							<div className="flex-1" style={seasonStyle} >
 								{this.getSeasonSpan(season.season, hasThirdPlace)}
 							</div>
-							{teams.map(team => {
+							{teams.map((team, index) => {
+								if (team === null)
+									return <div className="flex-1" key={index}></div>;
+
 								return (
 									<div className="flex-1" key={team.name} style={team.active && activeStyle}>
 										<Team team={team.name} year={season.season} emblemLarge={true} />
