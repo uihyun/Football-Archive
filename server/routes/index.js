@@ -10,8 +10,8 @@ var Promise = require('bluebird');
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var assert = require('assert');
-var url = 'mongodb://localhost:27017';
-var dbname = 'fa';
+var url = 'mongodb://football:football@ds259079.mlab.com:59079/football-archive';
+var dbname = 'football-archive';
 
 Promise.promisifyAll(mongodb);
 
@@ -46,7 +46,7 @@ MongoClient.connect(url, function(err, client) {
 
 	// For all other routes return the main index.html, so react-router render the route in the client
 	router.get('*', (req, res) => {
-		res.sendFile(path.resolve('build', 'index.html'));
+		res.sendFile(path.resolve('../build', 'index.html'));
 	});
 });
 
