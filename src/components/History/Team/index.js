@@ -5,11 +5,12 @@ import './style.css';
 
 import { Team, Year } from '../../Common';
 
+import MatchUtil from '../../../util/match';
 import UrlUtil from '../../../util/url';
 
-import { competitions, rounds } from '../data';
+import { competitions, rounds, teams } from '../data';
 
-export default class ClubHistory extends Component {
+export default class TeamHistory extends Component {
 	
 	constructor(props) {
 		super(props);
@@ -24,6 +25,15 @@ export default class ClubHistory extends Component {
 
 	componentDidMount() {
 		this.fetch(this.state.teamUrl);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		const teamUrl = nextProps.match.params.team;
+
+		if (this.state.teamUrl !== teamUrl) {
+			this.setState({ teamUrl: teamUrl });
+			this.fetch(teamUrl);
+		}
 	}
 
 	render() {
@@ -114,13 +124,23 @@ export default class ClubHistory extends Component {
 
 		const vs = cup.matches[0].l === this.state.team ? cup.matches[0].r : cup.matches[0].l;
 		const round = cup.round.replace(/\./, '');
-		result = rounds.getShortForm(competition.name, round).replace(/F/, '2');
+		result = rounds.getShortForm(competition.name, round);
+		result = result.replace(/F/, '2');
+		result = result.replace(/3rd/, '3');
+
+		if (result === '3') {
+			var sum = MatchUtil.summarizeResult(cup.matches[0], this.state.team);
+			if (sum.resultFull.includes('loss'))
+				result = '4';
+		}
 
 		if (cup.winner === this.state.team)
 			result = this.getTrophy();
 
 		if (link)
 			result = <Link to={link}>{result}</Link>;
+
+		link = '/history/team/' + UrlUtil.getTeamUrl(vs);
 
 		return (
 			<div className="flex-container">
@@ -129,7 +149,9 @@ export default class ClubHistory extends Component {
 					{result}
 				</div>
 				<div className="flex-1">
-					<Team team={vs} year={competition.season} emblemSmall={true} />
+					<Link to={link}>
+						<Team team={vs} emblemSmall={true} />
+					</Link>
 				</div>
 				<div className="flex-2 hide-mobile" />
 			</div>
@@ -138,7 +160,13 @@ export default class ClubHistory extends Component {
 	}
 
 	getSeasonSpan(year) {
-		const span = <Year year={year} />;
+		var fullyear = false;
+
+		if (teams[this.state.team] && isNaN(teams[this.state.team].id)) {
+			fullyear = true;
+		}
+
+		const span = <Year year={year} fullyear={fullyear} />;
 		const link = UrlUtil.getLink(year, this.state.team);
 
 		if (link === null)
@@ -153,7 +181,7 @@ export default class ClubHistory extends Component {
 
 	fetch(teamUrl) {
 		const that = this;
-		const url = UrlUtil.getClubHistoryUrl(teamUrl);
+		const url = UrlUtil.getTeamHistoryUrl(teamUrl);
 
 		fetch(url)
 		.then(function(response) {

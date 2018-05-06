@@ -6,6 +6,8 @@ import { Grid, ViewSelector } from '../../Common';
 
 import { rounds as roundData } from '../data';
 
+import MatchUtil from '../../../util/match';
+
 export default class Rounds extends Component {
 	
 	render() {
@@ -44,7 +46,7 @@ export default class Rounds extends Component {
 
 		for (i = 0; i < earlyRounds.length; i++) {
 			round = earlyRounds[i];
-			group = this.groupMatches(round.matches);
+			group = MatchUtil.groupMatches(round.matches);
 			name = round.name.replace(/\./, '');
 
 			views.push({
@@ -60,38 +62,6 @@ export default class Rounds extends Component {
 		}
 
 		return views;
-	}
-
-	groupMatches(matches) {
-		var group = [];
-
-		var i, match;
-		var j, entry;
-		var found;
-
-		for (i = 0; i < matches.length; i++) {
-			match = matches[i];
-			found = false;
-
-			for (j = 0; j < group.length; j++) {
-				entry = group[j];
-
-				if (entry.teams.includes(match.l)) {
-					entry.matches.push(match);
-					found = true;
-					break;
-				}
-			}
-
-			if (found === false) {
-				group.push({
-					teams: [match.l, match.r],
-					matches: [match]
-				});
-			}
-		}
-
-		return group;
 	}
 
 	getFinalRoundView(round) {
@@ -143,9 +113,9 @@ export default class Rounds extends Component {
 			if (round.name === 'Final' ||
 					round.name === 'Semi-finals' ||
 					round.name === 'Quarter-finals') {
-				finals.push({name: round.name, group: this.groupMatches(round.matches)});
+				finals.push({name: round.name, group: MatchUtil.groupMatches(round.matches)});
 			} else if (round.name === 'Third place' || round.name === '3td place') {
-				third = {name: '3/4', group: this.groupMatches(round.matches)};
+				third = {name: '3/4', group: MatchUtil.groupMatches(round.matches)};
 			} else {
 				earlyRounds.push(round);
 			}

@@ -33,8 +33,8 @@ export default class CompetitionView extends Component {
 		const year = nextProps.match.params.year;
 		const compUrl = nextProps.match.params.comp;
 
-		if (this.state.year !== year || this.state.comUrl !== compUrl) {
-			this.setState({ year: year, teamUrl: compUrl });
+		if (this.state.year !== year || this.state.compUrl !== compUrl) {
+			this.setState({ year: year, compUrl: compUrl });
 			this.fetchSeason(year, compUrl);
 		}
 	}
@@ -73,10 +73,15 @@ export default class CompetitionView extends Component {
 						</div>
 					</div>
 					<div className="flex-1">
-						{nextYearLink &&
+						{nextYearLink ?
 							<Link to={nextYearLink}>
 								<div className="CompetitionView-view-selector">
 									<Year year={nextYear} fullyear={comp.times !== undefined} /> ▷
+								</div>
+							</Link> :
+							<Link to={'/history/competition/' + UrlUtil.getCompUrl(this.state.name)}>
+								<div className="ClubView-view-selector">
+									History
 								</div>
 							</Link>
 						}

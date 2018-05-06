@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import History from './History';
+import History from '../History/Team';
 import View from './View';
 import Selector from './Selector';
 

@@ -13,11 +13,12 @@ export default class Team extends Component {
 		var team = this.props.team;
 		var name = (teams[team] !== undefined) ? teams[team].name : team;
 		var imgSrc = UrlUtil.getEmblemUrl(team);
-
+		var className = '';
 		var inside = null;
 
 		if (this.props.emblemLarge) {
 			inside = <img src={imgSrc} className="Team-emblem-large" alt="" />;
+			className = 'Team-emblem-large';
 		} else if (this.props.emblemSmall) {
 			inside = <img src={imgSrc} className="Team-emblem-small" alt="" />;
 		} else {
@@ -39,7 +40,7 @@ export default class Team extends Component {
 
 		if (link) {
 			return (
-				<Link to={link}>
+				<Link to={link} className={className}>
 					{inside}
 				</Link>
 			);

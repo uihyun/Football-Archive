@@ -46,7 +46,7 @@ export default class Form extends Component {
 
 	getShortenedData(allMatches) {
 		var i, match;
-		var lastMatchIndex;
+		var lastMatchIndex = 0;
 		for (i = allMatches.length - 1; i >= 0; i--) {
 			match = allMatches[i];
 

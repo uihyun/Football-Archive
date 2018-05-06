@@ -56,10 +56,10 @@ export default class Groups extends Component {
 						if (group.matches.length === group.table.length * (group.table.length - 1) ||
 							j < k) {
 							teams = [match.l, match.r];
-							index = k * group.table.length + j;
+							index = k * 4 + j;
 						} else {
 							teams = [match.r, match.l];
-							index = j * group.table.length + k;
+							index = j * 4 + k;
 						}
 
 						matches[index] = {

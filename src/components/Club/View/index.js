@@ -80,7 +80,7 @@ export default class ClubView extends Component {
 									<Year year={nextYear} /> ▷
 								</div>
 							</Link> :
-							<Link to={'/club/history/' + UrlUtil.getTeamUrl(this.state.team)}>
+							<Link to={'/history/team/' + UrlUtil.getTeamUrl(this.state.team)}>
 								<div className="ClubView-view-selector">
 									History
 								</div>

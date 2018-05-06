@@ -44,5 +44,48 @@ module.exports = function(router, db) {
 				console.log(error);
 			});
 	});
+	
+	router.get('/api/match/clear/:_season/', function(req, res) {
+		const season = req.params._season;
+		
+		Seasons.find({season: season}).toArray()
+			.then(function(seasons) {
+				if (seasons.length === 0) {
+					res.sendStatus(204);
+				} else {
+					var season, competition, match;
+					var matchDate;
+					var i, j, k;
+					var urlMap = {};
 
+					for (i in seasons) {
+						season = seasons[i];
+
+						for (j in season.competitions) {
+							competition = season.competitions[j];
+
+							for (k in competition.matches) {
+								match = competition.matches[k];
+								matchDate = new Date(match.date);
+
+								if (matchDate < new Date()) {
+									urlMap[match.url] = match.url;
+								}
+							}
+						}
+					}
+
+					var urls = [];
+					for (i in urlMap) {
+						urls.push(i);
+					}
+
+					Matches.remove({url: {$in: urls}})
+						.then(function() {
+							res.sendStatus(200);
+						});
+				}
+			})
+
+	});
 };
