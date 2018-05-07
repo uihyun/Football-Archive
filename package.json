@@ -16,7 +16,7 @@
     "react-router-dom": "^4.2.2"
   },
   "scripts": {
-    "start": "react-scripts build && node server/football_archive.js",
+    "start": "node server/football_archive.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
