@@ -1,9 +1,8 @@
 'use strict';
 
-require('../newrelic');
+require('newrelic');
 
 const app = require('./app');
-require('../newrelic');
 
 const PORT = process.env.PORT || 3050;
 
