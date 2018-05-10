@@ -1,0 +1,2 @@
+*/30 * * * * /Users/eunmo/dev/fa/cron/semi-hourly.sh
+15 8 * * * /Users/eunmo/dev/fa/cron/daily.sh
