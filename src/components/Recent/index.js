@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 
 import './style.css';
 
-import { Grid } from '../Common';
+import { Grid, ViewSelector } from '../Common';
 
-import {clubs, competitions} from '../data';
+import { clubs, competitions } from '../data';
 import UrlUtil from '../../util/url';
 
 export default class Recent extends Component {
@@ -21,11 +21,21 @@ export default class Recent extends Component {
 	}
 
 	render() {
+		var views = [];
+
+		views.push({ name: 'Recent', view: this.getView(this.state.competitions) });
+		views.push({ name: 'Yesterday', view: this.getView(this.filterByDay(-1)) });
+		views.push({ name: 'Today', view: this.getView(this.filterByDay(0)) });
+
+		return <ViewSelector views={views} />;
+	}
+
+	getView(competitions) {
 		const year = clubs.years.max;
 
 		return (
 			<div className="Recent">
-				{this.state.competitions.map(comp => {
+				{competitions.map(comp => {
 					if (comp.matches.length === 0)
 						return null;
 
@@ -47,6 +57,36 @@ export default class Recent extends Component {
 				})}
 			</div>
 		);
+	}
+
+	filterByDay(offset) {
+		var competitions = [];
+		var matches;
+		var i, comp;
+		var j, match;
+		var today = new Date();
+		today.setDate(today.getDate() + offset);
+		var day = today.toLocaleDateString();
+
+		if (day.charAt(0) !== '0')
+			day = '0' + day;
+
+		for (i = 0; i < this.state.competitions.length; i++) {
+			comp = this.state.competitions[i];
+			matches = [];
+
+			for (j = 0; j < comp.matches.length; j++) {
+				match = comp.matches[j];
+
+				if (match.date === day)
+					matches.push(match);
+			}
+
+			if (matches.length > 0)
+				competitions.push({ name: comp.name, matches: matches });
+		}
+
+		return competitions;
 	}
 
 	groupMatches(matches) {
