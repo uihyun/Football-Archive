@@ -215,7 +215,7 @@ export default class OneMatch extends Component {
 
 	getEventDiv(e, index) {
 		return (
-			<MatchEvent key={index} minute={e.minute} side={e.side}
+			<MatchEvent key={index + e.minute} minute={e.minute} side={e.side}
 									goal={e.goal} card={e.card} sub={e.sub} />
 		);
 	}
