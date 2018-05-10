@@ -27,12 +27,15 @@ export default class Lineup extends Component {
 		var array = [];
 
 		const goals = this.props.match.goals;
-		var i, goal;
+		var i, goal, og, pk;
 
 		for (i = 0; i < goals.length; i++) {
 			goal = goals[i];
+			og = (goal.style === 'own goal');
+			pk = (goal.style === 'penalty');
+
 			if (goal.scorer === player.name) {
-				array.push(<div key={'goal' + i} className="Lineup-goal"><Goal og={goal.style === 'own goal'} /></div>);
+				array.push(<div key={'goal' + i} className="Lineup-goal"><Goal og={og} pk={pk} /></div>);
 			}
 
 			if (goal.assist === player.name) {
