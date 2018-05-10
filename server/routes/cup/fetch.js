@@ -237,39 +237,54 @@ module.exports = function(router, db) {
 			});					
 	}
 
+	function getCups(season) {
+		return Cups.find({season: season}).toArray();
+	}
+	
+	function getSeasons(season) {
+		return Seasons.find({season: season}).toArray();
+	}
+
+	function getCupMap(seasons) {
+		var cups = {};
+		var season;
+		var competition, cup;
+		var match, round;
+		var i, j, k;
+		var promises = [];
+
+		for (i in seasons) {
+			season = seasons[i];
+
+			for (j in season.competitions) {
+				competition = season.competitions[j];
+
+				if (CupUtil.isValid(competition.name) == false) {
+					continue;
+				}
+
+				if (cups[competition.name] === undefined) {
+					cups[competition.name] = {
+						season: season.season,
+						name: competition.name,
+						url: competition.url,
+						teamMap: {}
+					};
+				}
+
+				cups[competition.name].teamMap[season.team] = true;
+			}
+		}
+
+		return cups;
+	}
+
 	function fetchCups(season) {
 		var cups = {};
 
-		return Seasons.find({season: season}).toArray()
+		return getSeasons(season)
 		.then(function(seasons) {
-			var season;
-			var competition, cup;
-			var match, round;
-			var i, j, k;
-			var promises = [];
-
-			for (i in seasons) {
-				season = seasons[i];
-
-				for (j in season.competitions) {
-					competition = season.competitions[j];
-
-					if (CupUtil.isValid(competition.name) == false) {
-						continue;
-					}
-					
-					if (cups[competition.name] === undefined) {
-						cups[competition.name] = {
-							season: season.season,
-							name: competition.name,
-							url: competition.url,
-							teamMap: {}
-						};
-					}
-
-					cups[competition.name].teamMap[season.team] = true;
-				}
-			}
+			cups = getCupMap(seasons);
 
 			for (i in cups) {
 				cup = cups[i];
@@ -277,8 +292,6 @@ module.exports = function(router, db) {
 			}
 
 			return Promise.all(promises);
-		}).then(function() {
-			return cups;
 		});
 	}
 
@@ -298,13 +311,38 @@ module.exports = function(router, db) {
 			res.sendStatus(200);
 		});
 	});
+	
+	router.get('/api/cup/fetch/ongoing/:_season/', function(req, res) {
+    const season = req.params._season;
+		var promises = [getCups(season), getSeasons(season)];
+
+		Promise.all(promises)
+		.then(function ([cups, seasons]) {
+			var map = getCupMap(seasons);
+			var promises = [];
+			var i, cup;
+
+			for (i = 0; i < cups.length; i++) {
+				cup = cups[i];
+
+				if (cup.winner !== undefined)
+					continue;
+
+				promises.push(fetchCup(map[cup.name]));
+			}
+
+			return Promise.all(promises);
+		}).then(_ => {
+			res.sendStatus(200);
+		});
+	});
 
 	router.get('/api/cup/fetch/:_season/', function(req, res) {
     const season = req.params._season;
 			
 		fetchCups(season)
-		.then(function(cups) {
-			res.json(cups);
+		.then(_ => {
+			res.sendStatus(200);
 		});
 	});
 };
