@@ -168,7 +168,13 @@ export default class Versus extends Component {
 
 			
 			if (match.place) {
-				matchIndex = (match.place.team === data.teamA && match.place.place === 'H') ? 0 : 1;
+				matchIndex = 1;
+
+				if (match.place.team === data.teamA && match.place.place === 'H')
+					matchIndex = 0;
+				
+				if (match.place.team === data.teamB && match.place.place === 'A')
+					matchIndex = 0;
 			} else {
 				matchIndex = (match.summary.l === data.teamA) ? 0 : 1;
 			}
