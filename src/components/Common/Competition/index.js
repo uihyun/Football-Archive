@@ -17,17 +17,23 @@ export default class Competition extends Component {
 
 		var name = comp.name;
 		var sh = comp.sh;
-		var round = ' ' + this.props.round.replace(/ Round/, 'R');
-		var shRound = rounds.getShortForm(this.props.name, this.props.round);
+		var round = this.props.round.replace(/ Round/, 'R');
+		var shRound = rounds.getShortForm(this.props.name, round);
+
+		round = ' ' + round;
 
 		if (sh === 'Fr') {
 			round = '';
+			shRound = '';
 		}
 
 		if (sh === 'WCQ') {
 			round = round.replace(/2ndR/, '2R');
 			round = round.replace(/3rdR/, '3R');
 			round = round.replace(/Relegation/, '4R');
+			shRound = shRound.replace(/2ndR/, '2R');
+			shRound = shRound.replace(/3rdR/, '3R');
+			shRound = shRound.replace(/Relegation/, '4R');
 		}
 			
 		round = round.replace(/Matches/, '');
