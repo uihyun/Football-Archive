@@ -11,6 +11,50 @@ module.exports = function(router, db) {
 	const Seasons = db.collection('Seasons');
 	const Matches = db.collection('Matches');
 	
+	router.get('/api/match/clear/recent/:_season', function(req, res) {
+		const season = req.params._season;
+		var matches = [];
+		var now = new Date();
+		var tomorrow = new Date(now.getTime() + (1 * 24 * 60 * 60 * 1000));
+		var weekBefore = new Date(now.getTime() - (3 * 24 * 60 * 60 * 1000));
+		var matchDate;
+		
+		Seasons.find({season: season}).toArray()
+			.then(function(seasons) {
+				if (seasons.length === 0) {
+					res.sendStatus(204);
+				} else {
+					var i, j, k;
+					var season, comp, match, teams;
+
+					for (i in seasons) {
+						season = seasons[i];
+
+						for (j in season.competitions) {
+							comp = season.competitions[j];
+
+							for (k in comp.matches) {
+								match = comp.matches[k];
+								matchDate = new Date(match.date);
+
+								if (matchDate >= weekBefore && matchDate <= tomorrow) {
+									matches.push(match.url);
+								}
+							}
+						}
+					}
+
+					Matches.remove({url: {$in: matches}})
+						.then(function() {
+							res.sendStatus(200);
+						});
+				}
+			})
+			.catch(function(error) {
+				console.log(error);
+			});
+	});
+	
 	router.get('/api/match/clear/:_season/:_teamUrl', function(req, res) {
 		const season = req.params._season;
 		const team = UrlUtil.getNameFromUrl(req.params._teamUrl);
