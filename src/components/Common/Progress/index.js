@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import {Scoreboard, Team} from '..';
+import { Scoreboard, Team } from '..';
 
-import {rounds, competitions} from '../data';
+import { competitions, rounds } from '../data';
 
 export default class Progress extends Component {
 
