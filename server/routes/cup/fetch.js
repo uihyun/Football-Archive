@@ -284,6 +284,8 @@ module.exports = function(router, db) {
 
 		return getSeasons(season)
 		.then(function(seasons) {
+			var promises = [];
+			var i, cup;
 			cups = getCupMap(seasons);
 
 			for (i in cups) {
