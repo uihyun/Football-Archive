@@ -53,8 +53,8 @@ const competitions = {
 	'Relegation Bundesliga': {order: 9, name: 'Bundesliga Relegation', sh: 'R', type: '2', group: 1},
 	'Relegation Ligue 1': {order: 9, name: 'Ligue 1 Relegation', sh: 'R', type: '2', group: 1},
 	
-	'kleague': {order: 1, name: 'K League 1', sh: 'L', type: 'L', group: 1},
-	'kleague2': {order: 1, name: 'K League 2', sh: 'L', type: 'L', group: 1},
+	'kleague': {order: 1, name: 'K League 1', sh: 'K1', type: 'L', group: 1},
+	'kleague2': {order: 1, name: 'K League 2', sh: 'K2', type: 'L', group: 1},
 	'K League 1': {name: 'K League 1', sh: 'K1', years: kleague.years, url: 'kleague'},
 	'K League 2': {name: 'K League 2', sh: 'K2', years: kleague.years, url: 'kleague2'},
 };

@@ -44,6 +44,13 @@ export default class ClubView extends Component {
 		var prevYearLink = UrlUtil.getLink(prevYear, this.state.team);
 		var nextYear = prevYear + 2;
 		var nextYearLink = UrlUtil.getLink(nextYear, this.state.team);
+		const year = this.state.year;
+
+		function formatYear(year, a, b) {
+			var s = year + '';
+
+			return s.substring(a, b);
+		}
 
 		return (
 			<div>
@@ -59,15 +66,15 @@ export default class ClubView extends Component {
 						}
 					</div>
 					<div className="flex-2">
-						<Link to={'/club/' + this.state.year}>
+						<Link to={'/club/' + year}>
 						  <b>
       	        <div className="flex-container flex-container-center">
     	            <div className="flex-1 ClubView-view-selector text-right ClubView-year">
-										{this.state.teamUrl.match(/-team$/) ? '' : this.state.year - 1}
+										{this.state.teamUrl.match(/-team$/) ? formatYear(year, 0, 2) : year - 1}
 	                </div>
 	              	<div><Team team={this.state.team} emblemLarge={true}/></div>
               	  <div className="flex-1 ClubView-view-selector text-left ClubView-year">
-										{this.state.year}
+										{this.state.teamUrl.match(/-team$/) ? formatYear(year, 2, 4) : year}
           	      </div>
         	      </div>
       	      </b>
