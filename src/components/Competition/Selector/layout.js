@@ -49,6 +49,16 @@ const layout = {
 				'Cup': 'Asian Cup',
 			},
 		}
+	},
+	kleague: {
+		legend: ['1', '2'],
+		list: ['K'],
+		groups: {
+			K: {
+				'1': 'K League 1',
+				'2': 'K League 2',
+			}
+		}
 	}
 };
 

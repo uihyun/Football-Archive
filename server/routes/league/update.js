@@ -39,6 +39,16 @@ module.exports = function(router, db) {
 		return compareFn(a, b);
 	}
 
+	function compareFnKLeague(a, b) {
+		if (a.points !== b.points) {
+			return b.points - a.points;
+		} else if (a.goals.f !== b.goals.f) {
+			return b.goals.f - a.goals.f;
+		} else {
+			return b.goals.d - a.goals.d;
+		}
+	}
+
 	function compareFnWithName(a, b) {
 		if (a.rank === b.rank) {
 			return (a.name < b.name) ? -1 : 1;
@@ -203,6 +213,8 @@ module.exports = function(router, db) {
 					cmpFn = compareFnLaLiga;
 				} else if (leagueName === 'Serie A') {
 					cmpFn = compareFnSerieA;
+				} else if (leagueName.match(/^kleague/)) {
+					cmpFn = compareFnKLeague;
 				}
 
 				teamArray.sort(cmpFn);

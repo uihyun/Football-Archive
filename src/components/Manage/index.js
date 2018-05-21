@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import {Team} from '../Common';
-import {clubs, nations} from '../data';
+import { Team } from '../Common';
+import { clubs, nations, kleague } from '../data';
 
 import UrlUtil from '../../util/url';
 
@@ -259,13 +259,21 @@ export default class Manage extends Component {
 
 	getLeagues(year) {
 		var leagues = [];
-		var i, country;
+		var i, country, league;
 
 		for (i = 0; i < clubs.countries.length; i++) {
 			country = clubs.countries[i];
 
 			if (clubs.seasons[country].teams[year]) {
 				leagues.push(clubs.seasons[country].league);
+			}
+		}
+		
+		for (i = 0; i < kleague.leagues.length; i++) {
+			league = kleague.leagues[i];
+
+			if (kleague.seasons[league].teams[year]) {
+				leagues.push(league);
 			}
 		}
 

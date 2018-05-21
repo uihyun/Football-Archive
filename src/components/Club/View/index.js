@@ -63,7 +63,7 @@ export default class ClubView extends Component {
 						  <b>
       	        <div className="flex-container flex-container-center">
     	            <div className="flex-1 ClubView-view-selector text-right ClubView-year">
-										{this.state.year - 1}
+										{this.state.teamUrl.match(/-team$/) ? '' : this.state.year - 1}
 	                </div>
 	              	<div><Team team={this.state.team} emblemLarge={true}/></div>
               	  <div className="flex-1 ClubView-view-selector text-left ClubView-year">

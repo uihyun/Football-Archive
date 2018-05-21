@@ -1,4 +1,4 @@
-import {teams, competitions, clubs, nations} from '../data';
+import { competitions, clubs, nations, kleague, teams } from '../data';
 
 export default class UrlUtil {
 	static getTeamUrl(team) {
@@ -106,6 +106,15 @@ export default class UrlUtil {
 				}
 
 				return '/nation/' + year + '/' + this.getTeamUrl(team);
+			}
+		}
+
+		for (i in kleague.seasons) {
+			if (kleague.seasons[i].teams[year] === undefined)
+				continue;
+
+			if (kleague.seasons[i].teams[year].includes(team)) {
+				return '/club/' + year + '/' + this.getTeamUrl(team);
 			}
 		}
 

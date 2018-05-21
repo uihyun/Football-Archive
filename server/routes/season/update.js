@@ -70,7 +70,9 @@ module.exports = function(router, db) {
 					var i;
 
 					for (i in seasons) {
-						teams.push(seasons[i].team);
+						if (seasons[i].assembled !== true) {
+							teams.push(seasons[i].team);
+						}
 					}
 					
 					Promise.map(teams, function (team) {

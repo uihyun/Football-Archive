@@ -438,6 +438,32 @@ const teams = {
 	// OFC
 	'New Zealand': {id: 'NZL', name: 'New Zealand'},
 	'Tahiti': {id: 'TAH', name: 'Tahiti'},
+
+	// K League
+	'울산': {id: 101, name: '울산', url: '울산-team'},
+	'수원': {id: 102, name: '수원', url: '수원-team'},
+	'포항': {id: 103, name: '포항', url: '포항-team'},
+	'제주': {id: 104, name: '제주', url: '제주-team'},
+	'전북': {id: 105, name: '전북', url: '전북-team'},
+	'부산': {id: 106, name: '부산', url: '부산-team'},
+	'전남': {id: 107, name: '전남', url: '전남-team'},
+	'성남': {id: 108, name: '성남', url: '성남-team'},
+	'서울': {id: 109, name: '서울', url: '서울-team'},
+	'대전': {id: 110, name: '대전', url: '대전-team'},
+	'대구': {id: 117, name: '대구', url: '대구-team'},
+	'인천': {id: 118, name: '인천', url: '인천-team'},
+	'경남': {id: 120, name: '경남', url: '경남-team'},
+	'강원': {id: 121, name: '강원', url: '강원-team'},
+	'광주': {id: 122, name: '광주', url: '광주-team'},
+	'상주': {id: 123, name: '상주', url: '상주-team'},
+	'고양': {id: 125, name: '고양', url: '고양-team'},
+	'부천': {id: 126, name: '부천', url: '부천-team'},
+	'안양': {id: 127, name: '안양', url: '안양-team'},
+	'충주': {id: 128, name: '충주', url: '충주-team'},
+	'수원FC': {id: 129, name: '수원FC', url: '수원FC-team'},
+	'서울E': {id: 131, name: '서울E', url: '서울E-team'},
+	'안산': {id: 132, name: '안산', url: '안산-team'},
+	'아산': {id: 133, name: '아산', url: '아산-team'},
 };
 
 export default teams;

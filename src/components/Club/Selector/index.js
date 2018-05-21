@@ -5,7 +5,7 @@ import './style.css';
 
 import { Team, YearSelector } from '../../Common';
 
-import { clubs, koreans } from '../data';
+import { clubs, kleague, koreans } from '../data';
 import UrlUtil from '../../../util/url';
 
 export default class ClubSelector extends Component {
@@ -14,11 +14,20 @@ export default class ClubSelector extends Component {
 		const url = this.props.match.url;
 		const year = this.props.match.params.year;
 		var countries = [];
+		var kleagueTeams = [];
 
 		clubs.countries.forEach(country => {
 			var teams = clubs.seasons[country].teams[year];
 			if (teams) {
 				countries.push({ code: country, teams: teams });
+			}
+		});
+
+		kleague.leagues.forEach(league => {
+			var teams = kleague.seasons[league].teams[year];
+			var code = league === 'kleague' ? 'K1' : 'K2';
+			if (teams) {
+				kleagueTeams.push({ code: code, teams: teams });
 			}
 		});
 
@@ -75,6 +84,24 @@ export default class ClubSelector extends Component {
 						</div>
 					</div>
 				)}
+				<div className="flex-container">
+					{kleagueTeams.map(league => {
+						return (
+							<div key={league.code} className="flex-1">
+								<h3>{league.code}</h3>
+								<div className="ClubSelector-flex-container">
+									{league.teams.map(team => {
+										return (
+											<div className="ClubSelector-team" key={team}>
+												<Team team={team} emblemLarge={true} year={year}/>
+											</div>
+										);
+									})}
+								</div>
+							</div>
+						);
+					})}
+				</div>
       </div>
     );
   }
