@@ -48,7 +48,8 @@ export default class LeagueHistory extends Component {
 	}
 	
 	getSeasonSpan(year) {
-		const span = <Year year={year} />;
+		const fullyear = this.props.name.match(/^kleague/);
+		const span = <Year year={year} fullyear={fullyear} />;
 		const link = UrlUtil.getCompLink(year, this.props.name);
 
 		if (link === null)
