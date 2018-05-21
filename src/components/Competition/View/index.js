@@ -51,7 +51,7 @@ export default class CompetitionView extends Component {
 			<div className="CompetitionView">
 				<div className="show-mobile">
 					<div style={{fontSize: '1.5em'}} className="text-center">
-						{this.state.name + ' '} 
+						{competitions[this.state.name].name + ' '} 
 					</div>
 				</div>
 				<div className="flex-container text-center">
@@ -67,7 +67,7 @@ export default class CompetitionView extends Component {
 					<div className="flex-2">
 						<div style={{fontSize: '1.5em'}} className="text-center CompetitionView-view-selector">
 							<span className="hide-mobile">
-								{this.state.name + ' '} 
+								{competitions[this.state.name].name + ' '} 
 							</span>
 							<Year year={this.state.year} fullyear={comp.times !== undefined} />
 						</div>
