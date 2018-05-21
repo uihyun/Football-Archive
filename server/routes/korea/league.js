@@ -57,7 +57,7 @@ module.exports = function(router, db) {
 		});
 	}
 
-	router.get('/api/korea/league/fetch/:_season/:_league', function(req, res) {
+	router.get('/api/korea/league/update/:_season/:_league', function(req, res) {
 		const season = req.params._season;
 		const leagueName = req.params._league;
 

@@ -13,7 +13,7 @@ module.exports = function(router, db) {
 		};
 	}
 	
-	router.get('/api/korea/league/assemble/:_season', function(req, res) {
+	router.get('/api/korea/assemble/:_season', function(req, res) {
 		const season = req.params._season;
 
 		KLeague.find({ season: season }).toArray()
