@@ -57,6 +57,7 @@ const competitions = {
 	'kleague2': {order: 1, name: 'K League 2', sh: 'K2', type: 'L', group: 1, times: []},
 	'K League 1': {name: 'K League 1', sh: 'K1', years: kleague.years, url: 'kleague'},
 	'K League 2': {name: 'K League 2', sh: 'K2', years: kleague.years, url: 'kleague2'},
+	'KFA Cup': {order: 6, name: 'KFA Cup', sh: 'Cup', type: '2', group: 2, years: kleague.years, time: []},
 };
 
 export default competitions;

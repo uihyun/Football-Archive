@@ -330,6 +330,9 @@ module.exports = function(router, db) {
 				if (cup.winner !== undefined)
 					continue;
 
+				if (cup.name === 'KFA Cup')
+					continue;
+
 				promises.push(fetchCup(map[cup.name]));
 			}
 

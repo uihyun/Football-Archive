@@ -5,11 +5,13 @@ const exec = require('child_process').exec;
 const Promise = require('bluebird');
 const http = require('http');
 
+const KLeagueUtil = require('../../util/kleague');
 const UrlUtil = require('../../util/url');
 
 module.exports = function(router, db) {
 	const Seasons = db.collection('Seasons');
 	const Matches = db.collection('Matches');
+	const teamNameMap = KLeagueUtil.cupTeamNameMap;
 
 	function promiseFromChildProcess(child) {
 		return new Promise(function (resolve, reject) {
@@ -155,12 +157,167 @@ module.exports = function(router, db) {
 		});
 	}
 
+	function formatKFACupMatch(data) {
+		var match = {
+			goals: [],
+			players: {
+				l: { start: [], sub: [] },
+				r: { start: [], sub: [] }
+			}
+		};
+
+		var assistMap = [];
+
+		match.l = data.l;
+		match.r = data.r;
+
+		if (teamNameMap[match.l])
+			match.l = teamNameMap[match.l];
+
+		if (teamNameMap[match.r])
+			match.r = teamNameMap[match.r];
+
+		if (data.aet === true)
+			match.aet = true;
+
+		if (data.pso)
+			match.pso = data.pso;
+
+		const sides = ['l', 'r'];
+		var i, side;
+		var j, og, goal;
+
+		for (i = 0; i < sides.length; i++) {
+			side = sides[1 - i];
+
+			for (j = 0; j < data.og[i].length; j++) {
+				og = data.og[i];
+				goal = { side: side, scorer: og.name, minute: og.minute, style: 'own goal' };
+				match.goals.push(goal);
+			}
+		}
+
+		function getCard(row, player) {
+			var cards;
+
+			if (row.yellows) {
+				cards = row.yellows.split(',');
+				if (cards.length === 2) {
+					player.card = { type: 'Second yellow', minute: cards[1] };
+				} else {
+					player.card = { type: 'yellow', minute: cards[0] };
+				}
+			}
+
+			if (row.reds) {
+				if (player.card === undefined || player.card.type !== 'Second yellow') {
+					player.card = { type: 'red', minute: row.reds };
+				}
+			}
+		}
+
+		function addGoal(row, player, side) {
+			if (row.goals === undefined)
+				return;
+
+			var goals = row.goals.split(',');
+			var i, minute;
+
+			for (i = 0; i < goals.length; i++) {
+				minute = goals[i];
+
+				match.goals.push({ side: side, scorer: player.name, minute: minute });
+			}
+		}
+
+		function addAssist(row, player) {
+			if (row.assists === undefined)
+				return;
+
+			var assists = row.assists.split(',');
+			var i, minute;
+
+			for (i = 0; i < assists.length; i++) {
+				minute = assists[i];
+
+				assistMap[minute] = player.name;
+			}
+		}
+		
+		var row, player;
+
+		for (i = 0; i < sides.length; i++) {
+			side = sides[i];
+
+			for (j = 0; j < data.starting[i].length; j++) {
+				row = data.starting[i][j];
+				player = { number: row.number, name: row.name };
+				getCard(row, player);
+				addGoal(row, player, side);
+				addAssist(row, player);
+
+				match.players[side].start.push(player);
+			}
+		}
+
+		for (i = 0; i < sides.length; i++) {
+			side = sides[i];
+
+			for (j = 0; j < data.bench[i].length; j++) {
+				row = data.bench[i][j];
+				player = { number: row.number, name: row.name };
+				getCard(row, player);
+				addGoal(row, player, side);
+				addAssist(row, player);
+
+				match.players[side].sub.push(player);
+			}
+		}
+
+		for (i = 0; i < match.goals.length; i++) {
+			goal = match.goals[i];
+
+			if (goal.style !== undefined)
+				continue;
+
+			if (assistMap[goal.minute])
+				goal.assist = assistMap[goal.minute];
+		}
+
+		match.goals.sort((a, b) => { return a.minute - b.minute; });
+
+		return match;
+	}
+
+	function getKFACupMatch(url) {
+		const uri = url.replace(/^KFACUP/, '').replace(/=/g, '%3D').replace(/&/, '%26');
+		const execStr = 'perl ' + path.join(__dirname, '../../../perl', 'kfacup_match.pl') + ' ' + uri;
+
+		var stdout = '';
+		var child = exec(execStr);
+		child.stdout.on('data', function(chunk) {stdout += chunk});
+
+		return promiseFromChildProcess(child)
+			.then(function () {
+				if (stdout === '')
+					return;
+
+				const data = JSON.parse(stdout);
+				const summary = formatKFACupMatch(data);
+				
+				return Matches.insert({ url: url, summary: summary });
+			});
+	}
+
 	function fetchMatchUrl(url) {
 		if (url === '')
 			return;
 
 		if (url.match(/^KL/))
 			return getKLeagueMatch(url);
+		
+		if (url.match(/^KFACUP/))
+			return getKFACupMatch(url);
 
 		const execStr = 'perl ' + path.join(__dirname, '../../../perl', 'match.pl') + ' ' + url;
 

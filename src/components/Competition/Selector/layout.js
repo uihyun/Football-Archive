@@ -51,12 +51,13 @@ const layout = {
 		}
 	},
 	kleague: {
-		legend: ['1', '2'],
+		legend: ['1', '2', 'Cup'],
 		list: ['K'],
 		groups: {
 			K: {
 				'1': 'K League 1',
 				'2': 'K League 2',
+				'Cup': 'KFA Cup',
 			}
 		}
 	}
