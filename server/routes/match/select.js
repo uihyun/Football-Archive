@@ -39,7 +39,7 @@ module.exports = function(router, db) {
 								result.round = match.round;
 								result.date = match.date;
 								result.teams = [season.team, match.vs];
-								if (match.place = 'A')
+								if (match.place === 'A')
 									result.teams.reverse();
 								return;
 							}
