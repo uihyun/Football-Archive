@@ -17,9 +17,17 @@ export default class Progress extends Component {
 			<div className="Progress">
 				<h3 className="text-center">{this.getTitle()}</h3>
 				{rows.map((row, index) => {
+					var style = { height: '21px', lineHeight: '21px' };
+					var innerStyle = {};
+
+					if (row.increaseHeight) {
+						style.height = '42px';
+						innerStyle.marginTop = '10.5px';
+					}
+
 					return (
-						<div className="flex-container Progress-team" key={index}>
-							<div className="flex-1 flex-container-right-aligned Progress-left">
+						<div className="flex-container" style={style} key={index}>
+							<div className="flex-1 flex-container-right-aligned Progress-left" style={innerStyle}>
 								{rounds.getShortForm(compName, row.round)}
 							</div>
 							{row.view ? row.view :
@@ -35,7 +43,7 @@ export default class Progress extends Component {
 									);
 								})
 							}
-							<div className="flex-1 Progress-right">
+							<div className="flex-1 Progress-right" style={innerStyle}>
 								<Team team={row.team} hideMobileName={true} showShortName={true} year={this.props.year}/>
 							</div>
 						</div>
@@ -293,6 +301,95 @@ export default class Progress extends Component {
 		return array;
 	}
 
+	getMatchView(match, index) {
+		const team = this.props.team;
+
+		if (match === undefined || match === null)
+			return <div key={index} className="Progress-empty-match" />;
+
+		return (
+			<div className="flex-container" key={index}>
+				<Scoreboard team={team} match={match} player={this.props.player} 
+					shrinkOnMobile={true} />
+			</div>
+		);
+	}
+
+	getDoubleLeagueView(row) {
+		row.increaseHeight = true;
+
+		var match0 = row.matches[0][0];
+		var match1 = row.matches[1][0];
+		var match2 = row.matches[0][1];
+		var match3 = row.matches[1][1];
+
+		var view = (
+			<div>
+				<div className="flex-container">
+					{this.getMatchView(match0, 0)}
+					{this.getMatchView(match1, 1)}
+				</div>
+				<div className="flex-container">
+					{this.getMatchView(match2, 2)}
+					{this.getMatchView(match3, 3)}
+				</div>
+			</div>
+		);
+
+		row.view = view;
+	}
+
+	buildDoubleLeagueRows() {
+		const competition = this.props.competition;
+		const leagueTable = this.props.leagueTable;
+		const team = this.props.team;
+
+		if (leagueTable === undefined)
+			return [];
+		
+		var i, entry, match, row, selfview;
+		var table = [];
+		var teams = {};
+
+		for (i = 0; i < leagueTable.length; i++) {
+			entry = leagueTable[i];
+
+			if (entry.name === team) {
+				selfview = (<div className="Progress-self">{this.getRankSuffix(entry.rank)}</div>);
+				table[i] = { team: entry.name, round: '', view: selfview };
+			} else {
+				table[i] = { team: entry.name, matches: [[], []], round: entry.rank + '' };
+				teams[entry.name] = table[i];
+			}
+		}
+
+		for (i = 0; i < competition.matches.length; i++) {
+			match = competition.matches[i];
+
+			row = teams[match.vs];
+
+			if (row === undefined)
+				continue;
+
+			if (match.place === 'A') {
+				row.matches[1].push(match);
+			} else {
+				row.matches[0].push(match);
+			}
+		}
+
+		for (i = 0; i < table.length; i++) {
+			row = table[i];
+
+			if (row.view)
+				continue;
+
+			this.getDoubleLeagueView(row);
+		}
+
+		return table;
+	}
+
 	buildRows() {
 		const desc = competitions[this.props.competition.name];
 		var rows = [];
@@ -306,6 +403,9 @@ export default class Progress extends Component {
 				break;
 			case 'H':
 				rows = this.buildHostedRows();
+				break;
+			case '4':
+				rows = this.buildDoubleLeagueRows();
 				break;
 			default:
 				break;
