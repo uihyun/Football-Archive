@@ -128,7 +128,7 @@ export default class Statistics extends Component {
 		var playerMap = {};
 		var competition, match, summary, side, players;
 		var goal, player, name, newMatch, matchLength;
-		var i, j, k;
+		var i, j, k, l;
 
 		function initPlayer(name) {
 			if (playerMap[name] === undefined) {
@@ -189,6 +189,10 @@ export default class Statistics extends Component {
 						playerMap[name].number = player.number;
 					}
 
+					for (l = 0; l < player.assist; l++) {
+						playerMap[name].assistMatches.push(newMatch);
+					}
+
 					if (player.sub) {
 						playerMap[name].minutes += player.sub;
 					} else if (player.card &&
@@ -204,23 +208,29 @@ export default class Statistics extends Component {
 				
 				for (k = 0; k < length; k++) {
 					player = players.sub[k];
-					if (player.sub) {
-						name = player.name;
-						initPlayer(name);
-						playerMap[name].subMatches.push(newMatch);
-						if (player.number) {
-							playerMap[name].number = player.number;
-						}
 
-						if (player.sub.length) {
-							playerMap[name].minutes += player.sub[1] + 1 - player.sub[0];
-						} else if (player.card &&
-								(player.card.type === 'red' ||
-								 player.card.type === 'Second yellow')) {
-							playerMap[name].minutes += player.card.minute + 1 - player.sub;
-						} else {
-							playerMap[name].minutes += matchLength + 1 - player.sub;
-						}
+					if (player.sub === undefined)
+						continue;
+
+					name = player.name;
+					initPlayer(name);
+					playerMap[name].subMatches.push(newMatch);
+					if (player.number) {
+						playerMap[name].number = player.number;
+					}
+
+					if (player.sub.length) {
+						playerMap[name].minutes += player.sub[1] + 1 - player.sub[0];
+					} else if (player.card &&
+						(player.card.type === 'red' ||
+							player.card.type === 'Second yellow')) {
+						playerMap[name].minutes += player.card.minute + 1 - player.sub;
+					} else {
+						playerMap[name].minutes += matchLength + 1 - player.sub;
+					}
+
+					for (l = 0; l < player.assist; l++) {
+						playerMap[name].assistMatches.push(newMatch);
 					}
 				}
 			}

@@ -52,7 +52,12 @@ export default class Lineup extends Component {
 		array.push(<div key="b" className="Lineup-backnumber text-center">{player.number}</div>);
 		array.push(<div key="n"><PlayerName player={player.name} /></div>);
 
-		const goals = this.getGoals(player);
+		var goals = this.getGoals(player);
+		var i;
+
+		for (i = 0; i < player.assist; i++) {
+			goals.push(<div key={'assist' + i} className="Lineup-goal"><Assist /></div>);
+		}
 
 		if (goals.length)
 			array.push(<div key="g" className="flex-container">{goals}</div>);

@@ -83,6 +83,9 @@ module.exports = function(router, db) {
 			if (cardMap[player.name])
 				player.card = cardMap[player.name];
 
+			if (raw.as !== '0')
+				player.assist = parseInt(raw.as, 10);
+
 			if (raw.posOrder === '-1') {
 				match.players[side].sub.push(player);
 			} else if (raw.sType === 'in') {
