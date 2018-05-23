@@ -24,5 +24,14 @@ module.exports = {
 		'서울이랜드FC': '서울E',
 		'안산그리너스FC': '안산',
 		'아산무궁화FC': '아산',
+	},
+	aclTeamNameMap: {
+		'Ulsan Hyundai': '울산',
+		'Suwon Bluewings': '수원',
+		'Jeju United': '제주',
+		'Jeonbuk FC': '전북',
+	},
+	aclTeams: {
+		2018: [	'전북', '울산', '제주', '수원' ],
 	}
 };

@@ -1,5 +1,7 @@
 'use strict';
 
+const KLeagueUtil = require('../../util/kleague');
+
 module.exports = function(router, db) {
 	const Seasons = db.collection('Seasons');
 	const KLeague = db.collection('KLeague');
@@ -26,17 +28,20 @@ module.exports = function(router, db) {
 		var promises = [];
 		promises.push(KLeague.find({ season: season }).toArray());
 		promises.push(Cups.findOne({ season: season, name: 'KFA Cup' }));
+		promises.push(Cups.findOne({ season: season, name: 'AFC Champions League' }));
 
 		KLeague.find({ season: season }).toArray()
 		Promise.all(promises)
 		.then(async function (array) {
-			var [leagues, cup] = array;
+			var [leagues, cup, acl] = array;
 			var teamMap = {};
 			var i, league;
 			var j, game, uri;
+			var season;
 
 			for (i in leagues) {
 				league = leagues[i];
+				season = league.season;
 
 				for (j in league.games) {
 					game = league.games[j];
@@ -76,7 +81,43 @@ module.exports = function(router, db) {
 				}
 			}
 
-			var season;
+			const aclTeams = KLeagueUtil.aclTeams;
+			var team;
+			var k, round, match, entry;
+			var place, vs;
+
+			if (aclTeams[season]) {
+				if (acl === null) {
+					comp = { name: 'AFC Champions League', url: '/all_matches/afc-champions-league-' + season + '/', matches: []};
+					for (i = 0; i < aclTeams[season].length; i++) {
+						team = aclTeams[season][i];
+						teamMap[team].competitions.push(comp);
+					}
+				} else {
+					for (i = 0; i < aclTeams[season].length; i++) {
+						team = aclTeams[season][i];
+						comp = { name: 'AFC Champions League', url: '/all_matches/afc-champions-league-' + season + '/', matches: []};
+					
+						for (j = 0; j < acl.rounds.length; j++) {
+							round = acl.rounds[j];
+
+							for (k = 0; k < round.matches.length; k++) {
+								match = round.matches[k];
+
+								if (!(match.l === team || match.r === team))
+									continue;
+
+								place = (match.l === team ? 'H' : 'A');
+								vs = (match.l === team ? match.r : match.l);
+								comp.matches.push({ date: match.date, place: place, round: round.name, vs: vs, url: match.url });
+							}
+						}
+						
+						teamMap[team].competitions.push(comp);
+					}
+				}
+			}
+
 			var bulk = Seasons.initializeUnorderedBulkOp();
 
 			for (i in teamMap) {

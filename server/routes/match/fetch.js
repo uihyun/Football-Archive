@@ -11,7 +11,6 @@ const UrlUtil = require('../../util/url');
 module.exports = function(router, db) {
 	const Seasons = db.collection('Seasons');
 	const Matches = db.collection('Matches');
-	const teamNameMap = KLeagueUtil.cupTeamNameMap;
 
 	function promiseFromChildProcess(child) {
 		return new Promise(function (resolve, reject) {
@@ -158,6 +157,8 @@ module.exports = function(router, db) {
 	}
 
 	function formatKFACupMatch(data) {
+		const teamNameMap = KLeagueUtil.cupTeamNameMap;
+
 		var match = {
 			goals: [],
 			players: {
@@ -320,6 +321,7 @@ module.exports = function(router, db) {
 			return getKFACupMatch(url);
 
 		const execStr = 'perl ' + path.join(__dirname, '../../../perl', 'match.pl') + ' ' + url;
+		const teamNameMap = KLeagueUtil.aclTeamNameMap;
 
 		var stdout = '';
 		var child = exec(execStr);
@@ -330,7 +332,14 @@ module.exports = function(router, db) {
 				if (stdout === '')
 					return;
 
-				const data = JSON.parse(stdout);
+				var data = JSON.parse(stdout);
+						
+				if (teamNameMap[data.l])
+					data.l = teamNameMap[data.l];
+
+				if (teamNameMap[data.r])
+					data.r = teamNameMap[data.r];
+
 				const newMatch = {
 					url: url,
 					summary: data

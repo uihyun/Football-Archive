@@ -94,6 +94,94 @@ export default class ClubView extends Component {
 		);
 	}
 
+	normalizeACLNames(data, compMap) {
+		const team = data.team;
+		var league = compMap['kleague'];
+		var acl = compMap['AFC Champions League'];
+
+		if (league === undefined)
+			league = compMap['kleague2'];
+
+		if (league === undefined || acl === undefined)
+			return;
+
+		var numberMap = {};
+		var j, k, match, summary, side, players, player, length;
+
+		for (j = 0; j < league.matches.length; j++) {
+			match = league.matches[j];
+
+			if (match.summary === undefined)
+				continue;
+
+			summary = match.summary;
+
+			if (summary.players === undefined)
+				continue;
+
+			side = (summary.r === team) ? 'r' : 'l';
+			players = summary.players[side];
+
+			for (k = 0; k < players.start.length; k++) {
+				player = players.start[k];
+				numberMap[player.number] = player.name;
+			}
+
+			length = players.sub ? players.sub.length : 0;
+			for (k = 0; k < length; k++) {
+				player = players.sub[k];
+				numberMap[player.number] = player.name;
+			}	
+		}
+
+		var replaceMap, goal;
+		
+		for (j = 0; j < acl.matches.length; j++) {
+			match = acl.matches[j];
+			replaceMap = {};
+
+			if (match.summary === undefined)
+				continue;
+
+			summary = match.summary;
+
+			if (summary.players === undefined)
+				continue;
+
+			side = (summary.r === team) ? 'r' : 'l';
+			players = summary.players[side];
+
+			for (k = 0; k < players.start.length; k++) {
+				player = players.start[k];
+
+				if (numberMap[player.number]) {
+					replaceMap[player.name] = numberMap[player.number];
+					player.name = numberMap[player.number];
+				}
+			}
+
+			length = players.sub ? players.sub.length : 0;
+			for (k = 0; k < length; k++) {
+				player = players.sub[k];
+
+				if (numberMap[player.number]) {
+					replaceMap[player.name] = numberMap[player.number];
+					player.name = numberMap[player.number];
+				}
+			}
+
+			for (k = 0; k < summary.goals.length; k++) {
+				goal = summary.goals[k];
+
+				if (replaceMap[goal.scorer])
+					goal.scorer = replaceMap[goal.scorer];
+
+				if (replaceMap[goal.assist])
+					goal.assist = replaceMap[goal.assist];
+			}
+		}
+	}
+
 	fetchSeason(year, teamUrl) {
 		const that = this;
 		const url = UrlUtil.getSeasonSelectUrl(year, teamUrl);
@@ -105,7 +193,22 @@ export default class ClubView extends Component {
 		.then(function(data) {
 			const team = data.team;
 
+			function getCompetitionMap(data) {
+				var map = {};
+				
+				data.competitions.forEach(comp => { map[comp.name] = comp; });
+
+				return map;
+			}
+
 			if (data.season) {
+				var compMap = getCompetitionMap(data);
+
+				if (compMap['AFC Champions League'] &&
+						(compMap['kleague'] || compMap['kleague2'])) {
+					that.normalizeACLNames(data, compMap);
+				}
+
 				var state = {
 					team: team,
 					data: data,

@@ -4,6 +4,7 @@ const path = require('path');
 const exec = require('child_process').exec;
 
 const CupUtil = require('../../util/cup');
+const KLeagueUtil = require('../../util/kleague');
 
 module.exports = function(router, db) {
   const Seasons = db.collection('Seasons');
@@ -173,6 +174,7 @@ module.exports = function(router, db) {
 
 	function fetchCup(cup) {
 		const execStr = 'perl ' + path.join(__dirname, '../../../perl', 'cup.pl') + ' ' + cup.url;
+		const teamNameMap = KLeagueUtil.aclTeamNameMap;
 
 		var stdout = '';
 		var child = exec(execStr);
@@ -195,6 +197,12 @@ module.exports = function(router, db) {
 
 					for (j = 0; j < round.matches.length; j++) {
 						match = round.matches[j];
+
+						if (teamNameMap[match.l])
+							match.l = teamNameMap[match.l];
+
+						if (teamNameMap[match.r])
+							match.r = teamNameMap[match.r];
 
 						if (cup.teamMap[match.l] !== true &&
 								cup.teamMap[match.r] !== true) {
