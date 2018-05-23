@@ -56,6 +56,16 @@ export default class CompetitionSelector extends Component {
 				{this.getHeaders(continental.list, large)}
 				{this.getComps(continental)}
 				<br/>
+				<div className="flex-container">
+					{layout.asia.map(comp => {
+						return (
+							<div key={comp} className="flex-1" style={large}>
+								{this.getCompLink(comp)}
+							</div>
+						);
+					})}
+				</div>
+				<br/>
 				{this.getHeaders(kleague.list, large)}
 				{this.getComps(kleague)}
 			</div>

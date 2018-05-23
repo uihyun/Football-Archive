@@ -50,6 +50,7 @@ const layout = {
 			},
 		}
 	},
+	asia: ['AFC Champions League'],
 	kleague: {
 		legend: ['1', '2', 'Cup'],
 		list: ['K'],
