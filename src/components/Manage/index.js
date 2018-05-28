@@ -79,6 +79,9 @@ export default class Manage extends Component {
 								<button onClick={() => this.updateCup()}>
 									Update Cup
 								</button>
+								<button onClick={() => this.clearMatches()}>
+									Clear Recent Matches
+								</button>
 								<button onClick={() => this.updateSeason()}>
 									Update Season
 								</button>
@@ -249,11 +252,11 @@ export default class Manage extends Component {
 
 	clearMatches(team) {
 		const that = this;
-		const url = UrlUtil.getMatchClearUrl(this.state.selectedYear, team);
+		const url = UrlUtil.getMatchClearUrl(this.state.selectedYear);
 
 		fetch(url)
 			.then(function(response) {
-				that.selectYear(that.state.selectedCountry, that.state.selectedYear);
+				alert('Clear Recent Matches: Done');
 			});
 	}
 

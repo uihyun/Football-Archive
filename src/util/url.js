@@ -49,8 +49,8 @@ export default class UrlUtil {
 		return '/api/match/fetch/' + season + '/' + this.getTeamUrl(team);
 	}
 
-	static getMatchClearUrl(season, team) {
-		return '/api/match/clear/' + season + '/' + this.getTeamUrl(team);
+	static getMatchClearUrl(season) {
+		return '/api/match/clear/recent/' + season;
 	}
 
 	static getCompetitionSelectUrl(season, team) {
