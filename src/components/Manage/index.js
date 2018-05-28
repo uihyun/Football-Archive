@@ -251,7 +251,6 @@ export default class Manage extends Component {
 	}
 
 	clearMatches(team) {
-		const that = this;
 		const url = UrlUtil.getMatchClearUrl(this.state.selectedYear);
 
 		fetch(url)

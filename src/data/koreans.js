@@ -189,6 +189,9 @@ const koreans = {
 		'Yong-joon Heo': '허용준',
 		'Jun-ho Son': '손준호',
 		'Seong-jun Kim': '김성준',
+		'Ban-suk Oh': '오반석',
+		'Seon-min Moon': '문선민',
+		'Seung-woo Lee': '이승우',
 	}
 };
 
