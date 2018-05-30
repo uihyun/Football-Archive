@@ -8,7 +8,7 @@ export default class YearSelector extends Component {
 	render() {
 		return (
 			<div className="flex-container flex-container-center">
-				<div className="ClubSelector-flex-container-year">
+				<div className="YearSelector-flex-container-year">
 					{this.getYears(this.props.year)}
 				</div>
 			</div>
@@ -17,12 +17,12 @@ export default class YearSelector extends Component {
 
 	getYears(year) {
 		var years = [];
-		var i, style = 'ClubSelector-year';
+		var i, style = 'YearSelector-year';
 
 		for (i = this.props.min; i <= this.props.max; i++) {
 			if (i === parseInt(year, 10)) {
 				years.push((
-					<div key={i} className={style + " ClubSelector-year-selected"}>
+					<div key={i} className={style + " YearSelector-year-selected"}>
 						{i}
 					</div>
 				));

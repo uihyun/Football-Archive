@@ -1,0 +1,14 @@
+.YearSelector-flex-container-year {
+	display: flex;
+	flex-flow: row-reverse wrap-reverse;
+}
+
+.YearSelector-year {
+	margin-left: 5px;
+	margin-right: 5px;
+	opacity: 0.5;
+}
+
+.YearSelector-year-selected {
+	opacity: 1;
+}
