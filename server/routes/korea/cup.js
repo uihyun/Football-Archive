@@ -9,8 +9,9 @@ module.exports = function(router, db) {
   const Seasons = db.collection('Seasons');
   const Cups = db.collection('Cups');
 	const teamNameMap = KLeagueUtil.cupTeamNameMap;
+	const teamNormalizeNameMap = KLeagueUtil.cupTeamNormalizeNameMap;
 
-	const roundNameMap = {
+	const roundNameMapNew = {
 		'1': '1 Round',
 		'2': '2 Round',
 		'3': '3 Round',
@@ -19,6 +20,16 @@ module.exports = function(router, db) {
 		'6': 'Quarter-finals',
 		'7': 'Semi-finals',
 		'8': 'Final',
+	};
+
+	const roundNameMapOld = {
+		'1': '1 Round',
+		'2': '2 Round',
+		'3': 'Round of 32',
+		'4': 'Round of 16',
+		'5': 'Quarter-finals',
+		'6': 'Semi-finals',
+		'7': 'Final',
 	};
 	
 	function promiseFromChildProcess(child) {
@@ -30,6 +41,15 @@ module.exports = function(router, db) {
 	
 	function fetchCup(year, teamMap) {
 		const execStr = 'perl ' + path.join(__dirname, '../../../perl', 'kfacup.pl') + ' ' + year;
+		var roundNameMap, finalIndex;
+
+		if (year <= 2014) {
+			roundNameMap = roundNameMapOld;
+			finalIndex = 6;
+		} else {
+			roundNameMap = roundNameMapNew;
+			finalIndex = 7;
+		}
 
 		var stdout = '';
 		var child = exec(execStr);
@@ -64,6 +84,12 @@ module.exports = function(router, db) {
 					if (teamNameMap[match.r])
 						match.r = teamNameMap[match.r];
 
+					if (teamNormalizeNameMap[match.l])
+						match.l = teamNormalizeNameMap[match.l];
+					
+					if (teamNormalizeNameMap[match.r])
+						match.r = teamNormalizeNameMap[match.r];
+
 					if (!(teamMap[match.l] === true || teamMap[match.r] === true))
 						delete match.url;
 
@@ -72,10 +98,10 @@ module.exports = function(router, db) {
 
 				// final -> winner
 				var match, score, fullScore;
-				if (rounds[7] !== undefined) {
-					if (rounds[7].matches.length === 1) {
-						if (rounds[7].matches[0].score !== undefined) {
-							match = rounds[7].matches[0];
+				if (rounds[finalIndex] !== undefined) {
+					if (rounds[finalIndex].matches.length === 1) {
+						if (rounds[finalIndex].matches[0].score !== undefined) {
+							match = rounds[finalIndex].matches[0];
 
 							if (match.pk !== undefined) {
 								score = match.pk.split(':').map(a => { return parseInt(a, 10); });
@@ -85,15 +111,15 @@ module.exports = function(router, db) {
 								
 							cup.winner = score[0] < score[1] ? match.r : match.l;
 						}
-					} else if (rounds[7].matches.length === 2) {
-						if (rounds[7].matches[1].score !== undefined) {
-							match = rounds[7].matches[1];
+					} else if (rounds[finalIndex].matches.length === 2) {
+						if (rounds[finalIndex].matches[1].score !== undefined) {
+							match = rounds[finalIndex].matches[1];
 
 							if (match.pk !== undefined) {
 								fullScore = match.pk.split(':').map(a => { return parseInt(a, 10); });
 							} else {
 								fullScore = match.score.split(':').map(a => { return parseInt(a, 10); });;
-								score = rounds[7].matches[0].score.split(':').map(a => { return parseInt(a, 10); });
+								score = rounds[finalIndex].matches[0].score.split(':').map(a => { return parseInt(a, 10); });
 								fullScore[0] += score[1];
 								fullScore[1] += score[0];
 							}

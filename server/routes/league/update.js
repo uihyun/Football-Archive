@@ -131,10 +131,12 @@ module.exports = function(router, db) {
 
 					if (teamL === undefined) {
 						console.log(match.l);
+						console.log(matches[i]);
 					}
 
 					if (teamR === undefined) {
 						console.log(match.r);
+						console.log(matches[i]);
 					}
 
 					h2hL = teamL.h2h[match.r];
@@ -213,7 +215,7 @@ module.exports = function(router, db) {
 					cmpFn = compareFnLaLiga;
 				} else if (leagueName === 'Serie A') {
 					cmpFn = compareFnSerieA;
-				} else if (leagueName.match(/^kleague/)) {
+				} else if (leagueName.match(/^K League/)) {
 					cmpFn = compareFnKLeague;
 				}
 

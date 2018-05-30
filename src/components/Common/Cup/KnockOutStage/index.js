@@ -17,7 +17,7 @@ export default class KnockOutStage extends Component {
 			return null;
 
 		this.makeGrid(cup, rounds);
-		
+
 		let lastRoundIndex = this.getLastRound(rounds);
 
 		let filterId = 'greyscale' + Math.random();
@@ -251,6 +251,7 @@ export default class KnockOutStage extends Component {
 				}
 
 				if (k === -1) {
+					console.log(teamL + ' ' + teamR);
 					index = Math.max(rounds[i - 1].grid.length * 2, grid.length);
 					grid[index] = teamL;
 					grid[index + 1] = teamR;

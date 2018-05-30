@@ -38,6 +38,7 @@ export default class Match {
 		var pkFor = 0;
 		var pkAgainst = 0;
 		var hasPenalties = true;
+		var array;
 
     if (summary && summary.penalties !== undefined) {
 			var goal;
@@ -53,8 +54,17 @@ export default class Match {
 					}
 				}
 			}
+		} else if (summary && summary.pso !== undefined) {
+			array = summary.pso.split(':');
+
+			if (summary.r === team)
+				array.reverse();
+
+			pkFor = array[0];
+			pkAgainst = array[1];
+			
 		} else if (match.pk) {
-			var array = match.pk.split(':');
+			array = match.pk.split(':');
 
 			if (match.r === team)
 				array.reverse();

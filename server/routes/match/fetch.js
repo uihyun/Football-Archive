@@ -33,7 +33,9 @@ module.exports = function(router, db) {
 		});
 	}
 
-	function formatMatch(data) {
+	function formatKLeagueMatch(data) {
+		const teamNameMap = KLeagueUtil.leagueTeamNameMap;
+
 		var match = {
 			goals: [],
 			players: {
@@ -42,8 +44,21 @@ module.exports = function(router, db) {
 			}
 		};
 
-		match.l = data.gameInfo.hName;
-		match.r = data.gameInfo.aName;
+		const season = data.gameInfo.dateTime.substring(0, 4);
+
+		function normalizeName(team) {
+			if (team === '경찰') {
+				console.log(data.gameInfo.dateTime);
+				console.log(season);
+			}
+			if (teamNameMap[season] && teamNameMap[season][team])
+				return teamNameMap[season][team];
+
+			return team;
+		}
+
+		match.l = normalizeName(data.gameInfo.hName);
+		match.r = normalizeName(data.gameInfo.aName);
 
 		function getMinute(time) {
 			var minute = parseInt(time.substring(0, 2), 10);
@@ -150,7 +165,7 @@ module.exports = function(router, db) {
 		matchUrl += month + '/';
 		matchUrl += uri + '.json';
 
-		return get(matchUrl).then(data => { return formatMatch(data) })
+		return get(matchUrl).then(data => { return formatKLeagueMatch(data) })
 		.then(summary => {
 			return Matches.insert({ url: url, summary: summary });
 		});
@@ -158,6 +173,7 @@ module.exports = function(router, db) {
 
 	function formatKFACupMatch(data) {
 		const teamNameMap = KLeagueUtil.cupTeamNameMap;
+		const teamNormalizeNameMap = KLeagueUtil.cupTeamNormalizeNameMap;
 
 		var match = {
 			goals: [],
@@ -177,6 +193,12 @@ module.exports = function(router, db) {
 
 		if (teamNameMap[match.r])
 			match.r = teamNameMap[match.r];
+
+		if (teamNormalizeNameMap[match.l])
+			match.l = teamNormalizeNameMap[match.l];
+
+		if (teamNormalizeNameMap[match.r])
+			match.r = teamNormalizeNameMap[match.r];
 
 		if (data.aet === true)
 			match.aet = true;

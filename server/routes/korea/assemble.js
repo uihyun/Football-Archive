@@ -38,6 +38,7 @@ module.exports = function(router, db) {
 			var i, league;
 			var j, game, uri;
 			var season;
+			var month, round;
 
 			for (i in leagues) {
 				league = leagues[i];
@@ -45,7 +46,20 @@ module.exports = function(router, db) {
 
 				for (j in league.games) {
 					game = league.games[j];
-					uri = 'KL' + (league.name === 'kleague2' ? 'L' : '') + game.uri;
+					uri = 'KL' + (league.name === 'K League 2' ? 'L' : '') + game.uri;
+					round = parseInt(game.round.replace(/R/, ''), 10);
+
+					if (league.name === 'K League 1') {
+						month = game.date.substring(0, 2);
+
+						if (month > '10' && round <= 2) {
+							continue;
+						}
+					} else {
+						if (((season === '2014' || season === '2017') && round > 36) ||
+								((season === '2015' || season === '2016') && round > 44))
+							continue;
+					}
 
 					if (teamMap[game.home] === undefined) {
 						teamMap[game.home] = newTeam(game.home, league);

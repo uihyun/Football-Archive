@@ -54,7 +54,7 @@ export default class AFCView extends Component {
 						{prevYearLink &&
 							<Link to={prevYearLink}>
 								<div className="AFCView-view-selector">
-									◁ <Year year={prevYear} />
+									◁ <Year year={prevYear} fullyear={true}/>
 								</div>
 							</Link>
 						}
@@ -63,9 +63,7 @@ export default class AFCView extends Component {
 						<Link to={'/club/' + year}>
 						  <b>
       	        <div className="flex-container flex-container-center">
-    	            <div className="flex-1 AFCView-view-selector text-right AFCView-year">
-										{this.state.teamUrl.match(/-team$/) ? '' : year - 1}
-	                </div>
+    	            <div className="flex-1 AFCView-view-selector text-right AFCView-year"></div>
 	              	<div><Team team={this.state.team} emblemLarge={true}/></div>
               	  <div className="flex-1 AFCView-view-selector text-left AFCView-year">
 										{year}
@@ -78,7 +76,7 @@ export default class AFCView extends Component {
 						{nextYearLink ?
 							<Link to={nextYearLink}>
 								<div className="AFCView-view-selector">
-									<Year year={nextYear} /> ▷
+									<Year year={nextYear} fullyear={true}/> ▷
 								</div>
 							</Link> :
 							<Link to={'/history/team/' + UrlUtil.getTeamUrl(this.state.team)}>
@@ -96,11 +94,11 @@ export default class AFCView extends Component {
 
 	normalizeACLNames(data, compMap) {
 		const team = data.team;
-		var league = compMap['kleague'];
+		var league = compMap['K League 1'];
 		var acl = compMap['AFC Champions League'];
 
 		if (league === undefined)
-			league = compMap['kleague2'];
+			league = compMap['K League 2'];
 
 		if (league === undefined || acl === undefined)
 			return;
@@ -205,7 +203,7 @@ export default class AFCView extends Component {
 				var compMap = getCompetitionMap(data);
 
 				if (compMap['AFC Champions League'] &&
-						(compMap['kleague'] || compMap['kleague2'])) {
+						(compMap['K League 1'] || compMap['K League 2'])) {
 					that.normalizeACLNames(data, compMap);
 				}
 

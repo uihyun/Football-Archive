@@ -14,7 +14,7 @@ export default class AFCSelector extends Component {
 
 		kleague.leagues.forEach(league => {
 			var teams = kleague.seasons[league].teams[year];
-			var code = league === 'kleague' ? 'K1' : 'K2';
+			var code = league;
 			if (teams) {
 				kleagueTeams.push({ code: code, teams: teams });
 			}

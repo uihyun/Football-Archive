@@ -189,7 +189,7 @@ module.exports = function(router, db) {
 
 				var i, round;
 				var j, match;
-				var score;
+				var score, fullScore, score1, score2;
 				var teams = {};
 
 				for (i = 0; i < data.length; i++) {
@@ -224,6 +224,27 @@ module.exports = function(router, db) {
 							score = match.pk.split(':').map(a => { return parseInt(a, 10); });
 						} else {
 							score = match.score.split(':').map(a => { return parseInt(a, 10); });
+						}
+						cup.winner = score[0] < score[1] ? match.r : match.l;
+					}
+					
+					if (round.name === 'Final' && 
+							round.matches.length === 2 && 
+							round.matches[0].score !== undefined &&
+							round.matches[1].score !== undefined) {
+						if (match.pk !== undefined) {
+							score = match.pk.split(':').map(a => { return parseInt(a, 10); });
+						} else {
+							score1 = round.matches[0].score.split(':').map(a => { return parseInt(a, 10); });
+							score2 = round.matches[1].score.split(':').map(a => { return parseInt(a, 10); });
+
+							fullScore = [score1[1] + score2[0], score1[0] + score2[1]];
+
+							if (fullScore[0] !== fullScore[1]) {
+								score = fullScore;
+							} else {
+								score = [score1[1], score2[0]];
+							}
 						}
 						cup.winner = score[0] < score[1] ? match.r : match.l;
 					}

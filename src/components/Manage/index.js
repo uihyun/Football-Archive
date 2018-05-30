@@ -274,8 +274,8 @@ export default class Manage extends Component {
 		for (i = 0; i < kleague.leagues.length; i++) {
 			league = kleague.leagues[i];
 
-			if (kleague.seasons[league].teams[year]) {
-				leagues.push(league);
+			if (kleague.seasons[league] && kleague.seasons[league].teams[year]) {
+				leagues.push(league.replace(/ /g, '-'));
 			}
 		}
 
