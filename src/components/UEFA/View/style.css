@@ -1,23 +1,23 @@
-.ClubView-team-name {
+.UEFAView-team-name {
 	font-size: 1.5em;
 }
 
-.ClubView-team-logo {
+.UEFAView-team-logo {
 	display: inline-block;
 	vertical-align: middle;
 }
 
-.ClubView-view-selector {
+.UEFAView-view-selector {
 	line-height: 50px;
 }
 
-.ClubView-year {
+.UEFAView-year {
 	padding-right: 5px;
 	padding-left: 5px;
 }
 
 @media screen and (max-width: 543px) {
-	.ClubView-view-selector {
+	.UEFAView-view-selector {
 		line-height: 37px;
 	}
 }

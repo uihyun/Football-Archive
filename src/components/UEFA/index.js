@@ -5,7 +5,7 @@ import History from '../History/Team';
 import View from './View';
 import Selector from './Selector';
 
-const Club = ({ match }) => (
+const UEFA = ({ match }) => (
 	<Switch>
 		<Route path={`${match.url}/history/:team`} component={History} />
 		<Route path={`${match.url}/:year/:team`} component={View} />
@@ -13,4 +13,4 @@ const Club = ({ match }) => (
 	</Switch>
 );
 
-export default Club;
+export default UEFA;

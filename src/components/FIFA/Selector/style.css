@@ -1,4 +1,4 @@
-.ClubSelector-flex-container {
+.FIFASelector-flex-container {
 	display: -webkit-flex;
 	display: flex;
 	-webkit-flex-wrap: wrap;
@@ -9,12 +9,12 @@
 	justify-content: center;
 }
 
-.ClubSelector-team {
+.FIFASelector-team {
 	display: inline-block;
 	vertical-align: middle;
 }
 
-.ClubSelector-country {
+.FIFASelector-country {
 	margin-top: 5px;
 	margin-bottom: 5px;
 	font-size: large;
@@ -23,7 +23,7 @@
 
 @media screen and (max-width: 543px) {
 
-	.ClubSelector-team {
+	.FIFASelector-team {
 		flex-basis: 10%;
 	}
 }

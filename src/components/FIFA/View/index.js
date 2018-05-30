@@ -48,12 +48,12 @@ export default class NationView extends Component {
 
 		return (
 			<div>
-				<div className="ClubView-team-name text-center">{this.state.team}</div>
+				<div className="FIFAView-team-name text-center">{this.state.team}</div>
 				<div className="flex-container text-center">
 					<div className="flex-1">
 						{prevYearLink &&
 							<Link to={prevYearLink}>
-								<div className="ClubView-view-selector">
+								<div className="FIFAView-view-selector">
 									◁ {prevYear}
 								</div>
 							</Link>
@@ -63,11 +63,11 @@ export default class NationView extends Component {
 						<Link to="/nation">
 						  <b>
       	        <div className="flex-container flex-container-center">
-    	            <div className="flex-1 ClubView-view-selector text-right ClubView-year">
+    	            <div className="flex-1 FIFAView-view-selector text-right FIFAView-year">
 										{this.state.yearMin}
 	                </div>
 	              	<div><Team team={this.state.team} emblemLarge={true}/></div>
-              	  <div className="flex-1 ClubView-view-selector text-left ClubView-year">
+              	  <div className="flex-1 FIFAView-view-selector text-left FIFAView-year">
 										{this.state.year}
           	      </div>
         	      </div>
@@ -77,12 +77,12 @@ export default class NationView extends Component {
 					<div className="flex-1">
 						{nextYearLink ?
 							<Link to={nextYearLink}>
-								<div className="ClubView-view-selector">
+								<div className="FIFAView-view-selector">
 									{nextYear} ▷
 								</div>
 							</Link> :
 							<Link to={'/history/team/' + UrlUtil.getTeamUrl(this.state.team)}>
-								<div className="ClubView-view-selector">
+								<div className="FIFAView-view-selector">
 									History
 								</div>
 							</Link>

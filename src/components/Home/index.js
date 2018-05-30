@@ -5,7 +5,7 @@ import './style.css';
 
 import Recent from '../Recent';
 
-import {clubs} from '../data';
+import { clubs, kleague } from '../data';
 
 export default class Home extends Component {
 
@@ -15,15 +15,21 @@ export default class Home extends Component {
 			<div className="Home">
 				<div className="flex-container flex-container-space-evenly text-center" style={style}>
 					<div className="flex-1">
-						<NavLink to={'/club/' + clubs.years.max} activeClassName="Home-selected">Clubs</NavLink>
+						<NavLink to="/FIFA">FIFA</NavLink>
 					</div>
 					<div className="flex-1">
-						<NavLink to="/nation" activeClassName="Home-selected">Nations</NavLink>
+						<NavLink to={'/UEFA/' + clubs.years.max}>UEFA</NavLink>
 					</div>
 					<div className="flex-1">
-						<NavLink to={'/competition/' + clubs.years.max} activeClassName="Home-selected">Competitions</NavLink>
+						<NavLink to={'/AFC/' + kleague.years.max}>AFC</NavLink>
 					</div>
-					<div className="flex-1 Home-not-yet">Aggregate</div>
+					<div className="flex-1">
+						<NavLink to={'/competition/' + clubs.years.max}>
+							<span className="hide-mobile">Competitions</span>
+							<span className="show-mobile">Comp</span>
+						</NavLink>
+					</div>
+					<div className="flex-1 Home-not-yet">Rankings</div>
 				</div>
 				<Recent />
 			</div>

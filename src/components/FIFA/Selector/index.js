@@ -26,10 +26,10 @@ export default class NationSelector extends Component {
 						return (
 							<div key={country.code}>
 								<h3>{country.code}</h3>
-								<div className="ClubSelector-flex-container">
+								<div className="FIFASelector-flex-container">
 									{country.teams.map(team => {
 										return (
-											<div className="ClubSelector-team" key={team}>
+											<div className="FIFASelector-team" key={team}>
 												<Team team={team} emblemLarge={true} year={year}/>
 											</div>
 										);

@@ -100,7 +100,7 @@ export default class UrlUtil {
 			}
 
 			if (clubs.seasons[i].teams[year].includes(team)) {
-				return '/club/' + year + '/' + this.getTeamUrl(team);
+				return '/UEFA/' + year + '/' + this.getTeamUrl(team);
 			}
 		}
 
@@ -110,7 +110,7 @@ export default class UrlUtil {
 					return null;
 				}
 
-				return '/nation/' + year + '/' + this.getTeamUrl(team);
+				return '/FIFA/' + year + '/' + this.getTeamUrl(team);
 			}
 		}
 
@@ -119,7 +119,7 @@ export default class UrlUtil {
 				continue;
 
 			if (kleague.seasons[i].teams[year].includes(team)) {
-				return '/club/' + year + '/' + this.getTeamUrl(team);
+				return '/AFC/' + year + '/' + this.getTeamUrl(team);
 			}
 		}
 

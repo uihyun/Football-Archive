@@ -1,4 +1,4 @@
-.ClubSelector-flex-container {
+.AFCSelector-flex-container {
 	display: -webkit-flex;
 	display: flex;
 	-webkit-flex-wrap: wrap;
@@ -9,27 +9,27 @@
 	justify-content: center;
 }
 
-.ClubSelector-flex-container-year {
+.AFCSelector-flex-container-year {
 	display: flex;
 	flex-flow: row-reverse wrap-reverse;
 }
 
-.ClubSelector-year {
+.AFCSelector-year {
 	margin-left: 5px;
 	margin-right: 5px;
 	opacity: 0.5;
 }
 
-.ClubSelector-year-selected {
+.AFCSelector-year-selected {
 	opacity: 1;
 }
 
-.ClubSelector-team {
+.AFCSelector-team {
 	display: inline-block;
 	vertical-align: middle;
 }
 
-.ClubSelector-country {
+.AFCSelector-country {
 	margin-top: 5px;
 	margin-bottom: 5px;
 	font-size: large;
@@ -38,7 +38,7 @@
 
 @media screen and (max-width: 543px) {
 
-	.ClubSelector-team {
+	.AFCSelector-team {
 		flex-basis: 10%;
 	}
 }

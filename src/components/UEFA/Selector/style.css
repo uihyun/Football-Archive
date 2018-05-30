@@ -1,0 +1,44 @@
+.UEFASelector-flex-container {
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-webkit-flex-direction: row;
+	flex-direction: row;
+	-webkit-justify-content: center;
+	justify-content: center;
+}
+
+.UEFASelector-flex-container-year {
+	display: flex;
+	flex-flow: row-reverse wrap-reverse;
+}
+
+.UEFASelector-year {
+	margin-left: 5px;
+	margin-right: 5px;
+	opacity: 0.5;
+}
+
+.UEFASelector-year-selected {
+	opacity: 1;
+}
+
+.UEFASelector-team {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.UEFASelector-country {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	font-size: large;
+	font-weight: bold;
+}
+
+@media screen and (max-width: 543px) {
+
+	.UEFASelector-team {
+		flex-basis: 10%;
+	}
+}

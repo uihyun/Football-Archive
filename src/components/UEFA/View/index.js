@@ -12,7 +12,7 @@ import Standings from '../../Standings';
 
 import UrlUtil from '../../../util/url';
 
-export default class ClubView extends Component {
+export default class UEFAView extends Component {
 
 	constructor(props) {
 		super(props);
@@ -48,12 +48,12 @@ export default class ClubView extends Component {
 
 		return (
 			<div>
-				<div className="ClubView-team-name text-center">{this.state.team}</div>
+				<div className="UEFAView-team-name text-center">{this.state.team}</div>
 				<div className="flex-container text-center">
 					<div className="flex-1">
 						{prevYearLink &&
 							<Link to={prevYearLink}>
-								<div className="ClubView-view-selector">
+								<div className="UEFAView-view-selector">
 									◁ <Year year={prevYear} />
 								</div>
 							</Link>
@@ -63,11 +63,11 @@ export default class ClubView extends Component {
 						<Link to={'/club/' + year}>
 						  <b>
       	        <div className="flex-container flex-container-center">
-    	            <div className="flex-1 ClubView-view-selector text-right ClubView-year">
+    	            <div className="flex-1 UEFAView-view-selector text-right UEFAView-year">
 										{this.state.teamUrl.match(/-team$/) ? '' : year - 1}
 	                </div>
 	              	<div><Team team={this.state.team} emblemLarge={true}/></div>
-              	  <div className="flex-1 ClubView-view-selector text-left ClubView-year">
+              	  <div className="flex-1 UEFAView-view-selector text-left UEFAView-year">
 										{year}
           	      </div>
         	      </div>
@@ -77,12 +77,12 @@ export default class ClubView extends Component {
 					<div className="flex-1">
 						{nextYearLink ?
 							<Link to={nextYearLink}>
-								<div className="ClubView-view-selector">
+								<div className="UEFAView-view-selector">
 									<Year year={nextYear} /> ▷
 								</div>
 							</Link> :
 							<Link to={'/history/team/' + UrlUtil.getTeamUrl(this.state.team)}>
-								<div className="ClubView-view-selector">
+								<div className="UEFAView-view-selector">
 									History
 								</div>
 							</Link>
