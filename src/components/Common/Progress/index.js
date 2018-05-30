@@ -179,6 +179,7 @@ export default class Progress extends Component {
 		var newRows = [];
 		var j, team, k, rank;
 		var style, selfview;
+		var className = (width === 2) ? 'Progress-neutral' : 'Progress-empty-match';
 
 		for (i = 0; i < index.min; i++) {
 			newRows[i] = rows[i];
@@ -210,8 +211,8 @@ export default class Progress extends Component {
 								rank = <span><small>Group </small>{rank}</span>;
 							}
 
-							style = { width: 35 * width, textAlign: 'center' };
-							selfview = (<div style={style}>{rank}</div>);
+							style = { textAlign: 'center' };
+							selfview = (<div style={style} className={className}>{rank}</div>);
 							newRows[index.min + j] = { team: team.name, round: '', view: selfview };
 							break;
 						}
