@@ -80,7 +80,12 @@ export default class UrlUtil {
 			logoID = teams[team].id;
 		}
 
-		return '/' + logoID + '.png';
+		var url = '/' + logoID + '.png';
+
+		if (window.isWebkit)
+			url = 'fa-custom-scheme:/' + url;
+
+		return url;
 	}
 
 	static getLink(year, team) {
