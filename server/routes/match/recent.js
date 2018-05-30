@@ -21,6 +21,7 @@ module.exports = function(router, db) {
 				} else {
 					var i, j, k;
 					var season, comp, match, teams;
+					var matchUrl;
 
 					for (i in seasons) {
 						season = seasons[i];
@@ -33,8 +34,9 @@ module.exports = function(router, db) {
 								matchDate = new Date(match.date);
 
 								if (matchDate >= weekBefore && matchDate <= tomorrow) {
+									matchUrl = (match.url !== undefined) ? match.url : (season.team + match.date);
 									teams = (match.place === 'A') ? [match.vs, season.team] : [season.team, match.vs];
-									matchMap[match.url] = {
+									matchMap[matchUrl] = {
 										competition: comp.name,
 										round: match.round,
 										date: match.date,
