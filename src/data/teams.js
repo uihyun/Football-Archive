@@ -338,7 +338,7 @@ const teams = {
 	// CONMEBOL
 	'Argentina': {id: 'ARG', name: 'Argentina', url: 'argentinien-team'},
 	'Bolivia': {id: 'BOL', name: 'Bolivia'},
-	'Brazil': {id: 'BRA', name: 'Colombia', url: 'brasilien-team'},
+	'Brazil': {id: 'BRA', name: 'Brazil', url: 'brasilien-team'},
 	'Chile': {id: 'CHI', name: 'Chile'},
 	'Colombia': {id: 'COL', name: 'Colombia', url: 'kolumbien-team'},
 	'Ecuador': {id: 'ECU', name: 'Ecuador'},

@@ -16,11 +16,14 @@ module.exports = function(router, db) {
 		};
 	}
 
-	function getCup(team, cup) {
-		if (team.competitions[1] === undefined)
-			team.competitions[1] = { name: cup.name, url: cup.name + cup.season, matches: [] };
-			
-		return team.competitions[1];
+	function getComp(team, compName, season) {
+		var lastComp = team.competitions[team.competitions.length - 1];
+		if (lastComp.name === compName)
+			return lastComp;
+
+		var comp = { name: compName, url: compName + season, matches: [] };
+		team.competitions.push(comp);
+		return comp;
 	}
 	
 	router.get('/api/korea/assemble/:_season', function(req, res) {
@@ -39,6 +42,7 @@ module.exports = function(router, db) {
 			var j, game, uri;
 			var season;
 			var month, round;
+			var relegations = [];
 
 			for (i in leagues) {
 				league = leagues[i];
@@ -53,12 +57,15 @@ module.exports = function(router, db) {
 						month = game.date.substring(0, 2);
 
 						if (month > '10' && round <= 2) {
+							relegations.push({ league: league.name, game: game, round: round, url: uri });
 							continue;
 						}
 					} else {
 						if (((season === '2014' || season === '2017') && round > 36) ||
-								((season === '2015' || season === '2016') && round > 44))
+								((season === '2015' || season === '2016') && round > 44)) {
+							relegations.push({ league: league.name, game: game, round: round, url: uri });
 							continue;
+						}
 					}
 
 					if (teamMap[game.home] === undefined) {
@@ -84,12 +91,12 @@ module.exports = function(router, db) {
 					match = round.matches[j];
 
 					if (teamMap[match.l]) {
-						comp = getCup(teamMap[match.l], cup);
+						comp = getComp(teamMap[match.l], cup.name, cup.season);
 						comp.matches.push({ date: match.date, place: 'H', round: round.name, vs: match.r, url: match.url });
 					}
 
 					if (teamMap[match.r]) {
-						comp = getCup(teamMap[match.r], cup);
+						comp = getComp(teamMap[match.r], cup.name, cup.season);
 						comp.matches.push({ date: match.date, place: 'A', round: round.name, vs: match.l, url: match.url });
 					}
 				}
@@ -130,6 +137,23 @@ module.exports = function(router, db) {
 						teamMap[team].competitions.push(comp);
 					}
 				}
+			}
+
+			const relegationName = 'K League Relegation';
+
+			relegations.sort((a, b) => { return a.game.date < b.game.date ? -1 : 1 });
+
+			for (i = 0; i < relegations.length; i++) {
+				match = relegations[i];
+				game = match.game;
+
+				round = (match.league === 'K League 1') ? 'PO' : ((i + 1) + 'R');
+
+				comp = getComp(teamMap[game.home], relegationName, season);
+				comp.matches.push({ date: game.date, place: 'H', round: round, vs: game.away, url: match.url });
+
+				comp = getComp(teamMap[game.away], relegationName, season);
+				comp.matches.push({ date: game.date, place: 'A', round: round, vs: game.home, url: match.url });
 			}
 
 			var bulk = Seasons.initializeUnorderedBulkOp();

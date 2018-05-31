@@ -57,6 +57,7 @@ const competitions = {
 	'K League 1': {order: 1, name: 'K League 1', sh: 'K1', type: '4', group: 1, times: [], years: kleague.years},
 	'K League 2': {order: 1, name: 'K League 2', sh: 'K2', type: '4', group: 1, times: [], years: kleague.years},
 	'KFA Cup': {order: 6, name: 'KFA Cup', sh: 'Cup', type: '2', group: 2, years: kleague.years, times: []},
+	'K League Relegation': {order: 9, name: 'K League Relegation', sh: 'R', type: '2', group: 1},
 };
 
 export default competitions;
