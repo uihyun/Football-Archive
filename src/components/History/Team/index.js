@@ -8,7 +8,7 @@ import { Team, Year } from '../../Common';
 import MatchUtil from '../../../util/match';
 import UrlUtil from '../../../util/url';
 
-import { competitions, rounds, teams } from '../data';
+import { competitions, rounds } from '../data';
 
 export default class TeamHistory extends Component {
 	
@@ -162,7 +162,7 @@ export default class TeamHistory extends Component {
 	getSeasonSpan(year) {
 		var fullyear = false;
 
-		if (teams[this.state.team] && isNaN(teams[this.state.team].id)) {
+		if (this.state.teamUrl.match(/-team$/)) {
 			fullyear = true;
 		}
 
