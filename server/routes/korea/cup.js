@@ -66,6 +66,7 @@ module.exports = function(router, db) {
 
 				var cup = {name: 'KFA Cup', season: year, rounds: [], assembled: true};
 				var rounds = cup.rounds;
+				var teams = {};
 
 				data.forEach(match => {
 					var index = match.round - 1;
@@ -76,7 +77,6 @@ module.exports = function(router, db) {
 						};
 
 					delete match.round;
-					match.url = 'KFACUP' + match.url;
 
 					if (teamNameMap[match.l])
 						match.l = teamNameMap[match.l];
@@ -90,11 +90,22 @@ module.exports = function(router, db) {
 					if (teamNormalizeNameMap[match.r])
 						match.r = teamNormalizeNameMap[match.r];
 
-					if (!(teamMap[match.l] === true || teamMap[match.r] === true))
-						delete match.url;
+					if (match.url !== undefined &&
+							(teamMap[match.l] === true || teamMap[match.r] === true)) {
+						match.url = 'KFACUP' + match.url;
+					}
+						
+					teams[match.l] = true;
+					teams[match.r] = true;
 
 					rounds[index].matches.push(match);
 				});
+
+				var teamArray = [];
+				for (var i in teams) {
+					teamArray.push(i);
+				}
+				cup.teams = teamArray;
 
 				// final -> winner
 				var match, score, fullScore;

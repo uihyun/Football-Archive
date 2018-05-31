@@ -92,12 +92,18 @@ module.exports = function(router, db) {
 
 					if (teamMap[match.l]) {
 						comp = getComp(teamMap[match.l], cup.name, cup.season);
-						comp.matches.push({ date: match.date, place: 'H', round: round.name, vs: match.r, url: match.url });
+						game = { date: match.date, place: 'H', round: round.name, vs: match.r };
+						if (match.url !== undefined)
+							game.url = match.url;
+						comp.matches.push(game);
 					}
 
 					if (teamMap[match.r]) {
 						comp = getComp(teamMap[match.r], cup.name, cup.season);
-						comp.matches.push({ date: match.date, place: 'A', round: round.name, vs: match.l, url: match.url });
+						game = { date: match.date, place: 'A', round: round.name, vs: match.l };
+						if (match.url !== undefined)
+							game.url = match.url;
+						comp.matches.push(game);
 					}
 				}
 			}

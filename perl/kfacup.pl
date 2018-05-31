@@ -41,26 +41,33 @@ while (1) {
 		my $l = $1;
 		my $r = $2;
 
-		my $scoreboard = $td_col->[4]->all_text;
-		$scoreboard =~ /(\d+) : (\d+)/;
-		my $score = "$1:$2";
+		my $score = "";
 		my $pk = "";
+		my $url = "";
+
+		my $scoreboard = $td_col->[4]->all_text;
+		if ($scoreboard =~ /(\d+) : (\d+)/) {
+			my $score = "$1:$2";
+		}
 
 		if ($scoreboard =~ /\((\d+) PSO (\d+)\)/) {
 			$pk = "$1:$2";
 		}
 
-		my $url = $td_col->[4]->find('a')->first->attr('href');
-		$url =~ s/^.*Query=//;
+		if ($td_col->[4]->find('a')->size) {
+
+			$url = $td_col->[4]->find('a')->first->attr('href');
+			$url =~ s/^.*Query=//;
+		}
 
 		$json .= ",\n" if $match_count++;
 		$json .= "{\"round\": $round";
 		$json .= ", \"date\": \"$date\"";
 		$json .= ", \"l\": \"$l\"";
 		$json .= ", \"r\": \"$r\"";
-		$json .= ", \"score\": \"$score\"";
-		$json .= ", \"pk\": \"$pk\"" if $pk ne '';
-		$json .= ", \"url\": \"$url\"";
+		$json .= ", \"score\": \"$score\"" if $score ne "";
+		$json .= ", \"pk\": \"$pk\"" if $pk ne "";
+		$json .= ", \"url\": \"$url\"" if $url ne "";
 		$json .= "}";
 	}
 
