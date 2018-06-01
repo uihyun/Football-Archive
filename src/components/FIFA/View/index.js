@@ -60,7 +60,7 @@ export default class NationView extends Component {
 						}
 					</div>
 					<div className="flex-2">
-						<Link to="/nation">
+						<Link to="/FIFA">
 						  <b>
       	        <div className="flex-container flex-container-center">
     	            <div className="flex-1 FIFAView-view-selector text-right FIFAView-year">

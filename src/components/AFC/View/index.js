@@ -60,7 +60,7 @@ export default class AFCView extends Component {
 						}
 					</div>
 					<div className="flex-2">
-						<Link to={'/club/' + year}>
+						<Link to={'/AFC/' + year}>
 						  <b>
       	        <div className="flex-container flex-container-center">
     	            <div className="flex-1 AFCView-view-selector text-right AFCView-year"></div>

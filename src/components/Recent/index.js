@@ -66,10 +66,9 @@ export default class Recent extends Component {
 		var j, match;
 		var today = new Date();
 		today.setDate(today.getDate() + offset);
-		var day = today.toLocaleDateString();
-
-		if (day.charAt(0) !== '0')
-			day = '0' + day;
+		var day = today.toISOString().substring(0, 10).split('-');
+		day.push(day.shift());
+		day = day.join('/');
 
 		for (i = 0; i < this.state.competitions.length; i++) {
 			comp = this.state.competitions[i];

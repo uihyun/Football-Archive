@@ -60,7 +60,7 @@ export default class UEFAView extends Component {
 						}
 					</div>
 					<div className="flex-2">
-						<Link to={'/club/' + year}>
+						<Link to={'/UEFA/' + year}>
 						  <b>
       	        <div className="flex-container flex-container-center">
     	            <div className="flex-1 UEFAView-view-selector text-right UEFAView-year">

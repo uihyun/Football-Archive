@@ -43,6 +43,8 @@ module.exports = {
 	cupTeamNormalizeNameMap: {
 		'경기경희대(남)': '경기경희대',
 		'춘천시민구단': '춘천시민축구단',
+		'경주한국수력원자력(주)': '경주한국수력원자력㈜',
+		'경북대구대': '대구대구대',
 	},
 	aclTeamNameMap: {
 		'Ulsan Hyundai': '울산',
