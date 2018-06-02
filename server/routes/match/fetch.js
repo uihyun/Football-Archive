@@ -36,6 +36,9 @@ module.exports = function(router, db) {
 	function formatKLeagueMatch(data) {
 		const teamNameMap = KLeagueUtil.leagueTeamNameMap;
 
+		if (data.scoreAndStatus.statusInfo !== '경기종료')
+			return null;
+
 		var match = {
 			goals: [],
 			players: {
@@ -163,10 +166,13 @@ module.exports = function(router, db) {
 		var matchUrl = 'http://sportsdata.pstatic.net/ndata//' + league + '/';
 		matchUrl += year + '/';
 		matchUrl += month + '/';
-		matchUrl += uri + '.json';
+		matchUrl += uri + '.json?_=1';
 
 		return get(matchUrl).then(data => { return formatKLeagueMatch(data) })
 		.then(summary => {
+			if (summary === null)
+				return;
+
 			return Matches.insert({ url: url, summary: summary });
 		});
 	}
