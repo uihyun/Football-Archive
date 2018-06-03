@@ -166,7 +166,7 @@ module.exports = function(router, db) {
 		var matchUrl = 'http://sportsdata.pstatic.net/ndata//' + league + '/';
 		matchUrl += year + '/';
 		matchUrl += month + '/';
-		matchUrl += uri + '.json?_=1';
+		matchUrl += uri + '.json?_=' + (new Date()).getTime();
 
 		return get(matchUrl).then(data => { return formatKLeagueMatch(data) })
 		.then(summary => {
