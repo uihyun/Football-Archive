@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 
 import './style.css';
 
-import {Team, ViewSelector} from '../../Common';
+import { Team, ViewSelector } from '../../Common';
 
 import AllMatches from '../../AllMatches';
 import Statistics from '../../Statistics';
 import Standings from '../../Standings';
 
-import {nations} from '../data';
+import { nations, koreans } from '../data';
 
 import UrlUtil from '../../../util/url';
 
@@ -94,6 +94,58 @@ export default class NationView extends Component {
 		);
 	}
 
+	normalizeKoreanNames(data) {
+		const team = data.team;
+		const replaceMap = koreans.map;
+		var i, comp;
+		var j, match, summary, side, players, length;
+		var k, player, goal;
+
+		for (i = 0; i < data.competitions.length; i++) {
+			comp = data.competitions[i];
+
+			for (j = 0; j < comp.matches.length; j++) {
+				match = comp.matches[j];
+
+				if (match.summary === undefined)
+					continue;
+
+				summary = match.summary;
+				if (summary.players === undefined)
+					continue;
+
+				side = (summary.r === team) ? 'r' : 'l';
+				players = summary.players[side];
+
+				for (k = 0; k < players.start.length; k++) {
+					player = players.start[k];
+
+					if (replaceMap[player.name])
+						player.name = replaceMap[player.name];
+				}
+
+				length = players.sub ? players.sub.length : 0;
+				for (k = 0; k < length; k++) {
+					player = players.sub[k];
+
+					if (replaceMap[player.name])
+						player.name = replaceMap[player.name];
+				}
+
+				for (k = 0; k < summary.goals.length; k++) {
+					goal = summary.goals[k];
+
+					if (replaceMap[goal.scorer])
+						goal.scorer = replaceMap[goal.scorer];
+
+					if (replaceMap[goal.assist])
+						goal.assist = replaceMap[goal.assist];	
+				}
+			}
+		}
+
+	}
+
 	fetchSeason(year, teamUrl) {
 		const that = this;
 		var url;
@@ -157,6 +209,9 @@ export default class NationView extends Component {
 			}
 
 			result = {season: year, team: team, competitions: compArray, leagues: [], cups: cups};
+
+			if (team === 'South Korea')
+				that.normalizeKoreanNames(result);
 
 			var state = {
 				yearMin: yearMin,
