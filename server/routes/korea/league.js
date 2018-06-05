@@ -1,6 +1,7 @@
 'use strict';
 
-const http = require('http');
+const path = require('path');
+const exec = require('child_process').exec;
 
 const KLeagueUtil = require('../../util/kleague');
 
@@ -8,19 +9,16 @@ module.exports = function(router, db) {
 	const KLeague = db.collection('KLeague');
 	const teamNameMap = KLeagueUtil.leagueTeamNameMap;
 
-	function get(url) {
-
+	function promiseFromChildProcess(child) {
 		return new Promise(function (resolve, reject) {
-			http.get(url, (resp) => {
-				let data = '';
-				resp.setEncoding('utf8');
-				resp.on('data', (chunk) => { data += chunk; });
-				resp.on('end', () => { resolve(JSON.parse(data)); });
-			}).on("error", (err) => {
-				reject(err);
-			});
+			child.addListener("error", reject);
+			child.addListener("exit", resolve);
 		});
 	}
+
+	function get(league, year, month) {
+	}
+	
 
 	function normalizeName(team, season) {
 		if (teamNameMap[season] && teamNameMap[season][team])
@@ -55,33 +53,38 @@ module.exports = function(router, db) {
 		return games;
 	}
 
-	function getMonth(url, month) {
-		var monthUrl = url + (month < 10 ? '0' : '') + month;
+	function getMonth(league, year, month) {
+		var monthUrl = (month < 10 ? '0' : '') + month;
+		const execStr = 'perl ' + path.join(__dirname, '../../../perl', 'kleague.pl') + ' ' + league + ' ' + year + ' ' + monthUrl;
 
-		return get(monthUrl)
-		.then(function (data) {
-			if (parseInt(data.month, 10) === month) {
+		var stdout = '';
+		var child = exec(execStr);
+		child.stdout.on('data', function(chunk) {stdout += chunk});
+
+		return promiseFromChildProcess(child)
+			.then(function () {
+				if (stdout === '')
+					return null;
+
+				const data = JSON.parse(stdout);
+
+				if (data.month === undefined || data.month !== monthUrl)
+					return null;
+
 				return getGames(data);
-			} else {
-				return null;
-			}
-		});
+			});
 	}
 
 	router.get('/api/korea/league/update/:_season/:_league', function(req, res) {
 		const season = req.params._season;
 		const leagueName = req.params._league;
 
-		var url = 'http://sports.news.naver.com/kfootball/schedule/monthlySchedule.nhn?';
-		url += 'category=' + leagueName;
-		url += '&year=' + season;
-		url += '&month=';
-
 		var month;
 		var promises = [];
 
+		//for (month = 1; month <= 12; month++) {
 		for (month = 1; month <= 12; month++) {
-			promises.push(getMonth(url, month));
+			promises.push(getMonth(leagueName, season, month));
 		}
 
 		var name = 'K League ' + ((leagueName === 'kleague2') ? '2' : '1');
