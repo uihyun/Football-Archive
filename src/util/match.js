@@ -143,7 +143,7 @@ export default class Match {
 			case 'draw':
 				return 'yellow';
 			case 'loss-pso':
-				return 'orange';
+				return 'magenta';
 			case 'loss':
 				return 'red';
 			case 'unplayed':
