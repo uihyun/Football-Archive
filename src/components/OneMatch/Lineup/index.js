@@ -100,6 +100,9 @@ export default class Lineup extends Component {
 	}
 
 	getPlayers(side) {
+		if (this.props.match.players === undefined)
+			return null;
+
 		const players = this.props.match.players[side];
 		var lineup = ['start', 'sub'];
 		var j, pos, sorted;
