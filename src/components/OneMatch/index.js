@@ -196,19 +196,19 @@ export default class OneMatch extends Component {
 	getEvents(goals, cards, subs) {
 		var events = [];
 
-		goals.forEach(goal => {
-			events.push({ minute: goal.minute, side: goal.side, goal: goal });
+		goals.forEach((goal, index) => {
+			events.push({ minute: goal.minute, side: goal.side, goal: goal, order: goal.minute * 100 + 20 + index });
 		});
 
-		cards.forEach(card => {
-			events.push({ minute: card.minute, side: card.side, card: card });
+		cards.forEach((card, index) => {
+			events.push({ minute: card.minute, side: card.side, card: card, order: card.minute * 100 + 10 + index });
 		});
 		
-		subs.forEach(sub => {
-			events.push({ minute: sub.minute, side: sub.side, sub: sub });
+		subs.forEach((sub, index) => {
+			events.push({ minute: sub.minute, side: sub.side, sub: sub, order: sub.minute * 100 + index });
 		});
 
-		events.sort((a, b) => { return a.minute - b.minute } );
+		events.sort((a, b) => { return a.order - b.order } );
 
 		return events;
 	}
