@@ -107,13 +107,13 @@ sub get_goals($)
 			$style_string = ", \"style\": \"$style\"";
 			$assist =~ s/\(|\)//g;
 			$assist =~ s/^\s*|\s*$//g;
-			$assist_string = ", \"assist\": \"$assist\"" if $assist;
+			$assist_string = ", \"assist\": \"$assist\"" if $assist && $assist ne $scorer;
 		} else {
 			$detail_text =~ /^(\(.*\)|)$/;
 			my $assist = $1;
 			$assist =~ s/\(|\)//g;
 			$assist =~ s/^\s*|\s*$//g;
-			$assist_string = ", \"assist\": \"$assist\"" if $assist;
+			$assist_string = ", \"assist\": \"$assist\"" if $assist && $assist ne $scorer;
 		}
 
 		$json .= "{\"side\": \"$side\", \"scorer\": \"$scorer\", \"minute\": $minute$style_string$assist_string}";
