@@ -80,7 +80,7 @@ export default class CompetitionView extends Component {
 								</div>
 							</Link> :
 							<Link to={'/history/competition/' + UrlUtil.getCompUrl(this.state.name)}>
-								<div className="ClubView-view-selector">
+								<div className="CompetitionView-view-selector">
 									History
 								</div>
 							</Link>
