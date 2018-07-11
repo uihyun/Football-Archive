@@ -1,10 +1,32 @@
 const clubs = {
-	years: {max: 2018, min: 2006},
+	years: {max: 2019, min: 2006},
 	countries: ['ENG', 'ESP', 'GER', 'ITA', 'FRA'],
 	seasons: {
 		ENG: {
 			league: 'Premier-League',
 			teams: {
+				2019: [
+					'Manchester City',
+					'Manchester United',
+					'Tottenham Hotspur',
+					'Liverpool FC',
+					'Chelsea FC',
+					'Arsenal FC',
+					'Burnley FC',
+					'Everton FC',
+					'Leicester City',
+					'Newcastle United',
+					'Crystal Palace',
+					'AFC Bournemouth',
+					'West Ham United',
+					'Watford FC',
+					'Brighton & Hove Albion',
+					'Huddersfield Town',
+					'Southampton FC',
+					'Wolverhampton Wanderers',
+					'Cardiff City',
+					'Fulham FC',
+				],
 				2018: [
 					'Chelsea FC',
 					'Tottenham Hotspur',
@@ -296,6 +318,8 @@ const clubs = {
 		ESP: {
 			league: 'Primera-División',
 			teams: {
+				2019: [
+				],
 				2018: [
 					'Real Madrid',
 					'FC Barcelona',
@@ -587,6 +611,26 @@ const clubs = {
 		GER: {
 			league: 'Bundesliga',
 			teams: {
+				2019: [
+					'Bayern München',
+					'FC Schalke 04',
+					'1899 Hoffenheim',
+					'Borussia Dortmund',
+					'Bayer Leverkusen',
+					'RB Leipzig',
+					'VfB Stuttgart',
+					'Eintracht Frankfurt',
+					'Bor. Mönchengladbach',
+					'Hertha BSC',
+					'Werder Bremen',
+					'FC Augsburg',
+					'Hannover 96',
+					'1. FSV Mainz 05',
+					'SC Freiburg',
+					'VfL Wolfsburg',
+					'Fortuna Düsseldorf',
+					'1. FC Nürnberg',
+				],
 				2018: [
 					'Bayern München',
 					'RB Leipzig',
@@ -852,6 +896,8 @@ const clubs = {
 		ITA: {
 			league: 'Serie-A',
 			teams: {
+				2019: [
+				],
 				2018: [
 					'Juventus',
 					'AS Roma',
@@ -1143,6 +1189,28 @@ const clubs = {
 		FRA: {
 			league: 'Ligue-1',
 			teams: {
+				2019: [
+					'Paris Saint-Germain',
+					'AS Monaco',
+					'Olympique Lyon',
+					'Olympique Marseille',
+					'Stade Rennes',
+					'Girondins Bordeaux',
+					'AS Saint-Étienne',
+					'OGC Nice',
+					'FC Nantes',
+					'Montpellier HSC',
+					'Dijon FCO',
+					'EA Guingamp',
+					'Amiens SC',
+					'Angers SCO',
+					'RC Strasbourg',
+					'SM Caen',
+					'Lille OSC',
+					'Toulouse FC',
+					'Stade Reims',
+					'Nîmes Olympique',
+				],
 				2018: [
 					'AS Monaco',
 					'Paris Saint-Germain',

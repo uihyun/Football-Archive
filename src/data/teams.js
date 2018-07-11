@@ -198,6 +198,7 @@ const teams = {
 	'Le Mans UC 72': {id: 84710, name: 'Le Mans', url: 'le-mans-fc'},
 	'Lille OSC': {id: 75797, name: 'Lille'},
 	'Montpellier HSC': {id: 50128, name: 'Montpellier'},
+	'Nîmes Olympique': {id: 60612, name: 'Nîmes', url: 'nimes-olympique'},
 	'Olympique Marseille': {id: 52748, name: 'Marseille'},
 	'Olympique Lyon': {id: 5312, name: 'Lyon'},
 	'OGC Nice': {id: 52355, name: 'Nice'},

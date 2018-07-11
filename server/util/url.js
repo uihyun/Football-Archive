@@ -50,6 +50,7 @@ module.exports = {
 		{name: 'Fortuna Düsseldorf', url: 'fortuna-duesseldorf'},
 		{name: 'Gimnàstic', url: 'gimnastic'},
 		{name: 'Le Mans UC 72', url: 'le-mans-fc'},
+		{name: 'Nîmes Olympique', url: 'nimes-olympique'},
 		{name: 'Reggina Calcio', url: 'reggina-1914'},
 		{name: 'SpVgg Greuther Fürth', url: 'spvgg-greuther-fuerth'},
 		{name: 'Treviso FBC', url: 'a-c-d-treviso'},

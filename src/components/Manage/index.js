@@ -313,10 +313,14 @@ export default class Manage extends Component {
 		var leagues = [];
 		var i, country, league;
 
+		function hasTeams(array) {
+			return array !== undefined && array.length > 0;
+		}
+
 		for (i = 0; i < clubs.countries.length; i++) {
 			country = clubs.countries[i];
 
-			if (clubs.seasons[country].teams[year]) {
+			if (hasTeams(clubs.seasons[country].teams[year])) {
 				leagues.push(clubs.seasons[country].league);
 			}
 		}
@@ -324,7 +328,7 @@ export default class Manage extends Component {
 		for (i = 0; i < kleague.leagues.length; i++) {
 			league = kleague.leagues[i];
 
-			if (kleague.seasons[league] && kleague.seasons[league].teams[year]) {
+			if (kleague.seasons[league] && hasTeams(kleague.seasons[league].teams[year])) {
 				leagues.push(league.replace(/ /g, '-'));
 			}
 		}

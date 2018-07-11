@@ -16,7 +16,7 @@ downloadUEFA(2608043);
 sub downloadUEFA($)
 {
 	my $id = shift;
-	my $imgSrc = "http://img.uefa.com/imgml/TP/teams/logos/50x50/$id.png";
+	my $imgSrc = "https://img.uefa.com/imgml/TP/teams/logos/50x50/$id.png";
 	my $file = "../img/$id.png";
 	system("[ -f $file ] || curl $imgSrc -o $file");
 }
@@ -24,7 +24,7 @@ sub downloadUEFA($)
 sub downloadFIFA($)
 {
 	my $id = shift;
-	my $imgSrc = "http://img.uefa.com/imgml/flags/50x50/$id.png";
+	my $imgSrc = "https://img.uefa.com/imgml/flags/50x50/$id.png";
 	my $file = "../img/$id.png";
 	system("[ -f $file ] || curl $imgSrc -o $file");
 }
