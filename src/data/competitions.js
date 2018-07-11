@@ -59,8 +59,8 @@ const competitions = {
 	'K League 2': {order: 1, name: 'K League 2', sh: 'K2', type: '4', group: 1, times: [], years: kleague.years},
 	'J1 League': {order: 1, name: 'J1 League', sh: 'J1', type: 'L', group: 1, times: [], years: kleague.years},
 	'KFA Cup': {order: 6, name: 'KFA Cup', sh: 'Cup', type: '2', group: 2, years: kleague.years, times: []},
-	'Emperor\'s Cup': {order: 6, name: 'Emperor\'s Cup', sh: 'Cup', type: '2', group: 2, years: kleague.years, times: []},
-	'J League Cup': {order: 7, name: 'J League Cup', sh: 'LC', type: '2', group: 2, years: kleague.years},
+	'Emperor\'s Cup': {order: 6, name: 'Emperor\'s Cup', sh: 'Cup', type: '2', group: 2, years: {min: 2015, max: kleague.years.max}, times: []},
+	'J League Cup': {order: 7, name: 'J League Cup', sh: 'LC', type: '2', group: 2, years: kleague.years, times: []},
 	'Super Cup': {order: 8, name: 'Super Cup', sh: 'CS', type: 'H', group: 2},
 	'K League Relegation': {order: 9, name: 'K League Relegation', sh: 'R', type: '2', group: 1},
 };
