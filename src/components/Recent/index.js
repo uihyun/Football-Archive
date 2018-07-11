@@ -5,7 +5,7 @@ import './style.css';
 
 import { Grid, ViewSelector } from '../Common';
 
-import { clubs, competitions } from '../data';
+import { competitions } from '../data';
 import UrlUtil from '../../util/url';
 
 export default class Recent extends Component {
@@ -31,7 +31,6 @@ export default class Recent extends Component {
 	}
 
 	getView(competitions) {
-		const year = clubs.years.max;
 
 		return (
 			<div className="Recent">
@@ -41,7 +40,7 @@ export default class Recent extends Component {
 
 					var matches = this.groupMatches(comp.matches);
 
-					const link = UrlUtil.getCompLink(year, comp.name);
+					const link = UrlUtil.getCompLink(comp.season, comp.name);
 					var nameDiv = <div className="Recent-comp text-center">{comp.name}</div>;
 
 					if (link !== null) {
@@ -51,7 +50,7 @@ export default class Recent extends Component {
 					return (
 						<div key={comp.name}>
 							{nameDiv}
-							<Grid matches={matches} year={year} />
+							<Grid matches={matches} year={comp.season} />
 						</div>
 					);
 				})}
@@ -106,7 +105,7 @@ export default class Recent extends Component {
 
 	fetch() {
 		const that = this;
-		const url = UrlUtil.getRecentMatchesUrl(clubs.years.max);
+		const url = UrlUtil.getRecentMatchesUrl();
 
 		fetch(url)
 		.then(function(response) {
@@ -131,6 +130,7 @@ export default class Recent extends Component {
 				match.dateO = new Date(match.date);
 				j = compMap[match.competition];
 				comps[j].matches.push(match);
+				comps[j].season = match.season;
 			}
 			
 			for (i = 0; i < comps.length; i++) {

@@ -37,6 +37,7 @@ module.exports = function(router, db) {
 									teams = (match.place === 'A') ? [match.vs, season.team] : [season.team, match.vs];
 									matchMap[matchUrl] = {
 										competition: comp.name,
+										season: season.season,
 										round: match.round,
 										date: match.date,
 										teams: teams,
