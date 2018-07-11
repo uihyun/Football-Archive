@@ -25,8 +25,8 @@ export default class UrlUtil {
 		return comp.replace(/ /g, '-');
 	}
 	
-	static getRecentMatchesUrl(season) {
-		return '/api/match/recent/' + season;
+	static getRecentMatchesUrl() {
+		return '/api/match/recent';
 	}
 	
 	static getCupFetchUrl(season) {
