@@ -52,6 +52,8 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 					$score =~ s/\s\(.*//;
 				}
 			}
+
+			next if $score =~ "resch";
 			
 			my $url = getUrl($score_td);
 

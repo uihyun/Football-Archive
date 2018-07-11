@@ -79,6 +79,11 @@ module.exports = {
 		{name: '서울E', url: '서울E-team'},
 		{name: '안산', url: '안산-team'},
 		{name: '아산', url: '아산-team'},
+		// J League
+		{name: 'Yokohama F. Marinos', url: 'yokohama-f-marinos'},
+		{name: 'Júbilo Iwata', url: 'jubilo-iwata'},
+		{name: 'Shimizu S-Pulse', url: 'shimizu-s-pulse'},
+		{name: 'V-Varen Nagasaki', url: 'v-varen-nagasaki'},
 		// Competitions
 		{name: 'Primera División', url: 'Primera-Division'},
 		{name: 'DFB-Pokal', url: 'DFB-Pokal'},

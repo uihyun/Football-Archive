@@ -5,9 +5,11 @@ const exec = require('child_process').exec;
 const Promise = require('bluebird');
 
 const UrlUtil = require('../../util/url');
+const KLeagueUtil = require('../../util/kleague');
 
 module.exports = function(router, db) {
 	const Seasons = db.collection('Seasons');
+	const teamNameMap = KLeagueUtil.aclTeamNameMap;
 
 	function promiseFromChildProcess(child) {
 		return new Promise(function (resolve, reject) {
@@ -36,12 +38,12 @@ module.exports = function(router, db) {
 					team: team,
 					competitions: data
 				};
+							
+				var competitions = [];
+				var i, j, competition;
 
 				if (season === '2011' && team === 'Fulham FC') {
-					var competitions = [];
-					var competition;
-
-					for (var i in data) {
+					for (i in data) {
 						competition = data[i];
 						if (competition.name !== 'Europa League Qual.') {
 							competitions.push(competition);
@@ -49,6 +51,32 @@ module.exports = function(router, db) {
 					}
 
 					newSeason.competitions = competitions;
+				} else {
+					for (i in data) {
+						competition = data[i];
+						// normalization for J League seasons
+						if (competition.name === 'J1 League') {
+							for (var j in data) {
+								competition = data[j];
+								if (competition.matches[0].date.substring(6,10) === season) {
+									if (competition.name === 'League Cup') {
+										competition.name = 'J League Cup';
+									} else if (competition.name === 'AFC Champions League') {
+										for (var k in competition.matches) {
+											match = competition.matches[k];
+											if (teamNameMap[match.vs]) {
+												match.vs = teamNameMap[match.vs];
+											}
+										}
+									}
+
+									competitions.push(competition);
+								}
+								newSeason.competitions = competitions;
+							}
+							break;
+						}
+					}
 				}
 
 				return Seasons.replaceOne({season: season, team: team}, newSeason);

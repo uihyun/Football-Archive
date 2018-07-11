@@ -21,7 +21,10 @@ module.exports = {
 			case 'Coupe de France':
 			case 'League Cup':
 			case 'Coupe de la Ligue':
+			// AFC
 			case 'AFC Champions League':
+			case 'Emperor\'s Cup':
+			case 'J League Cup':
 				return true;
 			default:
 				return false;

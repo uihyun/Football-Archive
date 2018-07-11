@@ -469,6 +469,35 @@ const teams = {
 	'서울E': {id: 131, name: '서울E', url: '서울E-team'},
 	'안산': {id: 132, name: '안산', url: '안산-team'},
 	'아산': {id: 133, name: '아산', url: '아산-team'},
+
+	// J League
+	'Consadole Sapporo': {id: 200, name: 'Consadole Sapporo'},
+	'Vegalta Sendai': {id: 203, name: 'Vegalta Sendai'},
+	'Montedio Yamagata': {id: 204, name: 'Montedio Yamagata'},
+	'Kashima Antlers': {id: 206, name: 'Kashima Antlers'},
+	'Urawa Red Diamonds': {id: 210, name: 'Urawa Reds'},
+	'Omiya Ardija': {id: 211, name: 'Omiya Ardija'},
+	'Kashiwa Reysol': {id: 213, name: 'Kashiwa Reysol'},
+	'FC Tokyo': {id: 214, name: 'FC Tokyo'},
+	'Kawasaki Frontale': {id: 217, name: 'Kawasaki Frontale'},
+	'Yokohama F. Marinos': {id: 218, name: 'Yokohama F. Marinos', url: 'yokohama-f-marinos'},
+	'Shonan Bellmare': {id: 222, name: 'Shonan Bellmare'},
+	'Ventforet Kofu': {id: 223, name: 'Ventforet Kofu'},
+	'Matsumoto Yamaga': {id: 225, name: 'Matsumoto Yamaga'},
+	'Albirex Niigata': {id: 226, name: 'Albirex Niigata'},
+	'Shimizu S-Pulse': {id: 229, name: 'Shimizu S-Pulse', url: 'shimizu-s-pulse'},
+	'Júbilo Iwata': {id: 230, name: 'Júbilo Iwata', url: 'jubilo-iwata'},
+	'Nagoya Grampus': {id: 232, name: 'Nagoya Grampus'},
+	'Gamba Osaka': {id: 235, name: 'Gamba Osaka'},
+	'Cerezo Osaka': {id: 236, name: 'Cerezo Osaka'},
+	'Vissel Kobe': {id: 237, name: 'Vissel Kobe'},
+	'Sanfrecce Hiroshima': {id: 240, name: 'Sanfrecce Hiroshima'},
+	'Tokushima Vortis': {id: 242, name: 'Tokushima Vortis'},
+	'Avispa Fukuoka': {id: 244, name: 'Avispa Fukuoka'},
+	'Sagan Tosu': {id: 246, name: 'Sagan Tosu'},
+	'V-Varen Nagasaki': {id: 247, name: 'V-Varen Nagasaki', url: 'v-varen-nagasaki'},
+	'Oita Trinita': {id: 249, name: 'Oita Trinita'},
+
 };
 
 export default teams;

@@ -22,6 +22,8 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 
 		if ($comp =~ 'Ligue 1') {
 			$comp =~ s/\d+\/\d+.*$//;
+		} elsif ($comp =~ 'J1') {
+			$comp =~ s/\d+$//;
 		} else {
 			$comp =~ s/\d+\/\d+.*$|\d+.*$//;
 		}

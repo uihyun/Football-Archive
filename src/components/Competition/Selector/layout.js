@@ -52,13 +52,18 @@ const layout = {
 	},
 	asia: ['AFC Champions League'],
 	kleague: {
-		legend: ['1', '2', 'Cup'],
-		list: ['K'],
+		legend: ['1', '2', 'Cup', 'League Cup'],
+		list: ['K', 'J'],
 		groups: {
 			K: {
 				'1': 'K League 1',
 				'2': 'K League 2',
 				'Cup': 'KFA Cup',
+			},
+			J: {
+				'1': 'J1 League',
+				'Cup': 'Emperor\'s Cup',
+				'League Cup': 'J League Cup',
 			}
 		}
 	}
