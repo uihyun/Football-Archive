@@ -6,15 +6,14 @@ module.exports = function(router, db) {
 	const Seasons = db.collection('Seasons');
 	const Matches = db.collection('Matches');
 	
-	router.get('/api/match/recent/:_season', function(req, res) {
-		const season = req.params._season;
+	router.get('/api/match/recent', function(req, res) {
 		var matchMap = {};
 		var now = new Date();
 		var tomorrow = new Date(now.getTime() + (1 * 24 * 60 * 60 * 1000));
 		var weekBefore = new Date(now.getTime() - (3 * 24 * 60 * 60 * 1000));
 		var matchDate;
 		
-		Seasons.find({season: season}).toArray()
+		Seasons.find({done: { $ne: true }}).toArray()
 			.then(function(seasons) {
 				if (seasons.length === 0) {
 					res.sendStatus(204);

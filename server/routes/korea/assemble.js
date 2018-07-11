@@ -11,7 +11,6 @@ module.exports = function(router, db) {
 		return {
 			season: league.season,
 			team: team,
-			assembled: true,
 			competitions: [ { name: league.name, url: league.name + league.season, matches: [] } ]
 		};
 	}
@@ -166,7 +165,7 @@ module.exports = function(router, db) {
 
 			for (i in teamMap) {
 				season = teamMap[i];
-				bulk.find({ season: season.season, team: season.team }).upsert().update({ $set: { competitions: season.competitions }});
+				bulk.find({ season: season.season, team: season.team }).upsert().update({ $set: { assembled: true, competitions: season.competitions }});
 			}
 
 			try {

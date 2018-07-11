@@ -61,7 +61,7 @@ module.exports = function(router, db) {
 	router.get('/api/season/update/:_season', function(req, res) {
 		const season = req.params._season;
 		
-		Seasons.find({season: season}).toArray()
+		Seasons.find({season: season, done: { $ne: true }}).toArray()
 			.then(function(seasons) {
 				if (seasons.length === 0) {
 					res.sendStatus(204);

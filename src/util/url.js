@@ -40,6 +40,10 @@ export default class UrlUtil {
 	static getSeasonFetchUrl(season, team) {
 		return '/api/season/fetch/' + season + '/' + this.getTeamUrl(team);
 	}
+	
+	static getSeasonMarkDoneUrl(season, team) {
+		return '/api/season/mark_done/' + season + '/' + this.getTeamUrl(team);
+	}
 
 	static getSeasonClearUrl(season, team) {
 		return '/api/season/clear/' + season + '/' + this.getTeamUrl(team);
