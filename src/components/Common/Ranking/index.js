@@ -2,36 +2,47 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import { PlayerName, Team } from '..';
+import { PlayerName, ViewSelector, Team } from '..';
 
 export default class Ranking extends Component {
+
 	render() {
-		const scorers = this.getScorers();
+		var views = [];
+		views.push(this.getView('League', 'leagueGoals'));
+		views.push(this.getView('All Season', 'seasonGoals'));
 
 		return (
+			<ViewSelector views={views} />
+		);	
+	}
+
+	getView(name, code) {
+		const scorers = this.getScorers(code);
+
+		return {
+			name: name,
+			view: (
 			<div className="Ranking">
-				<h3 className="text-center">Goals</h3>
+				<br />
 				{scorers.map(player => {
 					return (
-						<div className="flex-container">
+						<div key={player.name + player.team} className="flex-container">
 							<div className="flex-1"></div>
-							<div key={player.name + player.team} className="flex-container Ranking-row">
+							<div className="flex-container Ranking-row">
 								<div className="Ranking-team"> <Team team={player.team} emblemSmall={true} /></div>
 								<div className="flex-1"><PlayerName player={player.name} /></div>
-								<div className="text-right">{player.leagueGoals}</div>
+								<div className="text-right">{player[code]}</div>
 							</div>
 							<div className="flex-1"></div>
 						</div>
 					);
 				})}
 			</div>
-		);
+		)};
 	}
 
-	getScorers() {
+	getScorers(code) {
 		var array = [];
-
-		console.log(this.props);
 
 		if (this.props.goals === undefined)
 			return array;
@@ -39,20 +50,21 @@ export default class Ranking extends Component {
 		var i, scorer;
 		for (i = 0; i < this.props.goals.length; i++) {
 			scorer = this.props.goals[i];
-			console.log(scorer);
 
-			if (scorer.leagueGoals > 0) {
+			if (scorer[code] > 0) {
 				array.push(scorer);
 			}
 		}
 
 		array.sort((a, b) => { 
-			if (b.leagueGoals === a.leagueGoals) {
+			if (b[code] === a[code]) {
 				return (a.team + a.name < b.team + b.name) ? -1 : 1;
 			}
 
-			return b.leagueGoals - a.leagueGoals;
+			return b[code] - a[code];
 		});
+
+		array.splice(300);
 
 		return array;
 	}

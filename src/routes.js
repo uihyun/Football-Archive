@@ -10,6 +10,7 @@ import Versus from './components/Versus';
 import OneMatch from './components/OneMatch';
 import History from './components/History';
 import Manage from './components/Manage';
+import Rankings from './components/Rankings';
 
 const Routes = (props) => (
 	<BrowserRouter>
@@ -24,6 +25,7 @@ const Routes = (props) => (
 			<Route path="/match/:url" component={OneMatch} />
 			<Route path="/history" component={History} />
 			<Route path="/manage" component={Manage} />
+			<Route path="/rankings" component={Rankings} />
 		</div>
 	</BrowserRouter>
 );

@@ -29,7 +29,9 @@ export default class Home extends Component {
 							<span className="show-mobile">Comp</span>
 						</NavLink>
 					</div>
-					<div className="flex-1 Home-not-yet">Rankings</div>
+					<div className="flex-1">
+						<NavLink to={'/rankings/' + clubs.years.max}>Rankings</NavLink>
+					</div>
 				</div>
 				<Recent />
 			</div>

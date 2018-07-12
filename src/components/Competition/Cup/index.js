@@ -54,8 +54,6 @@ export default class CupView extends Component {
 			});
 		}
 
-		console.log(cup);
-
 		return views;
 	}
 

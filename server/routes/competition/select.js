@@ -31,7 +31,7 @@ module.exports = function(router, db) {
 		function getGoals() {
 			return Goals.findOne({season: season, name: comp}, {teams: 0})
 				.then(function(goals)	{
-					if (goals !== undefined) {
+					if (goals !== null) {
 						result.goals = goals.goals;
 					}
 				});
