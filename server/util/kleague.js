@@ -55,6 +55,7 @@ module.exports = {
 		'Seongnam FC': '성남',
 		'FC Seoul': '서울',
 	},
+	aclReverseMap: {'울산': 1, '수원': 1, '포항': 1, '제주': 1, '전북': 1, '성남': 1, '서울': 1},
 	superLeagueTeamNameMap: {
 		'Shanghai East Asia': 'Shanghai SIPG',
 		'Jiangsu Sainty': 'Jiāngsū Sūníng',
