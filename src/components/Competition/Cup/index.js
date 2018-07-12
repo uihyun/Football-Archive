@@ -50,7 +50,7 @@ export default class CupView extends Component {
 		if (goals) {
 			views.push({
 				name: 'Rankings',
-				view: <Ranking goals={goals} />
+				view: <Ranking goals={goals} year={cup.season} />
 			});
 		}
 

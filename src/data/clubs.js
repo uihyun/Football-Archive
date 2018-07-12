@@ -1,5 +1,5 @@
 const clubs = {
-	years: {max: 2019, min: 2006},
+	years: {max: 2018, min: 2006},
 	countries: ['ENG', 'ESP', 'GER', 'ITA', 'FRA'],
 	seasons: {
 		ENG: {

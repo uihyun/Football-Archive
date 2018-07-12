@@ -42,7 +42,7 @@ export default class LeagueView extends Component {
 		if (goals) {
 			views.push({
 				name: 'Rankings',
-				view: <Ranking goals={goals} />
+				view: <Ranking goals={goals} year={league.season} />
 			});
 		}
 

@@ -34,13 +34,14 @@ export default class RankingsView extends Component {
 		var views = [];
 		var groups = this.group(this.state.goals);
 		const header = ['FIFA', 'UEFA', 'AFC'];
+		const year = this.state.year;
 
 		header.forEach(code => {
 			if (groups[code].length > 0) {
 				views.push({name: code, view: (
 					<div>
 						<h3 className="hide-mobile text-center">{code}</h3>
-						<Ranking goals={groups[code]} />
+						<Ranking goals={groups[code]} year={year} />
 					</div>
 				)});
 			}
@@ -48,7 +49,7 @@ export default class RankingsView extends Component {
 
 		return (
 			<div className="RankingView">
-				<YearSelector year={this.state.year} min={clubs.years.min} max={clubs.years.max} link={'rankings'} />
+				<YearSelector year={year} min={clubs.years.min} max={clubs.years.max} link={'rankings'} />
 				<ViewSelector views={views} expand={true}/>
 			</div>
 		);

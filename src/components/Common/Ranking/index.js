@@ -29,7 +29,7 @@ export default class Ranking extends Component {
 						<div key={player.name + player.team} className="flex-container">
 							<div className="flex-1"></div>
 							<div className="flex-container Ranking-row">
-								<div className="Ranking-team"> <Team team={player.team} emblemSmall={true} /></div>
+								<div className="Ranking-team"> <Team team={player.team} emblemSmall={true} year={this.props.year} /></div>
 								<div className="flex-1"><PlayerName player={player.name} /></div>
 								<div className="text-right">{player[code]}</div>
 							</div>
