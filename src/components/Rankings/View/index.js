@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
 import './style.css';
 
@@ -38,14 +37,19 @@ export default class RankingsView extends Component {
 
 		header.forEach(code => {
 			if (groups[code].length > 0) {
-				views.push({name: code, view: <Ranking goals={groups[code]} />});
+				views.push({name: code, view: (
+					<div>
+						<h3 className="hide-mobile text-center">{code}</h3>
+						<Ranking goals={groups[code]} />
+					</div>
+				)});
 			}
 		});
 
 		return (
 			<div className="RankingView">
 				<YearSelector year={this.state.year} min={clubs.years.min} max={clubs.years.max} link={'rankings'} />
-				<ViewSelector views={views} />
+				<ViewSelector views={views} expand={true}/>
 			</div>
 		);
 	}
