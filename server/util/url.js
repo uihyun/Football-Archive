@@ -84,6 +84,11 @@ module.exports = {
 		{name: 'Júbilo Iwata', url: 'jubilo-iwata'},
 		{name: 'Shimizu S-Pulse', url: 'shimizu-s-pulse'},
 		{name: 'V-Varen Nagasaki', url: 'v-varen-nagasaki'},
+		// Super League
+		{name: 'Jiāngsū Sūníng', url: 'jiangsu-suning'},
+		{name: 'Guangzhou R&F', url: 'guangzhou-r-f'},
+		{name: 'Liáoníng Hóngyùn', url: 'liaoning-hongyn'},
+		{name: 'Harbin Yiteng', url: 'zhejiang-yiteng'},
 		// Competitions
 		{name: 'Primera División', url: 'Primera-Division'},
 		{name: 'DFB-Pokal', url: 'DFB-Pokal'},

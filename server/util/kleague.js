@@ -55,6 +55,11 @@ module.exports = {
 		'Seongnam FC': '성남',
 		'FC Seoul': '서울',
 	},
+	superLeagueTeamNameMap: {
+		'Shanghai East Asia': 'Shanghai SIPG',
+		'Jiangsu Sainty': 'Jiāngsū Sūníng',
+		'Guizhou Hengfeng Zhicheng FC': 'Guizhou Hengfeng',
+	},
 	aclTeams: {
 		2018: [	'전북', '울산', '제주', '수원' ],
 		2017: [	'서울', '수원', '제주', '울산' ],

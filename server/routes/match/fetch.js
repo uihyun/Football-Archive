@@ -350,6 +350,7 @@ module.exports = function(router, db) {
 
 		const execStr = 'perl ' + path.join(__dirname, '../../../perl', 'match.pl') + ' ' + url;
 		const teamNameMap = KLeagueUtil.aclTeamNameMap;
+		const superLeagueTeamNameMap = KLeagueUtil.superLeagueTeamNameMap;
 
 		var stdout = '';
 		var child = exec(execStr);
@@ -367,6 +368,12 @@ module.exports = function(router, db) {
 
 				if (teamNameMap[data.r])
 					data.r = teamNameMap[data.r];
+				
+				if (superLeagueTeamNameMap[data.l])
+					data.l = superLeagueTeamNameMap[data.l];
+
+				if (superLeagueTeamNameMap[data.r])
+					data.r = superLeagueTeamNameMap[data.r];
 
 				const newMatch = {
 					url: url,
