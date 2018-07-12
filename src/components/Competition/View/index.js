@@ -88,9 +88,9 @@ export default class CompetitionView extends Component {
 					</div>
 				</div>
 				{this.state.data.league &&
-					<LeagueView league={this.state.data.league} />}
+					<LeagueView league={this.state.data.league} goals={this.state.data.goals}/>}
 				{this.state.data.cup &&
-					<CupView cup={this.state.data.cup} />}
+					<CupView cup={this.state.data.cup} goals={this.state.data.goals} />}
 			</div>
 		);
 	}

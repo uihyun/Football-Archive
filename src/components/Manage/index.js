@@ -32,6 +32,7 @@ export default class Manage extends Component {
 		this.updateLeague = this.updateLeague.bind(this);
 		this.updateSeason = this.updateSeason.bind(this);
 		this.updateCup = this.updateCup.bind(this);
+		this.updateGoals = this.updateGoals.bind(this);
 		this.fetchAllSeasons = this.fetchAllSeasons.bind(this);
 		this.markDoneAllSeasons = this.markDoneAllSeasons.bind(this);
 	}
@@ -91,6 +92,9 @@ export default class Manage extends Component {
 								</button>
 								<button onClick={() => this.markDoneAllSeasons()}>
 									Mark Done All Seasons
+								</button>
+								<button onClick={() => this.updateGoals()}>
+									Update Goals
 								</button>
 							</div>
 						</div>
@@ -379,6 +383,16 @@ export default class Manage extends Component {
 		fetch(url)
 			.then(function(response) {
 				alert('Update Cup: Done');
+			});
+	}
+	
+	updateGoals() {
+		const year = this.state.selectedYear;
+		const url = '/api/goal/update-all/' + year;
+		
+		fetch(url)
+			.then(function(response) {
+				alert('Update Goals: Done');
 			});
 	}
 }

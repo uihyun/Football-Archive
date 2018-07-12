@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import { Cup, ViewSelector } from '../../Common';
+import { Cup, ViewSelector, Ranking } from '../../Common';
 
 import Groups from '../Groups';
 import Rounds from '../Rounds';
@@ -24,12 +24,14 @@ export default class CupView extends Component {
 			name: 'Standings',
 			view: <Cup cup={cup} hideName={true} />
 		});
+
 		if (knockout.length) {
 			views.push({
 				name: 'Knockout',
 				view: <Rounds comp={cup} rounds={knockout} />
 			});
 		}	
+
 		if (group.length) {
 			views.push({
 				name: 'Group Stage',
@@ -43,6 +45,16 @@ export default class CupView extends Component {
 				)
 			});
 		}
+
+		const goals = this.props.goals;
+		if (goals) {
+			views.push({
+				name: 'Rankings',
+				view: <Ranking goals={goals} />
+			});
+		}
+
+		console.log(cup);
 
 		return views;
 	}

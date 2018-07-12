@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import { LeagueTable, ViewSelector } from '../../Common';
+import { LeagueTable, ViewSelector, Ranking } from '../../Common';
 
 import PointMap from '../PointMap';
 import Remaining from '../Remaining';
@@ -35,6 +35,14 @@ export default class LeagueView extends Component {
 			views.push({
 				name: 'Remaining',
 				view: <Remaining league={league} />
+			});
+		}
+
+		const goals = this.props.goals;
+		if (goals) {
+			views.push({
+				name: 'Rankings',
+				view: <Ranking goals={goals} />
 			});
 		}
 

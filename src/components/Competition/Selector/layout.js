@@ -53,7 +53,7 @@ const layout = {
 	asia: ['AFC Champions League'],
 	kleague: {
 		legend: ['1', '2', 'Cup', 'League Cup'],
-		list: ['K', 'J'],
+		list: ['K', 'J', 'C'],
 		groups: {
 			K: {
 				'1': 'K League 1',
@@ -64,6 +64,10 @@ const layout = {
 				'1': 'J1 League',
 				'Cup': 'Emperor\'s Cup',
 				'League Cup': 'J League Cup',
+			},
+			C: {
+				'1': 'Super League',
+				'Cup': 'CFA Cup',
 			}
 		}
 	}
