@@ -49,8 +49,8 @@ export default class CupView extends Component {
 		const goals = this.props.goals;
 		if (goals) {
 			views.push({
-				name: 'Rankings',
-				view: <Ranking goals={goals} year={cup.season} />
+				name: 'Goals',
+				view: <Ranking goals={goals} year={cup.season} onlyLeague={true} />
 			});
 		}
 

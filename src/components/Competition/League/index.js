@@ -41,7 +41,7 @@ export default class LeagueView extends Component {
 		const goals = this.props.goals;
 		if (goals) {
 			views.push({
-				name: 'Rankings',
+				name: 'Goals',
 				view: <Ranking goals={goals} year={league.season} />
 			});
 		}

@@ -8,8 +8,13 @@ export default class Ranking extends Component {
 
 	render() {
 		var views = [];
+
 		views.push(this.getView('League', 'leagueGoals'));
 		views.push(this.getView('All Season', 'seasonGoals'));
+
+		if (this.props.onlyLeague) {
+			return views[0].view;
+		}
 
 		return (
 			<ViewSelector views={views} />

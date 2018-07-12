@@ -30,7 +30,7 @@ export default class Home extends Component {
 						</NavLink>
 					</div>
 					<div className="flex-1">
-						<NavLink to={'/rankings/' + clubs.years.max}>Rankings</NavLink>
+						<NavLink to={'/rankings/' + clubs.years.max}>Goals</NavLink>
 					</div>
 				</div>
 				<Recent />

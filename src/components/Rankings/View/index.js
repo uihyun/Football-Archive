@@ -41,7 +41,7 @@ export default class RankingsView extends Component {
 				views.push({name: code, view: (
 					<div>
 						<h3 className="hide-mobile text-center">{code}</h3>
-						<Ranking goals={groups[code]} year={year} />
+						<Ranking goals={groups[code]} year={year} onlyLeague={code === 'FIFA'} />
 					</div>
 				)});
 			}
@@ -49,6 +49,7 @@ export default class RankingsView extends Component {
 
 		return (
 			<div className="RankingView">
+				<div className="RankingView-header text-center">Top Scorers</div>
 				<YearSelector year={year} min={clubs.years.min} max={clubs.years.max} link={'rankings'} />
 				<ViewSelector views={views} expand={true}/>
 			</div>
