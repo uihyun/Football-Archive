@@ -62,6 +62,9 @@ const rounds = {
 	'WC Qualifiers Play-offs': {
 		'Matches': 'PO',
 	},
+	'J League Cup': {
+		'Zwischenrunde': 'PO',
+	},
 	getShortForm: function(comp, round) {
 		if (this[comp] !== undefined) {
 			if (this[comp][round] !== undefined) {

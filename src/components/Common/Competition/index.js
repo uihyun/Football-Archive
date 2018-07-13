@@ -35,6 +35,10 @@ export default class Competition extends Component {
 			shRound = shRound.replace(/3rdR/, '3R');
 			shRound = shRound.replace(/Relegation/, '4R');
 		}
+
+		if (name === 'J League Cup') {
+			round = round.replace(/Zwischenrunde/, 'Play-off');
+		}
 			
 		round = round.replace(/Matches/, '');
 

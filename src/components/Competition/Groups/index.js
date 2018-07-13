@@ -47,6 +47,7 @@ export default class Groups extends Component {
 			match = group.matches[i];
 			for (j = 0; j < group.table.length; j++) {
 				teamA = group.table[j].name;
+
 				for (k = 0; k < group.table.length; k++) {
 					teamB = group.table[k].name;
 					if (j === k)
@@ -60,6 +61,10 @@ export default class Groups extends Component {
 						} else {
 							teams = [match.r, match.l];
 							index = j * 4 + k;
+						}
+
+						if (j >= 4 && k >= 4 && group.table.length >= 6) {
+							index += 4;
 						}
 
 						matches[index] = {

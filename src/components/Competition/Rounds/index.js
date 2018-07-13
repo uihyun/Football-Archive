@@ -48,6 +48,7 @@ export default class Rounds extends Component {
 			round = earlyRounds[i];
 			group = MatchUtil.groupMatches(round.matches);
 			name = round.name.replace(/\./, '');
+			name = name.replace(/Zwischenrunde/, 'Play-off');
 
 			views.push({
 				name: name,

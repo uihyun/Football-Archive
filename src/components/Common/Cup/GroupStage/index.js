@@ -28,7 +28,7 @@ export default class GroupStage extends Component {
 		var j, team;
 		var header;
 		var image;
-		var x, y, dx, dy;
+		var x, y, dx, dy, myX;
 		var url;
 		var isTeamInGroup;
 		var style;
@@ -64,9 +64,18 @@ export default class GroupStage extends Component {
 				team = group.table[j].name;
 				url = UrlUtil.getEmblemUrl(team);
 
+				myX = x;
 				y += dy;
 
-				image = <image key={team} xlinkHref={url} x={x} y={y} width={teamSize} height={teamSize} />;
+				if (group.table.length > 5) {
+					if (j % 2 === 0) {
+						myX -= 10;
+					} else {
+						myX += 10;
+					}
+				}
+
+				image = <image key={team} xlinkHref={url} x={myX} y={y} width={teamSize} height={teamSize} />;
 				teams.push(this.getLink(image, team));
 			}
 
