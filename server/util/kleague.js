@@ -46,7 +46,7 @@ module.exports = {
 		'경주한국수력원자력(주)': '경주한국수력원자력㈜',
 		'경북대구대': '대구대구대',
 	},
-	aclTeamNameMap: {
+	replaceTeamNameMap: {
 		'Ulsan Hyundai': '울산',
 		'Suwon Bluewings': '수원',
 		'Pohang Steelers': '포항',
@@ -54,13 +54,11 @@ module.exports = {
 		'Jeonbuk FC': '전북',
 		'Seongnam FC': '성남',
 		'FC Seoul': '서울',
-	},
-	aclReverseMap: {'울산': 1, '수원': 1, '포항': 1, '제주': 1, '전북': 1, '성남': 1, '서울': 1},
-	superLeagueTeamNameMap: {
 		'Shanghai East Asia': 'Shanghai SIPG',
 		'Jiangsu Sainty': 'Jiāngsū Sūníng',
 		'Guizhou Hengfeng Zhicheng FC': 'Guizhou Hengfeng',
 	},
+	aclReverseMap: {'울산': 1, '수원': 1, '포항': 1, '제주': 1, '전북': 1, '성남': 1, '서울': 1},
 	aclTeams: {
 		2018: [	'전북', '울산', '제주', '수원' ],
 		2017: [	'서울', '수원', '제주', '울산' ],

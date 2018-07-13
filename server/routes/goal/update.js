@@ -97,8 +97,6 @@ module.exports = function(router, db) {
 
 		if (league === undefined || acl === undefined)
 			return;
-		
-		console.log(season.team);
 
 		var numberMap = {};
 		var j, k, match, summary, side, players, player, length;

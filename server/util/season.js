@@ -8,8 +8,7 @@ const KLeagueUtil = require('./kleague');
 
 module.exports = {
 	fetch: function(season, team) {
-		const teamNameMap = KLeagueUtil.aclTeamNameMap;
-		const superLeagueTeamNameMap = KLeagueUtil.superLeagueTeamNameMap;
+		const teamNameMap = KLeagueUtil.replaceTeamNameMap;
 		const jleague = [
 			'Consadole Sapporo',
 			'Vegalta Sendai',
@@ -102,12 +101,12 @@ module.exports = {
 				competition.name = 'J League Cup';
 			} else if (competition.name === 'Super Cup') {
 				competition.name = 'Japanese Super Cup';
-			} else if (competition.name === 'AFC Champions League') {
-				for (k in competition.matches) {
-					match = competition.matches[k];
-					if (teamNameMap[match.vs]) {
-						match.vs = teamNameMap[match.vs];
-					}
+			}
+
+			for (k in competition.matches) {
+				match = competition.matches[k];
+				if (teamNameMap[match.vs]) {
+					match.vs = teamNameMap[match.vs];
 				}
 			}
 		}
@@ -119,19 +118,12 @@ module.exports = {
 				competition.name = 'CFA Cup';
 			} else if (competition.name === 'Super Cup') {
 				competition.name = 'CFA Super Cup';
-			} else if (competition.name === 'AFC Champions League') {
-				for (k in competition.matches) {
-					match = competition.matches[k];
-					if (teamNameMap[match.vs]) {
-						match.vs = teamNameMap[match.vs];
-					}
-				}
 			}
-			
+
 			for (k in competition.matches) {
 				match = competition.matches[k];
-				if (superLeagueTeamNameMap[match.vs]) {
-					match.vs = superLeagueTeamNameMap[match.vs];
+				if (teamNameMap[match.vs]) {
+					match.vs = teamNameMap[match.vs];
 				}
 			}
 		}
