@@ -263,18 +263,22 @@ module.exports = function(router, db) {
 			}
 
 			var bulk = Goals.initializeUnorderedBulkOp();
+			var hasBulkOp = false;
 
 			for (l in leagues) {
 				league = leagues[l];
 				if (league.goals.length > 0) {
 					bulk.find({ season: league.season, name: league.name }).upsert().update({ $set: { goals: league.goals }});
+					hasBulkOp = true;
 				}
 			}
 
-			try {
-				var result = await bulk.execute();
-			} catch (err) {
-				console.log(err);
+			if (hasBulkOp) {
+				try {
+					var result = await bulk.execute();
+				} catch (err) {
+					console.log(err);
+				}
 			}
 
 			res.sendStatus(200);
