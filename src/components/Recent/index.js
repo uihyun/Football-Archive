@@ -116,6 +116,7 @@ export default class Recent extends Component {
 			var compMap = {};
 			var comps = [];
 			var i, j, match;
+			var comp, prevMatch, matches;
 
 			j = 0;
 			for (i in competitions) {
@@ -134,7 +135,9 @@ export default class Recent extends Component {
 			}
 			
 			for (i = 0; i < comps.length; i++) {
-				comps[i].matches.sort((a, b) => {
+				comp = comps[i];
+
+				comp.matches.sort((a, b) => {
 					if (a.dateO.toString() === b.dateO.toString()) {
 						if ((a.summary && b.summary) || !(a.summary || b.summary)) {
 							return a.teams[0] < b.teams[0] ? -1 : 1;
@@ -145,6 +148,23 @@ export default class Recent extends Component {
 
 					return a.dateO < b.dateO ? -1 : 1;
 				});
+
+				// remove duplicates (can only occur when there is no match url)
+				if (comp.matches.length > 0) {
+					matches = [comp.matches[0]];
+					for (j = 1; j < comp.matches.length; j++) {
+						prevMatch = comp.matches[j - 1];
+						match = comp.matches[j];
+
+						if (match.dateO.toString() !== prevMatch.dateO.toString() ||
+							match.teams[0] !== prevMatch.teams[0] ||
+							match.teams[1] !== prevMatch.teams[1]) {
+							matches.push(match);
+						}
+					}
+
+					comp.matches = matches;
+				}
 			}
 
 			that.setState({competitions: comps});
