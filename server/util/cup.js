@@ -290,7 +290,7 @@ module.exports = {
 					if (round.name === 'Final') {
 						winner = that.findWinner(round);
 						if (winner !== null) {
-							cup.winner = winnner;
+							cup.winner = winner;
 						}
 					}					
 				}

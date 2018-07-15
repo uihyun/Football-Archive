@@ -1,13 +1,9 @@
 'use strict';
 
-const path = require('path');
-const exec = require('child_process').exec;
-
 const CupUtil = require('../../util/cup');
 
 module.exports = function(router, db) {
   const Seasons = db.collection('Seasons');
-  const Matches = db.collection('Matches');
   const Cups = db.collection('Cups');
 
 	function fetchCup(cup) {

@@ -1,5 +1,15 @@
 'use strict';
 
+function compareFn(a, b) {
+	if (a.points !== b.points) {
+		return b.points - a.points;
+	} else if (a.goals.d !== b.goals.d) {
+		return b.goals.d - a.goals.d;
+	} else {
+		return b.goals.f - a.goals.f;
+	}
+}
+
 module.exports = {
 	getEmptyTeam: function(name) {
 		return {
@@ -16,18 +26,10 @@ module.exports = {
 			points: 0
 		};
 	},
-	compareFn: function(a, b) {
-		if (a.points !== b.points) {
-			return b.points - a.points;
-		} else if (a.goals.d !== b.goals.d) {
-			return b.goals.d - a.goals.d;
-		} else {
-			return b.goals.f - a.goals.f;
-		}
-	},
+	compareFn: compareFn,
 	compareFnH2H: function(a, b) {
 		if (a.points === b.points) {
-			var h2h = this.compareFn(a.h2h[b.name], b.h2h[a.name]);
+			var h2h = compareFn(a.h2h[b.name], b.h2h[a.name]);
 
 			if (h2h !== 0) {
 				return h2h;
@@ -35,8 +37,9 @@ module.exports = {
 				return b.h2h[a.name].goals.away - a.h2h[b.name].goals.away;
 			}
 		}
-			
-		return this.compareFn(a, b);
+		
+		var result = compareFn(a, b);
+		return result;
 	},
 	compareFnWithName: function(a, b) {
 		if (a.rank === b.rank) {
