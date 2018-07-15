@@ -1,7 +1,8 @@
 'use strict';
 
 const path = require('path');
-const exec = require('child_process').exec;
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
 
 const CmpUtil = require('./cmp');
 const KLeagueUtil = require('./kleague');
@@ -228,83 +229,70 @@ module.exports = {
 		return null;
 	},
 	fetch: function(cup) {
-		function promiseFromChildProcess(child) {
-			return new Promise(function (resolve, reject) {
-				child.addListener("error", reject);
-				child.addListener("exit", resolve);
-			});
-		}
-		
-		const execStr = 'perl ' + path.join(__dirname, '../../perl', 'cup.pl') + ' ' + cup.url;
-		const teamNameMap = KLeagueUtil.replaceTeamNameMap;
+		return new Promise(async function (resolve, reject) {
+			const CupUtil = require('./cup');
+			const execStr = 'perl ' + path.join(__dirname, '../../perl', 'cup.pl') + ' ' + cup.url;
+			const teamNameMap = KLeagueUtil.replaceTeamNameMap;
+			const { stdout, stderr } = await exec(execStr);
 
-		var stdout = '';
-		var child = exec(execStr);
-		var that = this;
-		child.stdout.on('data', function(chunk) {stdout += chunk});
+			var data;
 
-		return promiseFromChildProcess(child)
-			.then(function () {
-				if (stdout === '')
-					return;
+			try {
+				data = JSON.parse(stdout);
+			} catch(err) {
+				console.log(stdout);
+				console.log(err);
+				reject();
+			}
 
-				var data;
+			var i, round;
+			var j, match;
+			var winner;
+			var teams = {};
 
-				try {
-					data = JSON.parse(stdout);
-				} catch(err) {
-					console.log(stdout);
-					throw(err);
-				}
+			for (i = 0; i < data.length; i++) {
+				round = data[i];
 
-				var i, round;
-				var j, match;
-				var winner;
-				var teams = {};
+				for (j = 0; j < round.matches.length; j++) {
+					match = round.matches[j];
 
-				for (i = 0; i < data.length; i++) {
-					round = data[i];
+					if (teamNameMap[match.l])
+						match.l = teamNameMap[match.l];
 
-					for (j = 0; j < round.matches.length; j++) {
-						match = round.matches[j];
+					if (teamNameMap[match.r])
+						match.r = teamNameMap[match.r];
 
-						if (teamNameMap[match.l])
-							match.l = teamNameMap[match.l];
-
-						if (teamNameMap[match.r])
-							match.r = teamNameMap[match.r];
-
-						if (cup.teamMap[match.l] !== true &&
-								cup.teamMap[match.r] !== true) {
-							delete match.url;
-						}
-
-						teams[match.l] = true;
-						teams[match.r] = true;
+					if (cup.teamMap[match.l] !== true &&
+						cup.teamMap[match.r] !== true) {
+						delete match.url;
 					}
 
-					if (round.name.match(/group/i)) {
-						round.table = that.getGroupTable(round, cup.name);
+					teams[match.l] = true;
+					teams[match.r] = true;
+				}
+
+				if (round.name.match(/group/i)) {
+					round.table = CupUtil.getGroupTable(round, cup.name);
+				}
+
+				if (round.name === 'Final') {
+					winner = CupUtil.findWinner(round);
+					if (winner !== null) {
+						cup.winner = winner;
 					}
+				}					
+			}
 
-					if (round.name === 'Final') {
-						winner = that.findWinner(round);
-						if (winner !== null) {
-							cup.winner = winner;
-						}
-					}					
-				}
+			delete cup.teamMap;
+			cup.rounds = data;
 
-				delete cup.teamMap;
-				cup.rounds = data;
+			var teamArray = [];
+			for (i in teams) {
+				teamArray.push(i);
+			}
+			cup.teams = teamArray;
 
-				var teamArray = [];
-				for (i in teams) {
-					teamArray.push(i);
-				}
-				cup.teams = teamArray;
-
-				return cup;
-			});
+			resolve(cup);
+		});
 	},
 };
