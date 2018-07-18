@@ -56,7 +56,7 @@ const competitions = {
 	'AFC Champions League': {order: 2, name: 'AFC Champions League', sh: 'ACL', type: '2', group: 0, years: kleague.years, times: []},
 	'AFC Champions League Quali.': {order: 2, name: 'AFC Champions League Qualifiers', sh: 'ACL', type: '2', group: 0},
 	'K League 1': {order: 1, name: 'K League 1', sh: 'K1', type: '4', group: 1, times: [], years: kleague.years},
-	'K League 2': {order: 1, name: 'K League 2', sh: 'K2', type: '4', group: 1, times: [], years: kleague.years},
+	'K League 2': {order: 3, name: 'K League 2', sh: 'K2', type: '4', group: 1, times: [], years: kleague.years},
 	'J1 League': {order: 1, name: 'J1 League', sh: 'L', type: 'L', group: 1, times: [], years: kleague.years},
 	'Super League': {order: 1, name: 'Super League', sh: 'L', type: 'L', group: 1, times: [], years: kleague.years},
 	'KFA Cup': {order: 6, name: 'KFA Cup', sh: 'Cup', type: '2', group: 2, years: kleague.years, times: []},
