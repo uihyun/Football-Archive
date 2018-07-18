@@ -178,6 +178,9 @@ export default class NationView extends Component {
 			for (i = 0; i < dataArray.length; i++) {
 				data = dataArray[i];
 
+				if (data.competitions === null)
+					continue;
+
 				for (j = 0; j < data.competitions.length; j++) {
 					competition = data.competitions[j];
 					url = competition.url;
