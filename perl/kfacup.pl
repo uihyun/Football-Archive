@@ -38,16 +38,16 @@ while (1) {
 		my $date = "$2/$3/$1";
 
 		$td_col->[2]->all_text =~ /(.*) : (.*)/;
-		my $l = $1;
-		my $r = $2;
+		my $l = trim($1);
+		my $r = trim($2);
 
 		my $score = "";
 		my $pk = "";
 		my $url = "";
 
-		my $scoreboard = $td_col->[4]->all_text;
+		my $scoreboard = trim($td_col->[4]->all_text);
 		if ($scoreboard =~ /(\d+) : (\d+)/) {
-			my $score = "$1:$2";
+			$score = "$1:$2";
 		}
 
 		if ($scoreboard =~ /\((\d+) PSO (\d+)\)/) {
@@ -76,3 +76,10 @@ while (1) {
 
 $json .= "]\n";
 print $json;
+
+sub trim($)
+{
+	my $text = shift;
+	$text =~ s/^\s+|\s+$//g;
+	return $text;
+}

@@ -122,8 +122,10 @@ export default class UEFAView extends Component {
 		const year = this.state.year;
 		const showForm = (year === clubs.years.max + '');
 
+		console.log(data);
+
 		var views = [];
-		if (data.competitions.length === 0)
+		if (data.competitions === null || data.competitions.length === 0)
 			return views;
 
 		views.push({
