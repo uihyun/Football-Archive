@@ -50,10 +50,6 @@ module.exports = function(router, db) {
 		const season = data.gameInfo.dateTime.substring(0, 4);
 
 		function normalizeName(team) {
-			if (team === '경찰') {
-				console.log(data.gameInfo.dateTime);
-				console.log(season);
-			}
 			if (teamNameMap[season] && teamNameMap[season][team])
 				return teamNameMap[season][team];
 
@@ -272,6 +268,38 @@ module.exports = function(router, db) {
 				assistMap[minute] = player.name;
 			}
 		}
+
+		function getSubIn(player, sideIndex) {
+			const subs = data.sub[sideIndex];
+			var i, sub, number;
+
+			for (i = 0; i < subs.length; i++) {
+				sub = subs[i];
+				number = parseInt(sub.name.split('.')[0], 10);
+
+				if (number === player.number && sub.state === 'in') {
+					player.sub = sub.minute;
+				}
+			}
+		}
+
+		function getSubOut(player, sideIndex) {
+			const subs = data.sub[sideIndex];
+			var i, sub, number;
+
+			for (i = 0; i < subs.length; i++) {
+				sub = subs[i];
+				number = parseInt(sub.name.split('.')[0], 10);
+
+				if (number === player.number && sub.state === 'out') {
+					if (player.sub === undefined) {
+						player.sub = sub.minute;
+					} else {
+						player.sub = [player.sub, sub.minute];
+					}
+				}
+			}
+		}
 		
 		var row, player;
 
@@ -284,6 +312,7 @@ module.exports = function(router, db) {
 				getCard(row, player);
 				addGoal(row, player, side);
 				addAssist(row, player);
+				getSubOut(player, i);
 
 				match.players[side].start.push(player);
 			}
@@ -298,6 +327,8 @@ module.exports = function(router, db) {
 				getCard(row, player);
 				addGoal(row, player, side);
 				addAssist(row, player);
+				getSubIn(player, i);
+				getSubOut(player, i);
 
 				match.players[side].sub.push(player);
 			}
