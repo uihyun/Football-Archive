@@ -76,8 +76,13 @@ export default class Lineup extends Component {
 		}
 		
 		if (player.sub) {
-			if (pos === 'sub' && player.sub.length === undefined) {
-				array.push(<div key="sub_in">▲</div>);
+			if (pos === 'sub') {
+				if (player.sub.length === undefined) {
+					array.push(<div key="sub_in">▲</div>);
+				} else {
+					array.push(<div key="sub_in">▲</div>);
+					array.push(<div key="sub_out">▼</div>);
+				}
 			} else {
 				array.push(<div key="sub_out">▼</div>);
 			}
