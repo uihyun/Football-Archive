@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import './style.css';
 
 import { Team, ViewSelector, Year } from '../../Common';
-import { kleague } from '../data';
+import { afc } from '../data';
 
 import AllMatches from '../../AllMatches';
 import Statistics from '../../Statistics';
@@ -221,7 +221,7 @@ export default class AFCView extends Component {
 		const data = this.state.data;
 		const team = this.state.team;
 		const year = this.state.year;
-		const showForm = (year === kleague.years.max + '');
+		const showForm = (year === afc.years.max + '');
 
 		var views = [];
 		if (data.competitions.length === 0)

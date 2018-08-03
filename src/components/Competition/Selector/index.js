@@ -17,7 +17,7 @@ export default class CompetitionSelector extends Component {
 		const year = this.props.match.params.year;
 		const domestic = layout.domestic;
 		const continental = layout.continental;
-		const kleague = layout.kleague;
+		const afc = layout.afc;
 
 		const large = {fontSize: '1.5em'};
 
@@ -66,8 +66,8 @@ export default class CompetitionSelector extends Component {
 					})}
 				</div>
 				<br/>
-				{this.getHeaders(kleague.list, large)}
-				{this.getComps(kleague)}
+				{this.getHeaders(afc.list, large)}
+				{this.getComps(afc)}
 			</div>
 		);
 	}

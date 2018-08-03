@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './style.css';
 
 import { Team } from '../Common';
-import { clubs, nations, kleague } from '../data';
+import { clubs, nations, afc } from '../data';
 
 import UrlUtil from '../../util/url';
 
@@ -46,7 +46,7 @@ export default class Manage extends Component {
 		var legend = [
 			{title: 'Club', years: this.getYears(clubs.years)},
 			{title: 'FIFA', years: this.getYears(nations.years)},
-			{title: 'AFC', years: this.getYears(kleague.years)}
+			{title: 'AFC', years: this.getYears(afc.years)}
 		];
 
     return (
@@ -173,8 +173,8 @@ export default class Manage extends Component {
 		var i, teams;
 		var array = [];
 
-		for (i = 0; i < kleague.leagues.length; i++) {
-			teams = kleague.seasons[kleague.leagues[i]].teams[year];
+		for (i = 0; i < afc.leagues.length; i++) {
+			teams = afc.seasons[afc.leagues[i]].teams[year];
 
 			if (teams) {
 				array = array.concat(teams);
@@ -329,10 +329,10 @@ export default class Manage extends Component {
 			}
 		}
 		
-		for (i = 0; i < kleague.leagues.length; i++) {
-			league = kleague.leagues[i];
+		for (i = 0; i < afc.leagues.length; i++) {
+			league = afc.leagues[i];
 
-			if (kleague.seasons[league] && hasTeams(kleague.seasons[league].teams[year])) {
+			if (afc.seasons[league] && hasTeams(afc.seasons[league].teams[year])) {
 				leagues.push(league.replace(/ /g, '-'));
 			}
 		}

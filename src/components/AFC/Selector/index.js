@@ -4,28 +4,28 @@ import './style.css';
 
 import { Team, YearSelector } from '../../Common';
 
-import { kleague } from '../data';
+import { afc } from '../data';
 
 export default class AFCSelector extends Component {
 
   render() {
 		const year = this.props.match.params.year;
-		var kleagueTeams = [];
+		var afcTeams = [];
 
-		kleague.leagues.forEach(league => {
-			var teams = kleague.seasons[league].teams[year];
-			var code = league;
+		afc.leagues.forEach(league => {
+			var teams = afc.seasons[league].teams[year];
+			var code = afc.codes[league];
 			if (teams) {
-				kleagueTeams.push({ code: code, teams: teams });
+				afcTeams.push({ code: code, teams: teams });
 			}
 		});
 
     return (
       <div className="AFCSelector text-center">
 				<br />
-				<YearSelector year={year} min={kleague.years.min} max={kleague.years.max} link={'AFC'} />
+				<YearSelector year={year} min={afc.years.min} max={afc.years.max} link={'AFC'} />
 				<div className="flex-container">
-					{kleagueTeams.map(league => {
+					{afcTeams.map(league => {
 						return (
 							<div key={league.code} className="flex-1">
 								<h3>{league.code}</h3>

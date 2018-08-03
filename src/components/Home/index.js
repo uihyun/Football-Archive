@@ -5,7 +5,7 @@ import './style.css';
 
 import Recent from '../Recent';
 
-import { clubs, kleague } from '../data';
+import { clubs, afc } from '../data';
 
 export default class Home extends Component {
 
@@ -21,7 +21,7 @@ export default class Home extends Component {
 						<NavLink to={'/UEFA/' + clubs.years.max}>UEFA</NavLink>
 					</div>
 					<div className="flex-1">
-						<NavLink to={'/AFC/' + kleague.years.max}>AFC</NavLink>
+						<NavLink to={'/AFC/' + afc.years.max}>AFC</NavLink>
 					</div>
 					<div className="flex-1">
 						<NavLink to={'/competition/' + clubs.years.max}>

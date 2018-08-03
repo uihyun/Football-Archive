@@ -1,8 +1,8 @@
+export {default as afc} from './afc';
 export {default as clubs} from './clubs';
 export {default as colors} from './colors';
 export {default as competitions} from './competitions';
 export {default as koreans} from './koreans';
-export {default as kleague} from './kleague';
 export {default as nations} from './nations';
 export {default as players} from './players';
 export {default as rounds} from './rounds';

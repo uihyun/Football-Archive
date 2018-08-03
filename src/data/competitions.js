@@ -1,5 +1,5 @@
 import clubs from './clubs';
-import kleague from './kleague';
+import afc from './afc';
 
 const competitions = {
 	'World Cup': {order: 1, name: 'World Cup', sh: 'WC', type: 'H', group: 0, times: [2002, 2006, 2010, 2014, 2018]},
@@ -33,6 +33,7 @@ const competitions = {
 	'UI-Cup': {order: 3, name: 'Intertoto Cup', sh: 'UIC', type: '2', group: 0},
 	'Club World Cup': {order: 5, name: 'Club World Cup', sh: 'CWC', type: 'H', group: 0},
 	'UEFA-Supercup' : {order: 4, name: 'UEFA Supercup', sh: 'USC', type: 'H', group: 0},
+	'UEFA Super Cup' : {order: 4, name: 'UEFA Supercup', sh: 'USC', type: 'H', group: 0},
 	'Premier League': {order: 1, name: 'Premier League', sh: 'L', type: 'L', group: 1, years: clubs.years},
 	'Primera División': {order: 1, name: 'Primera División', sh: 'L', type: 'L', group: 1, url: 'Primera-Division', years: clubs.years},
 	'Bundesliga': {order: 1, name: 'Bundesliga', sh: 'L', type: 'L', group: 1, years: clubs.years},
@@ -53,16 +54,16 @@ const competitions = {
 	'Relegation Bundesliga': {order: 9, name: 'Bundesliga Relegation', sh: 'R', type: '2', group: 1},
 	'Relegation Ligue 1': {order: 9, name: 'Ligue 1 Relegation', sh: 'R', type: '2', group: 1},
 	
-	'AFC Champions League': {order: 2, name: 'AFC Champions League', sh: 'ACL', type: '2', group: 0, years: kleague.years, times: []},
+	'AFC Champions League': {order: 2, name: 'AFC Champions League', sh: 'ACL', type: '2', group: 0, years: afc.years, times: []},
 	'AFC Champions League Quali.': {order: 2, name: 'AFC Champions League Qualifiers', sh: 'ACL', type: '2', group: 0},
-	'K League 1': {order: 1, name: 'K League 1', sh: 'K1', type: '4', group: 1, times: [], years: kleague.years},
-	'K League 2': {order: 3, name: 'K League 2', sh: 'K2', type: '4', group: 1, times: [], years: kleague.years},
-	'J1 League': {order: 1, name: 'J1 League', sh: 'L', type: 'L', group: 1, times: [], years: kleague.years},
-	'Super League': {order: 1, name: 'Super League', sh: 'L', type: 'L', group: 1, times: [], years: kleague.years},
-	'KFA Cup': {order: 6, name: 'KFA Cup', sh: 'Cup', type: '2', group: 2, years: kleague.years, times: []},
-	'Emperor\'s Cup': {order: 6, name: 'Emperor\'s Cup', sh: 'Cup', type: '2', group: 2, years: {min: 2015, max: kleague.years.max}, times: []},
-	'CFA Cup': {order: 6, name: 'CFA Cup', sh: 'Cup', type: '2', group: 2, years: {min: 2014, max: kleague.years.max}, times: []},
-	'J League Cup': {order: 7, name: 'J League Cup', sh: 'LC', type: '2', group: 2, years: kleague.years, times: []},
+	'K League 1': {order: 1, name: 'K League 1', sh: 'K1', type: '4', group: 1, times: [], years: afc.years},
+	'K League 2': {order: 3, name: 'K League 2', sh: 'K2', type: '4', group: 1, times: [], years: afc.years},
+	'J1 League': {order: 1, name: 'J1 League', sh: 'L', type: 'L', group: 1, times: [], years: afc.years},
+	'Super League': {order: 1, name: 'Super League', sh: 'L', type: 'L', group: 1, times: [], years: afc.years},
+	'KFA Cup': {order: 6, name: 'KFA Cup', sh: 'Cup', type: '2', group: 2, years: afc.years, times: []},
+	'Emperor\'s Cup': {order: 6, name: 'Emperor\'s Cup', sh: 'Cup', type: '2', group: 2, years: {min: 2015, max: afc.years.max}, times: []},
+	'CFA Cup': {order: 6, name: 'CFA Cup', sh: 'Cup', type: '2', group: 2, years: {min: 2014, max: afc.years.max}, times: []},
+	'J League Cup': {order: 7, name: 'J League Cup', sh: 'LC', type: '2', group: 2, years: afc.years, times: []},
 	'Japanese Super Cup': {order: 8, name: 'Japanese Super Cup', sh: 'CS', type: 'H', group: 2},
 	'CFA Super Cup': {order: 8, name: 'CFA Super Cup', sh: 'CS', type: 'H', group: 2},
 	'K League Relegation': {order: 9, name: 'K League Relegation', sh: 'R', type: '2', group: 1},

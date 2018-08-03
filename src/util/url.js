@@ -1,4 +1,4 @@
-import { competitions, clubs, nations, kleague, teams } from '../data';
+import { competitions, clubs, nations, afc, teams } from '../data';
 
 export default class UrlUtil {
 	static getTeamUrl(team) {
@@ -118,11 +118,11 @@ export default class UrlUtil {
 			}
 		}
 
-		for (i in kleague.seasons) {
-			if (kleague.seasons[i].teams[year] === undefined)
+		for (i in afc.seasons) {
+			if (afc.seasons[i].teams[year] === undefined)
 				continue;
 
-			if (kleague.seasons[i].teams[year].includes(team)) {
+			if (afc.seasons[i].teams[year].includes(team)) {
 				return '/AFC/' + year + '/' + this.getTeamUrl(team);
 			}
 		}
