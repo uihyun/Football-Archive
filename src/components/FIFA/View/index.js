@@ -174,6 +174,9 @@ export default class NationView extends Component {
 			var compMap = {};
 			var cups = [];
 			var url;
+			var qualMap = {};
+			var quals = [];
+			var qual;
 
 			for (i = 0; i < dataArray.length; i++) {
 				data = dataArray[i];
@@ -202,6 +205,15 @@ export default class NationView extends Component {
 				}
 
 				cups = cups.concat(data.cups);
+
+				for (j = 0; j < data.quals.length; j++) {
+					qual = data.quals[j];
+
+					if (qualMap[qual.url] === undefined) {
+						qualMap[qual.url] = true;
+						quals.push(qual);
+					}
+				}
 			}
 
 			var compArray = [];
@@ -211,7 +223,7 @@ export default class NationView extends Component {
 				}
 			}
 
-			result = {season: year, team: team, competitions: compArray, leagues: [], cups: cups};
+			result = {season: year, team: team, competitions: compArray, leagues: [], cups: cups, quals: quals};
 
 			if (team === 'South Korea')
 				that.normalizeKoreanNames(result);

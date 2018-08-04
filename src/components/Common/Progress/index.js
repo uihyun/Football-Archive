@@ -130,6 +130,103 @@ export default class Progress extends Component {
 		return table;
 	}
 
+	buildQualifierRows() {
+		const competition = this.props.competition;
+		const qual = this.props.qual;
+		const team = this.props.team;
+
+		if (qual === undefined)
+			return [];
+
+		var i, j, round, entry, match, selfview;
+		var table = [];
+		var tableIndex = 0;
+
+		var roundNameMap = {};
+		var matchMap = {};
+		var matches;
+		var teamMap, teams, vs;
+
+		for (i = 0; i < competition.matches.length; i++) {
+			match = competition.matches[i];
+			roundNameMap[match.round] = true;
+			matchMap[match.round + match.place + match.vs] = match;
+		}
+		
+		function findMatches(round, team) {
+			var matches = [null, null];
+			const places = ['H', 'A'];
+			var k, key;
+
+			for (k = 0; k < places.length; k++) {
+				key = round + places[k] + team;
+				if (matchMap[key]) {
+					matches[k] = matchMap[key];
+				}
+			}
+
+			key = round + 'N' + team;
+			if (matchMap[key]) {
+				for (k = 0; k < places.length; k++) {
+					if (matches[k] === null) {
+						matches[k] = matchMap[key];
+						break;
+					}
+				}							
+			}
+
+			return matches;
+		}
+
+		for (i = qual.rounds.length - 1; i >= 0; i--) {
+			round = qual.rounds[i];
+
+			if (roundNameMap[round.name] === undefined)
+				continue;
+
+			if (round.table) {
+				for (j = 0; j < round.table.length; j++) {
+					entry = round.table[j];
+
+					if (entry.name === team) {
+						selfview = (<div className="Progress-self">{this.getRankSuffix(entry.rank)}</div>);
+						table[tableIndex++] = { team: entry.name, round: '', view: selfview };
+					} else {
+						matches = findMatches(round.name, entry.name);
+						table[tableIndex++] = { team: entry.name, matches: matches, round: entry.rank + '' };
+					}
+				}
+			} else {
+				teamMap = {};
+				teams = [];
+
+				for (j = 0; j < round.matches.length; j++) {
+					match = round.matches[j];
+
+					if (match.l === team) {
+						if (teamMap[match.r] === undefined) {
+							teamMap[match.r] = true;
+							teams.push(match.r);
+						}
+					} else if (match.r === team) {
+						if (teamMap[match.l] === undefined) {
+							teamMap[match.l] = true;
+							teams.push(match.l);
+						}
+					}
+				}
+
+				for (j = 0; j < teams.length; j++) {
+					vs = teams[j];
+					matches = findMatches(round.name, vs);
+					table[tableIndex++] = { team: vs, matches: matches, round: round.name };
+				}
+			}
+		}
+
+		return table;
+	}
+
 	formatDate(date) {
 		var array = date.split('/');
 		return parseInt(array[2] + array[0] + array[1], 10); // mm/dd/yyyy
@@ -398,6 +495,9 @@ export default class Progress extends Component {
 		switch (desc.type) {
 			case 'L':
 				rows = this.buildLeagueRows();
+				break;
+			case 'Q':
+				rows = this.buildQualifierRows();
 				break;
 			case '2':
 				rows = this.build2LeggedRows(); 

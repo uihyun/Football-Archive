@@ -19,6 +19,7 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 
 	if ($round_th->size) {
 		$round = $round_th->first->all_text;
+		$round =~ s/\.//g;
 
 		$match_count = 0;
 	} else {
