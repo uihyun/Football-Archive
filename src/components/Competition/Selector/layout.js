@@ -30,23 +30,31 @@ const layout = {
 	europe: ['Champions League', 'Europa League'],
 	fifa: ['World Cup', 'Confederations Cup'],
 	continental: {
-		legend: ['Cup'],
+		legend: ['Cup', 'WCQ', 'CQ'],
 		list: ['EU', 'SA', 'NA', 'AF', 'AS'],
 		groups: {
 			EU: {
 				'Cup': 'EURO',
+				'WCQ': 'WC Qualifiers Europe',
+				'CQ': 'EURO Qualifiers',
 			},
 			SA: {
 				'Cup': 'Copa América',
+				'WCQ': 'WC Qualifiers South America',
 			},
 			NA: {
 				'Cup': 'Gold Cup',
+				'WCQ': 'WC Qualifiers CONCACAF',
 			},
 			AF: {
 				'Cup': 'Africa Cup',
+				'WCQ': 'WC Qualifiers Africa',
+				'CQ': 'Africa Cup Qual.',
 			},
 			AS: {
 				'Cup': 'Asian Cup',
+				'WCQ': 'WC Qualifiers Asia',
+				'CQ': 'Asian Cup Qual.',
 			},
 		}
 	},
