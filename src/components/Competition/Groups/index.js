@@ -21,7 +21,8 @@ export default class Groups extends Component {
 			group = groups[i];
 			grid = null;
 
-			if (group.table.length <= 5) {
+			if ((group.table.length <= 4) ||
+					(group.table.length === 5 && group.matches.length === 20)) {
 				grid = <Grid matches={this.groupMatches(group)} year={this.props.comp.season} />;
 			}		
 
