@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import './style.css';
 
 import { Scoreboard, Team } from '..';
 
 import { competitions, rounds } from '../data';
+
+import UrlUtil from '../../../util/url';
 
 export default class Progress extends Component {
 
@@ -62,7 +65,6 @@ export default class Progress extends Component {
 		var i, year;
 
 		if (this.props.showYear) {
-
 			for (i = 0; i < matches.length; i++) {
 				year = parseInt(competition.matches[i].date.substring(6, 10), 10);
 				years.min = Math.min(year, years.min);
@@ -79,6 +81,12 @@ export default class Progress extends Component {
 			if (years.min !== years.max) {
 				title += '-' + years.max;
 			}
+		}
+
+		year = (years.max === 1000) ? this.props.year : years.max;
+		const link = UrlUtil.getCompLink(year, competition.name);
+		if (link) {
+			return <Link to={link}>{title}</Link>;
 		}
 
 		return title;
