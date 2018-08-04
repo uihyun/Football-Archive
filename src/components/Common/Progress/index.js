@@ -56,6 +56,7 @@ export default class Progress extends Component {
 	getTitle() {
 		const competition = this.props.competition;
 		const matches = competition.matches;
+		const qual = this.props.qual;
 		var title = competitions[competition.name].name;
 		var years = {min: 3000, max: 1000};
 		var i, year;
@@ -66,6 +67,11 @@ export default class Progress extends Component {
 				year = parseInt(competition.matches[i].date.substring(6, 10), 10);
 				years.min = Math.min(year, years.min);
 				years.max = Math.max(year, years.max);
+			}
+
+			if (qual) {
+				years.min = qual.season[0];
+				years.max = qual.season[qual.season.length - 1];
 			}
 
 			title += ' ' + years.min;
@@ -149,8 +155,14 @@ export default class Progress extends Component {
 
 		for (i = 0; i < competition.matches.length; i++) {
 			match = competition.matches[i];
-			roundNameMap[match.round] = true;
-			matchMap[match.round + match.place + match.vs] = match;
+			round = match.round;
+
+			if (qual.name === 'WC Qualifiers South America') {
+				round = 'Group';
+			}
+
+			roundNameMap[round] = true;
+			matchMap[round + match.place + match.vs] = match;
 		}
 		
 		function findMatches(round, team) {

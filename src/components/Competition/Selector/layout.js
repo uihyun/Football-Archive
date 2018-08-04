@@ -51,7 +51,7 @@ const layout = {
 		}
 	},
 	asia: ['AFC Champions League'],
-	kleague: {
+	afc: {
 		legend: ['1', '2', 'Cup', 'League Cup'],
 		list: ['K', 'J', 'C'],
 		groups: {

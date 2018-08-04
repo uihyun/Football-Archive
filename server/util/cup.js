@@ -250,6 +250,20 @@ module.exports = {
 			var winner;
 			var teams = {};
 
+			if (cup.name === 'WC Qualifiers South America') {
+				var newRound = { name: 'Group', matches: [] };
+				for (i = 0; i < data.length; i++) {
+					round = data[i];
+
+					for (j = 0; j < round.matches.length; j++) {
+						match = round.matches[j];
+						newRound.matches.push(match);
+					}
+				}
+
+				data = [newRound];
+			}
+
 			for (i = 0; i < data.length; i++) {
 				round = data[i];
 
