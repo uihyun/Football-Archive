@@ -93,6 +93,8 @@ module.exports = {
 		{name: 'Primera División', url: 'Primera-Division'},
 		{name: 'DFB-Pokal', url: 'DFB-Pokal'},
 		{name: 'Copa América', url: 'Copa-America'},
+		{name: 'Africa Cup Qual.', url: 'Africa-Cup-Qual'},
+		{name: 'Asian Cup Qual.', url: 'Asian-Cup-Qual'},
 		{name: '', url: ''}
 	],
 	getUrlToNameMap: function() {

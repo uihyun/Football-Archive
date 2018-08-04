@@ -10,8 +10,6 @@ module.exports = {
 			case	'WC Qualifiers Africa':
 			case	'WC Qualifiers Asia':
 			case	'EURO Qualifiers':
-			case	'Gold Cup Quali.':
-			case	'Copa America Qualifiers':
 			case	'Africa Cup Qual.':
 			case	'Asian Cup Qual.':
 				return true;

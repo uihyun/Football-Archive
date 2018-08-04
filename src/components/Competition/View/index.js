@@ -7,6 +7,7 @@ import { Year } from '../../Common';
 
 import CupView from '../Cup';
 import LeagueView from '../League';
+import QualifierView from '../Qualifier';
 
 import { competitions } from '../data';
 
@@ -79,11 +80,7 @@ export default class CompetitionView extends Component {
 									<Year year={nextYear} fullyear={comp.times !== undefined} /> ▷
 								</div>
 							</Link> :
-							<Link to={'/history/competition/' + UrlUtil.getCompUrl(this.state.name)}>
-								<div className="CompetitionView-view-selector">
-									History
-								</div>
-							</Link>
+							this.getHistoryLink()
 						}
 					</div>
 				</div>
@@ -91,7 +88,22 @@ export default class CompetitionView extends Component {
 					<LeagueView league={this.state.data.league} goals={this.state.data.goals}/>}
 				{this.state.data.cup &&
 					<CupView cup={this.state.data.cup} goals={this.state.data.goals} />}
+				{this.state.data.qual &&
+					<QualifierView qual={this.state.data.qual} />}
 			</div>
+		);
+	}
+
+	getHistoryLink() {
+		if (this.state.data.qual)
+			return null;
+
+		return (
+			<Link to={'/history/competition/' + UrlUtil.getCompUrl(this.state.name)}>
+				<div className="CompetitionView-view-selector">
+					History
+				</div>
+			</Link>
 		);
 	}
 

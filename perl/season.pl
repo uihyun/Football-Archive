@@ -46,6 +46,8 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 		if ($td_col->size) {
 			my $round = $td_col->[0]->all_text;
 			$round =~ s/\.//g;
+			$round =~ s/2nd/2/g;
+			$round =~ s/3rd/3/g;
 
 			my $date = $td_col->[1]->all_text;
 

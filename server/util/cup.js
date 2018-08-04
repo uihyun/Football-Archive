@@ -285,6 +285,10 @@ module.exports = {
 					teams[match.r] = true;
 				}
 
+				if (cup.name === 'WC Qualifiers CONCACAF' && round.name === '5 Round') {
+					round.name = '5 Round Group';
+				}
+
 				if (round.name.match(/group/i)) {
 					round.table = CupUtil.getGroupTable(round, cup.name);
 				}

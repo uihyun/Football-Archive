@@ -20,6 +20,8 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 	if ($round_th->size) {
 		$round = $round_th->first->all_text;
 		$round =~ s/\.//g;
+		$round =~ s/2nd/2/g;
+		$round =~ s/3rd/3/g;
 
 		$match_count = 0;
 	} else {

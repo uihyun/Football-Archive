@@ -14,11 +14,16 @@ export default class Groups extends Component {
 
 	getViews() {
 		const groups = this.props.groups;
-		var i, group;
+		var i, group, grid;
 		var views = [];
 
 		for (i = 0; i < groups.length; i++) {
 			group = groups[i];
+			grid = null;
+
+			if (group.table.length <= 5) {
+				grid = <Grid matches={this.groupMatches(group)} year={this.props.comp.season} />;
+			}		
 
 			views.push({
 				name: group.name.replace(/Group /, ''),
@@ -26,7 +31,7 @@ export default class Groups extends Component {
 					<div>
 						<LeagueTable league={group} />
 						<br/>
-						<Grid matches={this.groupMatches(group)} year={this.props.comp.season} />
+						{grid}
 					</div>
 				)
 			});
@@ -63,8 +68,13 @@ export default class Groups extends Component {
 							index = j * 4 + k;
 						}
 
-						if (j >= 4 && k >= 4 && group.table.length >= 6) {
+						if (j >= 4 && k >= 4 && group.table.length >= 6 &&
+								group.matches.length !== group.table.length * (group.table.length - 1)) {
 							index += 4;
+						}
+
+						if (j >= 4 && group.matches.length === group.table.length * (group.table.length - 1)) {
+							index += 20;
 						}
 
 						matches[index] = {

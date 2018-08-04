@@ -7,6 +7,7 @@ const UrlUtil = require('../../util/url');
 module.exports = function(router, db) {
 	const Leagues = db.collection('Leagues');
 	const Cups = db.collection('Cups');
+	const Quals = db.collection('Qualifiers');
 	const Goals = db.collection('Goals');
 
 	router.get('/api/competition/select/:_season/:_compUrl', function(req, res) {
@@ -28,6 +29,13 @@ module.exports = function(router, db) {
 				});
 		}
 
+		function getQual() {
+			return Quals.findOne({season: season, name: comp}, {teams: 0})
+				.then(function(qual)	{
+					result.qual = qual;
+				});
+		}
+
 		function getGoals() {
 			return Goals.findOne({season: season, name: comp}, {teams: 0})
 				.then(function(goals)	{
@@ -37,7 +45,7 @@ module.exports = function(router, db) {
 				});
 		}
 
-		var promises = [getLeague(), getCup(), getGoals()];
+		var promises = [getLeague(), getCup(), getQual(), getGoals()];
 
 		Promise.all(promises)
 			.then(function() {

@@ -28,11 +28,7 @@ export default class Competition extends Component {
 		}
 
 		if (sh === 'WCQ') {
-			round = round.replace(/2ndR/, '2R');
-			round = round.replace(/3rdR/, '3R');
 			round = round.replace(/Relegation/, '4R');
-			shRound = shRound.replace(/2ndR/, '2R');
-			shRound = shRound.replace(/3rdR/, '3R');
 			shRound = shRound.replace(/Relegation/, '4R');
 		}
 
