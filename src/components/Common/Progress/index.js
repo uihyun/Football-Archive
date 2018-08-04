@@ -64,6 +64,10 @@ export default class Progress extends Component {
 		var years = {min: 3000, max: 1000};
 		var i, year;
 
+		if (title.includes('WC')) {
+			title = 'WCQ';
+		}
+
 		if (this.props.showYear) {
 			for (i = 0; i < matches.length; i++) {
 				year = parseInt(competition.matches[i].date.substring(6, 10), 10);
@@ -79,7 +83,7 @@ export default class Progress extends Component {
 			title += ' ' + years.min;
 
 			if (years.min !== years.max) {
-				title += '-' + years.max;
+				title = <span>{title}&#8209;{years.max}</span>;
 			}
 		}
 
