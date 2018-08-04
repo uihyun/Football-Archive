@@ -215,7 +215,6 @@ export default class TeamHistory extends Component {
 				compMap[i] = competitionCount++;
 				headers.push(competitions[i]);
 
-				console.log(competitions[i]);
 				if (competitions[i].times !== undefined) {
 					fullYear = true;
 				}
