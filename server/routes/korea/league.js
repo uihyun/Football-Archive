@@ -1,9 +1,9 @@
 'use strict';
 
 const path = require('path');
-const exec = require('child_process').exec;
 
 const KLeagueUtil = require('../../util/kleague');
+const exec = require('../../util/exec');
 
 module.exports = function(router, db) {
 	const KLeague = db.collection('KLeague');
@@ -57,22 +57,16 @@ module.exports = function(router, db) {
 		var monthUrl = (month < 10 ? '0' : '') + month;
 		const execStr = 'perl ' + path.join(__dirname, '../../../perl', 'kleague.pl') + ' ' + league + ' ' + year + ' ' + monthUrl;
 
-		var stdout = '';
-		var child = exec(execStr);
-		child.stdout.on('data', function(chunk) {stdout += chunk});
+		return exec(execStr)
+		.then(function (data) {
+			if (data === '')
+				return null;
 
-		return promiseFromChildProcess(child)
-			.then(function () {
-				if (stdout === '')
-					return null;
+			if (data.month === undefined || data.month !== monthUrl)
+				return null;
 
-				const data = JSON.parse(stdout);
-
-				if (data.month === undefined || data.month !== monthUrl)
-					return null;
-
-				return getGames(data);
-			});
+			return getGames(data);
+		});
 	}
 
 	router.get('/api/korea/league/update/:_season/:_league', function(req, res) {

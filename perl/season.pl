@@ -43,7 +43,7 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 
 		my $td_col = $tr->find('td');	
 
-		if ($td_col->size) {
+		if ($td_col->size > 7) {
 			my $round = $td_col->[0]->all_text;
 			$round =~ s/\.//g;
 			$round =~ s/2nd/2/g;

@@ -1,9 +1,9 @@
 'use strict';
 
 const path = require('path');
-const exec = require('child_process').exec;
 
 const KLeagueUtil = require('../../util/kleague');
+const exec = require('../../util/exec');
 
 module.exports = function(router, db) {
   const Seasons = db.collection('Seasons');
@@ -32,13 +32,6 @@ module.exports = function(router, db) {
 		'7': 'Final',
 	};
 	
-	function promiseFromChildProcess(child) {
-		return new Promise(function (resolve, reject) {
-			child.addListener("error", reject);
-			child.addListener("exit", resolve);
-		});
-	}
-	
 	function fetchCup(year, teamMap) {
 		const execStr = 'perl ' + path.join(__dirname, '../../../perl', 'kfacup.pl') + ' ' + year;
 		var roundNameMap, finalIndex;
@@ -51,97 +44,91 @@ module.exports = function(router, db) {
 			finalIndex = 7;
 		}
 
-		var stdout = '';
-		var child = exec(execStr);
-		child.stdout.on('data', function(chunk) {stdout += chunk});
+		return exec(execStr)
+		.then(function (data) {
+			if (data === '')
+				return;
+				
+			data.reverse();
 
-		return promiseFromChildProcess(child)
-			.then(function () {
-				if (stdout === '')
-					return;
+			var cup = {name: 'KFA Cup', season: year, rounds: [], assembled: true};
+			var rounds = cup.rounds;
+			var teams = {};
 
-				const data = JSON.parse(stdout);
+			data.forEach(match => {
+				var index = match.round - 1;
+				if (rounds[index] === undefined)
+					rounds[index] = {
+						name: roundNameMap[match.round],
+						matches: []
+					};
 
-				data.reverse();
+				delete match.round;
 
-				var cup = {name: 'KFA Cup', season: year, rounds: [], assembled: true};
-				var rounds = cup.rounds;
-				var teams = {};
+				if (teamNameMap[match.l])
+					match.l = teamNameMap[match.l];
 
-				data.forEach(match => {
-					var index = match.round - 1;
-					if (rounds[index] === undefined)
-						rounds[index] = {
-							name: roundNameMap[match.round],
-							matches: []
-						};
+				if (teamNameMap[match.r])
+					match.r = teamNameMap[match.r];
 
-					delete match.round;
+				if (teamNormalizeNameMap[match.l])
+					match.l = teamNormalizeNameMap[match.l];
 
-					if (teamNameMap[match.l])
-						match.l = teamNameMap[match.l];
-					
-					if (teamNameMap[match.r])
-						match.r = teamNameMap[match.r];
+				if (teamNormalizeNameMap[match.r])
+					match.r = teamNormalizeNameMap[match.r];
 
-					if (teamNormalizeNameMap[match.l])
-						match.l = teamNormalizeNameMap[match.l];
-					
-					if (teamNormalizeNameMap[match.r])
-						match.r = teamNormalizeNameMap[match.r];
-
-					if (match.url !== undefined &&
-							(teamMap[match.l] === true || teamMap[match.r] === true)) {
-						match.url = 'KFACUP' + match.url;
-					}
-						
-					teams[match.l] = true;
-					teams[match.r] = true;
-
-					rounds[index].matches.push(match);
-				});
-
-				var teamArray = [];
-				for (var i in teams) {
-					teamArray.push(i);
-				}
-				cup.teams = teamArray;
-
-				// final -> winner
-				var match, score, fullScore;
-				if (rounds[finalIndex] !== undefined) {
-					if (rounds[finalIndex].matches.length === 1) {
-						if (rounds[finalIndex].matches[0].score !== undefined) {
-							match = rounds[finalIndex].matches[0];
-
-							if (match.pk !== undefined) {
-								score = match.pk.split(':').map(a => { return parseInt(a, 10); });
-							} else {
-								score = match.score.split(':').map(a => { return parseInt(a, 10); });
-							}
-								
-							cup.winner = score[0] < score[1] ? match.r : match.l;
-						}
-					} else if (rounds[finalIndex].matches.length === 2) {
-						if (rounds[finalIndex].matches[1].score !== undefined) {
-							match = rounds[finalIndex].matches[1];
-
-							if (match.pk !== undefined) {
-								fullScore = match.pk.split(':').map(a => { return parseInt(a, 10); });
-							} else {
-								fullScore = match.score.split(':').map(a => { return parseInt(a, 10); });;
-								score = rounds[finalIndex].matches[0].score.split(':').map(a => { return parseInt(a, 10); });
-								fullScore[0] += score[1];
-								fullScore[1] += score[0];
-							}
-							
-							cup.winner = fullScore[0] < fullScore[1] ? match.r : match.l;
-						}
-					}
+				if (match.url !== undefined &&
+					(teamMap[match.l] === true || teamMap[match.r] === true)) {
+					match.url = 'KFACUP' + match.url;
 				}
 
-				return Cups.findOneAndReplace({season: cup.season, name: cup.name}, cup, {upsert: true});
+				teams[match.l] = true;
+				teams[match.r] = true;
+
+				rounds[index].matches.push(match);
 			});
+
+			var teamArray = [];
+			for (var i in teams) {
+				teamArray.push(i);
+			}
+			cup.teams = teamArray;
+
+			// final -> winner
+			var match, score, fullScore;
+			if (rounds[finalIndex] !== undefined) {
+				if (rounds[finalIndex].matches.length === 1) {
+					if (rounds[finalIndex].matches[0].score !== undefined) {
+						match = rounds[finalIndex].matches[0];
+
+						if (match.pk !== undefined) {
+							score = match.pk.split(':').map(a => { return parseInt(a, 10); });
+						} else {
+							score = match.score.split(':').map(a => { return parseInt(a, 10); });
+						}
+
+						cup.winner = score[0] < score[1] ? match.r : match.l;
+					}
+				} else if (rounds[finalIndex].matches.length === 2) {
+					if (rounds[finalIndex].matches[1].score !== undefined) {
+						match = rounds[finalIndex].matches[1];
+
+						if (match.pk !== undefined) {
+							fullScore = match.pk.split(':').map(a => { return parseInt(a, 10); });
+						} else {
+							fullScore = match.score.split(':').map(a => { return parseInt(a, 10); });;
+							score = rounds[finalIndex].matches[0].score.split(':').map(a => { return parseInt(a, 10); });
+							fullScore[0] += score[1];
+							fullScore[1] += score[0];
+						}
+
+						cup.winner = fullScore[0] < fullScore[1] ? match.r : match.l;
+					}
+				}
+			}
+
+			return Cups.findOneAndReplace({season: cup.season, name: cup.name}, cup, {upsert: true});
+		});
 	}
 
 	function getTeams(season) {

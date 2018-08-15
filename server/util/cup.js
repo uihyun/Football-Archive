@@ -1,11 +1,10 @@
 'use strict';
 
 const path = require('path');
-const util = require('util');
-const exec = util.promisify(require('child_process').exec);
 
 const CmpUtil = require('./cmp');
 const KLeagueUtil = require('./kleague');
+const exec = require('./exec');
 
 module.exports = {
 	isValid: function(competition) {
@@ -229,21 +228,11 @@ module.exports = {
 		return null;
 	},
 	fetch: function(cup) {
-		return new Promise(async function (resolve, reject) {
+		const execStr = 'perl ' + path.join(__dirname, '../../perl', 'cup.pl') + ' ' + cup.url;
+		return exec(execStr)
+		.then(function (data) {
 			const CupUtil = require('./cup');
-			const execStr = 'perl ' + path.join(__dirname, '../../perl', 'cup.pl') + ' ' + cup.url;
 			const teamNameMap = KLeagueUtil.replaceTeamNameMap;
-			const { stdout, stderr } = await exec(execStr);
-
-			var data;
-
-			try {
-				data = JSON.parse(stdout);
-			} catch(err) {
-				console.log(stdout);
-				console.log(err);
-				reject();
-			}
 
 			var i, round;
 			var j, match;
@@ -310,7 +299,7 @@ module.exports = {
 			}
 			cup.teams = teamArray;
 
-			resolve(cup);
+			return cup;
 		});
 	},
 };

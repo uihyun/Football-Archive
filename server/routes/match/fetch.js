@@ -1,12 +1,12 @@
 'use strict';
 
 const path = require('path');
-const exec = require('child_process').exec;
 const Promise = require('bluebird');
 const http = require('http');
 
 const KLeagueUtil = require('../../util/kleague');
 const UrlUtil = require('../../util/url');
+const exec = require('../../util/exec');
 
 module.exports = function(router, db) {
 	const Seasons = db.collection('Seasons');
@@ -353,24 +353,19 @@ module.exports = function(router, db) {
 		const uri = url.replace(/^KFACUP/, '').replace(/=/g, '%3D').replace(/&/, '%26');
 		const execStr = 'perl ' + path.join(__dirname, '../../../perl', 'kfacup_match.pl') + ' ' + uri;
 
-		var stdout = '';
-		var child = exec(execStr);
-		child.stdout.on('data', function(chunk) {stdout += chunk});
+		return exec(execStr)
+		.then(function (data) {
+			if (data === '')
+				return;
 
-		return promiseFromChildProcess(child)
-			.then(function () {
-				if (stdout === '')
-					return;
+			const summary = formatKFACupMatch(data);
 
-				const data = JSON.parse(stdout);
-				const summary = formatKFACupMatch(data);
-				
-				return Matches.insert({ url: url, summary: summary });
-			});
+			return Matches.insert({ url: url, summary: summary });
+		});
 	}
 
 	function fetchMatchUrl(url) {
-		if (url === '')
+		if (url === '' || url === undefined || url === 'undefined')
 			return;
 
 		if (url.match(/^KL/))
@@ -382,33 +377,26 @@ module.exports = function(router, db) {
 		const execStr = 'perl ' + path.join(__dirname, '../../../perl', 'match.pl') + ' ' + url;
 		const teamNameMap = KLeagueUtil.replaceTeamNameMap;
 
-		var stdout = '';
-		var child = exec(execStr);
-		child.stdout.on('data', function(chunk) {stdout += chunk});
+		return exec(execStr)
+		.then(function (data) {
+			if (data === '')
+				return;
 
-		return promiseFromChildProcess(child)
-			.then(function () {
-				if (stdout === '')
-					return;
+			if (teamNameMap[data.l])
+				data.l = teamNameMap[data.l];
 
-				var data = JSON.parse(stdout);
-						
-				if (teamNameMap[data.l])
-					data.l = teamNameMap[data.l];
+			if (teamNameMap[data.r])
+				data.r = teamNameMap[data.r];
 
-				if (teamNameMap[data.r])
-					data.r = teamNameMap[data.r];
+			const newMatch = {
+				url: url,
+				summary: data
+			};
 
-				const newMatch = {
-					url: url,
-					summary: data
-				};
-
-				return Matches.insert(newMatch);
-			}).catch(function (error) {
-				console.log(execStr);
-				throw(error);
-			});
+			return Matches.insert(newMatch);
+		}).catch(function (error) {
+			console.log(execStr);
+		});
 	}
 
 	function fetchThenRespond(res, urls) {
