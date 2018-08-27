@@ -41,6 +41,11 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 			my $l = trim($td_col->[2]->all_text);
 			my $r = trim($td_col->[4]->all_text);
 
+			if ($cup eq "/all_matches/chn-fa-cup-2017/" && $round eq "3 Round" &&
+					$l eq "Qingdao Huanghai" && $r eq "Guangzhou Evergrande") {
+				$r = "Guangzhou R&F";
+			}
+
 			my $score_td = $td_col->[5];
 			my $score = '-:-';
 			my $pk = '';
