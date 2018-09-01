@@ -2,14 +2,18 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import { PlayerName, ViewSelector } from '../Common';
+import { PageSelector } from '../Common';
+
+import Appearances from './appearances';
+import Goals from './goals';
+import Assists from './assists';
 
 export default class Statistics extends Component {
 
 	constructor(props) {
 		super(props);
 		
-		this.state = this.newState(this.props.data, this.props.team);
+		this.state = this.newState(this.props.data.data, this.props.data.team);
 	}
 	
 	componentWillReceiveProps(nextProps) {
@@ -17,106 +21,18 @@ export default class Statistics extends Component {
 	}
 
   render() {
-		const views = [this.getAppearances(), this.getGoals(), this.getAssists()];
+		const views = [
+			{ name: 'Appearances', sh: 'App', link: '/app', component: Appearances, data: this.state.appearances },
+			{ name: 'Goals', sh: 'Goal', link: '/goal', component: Goals, data: this.state.goals },
+			{ name: 'Assists', sh: 'Ass', link: '/assist', component: Assists, data: this.state.assists },
+		];
+
     return (
       <div className="Statistics">
-				<ViewSelector views={views} expand={true} />
+				<PageSelector views={views} expand={true} basename={this.props.basename} />
       </div>
     );
   }
-
-	getAppearances() {
-		const view = (
-			<div className="Statistics-item">
-				<h3>
-					Appearances <small>({this.state.appearances.length} players)</small>
-				</h3>
-				{this.state.appearances.map(player => {
-					return (
-						<div key={player.name} className="flex-container Statistics-row">
-							<div className={"Statistics-backnumber text-center" + (player.sub ? " Statistics-backnumber-sub" : "")}>
-								{player.number}
-							</div>
-							<div className="Statistics-name flex-1">
-								<PlayerName player={player.name} />
-							</div>
-							<div className="Statistics-value text-right">
-								{
-									player.startMatches.length > 0 &&
-									player.startMatches.length
-								}
-							</div>
-							<div className="Statistics-value text-right">
-								{
-									player.subMatches.length > 0 &&
-									<small>{player.subMatches.length}</small>
-								}
-							</div>
-							<div className="Statistics-value-long text-right">
-								{player.minutes}'
-							</div>
-						</div>
-					);
-				})}
-			</div>
-		);
-
-		return { name: 'Appearances', sh: 'App', view: view };
-	}
-
-	getGoals() {
-		const view = (
-			<div className="Statistics-item">
-				<h3>
-					Goals <small>({this.state.goals.length} players)</small>
-				</h3>
-				{this.state.goals.map(player => {
-					return (
-						<div key={player.name} className="flex-container Statistics-row">
-							<div className="Statistics-backnumber text-center">
-								{player.number}
-							</div>
-							<div className="Statistics-name flex-1">
-								<PlayerName player={player.name} />
-							</div>
-							<div className="Statistics-value text-right">
-								{player.goalMatches.length}
-							</div>
-						</div>
-					);
-				})}
-			</div>
-		);
-
-		return { name: 'Goals', sh: 'Goal', view: view };
-	}
-
-	getAssists() {
-		const view = (
-			<div className="Statistics-item">
-				<h3>
-					Assists <small>({this.state.assists.length} players)</small>
-				</h3>
-				{this.state.assists.map(player => {
-					return (
-						<div key={player.name} className="flex-container Statistics-row">
-							<div className="Statistics-backnumber text-center">
-								{player.number}
-							</div>
-							<div className="Statistics-name flex-1">
-								<PlayerName player={player.name} />
-							</div>
-							<div className="Statistics-value text-right">
-								{player.assistMatches.length}
-							</div>
-						</div>
-					);
-				})}
-			</div>
-		);
-
-		return { name: 'Assists', sh: 'Ass', view: view };
-	}
 
 	newState(data, team) {
 		const competitions = data.competitions;

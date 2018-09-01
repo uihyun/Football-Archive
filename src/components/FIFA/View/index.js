@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import './style.css';
 
-import { Team, ViewSelector } from '../../Common';
+import { Team, PageSelector } from '../../Common';
 
 import AllMatches from '../../AllMatches';
 import Statistics from '../../Statistics';
@@ -45,6 +45,9 @@ export default class NationView extends Component {
 		var prevYearLink = UrlUtil.getLink(prevYear, this.state.team);
 		var nextYear = prevYear + 2;
 		var nextYearLink = UrlUtil.getLink(nextYear, this.state.team);
+		const year = this.state.year;
+		const basename = '/FIFA/' + year + '/' + this.state.teamUrl;
+		const views = this.getViews();
 
 		return (
 			<div>
@@ -68,7 +71,7 @@ export default class NationView extends Component {
 	                </div>
 	              	<div><Team team={this.state.team} emblemLarge={true}/></div>
               	  <div className="flex-1 FIFAView-view-selector text-left FIFAView-year">
-										{this.state.year}
+										{year}
           	      </div>
         	      </div>
       	      </b>
@@ -89,7 +92,9 @@ export default class NationView extends Component {
 						}
 					</div>
 				</div>
-				<ViewSelector views={this.getViews()} />
+				{views.length > 0 &&
+					<PageSelector views={views} basename={basename} />
+				}
 			</div>
 		);
 	}
@@ -239,27 +244,36 @@ export default class NationView extends Component {
 	}
 
 	getViews() {
-		const data = this.state.data;
-		const team = this.state.team;
 		const year = this.state.year;
-		const showForm = (year === nations.years.max + '');
+		const data = {
+			data: this.state.data,
+			team: this.state.team,
+			year: year,
+			showForm: (year === nations.years.max + ''),
+			showSummaryYear: true
+		};
 
 		var views = [];
-		if (data.competitions.length === 0)
+		if (this.state.data.competitions.length === 0)
 			return views;
 
 		views.push({
 			name: 'All Matches',
-			view: (<AllMatches data={data} team={team} year={year} showForm={showForm}
-							showSummaryYear={true} />)
+			link: '/matches',
+			component: AllMatches,
+			data: data
 		});
 		views.push({
 			name: 'Statistics',
-			view: (<Statistics data={data} team={team} />)
+			link: '/statistics',
+			component: Statistics,
+			data: data
 		});
 		views.push({
 			name: 'Standings',
-			view: (<Standings data={data} team={team} showYear={true}/>)
+			link: '/standings',
+			component: Standings,
+			data: data
 		});
 
 		return views;

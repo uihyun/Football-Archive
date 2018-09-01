@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 
 import './style.css';
 
-import MatchEvent from './MatchEvent';
-import Lineup from './Lineup';
-import { Competition, Team, ViewSelector } from '../Common';
+import Events from './events';
+import Lineups from './lineups';
+import { Competition, Team, PageSelector } from '../Common';
 
 import { teams } from '../data';
 
@@ -70,7 +70,7 @@ export default class OneMatch extends Component {
 							<div className="flex-1 text-center OneMatch-score">{this.getScore()}</div>
 							<div className="flex-1 text-right"><Team team={r} emblemLarge={true} year={year}/></div>
 						</div>
-						<ViewSelector views={views} />
+						<PageSelector views={views} basename={this.getBasename()} />
 					</div>
 					<div className="flex-1 hide-mobile"></div>
 				</div>
@@ -81,6 +81,10 @@ export default class OneMatch extends Component {
 				</div>
 			</div>
 		);
+	}
+
+	getBasename() {
+		return '/match/' + this.props.match.params.url;
 	}
 	
 	getSubs() {
@@ -213,17 +217,6 @@ export default class OneMatch extends Component {
 		return events;
 	}
 
-	getEventDiv(e, index) {
-		return (
-			<MatchEvent key={index + e.minute} minute={e.minute} side={e.side}
-									goal={e.goal} card={e.card} sub={e.sub} />
-		);
-	}
-
-	getEventsView(events) {
-		return events.map((e, index) => { return this.getEventDiv(e, index); });
-	}
-
 	getViews(events) {
 		var views = [];
 
@@ -232,10 +225,11 @@ export default class OneMatch extends Component {
 		}
 
 		var majorEvents = events.filter(e => { return e.goal || (e.card && e.card.type !== 'yellow') });
+		var lineup = { summary: this.state.match.summary, basename: this.getBasename() };
 
-		views.push({ name: 'Goals', view: this.getEventsView(majorEvents) });
-		views.push({ name: 'Subs & Cards', view: this.getEventsView(events) });
-		views.push({ name: 'Lineup', view: (<Lineup match={this.state.match.summary} />) });
+		views.push({ name: 'Goals', link: '/goals', component: Events, data: majorEvents });
+		views.push({ name: 'Subs & Cards', link: '/events', component: Events, data: events });
+		views.push({ name: 'Lineup', link: '/lineup', component: Lineups, data: lineup });
 
 		return views;
 	}

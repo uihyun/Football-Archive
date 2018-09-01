@@ -47,6 +47,7 @@ export default class CompetitionView extends Component {
 		const comp = competitions[this.state.name];
 		var [prevYear, prevYearLink] = this.getPrevLink();
 		var [nextYear, nextYearLink] = this.getNextLink();
+		const basename = '/competition/' + this.state.year + '/' + this.state.compUrl;
 
 		return (
 			<div className="CompetitionView">
@@ -85,11 +86,11 @@ export default class CompetitionView extends Component {
 					</div>
 				</div>
 				{this.state.data.league &&
-					<LeagueView league={this.state.data.league} goals={this.state.data.goals}/>}
+					<LeagueView league={this.state.data.league} goals={this.state.data.goals} basename={basename} />}
 				{this.state.data.cup &&
-					<CupView cup={this.state.data.cup} goals={this.state.data.goals} />}
+					<CupView cup={this.state.data.cup} goals={this.state.data.goals} basename={basename} />}
 				{this.state.data.qual &&
-					<QualifierView qual={this.state.data.qual} />}
+					<QualifierView qual={this.state.data.qual} basename={basename} />}
 			</div>
 		);
 	}

@@ -11,11 +11,14 @@ import Match from '../../../util/match';
 export default class Form extends Component {
   
 	render() {
-		let allMatches = Match.extractAndSort(this.props.data);
+		let allMatches = Match.extractAndSort(this.props.data.data);
 		let sum = this.getMatchSummary(allMatches);
 
-		const data = this.getShortenedData(allMatches);
-		const props = this.props;
+		const props = this.props.data;
+		const data = {
+			data: this.getShortenedData(allMatches),
+			squad: props.squad, team: props.team, year: props.year, player: props.player
+		};
 		
 		return (
 			<div className="Form">
@@ -38,7 +41,7 @@ export default class Form extends Component {
 					</div>
 				</div>
 				<br/>
-				<Timeline data={data} squad={props.squad} team={props.team} year={props.year} player={props.player} />
+				<Timeline data={data} />
 				{this.getSeparator(sum.unplayed)}
 			</div>
 		);
@@ -84,7 +87,7 @@ export default class Form extends Component {
 		var sum = {win: 0, draw: 0, loss: 0, unplayed: 0};
 
 		matches.forEach(match => {
-			const summary = Match.summarizeResult(match, this.props.team);
+			const summary = Match.summarizeResult(match, this.props.data.team);
 
 			sum[summary.result]++;
 		});

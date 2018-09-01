@@ -19,9 +19,9 @@ export default class Summary extends Component {
 	}
 
   render() {
-		const team = this.props.team;
-		const year = this.props.year;
-		const player = this.props.player;
+		const team = this.props.data.team;
+		const year = this.props.data.year;
+		const player = this.props.data.player;
 
 		return (
 			<div className="Summary">
@@ -38,7 +38,7 @@ export default class Summary extends Component {
 									const qual = this.state.qualMap[comp.url];
 									return <Progress key={comp.url} team={team} year={year} player={player}
 														competition={comp} leagueTable={leagueTable} cup={cup} qual={qual}
-														showYear={this.props.showYear} />;
+														showYear={this.props.data.showYear} />;
 								})}
 							</div>
 						);
@@ -49,7 +49,7 @@ export default class Summary extends Component {
   }
 	
 	newState(props) {
-		const data = props.data;
+		const data = props.data.data;
 		var state = { groups: [], leagueTableMap: {}, cupMap: {}, qualMap: {} };
 
 		if (data.leagues === undefined) {
@@ -93,7 +93,7 @@ export default class Summary extends Component {
 			}
 		}
 
-		if (this.props.showYear) {
+		if (this.props.data.showYear) {
 			var maxDate = {};
 			var match, max, date, array;
 

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
 import './style.css';
 
-import { Grid, ViewSelector } from '../Common';
+import { PageSelector } from '../Common';
+
+import Matches from './matches';
 
 import { competitions } from '../data';
 import UrlUtil from '../../util/url';
@@ -23,39 +24,11 @@ export default class Recent extends Component {
 	render() {
 		var views = [];
 
-		views.push({ name: 'Recent', view: this.getView(this.state.competitions) });
-		views.push({ name: 'Yesterday', view: this.getView(this.filterByDay(-1)) });
-		views.push({ name: 'Today', view: this.getView(this.filterByDay(0)) });
+		views.push({ name: 'Recent', link: '/recent', component: Matches, data: this.state.competitions });
+		views.push({ name: 'Yesterday', link: '/yesterday', component: Matches, data: this.filterByDay(-1) });
+		views.push({ name: 'Today', link: '/today', component: Matches, data: this.filterByDay(0) });
 
-		return <ViewSelector views={views} />;
-	}
-
-	getView(competitions) {
-
-		return (
-			<div className="Recent">
-				{competitions.map(comp => {
-					if (comp.matches.length === 0)
-						return null;
-
-					var matches = this.groupMatches(comp.matches);
-
-					const link = UrlUtil.getCompLink(comp.season, comp.name);
-					var nameDiv = <div className="Recent-comp text-center">{comp.name}</div>;
-
-					if (link !== null) {
-						nameDiv = <Link to={link}>{nameDiv}</Link>;
-					}
-
-					return (
-						<div key={comp.name}>
-							{nameDiv}
-							<Grid matches={matches} year={comp.season} />
-						</div>
-					);
-				})}
-			</div>
-		);
+		return <PageSelector views={views} basename={'/home'} />;
 	}
 
 	filterByDay(offset) {
@@ -81,26 +54,10 @@ export default class Recent extends Component {
 			}
 
 			if (matches.length > 0)
-				competitions.push({ name: comp.name, matches: matches });
+				competitions.push({ name: comp.name, matches: matches, season: comp.season });
 		}
 
 		return competitions;
-	}
-
-	groupMatches(matches) {
-		var group = [];
-
-		var i, match;
-
-		for (i = 0; i < matches.length; i++) {
-			match = matches[i];
-			group.push({
-				teams: match.teams,
-				matches: [match]
-			});
-		}
-
-		return group;
 	}
 
 	fetch() {

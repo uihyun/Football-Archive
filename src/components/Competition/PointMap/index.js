@@ -12,7 +12,7 @@ export default class PointMap extends Component {
 	constructor(props) {
 		super(props);
 		
-		const [min, max] = this.getMinMax(props.league.table);
+		const [min, max] = this.getMinMax(props.data.table);
 		const size = Math.min(350, window.innerWidth - 25);
 
 		this.state = {
@@ -25,7 +25,7 @@ export default class PointMap extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		const [min, max] = this.getMinMax(nextProps.league.table);
+		const [min, max] = this.getMinMax(nextProps.data.table);
 		
 		this.setState({ min: min, max: max });
 	}
@@ -102,7 +102,7 @@ export default class PointMap extends Component {
 	}
 	
 	getX(index) {
-		const table = this.props.league.table;
+		const table = this.props.data.table;
 
 		if (table.length === 18)
 			return (index % 6) / 6;
@@ -118,7 +118,7 @@ export default class PointMap extends Component {
 		const size = this.state.size;
 		const inset = this.state.inset;
 		const imageSize = this.state.imageSize;
-		const table = this.props.league.table;
+		const table = this.props.data.table;
 		var i, team;
 		var x, y;
 		var image;
@@ -141,7 +141,7 @@ export default class PointMap extends Component {
 			return null;
 		}
 
-		var link = UrlUtil.getLink(this.props.league.season, team);
+		var link = UrlUtil.getLink(this.props.data.season, team);
 
 		if (link) {
 			return (

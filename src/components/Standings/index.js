@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import { Cup, LeagueTable, ViewSelector } from '../Common';
+import { Cup, LeagueTable, PageSelector } from '../Common';
 import { competitions } from '../data';
 
 export default class Standings extends Component {
@@ -12,15 +12,15 @@ export default class Standings extends Component {
 
 		return (
 			<div>
-				<ViewSelector views={views} expand={true} rows={rows} />
+				<PageSelector views={views} expand={true} rows={rows} basename={this.props.basename} />
 			</div>
 		);
 	}
 
 	getViews() {
-		const data = this.props.data;
+		const data = this.props.data.data;
 		const leagues = data.leagues;
-		const team = this.props.team;
+		const team = this.props.data.team;
 
 		var views = [];
 		var rows = [];
@@ -30,7 +30,9 @@ export default class Standings extends Component {
 			view = {
 				name: competitions[leagues[0].name].name,
 				sh: competitions[leagues[0].name].sh,
-				view: (<LeagueTable league={leagues[0]} team={team} />)
+				link: '/league',
+				component: LeagueTable,
+				data: { league: leagues[0], team: team }
 			};
 
 			views.push(view);
@@ -43,19 +45,21 @@ export default class Standings extends Component {
 		for (i in competitions) {
 			if (i) {
 				for (j = 0; j < data.cups.length; j++) {
-					cup = this.props.data.cups[j];
+					cup = data.cups[j];
 
 					if (i === cup.name) {
 						competition = competitions[i];
 						name = competition.name;
 						sh = competition.sh;
 
-						if (this.props.showYear) {
+						if (this.props.data.showYear) {
 							name += ' ' + cup.season;
 							sh += ' ' + cup.season;
 						}
 
-						views.push({ name: name, sh: sh, view: (<Cup cup={cup} team={team} />) });
+						views.push({
+							name: name, sh: sh, link: '/' + sh, component: Cup,
+							data: { cup: cup, team: team } });
 					}
 				}
 			}

@@ -8,8 +8,14 @@ import GroupStage from './GroupStage';
 export default class Cup extends Component {
 
 	render() {
-		const cup = this.props.cup;
-		const team = this.props.team;
+		var cup = this.props.cup;
+		var team = this.props.team;
+
+		if (this.props.data) {
+			cup = this.props.data.cup;
+			team = this.props.data.team;
+		}
+
 		const size = Math.min(350, window.innerWidth - 25);
 
 		if (this.props.onlyGroup) {

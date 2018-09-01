@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import { Cup, LeagueTable, ViewSelector } from '../../Common';
+import { LeagueTable, PageSelector } from '../../Common';
 
-import Groups from '../Groups';
+import Group from './group';
 import Rounds from '../Rounds';
 
-export default class CompetitionView extends Component {
+export default class QualificationView extends Component {
 
 	render() {
 		return (
-			<ViewSelector views={this.getViews()} />
+			<PageSelector views={this.getViews()} basename={this.props.basename} />
 		);
 	}
 	
@@ -19,32 +19,36 @@ export default class CompetitionView extends Component {
 		const qual = this.props.qual;
 		var views = [];
 		var rounds = this.getRounds();
+		var link;
 
 		rounds.forEach(round => {
+			link = '/' + round.name.replace(/ /g, '-');
+
 			if (round.groups) {
 				round.rounds = round.groups;
 
 				if (round.rounds[0].name.match(/Group$/)) {
 					views.push({
 						name: round.name,
-						view: <LeagueTable league={round.groups[0]} />
+						link: link,
+						component: LeagueTable,
+						data: { league: round.groups[0] }
 					});
 				} else {
 					views.push({
 						name: round.name,
-						view: (
-							<div>
-								<Cup cup={round} onlyGroup={true} />
-								<br/>
-								<Groups comp={qual} groups={round.groups} />
-							</div>
-						)
+						link: link,
+						component: Group,
+						data: { round: round, qual: qual, group: round.groups, 
+							basename: this.props.basename + link }
 					});
 				}
 			} else if (round.rounds) {
 				views.push({
 					name: round.name,
-					view: <Rounds comp={qual} rounds={round.rounds} />
+					link: link,
+					component: Rounds,
+					data: { comp: qual, rounds: round.rounds }
 				});
 			}
 		});
@@ -58,8 +62,14 @@ export default class CompetitionView extends Component {
 
 		var i, round;
 		var curRound, cur, roundIndex;
+		var newRound;
 		for (i = 0; i < rounds.length; i++) {
 			round = rounds[i];
+			newRound = {
+				name: round.name.replace(/.*Round /, ''),
+				matches: round.matches,
+				table: round.table
+			};
 
 			if (round.name.includes('Group')) {
 				if (round.name.includes('Round')) {
@@ -69,7 +79,6 @@ export default class CompetitionView extends Component {
 						cur = {name: curRound + ' Round', groups: []};
 						groupedRounds.push(cur);
 					}
-					round.name = round.name.replace(/.*Round /, '');
 				}
 
 				if (cur === undefined) {
@@ -77,11 +86,11 @@ export default class CompetitionView extends Component {
 					groupedRounds.push(cur);
 				}
 
-				cur.groups.push(round);
+				cur.groups.push(newRound);
 			} else {
 				groupedRounds.push({
 					name: round.name,
-					rounds: [round]
+					rounds: [newRound]
 				});
 			}
 		}

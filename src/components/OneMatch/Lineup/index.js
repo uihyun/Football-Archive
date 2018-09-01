@@ -2,23 +2,16 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import { Assist, Goal, PlayerName, ViewSelector } from '../../Common';
+import { Assist, Goal, PlayerName } from '../../Common';
 
-import { teams, colors } from '../data';
+import { colors } from '../data';
 
 export default class Lineup extends Component {
 
 	render() {
-		const match = this.props.match;
-		var views = [];
-
-		views.push({ name: match.l, sh: this.getShortName(match.l), view: this.getPlayers('l') });
-		views.push({ name: match.r, sh: this.getShortName(match.r), view: this.getPlayers('r') });
-
 		return (
 			<div className="Lineup">
-				<ViewSelector views={views} expand={true} />
-				<br/>
+				{this.getPlayers(this.props.data.side)}
 			</div>
 		);
 	}
@@ -26,7 +19,7 @@ export default class Lineup extends Component {
 	getGoals(player) {
 		var array = [];
 
-		const goals = this.props.match.goals;
+		const goals = this.props.data.summary.goals;
 		var i, goal, og, pk;
 
 		for (i = 0; i < goals.length; i++) {
@@ -105,10 +98,10 @@ export default class Lineup extends Component {
 	}
 
 	getPlayers(side) {
-		if (this.props.match.players === undefined)
+		if (this.props.data.summary.players === undefined)
 			return null;
 
-		const players = this.props.match.players[side];
+		const players = this.props.data.summary.players[side];
 		var lineup = ['start', 'sub'];
 		var j, pos, sorted;
 		var k, player;
@@ -138,12 +131,5 @@ export default class Lineup extends Component {
 		return array.map(e => {
 			return <div className="Lineup-player flex-container" style={style} key={e.key}>{e.view}</div>
 		});
-	}
-
-	getShortName(team) {
-		if (teams[team])
-			return teams[team].name;
-
-		return team;
 	}
 }

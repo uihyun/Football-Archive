@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import { Grid, ViewSelector } from '../../Common';
+import { PageSelector } from '../../Common';
+
+import Finals from './finals';
+import Grid from './grid';
 
 import { rounds as roundData } from '../data';
 
@@ -12,12 +15,12 @@ export default class Rounds extends Component {
 	
 	render() {
 		return (
-			<ViewSelector views={this.getViews()} />
+			<PageSelector views={this.getViews()} basename={this.props.basename} />
 		);
 	}
 
 	getViews() {
-		const comp = this.props.comp;
+		const comp = this.props.data.comp;
 		const [earlyRounds, finals] = this.groupFinals();
 		var views = [];
 		var i, round, group, name;
@@ -26,21 +29,9 @@ export default class Rounds extends Component {
 
 			views.push({
 				name: 'Finals',
-				view: (
-					<div>
-						<div className="flex-container">
-							<div className="flex-1" />
-							<div className="flex-2">
-								{this.getFinalRoundView(this.getFinalByRoundName(finals, 'Final'))}
-							</div>
-							<div className="flex-1">
-								{this.getFinalRoundView(this.getFinalByRoundName(finals, '3/4'))}
-							</div>
-						</div>
-						{this.getFinalRoundView(this.getFinalByRoundName(finals, 'Semi-finals'))}
-						{this.getFinalRoundView(this.getFinalByRoundName(finals, 'Quarter-finals'))}
-					</div>
-				)
+				link: '/finals',
+				component: Finals,
+				data: { finals: finals, year: comp.season }
 			});
 		}
 
@@ -53,56 +44,18 @@ export default class Rounds extends Component {
 			views.push({
 				name: name,
 				sh: roundData.getShortForm(comp.name, name),
-				view: (
-					<div>
-						<br/>
-						<Grid matches={group} year={this.props.comp.season} />
-					</div>
-				)
+				link: '/' + name.replace(/ /g, '-'),
+				component: Grid,
+				data: { matches: group, year: comp.season }
 			});
 		}
 
 		return views;
 	}
 
-	getFinalRoundView(round) {
-		if (round === null)
-			return null;
-			
-		var style = {
-			height: '32px',
-			fontSize: '1.5em',
-			textAlign: 'center'
-		};
-
-		if (round.name === '3/4') {
-			style.lineHeight = '32px';
-			style.fontSize = '1.2em';
-		}
-		
-		return (
-			<div>
-				<div style={style}>{round.name}</div>
-				<Grid matches={round.group} year={this.props.comp.season} noFiller={true} />
-			</div>
-		);
-	}
-
-	getFinalByRoundName(rounds, name) {
-		var i, round;
-		
-		for (i = 0; i < rounds.length; i++) {
-			round = rounds[i];
-
-			if (round.name === name)
-				return round;
-		}
-
-		return null;
-	}
 
 	groupFinals() {
-		const rounds = this.props.rounds;
+		const rounds = this.props.data.rounds;
 		var earlyRounds = [];
 		var third = null;
 		var finals = [];

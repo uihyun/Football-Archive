@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import { ViewSelector, Ranking, YearSelector } from '../../Common';
+import { PageSelector, YearSelector } from '../../Common';
+
+import Rankings from './rankings';
 
 import { clubs } from '../data';
 
@@ -25,7 +27,7 @@ export default class RankingsView extends Component {
 		const year = nextProps.match.params.year;
 
 		if (this.state.year !== year) {
-			this.setState({ year: year });
+			this.setState({ year: year, goals: [] });
 			this.fetch(year);
 		}
 	}
@@ -38,20 +40,20 @@ export default class RankingsView extends Component {
 
 		header.forEach(code => {
 			if (groups[code].length > 0) {
-				views.push({name: code, view: (
-					<div>
-						<h3 className="hide-mobile text-center">{code}</h3>
-						<Ranking goals={groups[code]} year={year} onlyLeague={code === 'FIFA'} />
-					</div>
-				)});
+				views.push({name: code, link: '/' + code, component: Rankings,
+					data: { code: code, goals: groups[code], year: year } });
 			}
 		});
+
+		const basename = '/rankings/' + year;
 
 		return (
 			<div className="RankingView">
 				<div className="RankingView-header text-center">Top Scorers</div>
 				<YearSelector year={year} min={clubs.years.min} max={clubs.years.max} link={'rankings'} />
-				<ViewSelector views={views} expand={true}/>
+				{views.length > 0 &&
+					<PageSelector views={views} expand={true} basename={basename} />
+				}
 			</div>
 		);
 	}

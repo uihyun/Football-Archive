@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import { LeagueTable, ViewSelector, Ranking } from '../../Common';
+import { LeagueTable, PageSelector } from '../../Common';
 
+import Goals from './goals';
 import PointMap from '../PointMap';
 import Remaining from '../Remaining';
 
@@ -11,7 +12,7 @@ export default class LeagueView extends Component {
 	
 	render() {
 		return (
-			<ViewSelector views={this.getViews()} />
+			<PageSelector views={this.getViews()} basename={this.props.basename} />
 		);
 	}
 
@@ -21,20 +22,26 @@ export default class LeagueView extends Component {
 
 		views.push({
 			name: 'Table',
-			view: <LeagueTable league={league} hideName={true} />
+			link: '/table',
+			component: LeagueTable,
+			data: { league: league, hideName: true }
 		});
 
 		if (this.canDisplayPoints()) {
 			views.push({
 				name: 'Points',
-				view: <PointMap league={league} />
+				link: '/points',
+				component: PointMap,
+				data: league
 			});
 		}
 
 		if (this.canDisplayRemaining()) {
 			views.push({
 				name: 'Remaining',
-				view: <Remaining league={league} />
+				link: '/remaining',
+				component: Remaining,
+				data: league
 			});
 		}
 
@@ -42,7 +49,9 @@ export default class LeagueView extends Component {
 		if (goals) {
 			views.push({
 				name: 'Goals',
-				view: <Ranking goals={goals} year={league.season} />
+				link: '/goals',
+				component: Goals,
+				data: { goals: goals, year: league.season }
 			});
 		}
 

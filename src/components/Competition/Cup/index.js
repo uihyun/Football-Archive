@@ -2,16 +2,17 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import { Cup, ViewSelector, Ranking } from '../../Common';
+import { Cup, PageSelector } from '../../Common';
 
-import Groups from '../Groups';
+import Group from './group';
+import Goal from './goal';
 import Rounds from '../Rounds';
 
 export default class CupView extends Component {
 	
 	render() {
 		return (
-			<ViewSelector views={this.getViews()} />
+			<PageSelector views={this.getViews()} basename={this.props.basename} />
 		);
 	}
 
@@ -22,13 +23,17 @@ export default class CupView extends Component {
 
 		views.push({
 			name: 'Standings',
-			view: <Cup cup={cup} hideName={true} />
+			link: '/standings',
+			component: Cup,
+			data: { cup: cup, hideName: true }
 		});
 
 		if (knockout.length) {
 			views.push({
 				name: 'Knockout',
-				view: <Rounds comp={cup} rounds={knockout} />
+				link: '/knockout',
+				component: Rounds,
+				data: { comp: cup, rounds: knockout }
 			});
 		}	
 
@@ -36,13 +41,9 @@ export default class CupView extends Component {
 			views.push({
 				name: 'Group Stage',
 				sh: 'Groups',
-				view: (
-					<div>
-						<Cup cup={cup} onlyGroup={true} />
-						<br/>
-						<Groups comp={cup} groups={group} />
-					</div>
-				)
+				link: '/group',
+				component: Group,
+				data: { cup: cup, group: group, basename: this.props.basename + '/group' }
 			});
 		}
 
@@ -50,7 +51,9 @@ export default class CupView extends Component {
 		if (goals) {
 			views.push({
 				name: 'Goals',
-				view: <Ranking goals={goals} year={cup.season} onlyLeague={true} />
+				link: '/goal',
+				component: Goal,
+				data: { goals: goals, year: cup.season }
 			});
 		}
 
