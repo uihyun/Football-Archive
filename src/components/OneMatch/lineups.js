@@ -19,7 +19,7 @@ export default class Lineups extends Component {
 
 		return (
 			<div className="Lineup">
-				<PageSelector views={views} expand={true} />
+				<PageSelector views={views} expand={true} basename={this.props.basename} />
 				<br/>
 			</div>
 		);
