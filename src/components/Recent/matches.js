@@ -167,8 +167,9 @@ export default class RecentMatches extends Component {
 		}
 
 		const color = colors[Match.getColor(colorResult)];
+		const bgcolor = colors[Match.getColorDNP(colorResult)];
 			
-		var svgStyle = {width: '10px', height: '21px'};
+		var svgStyle = {width: '10px', height: '21px', background: bgcolor};
 		var lineStyle = {stroke: color, strokeWidth: '3px', fill: 'none'};
 		if (result === 'win') {
 			return (
@@ -190,6 +191,7 @@ export default class RecentMatches extends Component {
 				</svg>
 			);
 		} else {
+			svgStyle.background = 'none';
 			return <div style={svgStyle} className="text-center"><small>v</small></div>;
 		}
 	}
