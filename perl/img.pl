@@ -16,7 +16,7 @@ downloadUEFA(2608043);
 sub downloadUEFA($)
 {
 	my $id = shift;
-	my $imgSrc = "https://img.uefa.com/imgml/TP/teams/logos/50x50/$id.png";
+	my $imgSrc = "https://img.uefa.com/imgml/TP/teams/logos/100x100/$id.png";
 	my $file = "../img/$id.png";
 	system("[ -f $file ] || curl $imgSrc -o $file");
 }
@@ -28,3 +28,7 @@ sub downloadFIFA($)
 	my $file = "../img/$id.png";
 	system("[ -f $file ] || curl $imgSrc -o $file");
 }
+
+#script for removing empty images
+#ls -al * | awk '{if ($5 == 182) { print $9; }}' | xargs -I {} cp ../bk/{} .
+#ls -al * | awk '{if ($5 == 924) { print $9; }}' | xargs -I {} cp ../bk/{} .
