@@ -37,7 +37,6 @@ export default class Grid extends Component {
 			shrink = true;
 		}
 
-
 		const largeView = (
 			<div className="hide-mobile flex-container flex-container-center" key={0}>
 				<Team team={teams[0]} emblemLarge={true} year={year}/>
@@ -59,7 +58,7 @@ export default class Grid extends Component {
 					<div style={smallTeamStyle}>
 						<Team team={teams[0]} emblemSmall={true} year={year}/>
 					</div>
-					<Scoreboard team={teams[0]} match={match} shrinkOnMobile={shrink} />
+					<Scoreboard team={teams[0]} match={match} shrinkOnMobile={shrink}/>
 					<div style={smallTeamStyle}>
 						<Team team={teams[1]} emblemSmall={true} year={year}/>
 					</div>

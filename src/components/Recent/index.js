@@ -23,10 +23,14 @@ export default class Recent extends Component {
 
 	render() {
 		var views = [];
+		const teamRanks = this.state.teamRanks;
 
-		views.push({ name: 'Recent', link: '/recent', component: Matches, data: this.state.competitions });
-		views.push({ name: 'Yesterday', link: '/yesterday', component: Matches, data: this.filterByDay(-1) });
-		views.push({ name: 'Today', link: '/today', component: Matches, data: this.filterByDay(0) });
+		views.push({ name: 'Recent', link: '/recent', component: Matches,
+			data: {competitions: this.state.competitions, teamRanks: teamRanks} });
+		views.push({ name: 'Yesterday', link: '/yesterday', component: Matches, 
+			data: {competitions: this.filterByDay(-1), teamRanks: teamRanks} });
+		views.push({ name: 'Today', link: '/today', component: Matches,
+			data: {competitions: this.filterByDay(0), teamRanks: teamRanks} });
 
 		return <PageSelector views={views} basename={'/home'} />;
 	}
@@ -54,7 +58,7 @@ export default class Recent extends Component {
 			}
 
 			if (matches.length > 0)
-				competitions.push({ name: comp.name, matches: matches, season: comp.season });
+				competitions.push({ name: comp.name, matches: matches, season: comp.season, country: comp.country });
 		}
 
 		return competitions;
@@ -69,33 +73,46 @@ export default class Recent extends Component {
 			return response.json();
 		})
 		.then(function(data) {
-
+			const matches = data.matches;
+			const teamRanks = data.teamRanks;
 			var compMap = {};
 			var comps = [];
 			var i, j, match;
-			var comp, prevMatch, matches;
+			var comp, prevMatch, compMatches;
 
 			j = 0;
 			for (i in competitions) {
 				if (i) {
 					comps[j] = {name: competitions[i].name, matches: []};
+					if (competitions[i].country)
+						comps[j].country = competitions[i].country;
 					compMap[i] = j++;
 				}
 			}
 			
-			for (i = 0; i < data.length; i++) {
-				match = data[i];
+			matches.forEach(match => {
 				match.dateO = new Date(match.date);
 				j = compMap[match.competition];
 				comps[j].matches.push(match);
 				comps[j].season = match.season;
-			}
+				match.ranks = [teamRanks[match.teams[0]], teamRanks[match.teams[1]]].filter(a => a);
+				match.rankSum = match.ranks.reduce((total, num) => total + num);
+			});
 			
 			for (i = 0; i < comps.length; i++) {
 				comp = comps[i];
 
 				comp.matches.sort((a, b) => {
 					if (a.dateO.toString() === b.dateO.toString()) {
+
+						if (a.ranks.length === b.ranks.length) {
+							if (a.ranks.length > 0) {
+								return a.rankSum - b.rankSum;
+							}
+						} else {
+							return b.ranks.length - a.ranks.length;
+						}
+
 						if ((a.summary && b.summary) || !(a.summary || b.summary)) {
 							return a.teams[0] < b.teams[0] ? -1 : 1;
 						} else {
@@ -108,7 +125,7 @@ export default class Recent extends Component {
 
 				// remove duplicates (can only occur when there is no match url)
 				if (comp.matches.length > 0) {
-					matches = [comp.matches[0]];
+					compMatches = [comp.matches[0]];
 					for (j = 1; j < comp.matches.length; j++) {
 						prevMatch = comp.matches[j - 1];
 						match = comp.matches[j];
@@ -116,15 +133,15 @@ export default class Recent extends Component {
 						if (match.dateO.toString() !== prevMatch.dateO.toString() ||
 							match.teams[0] !== prevMatch.teams[0] ||
 							match.teams[1] !== prevMatch.teams[1]) {
-							matches.push(match);
+							compMatches.push(match);
 						}
 					}
 
-					comp.matches = matches;
+					comp.matches = compMatches;
 				}
 			}
 
-			that.setState({competitions: comps});
+			that.setState({competitions: comps, teamRanks: teamRanks});
 		});
 	}
 }

@@ -3,13 +3,41 @@ import { Link } from 'react-router-dom';
 
 import './style.css';
 
-import { Grid } from '../Common';
+import { Team, Scoreboard } from '../Common';
+
+import { colors } from '../data';
 
 import UrlUtil from '../../util/url';
+import Match from '../../util/match';
 
 export default class RecentMatches extends Component {
+	
+	constructor(props) {
+		super(props);
+		
+		this.state = {width: 0, height: 0};
+		
+		this.updateDimensions = this.updateDimensions.bind(this);
+	}
+
+	updateDimensions() {
+		this.setState({width: window.innerWidth, height: window.innerHeight});
+	}
+
+	componentWillMount() {
+		this.updateDimensions();
+	}
+
+	componentDidMount() {
+		window.addEventListener("resize", this.updateDimensions);
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener("resize", this.updateDimensions);
+	}
+
 	render() {
-		const competitions = this.props.data;
+		const competitions = this.props.data.competitions;
 
 		if (competitions.length === 0)
 			return null;
@@ -20,19 +48,20 @@ export default class RecentMatches extends Component {
 					if (comp.matches.length === 0)
 						return null;
 
-					var matches = this.groupMatches(comp.matches);
+					var logo = null;
+					if (comp.country)
+						logo = <Team team={comp.country} emblemSmall={true} />
+
+					var nameDiv = <div className="Recent-comp text-center">{logo} {comp.name}</div>;
 
 					const link = UrlUtil.getCompLink(comp.season, comp.name);
-					var nameDiv = <div className="Recent-comp text-center">{comp.name}</div>;
-
-					if (link !== null) {
+					if (link !== null)
 						nameDiv = <Link to={link}>{nameDiv}</Link>;
-					}
 
 					return (
 						<div key={comp.name}>
 							{nameDiv}
-							<Grid matches={matches} year={comp.season} />
+							{this.getGrid(comp.matches, comp.season)}
 						</div>
 					);
 				})}
@@ -42,7 +71,6 @@ export default class RecentMatches extends Component {
 
 	groupMatches(matches) {
 		var group = [];
-
 		var i, match;
 
 		for (i = 0; i < matches.length; i++) {
@@ -54,5 +82,115 @@ export default class RecentMatches extends Component {
 		}
 
 		return group;
+	}
+
+	getGrid(matches, year) {
+		var outerGridStyle = { 
+			display: 'grid',
+			gridTemplateColumns: '1fr 1fr 1fr 1fr',
+			gridColumnGap: '5px',
+			justifyItems: 'center',
+		};
+		var innerGridStyle = {
+			display: 'grid',
+			gridTemplateColumns: '1fr 1fr 14px 1fr 1fr',
+			height: '21px',
+			justifyItems: 'center',
+		};
+
+		if (this.state.width > 543) {
+			innerGridStyle.gridTemplateColumns = '1fr 1fr 40px 1fr 1fr';
+			innerGridStyle.height = '50px';
+			innerGridStyle.lineHeight = '50px';
+			innerGridStyle.alignItems = 'center';
+		}
+
+		return (
+			<div style={outerGridStyle}>
+				{matches.map((match, index) => 
+					<div key={index} style={innerGridStyle}>
+						{this.getRank(match.teams[0])}
+						{this.getTeam(match.teams[0], year)}
+						{this.getResult(match)}
+						{this.getTeam(match.teams[1], year)}
+						{this.getRank(match.teams[1])}
+					</div>
+				)}				
+			</div>
+		);
+	}
+
+	getTeam(team, year) {
+		if (this.state.width <= 543) {
+			return <Team team={team} emblemSmall={true} year={year}/>
+		} else {
+			return <Team team={team} emblemLarge={true} year={year}/>
+		}
+	}
+
+	getRank(team) {
+		var rank = this.props.data.teamRanks[team];
+		if (rank === undefined)
+			return <div />;
+
+		var style = {width: '15px', height: '21px'};
+		var textStyle = {alignmentBaseline: 'middle', textAnchor: 'middle', fontSize: 'smaller', fill: 'gray'};
+
+		return (
+			<svg style={style}>
+				<text style={textStyle} x={7.5} y={13}>{rank}</text>
+			</svg>
+		);
+	}
+
+	getResult(match) {
+		const ranks = this.props.data.teamRanks;
+		const teamA = match.teams[0];
+		const teamB = match.teams[1];
+
+		if (this.state.width > 543) {
+			var team = teamA;
+
+			if (ranks[teamA] && ranks[teamB] && ranks[teamA] > ranks[teamB]) {
+				team = teamB;
+			}
+
+			return <Scoreboard team={team} match={match} reverse={team === teamB} />;
+		}
+
+		const sum = Match.summarizeResult(match, teamA);
+		const result = sum.result;
+		var colorResult = result;
+
+		if (ranks[teamA] && ranks[teamB] && ranks[teamA] > ranks[teamB]) {
+			colorResult = Match.summarizeResult(match, teamB).result;
+		}
+
+		const color = colors[Match.getColor(colorResult)];
+			
+		var svgStyle = {width: '10px', height: '21px'};
+		var lineStyle = {stroke: color, strokeWidth: '3px', fill: 'none'};
+		if (result === 'win') {
+			return (
+				<svg style={svgStyle}>
+					<polyline points="0,3 9,10.5 0,18" style={lineStyle}/>
+				</svg>
+			);
+		} else if (result === 'draw') {
+			return (
+				<svg style={svgStyle}>
+					<line x1="0" x2="10" y1="8" y2="8" style={lineStyle}/>
+					<line x1="0" x2="10" y1="13" y2="13" style={lineStyle}/>
+				</svg>
+			);
+		} else if (result === 'loss') {
+			return (
+				<svg style={svgStyle}>
+					<polyline points="10,3 1,10.5 10,18" style={lineStyle}/>
+				</svg>
+			);
+		} else {
+			return <div style={svgStyle} className="text-center"><small>v</small></div>;
+		}
 	}
 }

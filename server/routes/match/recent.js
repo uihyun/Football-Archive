@@ -5,6 +5,7 @@ const Promise = require('bluebird');
 module.exports = function(router, db) {
 	const Seasons = db.collection('Seasons');
 	const Matches = db.collection('Matches');
+	const Leagues = db.collection('Leagues');
 	
 	router.get('/api/match/recent', function(req, res) {
 		var matchMap = {};
@@ -21,6 +22,7 @@ module.exports = function(router, db) {
 					var i, j, k;
 					var season, comp, match, teams;
 					var matchUrl;
+					var compMap = {};
 
 					for (i in seasons) {
 						season = seasons[i];
@@ -35,6 +37,7 @@ module.exports = function(router, db) {
 								if (matchDate >= weekBefore && matchDate <= tomorrow) {
 									matchUrl = (match.url !== undefined) ? match.url : (season.team + match.date);
 									teams = (match.place === 'A') ? [match.vs, season.team] : [season.team, match.vs];
+									compMap[comp.name] = season.season;
 									matchMap[matchUrl] = {
 										competition: comp.name,
 										season: season.season,
@@ -53,8 +56,18 @@ module.exports = function(router, db) {
 						matches.push(i);
 					}
 
-					Matches.find({url: {$in: matches}}).toArray()
-					.then(function(matches) {
+					var competitions = [];
+					for (i in compMap) {
+						competitions.push({ name: i, season: compMap[i] });
+					}
+
+					var promises = [];
+
+					promises.push(Matches.find({url: {$in: matches}}).toArray());
+					promises.push(Leagues.find({ $or: competitions }).toArray());
+
+					Promise.all(promises)
+					.then(function([matches, leagues]) {
 						var i, match;
 
 						for (i in matches) {
@@ -63,12 +76,18 @@ module.exports = function(router, db) {
 						}
 
 						var result = [];
-
 						for (i in matchMap) {
 							result.push(matchMap[i]);
 						}
 
-						res.json(result);
+						var teamMap = {};
+						leagues.forEach(league => {
+							league.table.forEach(row => {
+								teamMap[row.name] = row.rank;
+							});
+						});
+
+						res.json({ matches: result, teamRanks: teamMap });
 					});
 				}
 			})
