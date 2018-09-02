@@ -130,17 +130,9 @@ export default class RecentMatches extends Component {
 
 	getRank(team) {
 		var rank = this.props.data.teamRanks[team];
-		if (rank === undefined)
-			return <div />;
+		var style = {color: 'gray'}
 
-		var style = {width: '15px', height: '21px'};
-		var textStyle = {alignmentBaseline: 'middle', textAnchor: 'middle', fontSize: 'smaller', fill: 'gray'};
-
-		return (
-			<svg style={style}>
-				<text style={textStyle} x={7.5} y={13}>{rank}</text>
-			</svg>
-		);
+		return <div style={style}><small>{rank}</small></div>;
 	}
 
 	getResult(match) {
