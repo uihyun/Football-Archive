@@ -103,15 +103,18 @@ export default class Recent extends Component {
 				comp = comps[i];
 
 				comp.matches.sort((a, b) => {
-					if (a.dateO.toString() === b.dateO.toString()) {
-
-						if (a.ranks.length === b.ranks.length) {
-							if (a.ranks.length > 0) {
+					if (a.ranks.length === b.ranks.length) {
+						if (a.ranks.length > 0) {
+							if (a.rankSum !== b.rankSum)
 								return a.rankSum - b.rankSum;
-							}
-						} else {
-							return b.ranks.length - a.ranks.length;
+							else
+								return Math.min(...a.ranks) - Math.min(...b.ranks);
 						}
+					} else {
+						return b.ranks.length - a.ranks.length;
+					}
+
+					if (a.dateO.toString() === b.dateO.toString()) {
 
 						if ((a.summary && b.summary) || !(a.summary || b.summary)) {
 							return a.teams[0] < b.teams[0] ? -1 : 1;
