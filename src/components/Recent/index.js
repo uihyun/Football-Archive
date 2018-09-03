@@ -96,7 +96,9 @@ export default class Recent extends Component {
 				comps[j].matches.push(match);
 				comps[j].season = match.season;
 				match.ranks = [teamRanks[match.teams[0]], teamRanks[match.teams[1]]].filter(a => a);
-				match.rankSum = match.ranks.reduce((total, num) => total + num);
+				match.rankSum = 0;
+				if (match.ranks.length > 0)
+					match.ranks.reduce((total, num) => total + num);
 			});
 			
 			for (i = 0; i < comps.length; i++) {
