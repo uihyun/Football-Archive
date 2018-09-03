@@ -6,6 +6,7 @@ import {Squad, PageSelector} from '../Common';
 
 import Timeline from './Timeline';
 import Form from './Form';
+import Rotation from './Rotation';
 import Summary from './Summary';
 import Circle from './Circle';
 
@@ -57,6 +58,7 @@ export default class AllMatches extends Component {
 
 		if (this.props.data.showForm) {
 			views.push({ name: 'Form', link: '/form', component: Form, data: downData });
+			views.push({ name: 'Rotation', link: '/rotation', component: Rotation, data: downData });
 		}
 		views.push({
 			name: 'Summary', link: '/summary', component: Summary, data: downData });

@@ -16,7 +16,7 @@ export default class Form extends Component {
 
 		const props = this.props.data;
 		const data = {
-			data: this.getShortenedData(allMatches),
+			data: Match.getShortenedData(allMatches),
 			squad: props.squad, team: props.team, year: props.year, player: props.player
 		};
 		
@@ -45,42 +45,6 @@ export default class Form extends Component {
 				{this.getSeparator(sum.unplayed)}
 			</div>
 		);
-	}
-
-	getShortenedData(allMatches) {
-		var i, match;
-		var lastMatchIndex = 0;
-		for (i = allMatches.length - 1; i >= 0; i--) {
-			match = allMatches[i];
-
-			if (match.summary) {
-				lastMatchIndex = i;
-				break;
-			}
-		}
-
-		let startIndex = Math.max(lastMatchIndex - 5, 0);
-		let endIndex = Math.min(lastMatchIndex + 5, allMatches.length - 1);
-
-		var compMap = {};
-		for (i = startIndex; i <= endIndex; i++) {
-			match = allMatches[i];
-
-			if (compMap[match.competition] === undefined) {
-				compMap[match.competition] = {name: match.competition, matches: []};
-			}
-
-			compMap[match.competition].matches.push(match);
-		}
-		
-		var data = {competitions: []};
-		for (i in compMap) {
-			if (compMap[i]) {
-				data.competitions.push(compMap[i]);
-			}
-		}
-
-		return data;
 	}
 
 	getMatchSummary(matches) {

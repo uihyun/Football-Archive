@@ -134,6 +134,42 @@ export default class Match {
 		return out;
 	}
 
+	static getShortenedData(matches) {
+		var i, match;
+		var lastMatchIndex = 0;
+		for (i = matches.length - 1; i >= 0; i--) {
+			match = matches[i];
+
+			if (match.summary) {
+				lastMatchIndex = i;
+				break;
+			}
+		}
+
+		let startIndex = Math.max(lastMatchIndex - 4, 0);
+		let endIndex = Math.min(lastMatchIndex + 5, matches.length - 1);
+
+		var compMap = {};
+		for (i = startIndex; i <= endIndex; i++) {
+			match = matches[i];
+
+			if (compMap[match.competition] === undefined) {
+				compMap[match.competition] = {name: match.competition, matches: []};
+			}
+
+			compMap[match.competition].matches.push(match);
+		}
+		
+		var data = {competitions: []};
+		for (i in compMap) {
+			if (compMap[i]) {
+				data.competitions.push(compMap[i]);
+			}
+		}
+
+		return data;
+	}
+
 	static getColor(result) {
 		switch (result) {
 			case 'win':
