@@ -6,7 +6,7 @@ import { PageSelector } from '../Common';
 
 import Matches from './matches';
 
-import { competitions } from '../data';
+import { competitions, teams } from '../data';
 import UrlUtil from '../../util/url';
 
 export default class Recent extends Component {
@@ -74,7 +74,7 @@ export default class Recent extends Component {
 		})
 		.then(function(data) {
 			const matches = data.matches;
-			const teamRanks = data.teamRanks;
+			var teamRanks = data.teamRanks;
 			var compMap = {};
 			var comps = [];
 			var i, j, match;
@@ -145,6 +145,27 @@ export default class Recent extends Component {
 					comp.matches = compMatches;
 				}
 			}
+
+			var teamMap = {};
+			var team;
+			for (i in teams) {
+				if (teams[i]) {
+					team = teams[i];
+					if (team) {
+						if (Number.isInteger(team.id))
+							continue;
+
+						if (team.fifa)
+							teamMap[team.fifa] = i;
+						else
+							teamMap[team.id] = i;
+					}
+				}
+			}
+
+			data.fifaRanking.ranks.forEach(entry => {
+				teamRanks[teamMap[entry.id]] = entry.rank;
+			});
 
 			that.setState({competitions: comps, teamRanks: teamRanks});
 		});

@@ -6,6 +6,7 @@ module.exports = function(router, db) {
 	const Seasons = db.collection('Seasons');
 	const Matches = db.collection('Matches');
 	const Leagues = db.collection('Leagues');
+	const FIFARankings = db.collection('FIFARankings');
 	
 	router.get('/api/match/recent', function(req, res) {
 		var matchMap = {};
@@ -29,6 +30,7 @@ module.exports = function(router, db) {
 
 						for (j in season.competitions) {
 							comp = season.competitions[j];
+							compMap[comp.name] = season.season;
 
 							for (k in comp.matches) {
 								match = comp.matches[k];
@@ -37,7 +39,6 @@ module.exports = function(router, db) {
 								if (matchDate >= weekBefore && matchDate <= tomorrow) {
 									matchUrl = (match.url !== undefined) ? match.url : (season.team + match.date);
 									teams = (match.place === 'A') ? [match.vs, season.team] : [season.team, match.vs];
-									compMap[comp.name] = season.season;
 									matchMap[matchUrl] = {
 										competition: comp.name,
 										season: season.season,
@@ -65,9 +66,10 @@ module.exports = function(router, db) {
 
 					promises.push(Matches.find({url: {$in: matches}}).toArray());
 					promises.push(Leagues.find({ $or: competitions }).toArray());
+					promises.push(FIFARankings.find({}).sort({id: -1}).limit(1).toArray());
 
 					Promise.all(promises)
-					.then(function([matches, leagues]) {
+					.then(function([matches, leagues, fifa]) {
 						var i, match;
 
 						for (i in matches) {
@@ -87,7 +89,7 @@ module.exports = function(router, db) {
 							});
 						});
 
-						res.json({ matches: result, teamRanks: teamMap });
+						res.json({ matches: result, teamRanks: teamMap, fifaRanking: fifa[0] });
 					});
 				}
 			})
