@@ -132,6 +132,9 @@ export default class RecentMatches extends Component {
 		var rank = this.props.data.teamRanks[team];
 		var style = {color: 'gray'}
 
+		if (rank >= 100 && this.state.width < 534)
+			rank = <small><small>{rank}</small></small>;
+
 		return <div style={style}><small>{rank}</small></div>;
 	}
 
