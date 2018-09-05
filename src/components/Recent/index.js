@@ -80,6 +80,27 @@ export default class Recent extends Component {
 			var i, j, match;
 			var comp, prevMatch, compMatches;
 
+			var teamMap = {};
+			var team;
+			for (i in teams) {
+				if (teams[i]) {
+					team = teams[i];
+					if (team) {
+						if (Number.isInteger(team.id))
+							continue;
+
+						if (team.fifa)
+							teamMap[team.fifa] = i;
+						else
+							teamMap[team.id] = i;
+					}
+				}
+			}
+
+			data.fifaRanking.ranks.forEach(entry => {
+				teamRanks[teamMap[entry.id]] = entry.rank;
+			});
+
 			j = 0;
 			for (i in competitions) {
 				if (i) {
@@ -98,9 +119,9 @@ export default class Recent extends Component {
 				match.ranks = [teamRanks[match.teams[0]], teamRanks[match.teams[1]]].filter(a => a);
 				match.rankSum = 0;
 				if (match.ranks.length > 0)
-					match.ranks.reduce((total, num) => total + num);
+					match.rankSum = match.ranks.reduce((total, num) => total + num);
 			});
-			
+
 			for (i = 0; i < comps.length; i++) {
 				comp = comps[i];
 
@@ -145,27 +166,6 @@ export default class Recent extends Component {
 					comp.matches = compMatches;
 				}
 			}
-
-			var teamMap = {};
-			var team;
-			for (i in teams) {
-				if (teams[i]) {
-					team = teams[i];
-					if (team) {
-						if (Number.isInteger(team.id))
-							continue;
-
-						if (team.fifa)
-							teamMap[team.fifa] = i;
-						else
-							teamMap[team.id] = i;
-					}
-				}
-			}
-
-			data.fifaRanking.ranks.forEach(entry => {
-				teamRanks[teamMap[entry.id]] = entry.rank;
-			});
 
 			that.setState({competitions: comps, teamRanks: teamRanks});
 		});
