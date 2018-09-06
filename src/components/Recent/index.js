@@ -165,8 +165,10 @@ export default class Recent extends Component {
 						match = comp.matches[j];
 
 						if (match.dateO.toString() !== prevMatch.dateO.toString() ||
-							match.teams[0] !== prevMatch.teams[0] ||
-							match.teams[1] !== prevMatch.teams[1]) {
+								!((match.teams[0] === prevMatch.teams[0] &&
+									 match.teams[1] === prevMatch.teams[1]) ||
+									(match.teams[0] === prevMatch.teams[1] &&
+									 match.teams[1] === prevMatch.teams[0]))) {
 							compMatches.push(match);
 						}
 					}
