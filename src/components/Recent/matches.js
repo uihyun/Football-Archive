@@ -58,10 +58,14 @@ export default class RecentMatches extends Component {
 					if (link !== null)
 						nameDiv = <Link to={link}>{nameDiv}</Link>;
 
+					var year = comp.season;
+					if (comp.seasonMax)
+						year = comp.seasonMax;
+
 					return (
 						<div key={comp.name}>
 							{nameDiv}
-							{this.getGrid(comp.matches, comp.season)}
+							{this.getGrid(comp.matches, year)}
 						</div>
 					);
 				})}

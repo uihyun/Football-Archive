@@ -124,7 +124,7 @@ export default class Recent extends Component {
 			
 			for (i in competitions) {
 				if (i) {
-					comps[compMap[i]].season = nations.years.max;
+					comps[compMap[i]].seasonMax = nations.years.max;
 					if(i === 'Friendlies')
 						break;
 				}
