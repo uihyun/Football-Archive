@@ -6,7 +6,7 @@ import { PageSelector } from '../Common';
 
 import Matches from './matches';
 
-import { competitions, teams } from '../data';
+import { competitions, nations, teams } from '../data';
 import UrlUtil from '../../util/url';
 
 export default class Recent extends Component {
@@ -121,6 +121,14 @@ export default class Recent extends Component {
 				if (match.ranks.length > 0)
 					match.rankSum = match.ranks.reduce((total, num) => total + num);
 			});
+			
+			for (i in competitions) {
+				if (i) {
+					comps[compMap[i]].season = nations.years.max;
+					if(i === 'Friendlies')
+						break;
+				}
+			}
 
 			for (i = 0; i < comps.length; i++) {
 				comp = comps[i];
