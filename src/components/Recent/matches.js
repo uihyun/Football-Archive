@@ -107,17 +107,41 @@ export default class RecentMatches extends Component {
 
 		return (
 			<div style={outerGridStyle}>
-				{matches.map((match, index) => 
-					<div key={index} style={innerGridStyle}>
+				{matches.map((match, index) => {
+					const [result, colorResult] = this.getMatchResult(match);
+					const style = Object.assign({}, innerGridStyle);
+					if (result !== 'unplayed') {
+						style.background = colors[Match.getColorDNP(colorResult)];
+					}
+
+					return (
+					<div key={index} style={style}>
 						{this.getRank(match.teams[0])}
 						{this.getTeam(match.teams[0], year)}
-						{this.getResult(match)}
+						{this.getResult(match, result, colorResult)}
 						{this.getTeam(match.teams[1], year)}
 						{this.getRank(match.teams[1])}
 					</div>
-				)}				
+					);
+				})}
 			</div>
 		);
+	}
+
+	getMatchResult(match) {
+		const ranks = this.props.data.teamRanks;
+		const teamA = match.teams[0];
+		const teamB = match.teams[1];
+
+		const sum = Match.summarizeResult(match, teamA);
+		const result = sum.result;
+		var colorResult = result;
+
+		if (ranks[teamA] && ranks[teamB] && ranks[teamA] > ranks[teamB]) {
+			colorResult = Match.summarizeResult(match, teamB).result;
+		}
+
+		return [result, colorResult];
 	}
 
 	getTeam(team, year) {
@@ -138,7 +162,7 @@ export default class RecentMatches extends Component {
 		return <div style={style}><small>{rank}</small></div>;
 	}
 
-	getResult(match) {
+	getResult(match, result, colorResult) {
 		const ranks = this.props.data.teamRanks;
 		const teamA = match.teams[0];
 		const teamB = match.teams[1];
@@ -151,14 +175,6 @@ export default class RecentMatches extends Component {
 			}
 
 			return <Scoreboard team={team} match={match} reverse={team === teamB} />;
-		}
-
-		const sum = Match.summarizeResult(match, teamA);
-		const result = sum.result;
-		var colorResult = result;
-
-		if (ranks[teamA] && ranks[teamB] && ranks[teamA] > ranks[teamB]) {
-			colorResult = Match.summarizeResult(match, teamB).result;
 		}
 
 		const color = colors[Match.getColor(colorResult)];
