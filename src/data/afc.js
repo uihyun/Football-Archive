@@ -1,8 +1,9 @@
 const afc = {
 	years: {max: 2018, min: 2013},
+	countries: [['K League 1', 'K League 2'], ['J1 League'], ['Super League']],
 	leagues: ['K League 1', 'K League 2', 'J1 League', 'Super League'],
 	codes: {
-		'K League 1': 'K1', 
+		'K League 1': 'K1',
 		'K League 2': 'K2',
 		'J1 League': 'J1',
 		'Super League': 'CSL'

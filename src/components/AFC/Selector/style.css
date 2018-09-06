@@ -29,16 +29,21 @@
 	vertical-align: middle;
 }
 
-.AFCSelector-country {
-	margin-top: 5px;
-	margin-bottom: 5px;
-	font-size: large;
+.AFCSelector-league {
+	font-size: 1.17em;
 	font-weight: bold;
+	height: 50px;
+	line-height: 50px;
 }
 
 @media screen and (max-width: 543px) {
 
 	.AFCSelector-team {
 		flex-basis: 10%;
+	}
+
+	.AFCSelector-league {
+		height: 35px;
+		line-height: 35px;
 	}
 }
