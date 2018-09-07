@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
 import './style.css';
 
 import { Team, YearSelector } from '../../Common';
 
-import { clubs, koreans } from '../data';
-import UrlUtil from '../../../util/url';
+import { colors, clubs, koreans } from '../data';
 
 export default class UEFASelector extends Component {
 
   render() {
-		const url = this.props.match.url;
 		const year = this.props.match.params.year;
 		var countries = [];
+		var teamsWithKorean = {};
 
 		clubs.countries.forEach(country => {
 			var teams = clubs.seasons[country].teams[year];
@@ -21,6 +19,12 @@ export default class UEFASelector extends Component {
 				countries.push({ code: country, teams: teams });
 			}
 		});
+
+		if (koreans[year])
+			koreans[year].forEach(player => { teamsWithKorean[player.team] = true; });
+		const red = colors.mediumred;
+		const blue = colors.mediumblue;
+		const koreaBG = 'linear-gradient(155deg, ' + red + ', ' + red + ' 50%, ' + blue + ' 50%, ' + blue + ')';
 
     return (
       <div className="UEFASelector text-center">
@@ -33,8 +37,14 @@ export default class UEFASelector extends Component {
 								<h3>{country.code}</h3>
 								<div className="UEFASelector-flex-container">
 									{country.teams.map(team => {
+										var style = {};
+
+										if (teamsWithKorean[team]) {
+											style.background = koreaBG;
+										}
+
 										return (
-											<div className="UEFASelector-team" key={team}>
+											<div className="UEFASelector-team" key={team} style={style}>
 												<Team team={team} emblemLarge={true} year={year}/>
 											</div>
 										);
@@ -44,37 +54,6 @@ export default class UEFASelector extends Component {
 						);
 					})}
 				</div>
-				{koreans[year] && (
-					<div>
-						<br className="hide-mobile" />
-						<div className="flex-container flex-container-space-around flex-container-wrap">
-							{koreans[year].map(korean => {
-								var i, name;
-								var more = [];
-
-								if (korean.more) {
-									for (i = 0; i < korean.more.length; i++) {
-										name = korean.more[i];
-										more.push(<div key={name}>{name}</div>);
-									}
-								}
-								return (
-									<div key={korean.name + korean.team} className="text-center">
-										<Link to={url + '/' + UrlUtil.getTeamUrl(korean.team)}> 
-											<div>
-												{korean.name}
-											</div>
-											<div className="UEFASelector-team">
-												<Team team={korean.team} emblemLarge={true}/>
-											</div>
-											{more}
-										</Link>
-									</div>
-								);
-							})}
-						</div>
-					</div>
-				)}
       </div>
     );
   }

@@ -1,4 +1,11 @@
 const koreans = {
+	2019: [
+		{team: 'Tottenham Hotspur', name: '손흥민', country: 'ENG'},
+		{team: 'Newcastle United', name: '기성용', country: 'ENG'},
+		{team: 'FC Augsburg', name: '구자철', country: 'GER', more: ['지동원']},
+		{team: 'Dijon FCO', name: '권창훈', country: 'FRA'},
+		{team: 'Stade Reims', name: '석현준', country: 'FRA'},
+	],
 	2018: [
 		{team: 'Tottenham Hotspur', name: '손흥민', country: 'ENG'},
 		{team: 'Swansea City', name: '기성용', country: 'ENG'},
