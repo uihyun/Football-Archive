@@ -4,6 +4,7 @@ module.exports = {
 	isValid: function(competition) {
 		switch (competition) {
 			// nations
+			case	'WC Qualifiers Play-offs':
 			case	'WC Qualifiers Europe':
 			case	'WC Qualifiers South America':
 			case	'WC Qualifiers CONCACAF':

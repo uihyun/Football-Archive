@@ -28,7 +28,7 @@ const layout = {
 		}
 	},
 	europe: ['Champions League', 'Europa League'],
-	fifa: ['World Cup', 'Confederations Cup'],
+	fifa: ['World Cup', 'Confederations Cup', 'WC Qualifiers Play-offs'],
 	continental: {
 		legend: ['Cup', 'WCQ', 'CQ'],
 		list: ['EU', 'SA', 'NA', 'AF', 'AS'],
