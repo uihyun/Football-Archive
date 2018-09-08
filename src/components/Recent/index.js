@@ -31,6 +31,8 @@ export default class Recent extends Component {
 			data: {competitions: this.filterByDay(-1), teamRanks: teamRanks} });
 		views.push({ name: 'Today', link: '/today', component: Matches,
 			data: {competitions: this.filterByDay(0), teamRanks: teamRanks} });
+		views.push({ name: 'Tomorrow', link: '/tomorrow', component: Matches,
+			data: {competitions: this.filterByDay(1), teamRanks: teamRanks} });
 
 		return <PageSelector views={views} basename={'/home'} />;
 	}
@@ -58,7 +60,7 @@ export default class Recent extends Component {
 			}
 
 			if (matches.length > 0)
-				competitions.push({ name: comp.name, matches: matches, season: comp.season, country: comp.country });
+				competitions.push(Object.assign({}, comp, {matches: matches}));
 		}
 
 		return competitions;
