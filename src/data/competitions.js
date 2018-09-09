@@ -24,9 +24,9 @@ const competitions = {
 	'Africa Cup Qualifiers': {times: [2014, 2015, 2016, 2017, 2018, 2019], url: 'Africa-Cup-Qual'},
 	'Asian Cup Qual.': {order: 2, name: 'Asian Cup Qualifiers', sh: 'ASQ', type: 'Q', group: 1, times: [2013, 2014], url: 'Asian-Cup-Qual'},
 	'Asian Cup Qualifiers': {times: [2013, 2014], url: 'Asian-Cup-Qual'},
-	'Nations League A': {order: 6, name: 'Nations League A', sh: 'NL', type: '2', group: 1},
-	'Nations League B': {order: 6, name: 'Nations League B', sh: 'NL', type: '2', group: 1},
-	'Nations League C': {order: 6, name: 'Nations League C', sh: 'NL', type: '2', group: 1},
+	'Nations League A': {order: 6, name: 'Nations League A', sh: 'NL', type: '2', group: 1, times: [2018, 2019]},
+	'Nations League B': {order: 6, name: 'Nations League B', sh: 'NL', type: '2', group: 1, times: [2018, 2019]},
+	'Nations League C': {order: 6, name: 'Nations League C', sh: 'NL', type: '2', group: 1, times: [2018, 2019]},
 	'Friendlies': {order: 7, name: 'Friendlies', sh: 'Fr', type: '2', group: 2},
 
 	'Champions League': {order: 2, name: 'Champions League', sh: 'UCL', type: '2', group: 0, years: clubs.years},

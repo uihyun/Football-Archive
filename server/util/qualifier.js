@@ -13,6 +13,9 @@ module.exports = {
 			case	'EURO Qualifiers':
 			case	'Africa Cup Qual.':
 			case	'Asian Cup Qual.':
+			case 'Nations League A':
+			case 'Nations League B':
+			case 'Nations League C':
 				return true;
 			default:
 				return false;
