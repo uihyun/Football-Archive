@@ -1,81 +1,91 @@
 use LWP::Simple;
+use feature 'unicode_strings';
+use utf8;
+use Encode;
+use File::Slurp 'slurp';
 use Mojo::DOM;
 use Mojo::Collection;
-use utf8;
+use DateTime;
 binmode(STDOUT, ":utf8");
 
 my $match = $ARGV[0];
+$match =~ /(.*)_(.*)_(.*)/;
+my $year = $1;
+my $round_code = $2;
+my $match_code = $3;
 
-my $url = "http://www.kfa.or.kr/facup/facupresult.asp?Query=$match";
-my $html = get($url);
+my $perl_dir = "/Users/eunmo/dev/fa/perl/test";
+chdir $perl_dir;
+
+system "/bin/bash kfacup.sh $year $round_code $match_code";
+
+my $html = decode('cp949', scalar slurp $match_code);
 my $dom = Mojo::DOM->new($html);
-
-my $div = $dom->find('div[class="resultTbl"]')->first;
 
 my $json = "{";
 
-my $table = $div->find('table[class="matchTbl"]')->first;
-my $l = $table->find('td[class="score"]')->first->text;
-my $r = $table->find('td[class="score"]')->last->text;
+my $tables = $dom->find('table[class="tb01"]');
+my $l = get_text($tables->[0]->find('tr')->[1]->all_text);
+my $r = get_text($tables->[1]->find('tr')->[1]->all_text);
 $json .= "\"l\": \"$l\", \"r\": \"$r\"";
 
-if ($table->find('td[headers="shootOut"]')->first->text !~ /^0*$/) {
-	my $pk_l = $table->find('td[headers="shootOut"]')->first->text;
-	my $pk_r = $table->find('td[headers="shootOut"]')->last->text;
-	$json .= ", \"pso\": \"$pk_l:$pk_r\"";
+my $pso_tds = $dom->find('table[class="tb04"] tr')->[4]->find('td');
+my $pso_l = get_text($pso_tds->[0]->all_text);
+my $pso_r = get_text($pso_tds->[2]->all_text);
+if (!($pso_l eq '0' || $pso_l eq '') || !($pso_r eq '0' || $pso_r eq '')) {
+	$json .= ", \"pso\": \"$pso_l:$pso_r\"";
 }
 
-my $uls = $div->find('ul[class="detail"]');
-my $max_minute = "0";
+my $tb05s = $dom->find('table[class="tb05"]');
 
-$json .= ", \"starting\":";
-get_player_table($uls->[0]);
+$json .= ", \"starting\":[";
+get_players($tb05s->[0]);
+$json .= ",";
+get_players($tb05s->[1]);
+$json .= "]";
 
-$json .= ", \"bench\":";
-get_player_table($uls->[1]);
+$json .= ", \"bench\":[";
+get_players($tb05s->[2]);
+$json .= ",";
+get_players($tb05s->[3]);
+$json .= "]";
 
-$json .= ", \"sub\":";
-get_sub($uls->[2]);
+$json .= ", \"sub\":[";
+get_subs($tb05s->[4]);
+$json .= ",";
+get_subs($tb05s->[5]);
+$json .= "]";
 
-$json .= ", \"og\":";
-get_og($uls->[3]);
+$json .= ", \"og\":[";
+get_ogs($tb05s->[10]);
+$json .= ",";
+get_ogs($tb05s->[11]);
+$json .= "]";
 
-$json .= ", \"aet\": true" if $max_minute >= 105;
+my $aet_td = get_text($dom->find('table[class="tb06"] tr')->[6]->find('td')->[1]->text);
+$json .= ", \"aet\": true" if $aet_td eq 'Y';
+
 $json .= "}";
 print $json;
 
-sub get_og($)
-{
-	my $container = shift;
+system "rm $match_code";
 
-	$json .= "\n[";
-
-	my $side_index = 0;
-	for my $table ($container->find('table')->each) {
-		$json .= "," if $side_index++;
-		$json .= "\n[";
-
-		get_own_goal($table);
-
-		$json .= "]";
-	}
-		
-	$json .= "]";
-}
-
-sub get_own_goal($)
+sub get_ogs($)
 {
 	my $table = shift;
 	my $og_count = 0;
+	my $time;
+	
+	$json .= "\n[";
 
 	for my $tr ($table->find('tbody tr')->each) {
-		my $td_col = $tr->find('td');
+		my $td_cols = $tr->find('td');
 
-		$td_col->[0]->text =~ /(\d+)\. (\S+)/;
+		next if $td_cols->size == 0;
 
-		my $number = $1;
-		my $name = $2;
-		my $minute = $td_col->[1]->text;
+		my $number = get_text($td_cols->[1]->text);
+		my $name = get_text($td_cols->[0]->text);
+		my $minute = remove_extra(get_text($td_cols->[2]->text));
 
 		next if $minute <= 0;
 		
@@ -85,47 +95,30 @@ sub get_own_goal($)
 		$json .= ", \"minute\": \"$minute\"";
 		$json .= "}";
 	}
-}
-
-sub get_sub($)
-{
-	my $container = shift;
-	my $side_index = 0;
-
-	$json .= "\n[";
-	for my $ul ($container->find('ul[class="changedPlayer"]')->each) {
-		$json .= "," if $side_index++;
-		$json .= "\n[";
-
-		my $sub_count = 0;
-		for my $li ($ul->find('li')->each) {
-			my $player = $li->text;
-			my $state = lc $li->find('span')->first->text;
-			my $time = $li->find('span')->last->text;
-
-			$json .= ",\n" if $sub_count++;
-			$json .= "{\"state\": \"$state\", \"name\": \"$player\", \"minute\": $time}";
-		}
-
-		$json .= "]";
-	}
-		
+	
 	$json .= "]";
 }
 
-sub get_player_table($)
+sub get_subs($)
 {
-	my $ul = shift;
-	my $side_index = 0;
-		
+	my $table = shift;
+	my $sub_count = 0;
+	my $time;
+
 	$json .= "\n[";
-	for my $table ($ul->find('table')->each) {
-		$json .= "," if $side_index++;
-		$json .= "\n[";
+	
+	for my $tr ($table->find('tbody tr')->each) {
+		my $td_cols = $tr->find('td');
 
-		get_players($table);
+		next if $td_cols->size == 0;
 
-		$json .= "]";
+		my $state = get_text($td_cols->[0]->text);
+		my $player = get_text($td_cols->[1]->text);
+		my $number = get_text($td_cols->[2]->text);
+		$time = remove_extra(get_text($td_cols->[3]->text)) if $td_cols->size > 3;
+
+		$json .= ",\n" if $sub_count++;
+		$json .= "{\"state\": \"$state\", \"name\": \"$player\", \"number\": $number, \"minute\": $time}";
 	}
 		
 	$json .= "]";
@@ -136,21 +129,22 @@ sub get_players($)
 	my $table = shift;
 	my $player_count = 0;
 
+	$json .= "\n[";
+
 	for my $tr ($table->find('tbody tr')->each) {
-		my $td_col = $tr->find('td');
-		my $player = $td_col->[0]->text;
-		$player =~ /(\d+)\. (\S+)/;
+		my $td_cols = $tr->find('td');
 
-		my $number = $1;
-		my $name = $2;
+		next if $td_cols->size == 0;
 
-		my $minute = $td_col->[1]->text;
-		$max_minute = $minute if $max_minute < $minute;
+		my $number = get_text($td_cols->[0]->text);
 
-		my $goals = $td_col->[2]->text;
-		my $assists = $td_col->[3]->text;
-		my $yellows = $td_col->[4]->text;
-		my $reds = $td_col->[5]->text;
+		my $name = get_text($td_cols->[1]->all_text);
+		$name =~ s/ \(.*\)//;
+
+		my $goals = remove_extra($td_cols->[4]->text);
+		my $assists = remove_extra($td_cols->[5]->text);
+		my $yellows = remove_extra($td_cols->[6]->text);
+		my $reds = remove_extra($td_cols->[7]->text);
 		
 		$json .= ",\n" if $player_count++;
 		$json .= "{\"number\": $number";
@@ -161,4 +155,24 @@ sub get_players($)
 		$json .= ", \"reds\": \"$reds\"" if $reds ne '';
 		$json .= "}";
 	}
+		
+	$json .= "]";
+}
+
+sub remove_extra($)
+{
+	my $s = shift;
+
+	$s =~ s/\(.*\)//g;
+
+	return $s;
+}
+
+sub get_text($)
+{
+	my $s = shift;
+
+	$s =~ s/^\s+|\s+$//g;
+
+	return $s;
 }

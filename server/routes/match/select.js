@@ -9,9 +9,6 @@ module.exports = function(router, db) {
 	router.get('/api/match/select/:_url', function (req, res) {
 		var url = req.params._url;
 
-		if (url.match(/^KFACUP/))
-			url= url.replace(/=/g, '%3D').replace(/&/, '%26');
-			
 		function getMatch(result) {
 			return Matches.findOne({url: url})
 				.then(function(match) {

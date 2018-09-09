@@ -246,12 +246,19 @@ module.exports = function(router, db) {
 				return;
 
 			var goals = row.goals.split(',');
-			var i, minute;
+			var i, minute, goal;
 
 			for (i = 0; i < goals.length; i++) {
 				minute = goals[i];
 
-				match.goals.push({ side: side, scorer: player.name, minute: minute });
+				goal = { side: side, scorer: player.name, minute: minute };
+
+				if (minute.match('[P]')) {
+					goal.minute = minute.replace('[P]', '');
+					goal.style = 'penalty';
+				}
+
+				match.goals.push(goal);
 			}
 		}
 
@@ -275,9 +282,9 @@ module.exports = function(router, db) {
 
 			for (i = 0; i < subs.length; i++) {
 				sub = subs[i];
-				number = parseInt(sub.name.split('.')[0], 10);
+				number = sub.number;
 
-				if (number === player.number && sub.state === 'in') {
+				if (number === player.number && sub.state === 'IN') {
 					player.sub = sub.minute;
 				}
 			}
@@ -289,9 +296,9 @@ module.exports = function(router, db) {
 
 			for (i = 0; i < subs.length; i++) {
 				sub = subs[i];
-				number = parseInt(sub.name.split('.')[0], 10);
+				number = sub.number;
 
-				if (number === player.number && sub.state === 'out') {
+				if (number === player.number && sub.state === 'OUT') {
 					if (player.sub === undefined) {
 						player.sub = sub.minute;
 					} else {

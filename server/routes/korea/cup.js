@@ -48,8 +48,7 @@ module.exports = function(router, db) {
 		.then(function (data) {
 			if (data === '')
 				return;
-				
-			data.reverse();
+
 
 			var cup = {name: 'KFA Cup', season: year, rounds: [], assembled: true};
 			var rounds = cup.rounds;
