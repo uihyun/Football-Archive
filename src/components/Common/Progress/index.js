@@ -173,6 +173,14 @@ export default class Progress extends Component {
 				round = 'Group';
 			}
 
+			if (qual.name === 'WC Qualifiers CONCACAF') {
+				if (round.match(/^Group/)) {
+					round = '4 Round ' + round;
+				} else if (round === '5 Round') {
+					round = '5 Round Group';
+				}
+			}
+
 			roundNameMap[round] = true;
 			matchMap[round + match.place + match.vs] = match;
 		}

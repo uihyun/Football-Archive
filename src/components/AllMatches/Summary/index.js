@@ -36,6 +36,7 @@ export default class Summary extends Component {
 									const leagueTable = this.state.leagueTableMap[comp.name];
 									const cup = this.state.cupMap[comp.url];
 									const qual = this.state.qualMap[comp.url];
+
 									return <Progress key={comp.url} team={team} year={year} player={player}
 														competition={comp} leagueTable={leagueTable} cup={cup} qual={qual}
 														showYear={this.props.data.showYear} />;

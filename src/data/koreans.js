@@ -201,6 +201,8 @@ const koreans = {
 		'Ban-suk Oh': '오반석',
 		'Seon-min Moon': '문선민',
 		'Seung-woo Lee': '이승우',
+		'In-Beaom Hwang': '황인범',
+		'Moon-Hwan Kim': '김문환',
 	}
 };
 

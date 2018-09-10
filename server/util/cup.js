@@ -274,8 +274,12 @@ module.exports = {
 					teams[match.r] = true;
 				}
 
-				if (cup.name === 'WC Qualifiers CONCACAF' && round.name === '5 Round') {
-					round.name = '5 Round Group';
+				if (cup.name === 'WC Qualifiers CONCACAF') {
+					if (round.name.match(/^Group/)) {
+						round.name = '4 Round ' + round.name;
+					}	else if (round.name === '5 Round') {
+						round.name = '5 Round Group';
+					}
 				}
 
 				if (round.name.match(/group/i)) {
