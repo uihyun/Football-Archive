@@ -101,6 +101,8 @@ export default class Progress extends Component {
 			return rank + 'st';
 		} else if (rank === 2) {
 			return rank + 'nd';
+		} else if (rank === 3) {
+			return rank + 'rd';
 		} else {
 			return rank + 'th';
 		}
