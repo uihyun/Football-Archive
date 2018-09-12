@@ -48,6 +48,7 @@ export default class CompetitionView extends Component {
 		var [prevYear, prevYearLink] = this.getPrevLink();
 		var [nextYear, nextYearLink] = this.getNextLink();
 		const basename = '/competition/' + this.state.year + '/' + this.state.compUrl;
+		const fullyear = comp.year === 'single';
 
 		return (
 			<div className="CompetitionView">
@@ -61,7 +62,7 @@ export default class CompetitionView extends Component {
 						{prevYearLink &&
 							<Link to={prevYearLink}>
 								<div className="CompetitionView-view-selector">
-									◁ <Year year={prevYear} fullyear={comp.times !== undefined} />
+									◁ <Year year={prevYear} fullyear={fullyear} />
 								</div>
 							</Link>
 						}
@@ -71,14 +72,14 @@ export default class CompetitionView extends Component {
 							<span className="hide-mobile">
 								{competitions[this.state.name].name + ' '} 
 							</span>
-							<Year year={this.state.year} fullyear={comp.times !== undefined} />
+							<Year year={this.state.year} fullyear={fullyear} />
 						</div>
 					</div>
 					<div className="flex-1">
 						{nextYearLink ?
 							<Link to={nextYearLink}>
 								<div className="CompetitionView-view-selector">
-									<Year year={nextYear} fullyear={comp.times !== undefined} /> ▷
+									<Year year={nextYear} fullyear={fullyear} /> ▷
 								</div>
 							</Link> :
 							this.getHistoryLink()

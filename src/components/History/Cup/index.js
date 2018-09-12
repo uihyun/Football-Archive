@@ -64,7 +64,7 @@ export default class CupHistory extends Component {
 	}
 	
 	getSeasonSpan(year) {
-		const fullyear = competitions[this.props.name].times !== undefined;
+		const fullyear = competitions[this.props.name].year === 'single';
 		const span = <Year year={year} fullyear={fullyear} />;
 		const link = UrlUtil.getCompLink(year, this.props.name);
 
