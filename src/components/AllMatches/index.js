@@ -26,7 +26,10 @@ export default class AllMatches extends Component {
 	}
 	
 	componentWillReceiveProps(props) {
-		this.setState({squad: SquadUtil.getSquadArray(props.data.data), player: null});
+		if (props.data.team !== this.props.data.team ||
+				props.data.season !== this.props.data.season) {
+			this.setState({squad: SquadUtil.getSquadArray(props.data.data), player: null});
+		}
 	}
 
 	render() {

@@ -79,12 +79,8 @@ export default class PageSelector extends Component {
 				<Switch>
 					<Redirect from={basename} to={basename + views[0].link} exact={true} />
 					{views.map(view => 
-						<Route key={view.name} path={basename + view.link} component={
-							class ViewComponent extends Component {
-								render() {
-									return <view.component data={view.data} basename={basename + view.link} />;
-								}
-							}
+						<Route key={view.name} path={basename + view.link} render={props =>
+							<view.component data={view.data} basename={basename + view.link} />
 						}/>
 					)}
 				</Switch>
