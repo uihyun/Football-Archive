@@ -111,7 +111,7 @@ export default class PageSelector extends Component {
 				array.push(<div key={index} style={spacerStyle} />);
 
 			array.push(
-				<NavLink key={view.name} to={this.props.basename + view.link} style={style} activeStyle={activeStyle} className="flex-1">
+				<NavLink key={view.link} to={this.props.basename + view.link} style={style} activeStyle={activeStyle} className="flex-1">
 					<span className="hide-mobile">{view.name}</span>
 					<span className="show-mobile">{sh}</span>
 				</NavLink>

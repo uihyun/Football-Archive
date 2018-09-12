@@ -21,6 +21,9 @@ export default class QualificationView extends Component {
 		var rounds = this.getRounds();
 		var link;
 
+		if (Array.isArray(qual))
+			qual.season = qual.season.reverse()[0];
+
 		rounds.forEach(round => {
 			link = '/' + round.name.replace(/ /g, '-');
 

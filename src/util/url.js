@@ -138,6 +138,7 @@ export default class UrlUtil {
 		const link = '/competition/' + yearString + '/' + url;
 		const year = parseInt(yearString, 10);
 		var competition = competitions[comp];
+		var i, spans;
 
 		if (competition) {
 			if (competition.years &&
@@ -147,7 +148,16 @@ export default class UrlUtil {
 
 			if (competition.times &&
 					competition.times.includes(year)) {
-				return link;
+
+				if (competition.spans) {
+					spans = competition.spans;
+					for (i = 0; i < spans.length; i++) {
+						if (spans[i] >= year)
+							return '/competition/' + spans[i] + '/' + url;
+					}
+				} else {
+					return link;
+				}
 			}
 		}
 

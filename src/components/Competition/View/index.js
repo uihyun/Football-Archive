@@ -35,7 +35,7 @@ export default class CompetitionView extends Component {
 		const compUrl = nextProps.match.params.comp;
 
 		if (this.state.year !== year || this.state.compUrl !== compUrl) {
-			this.setState({ year: year, compUrl: compUrl });
+			this.setState({ name: '', year: year, compUrl: compUrl });
 			this.fetchSeason(year, compUrl);
 		}
 	}
@@ -48,7 +48,6 @@ export default class CompetitionView extends Component {
 		var [prevYear, prevYearLink] = this.getPrevLink();
 		var [nextYear, nextYearLink] = this.getNextLink();
 		const basename = '/competition/' + this.state.year + '/' + this.state.compUrl;
-		const fullyear = comp.year === 'single';
 
 		return (
 			<div className="CompetitionView">
@@ -62,7 +61,7 @@ export default class CompetitionView extends Component {
 						{prevYearLink &&
 							<Link to={prevYearLink}>
 								<div className="CompetitionView-view-selector">
-									◁ <Year year={prevYear} fullyear={fullyear} />
+									◁ {this.getYearView(prevYear, comp)}
 								</div>
 							</Link>
 						}
@@ -72,14 +71,14 @@ export default class CompetitionView extends Component {
 							<span className="hide-mobile">
 								{competitions[this.state.name].name + ' '} 
 							</span>
-							<Year year={this.state.year} fullyear={fullyear} />
+							{this.getYearView(this.state.year, comp)}
 						</div>
 					</div>
 					<div className="flex-1">
 						{nextYearLink ?
 							<Link to={nextYearLink}>
 								<div className="CompetitionView-view-selector">
-									<Year year={nextYear} fullyear={fullyear} /> ▷
+									{this.getYearView(nextYear, comp)} ▷
 								</div>
 							</Link> :
 							this.getHistoryLink()
@@ -94,6 +93,17 @@ export default class CompetitionView extends Component {
 					<QualifierView qual={this.state.data.qual} basename={basename} />}
 			</div>
 		);
+	}
+
+	getYearView(year, comp) {
+		const fullyear = comp.year === 'single';
+		var span;
+
+		if (comp.spans) {
+			span = { times: comp.times, spans: comp.spans };
+		}
+
+		return <Year year={year} fullyear={fullyear} span={span} />;
 	}
 
 	getHistoryLink() {
@@ -116,10 +126,20 @@ export default class CompetitionView extends Component {
 		var curIndex;
 
 		if (comp.times) {
-			curIndex = comp.times.indexOf(year);
+			if (comp.spans) {
+				curIndex = comp.spans.indexOf(year);
+				
+				if (curIndex > 0) {
+					prevYear = comp.spans[curIndex - 1];
+				} else {
+					prevYear = 0;
+				}
+			} else {
+				curIndex = comp.times.indexOf(year);
 
-			if (curIndex > 0) {
-				prevYear = comp.times[curIndex - 1];
+				if (curIndex > 0) {
+					prevYear = comp.times[curIndex - 1];
+				}
 			}
 		}
 
@@ -134,10 +154,20 @@ export default class CompetitionView extends Component {
 		var curIndex;
 
 		if (comp.times) {
-			curIndex = comp.times.indexOf(year);
+			if (comp.spans) {
+				curIndex = comp.spans.indexOf(year);
+				
+				if (curIndex < comp.spans.length - 1) {
+					nextYear = comp.spans[curIndex + 1];
+				} else {
+					nextYear = 0;
+				}
+			} else {
+				curIndex = comp.times.indexOf(year);
 
-			if (curIndex < comp.times.length - 1) {
-				nextYear = comp.times[curIndex + 1];
+				if (curIndex < comp.times.length - 1) {
+					nextYear = comp.times[curIndex + 1];
+				}
 			}
 		}
 
