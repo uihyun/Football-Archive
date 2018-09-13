@@ -27,6 +27,7 @@ const competitions = {
 	'Nations League A': {order: 6, name: 'Nations League A', sh: 'NL', type: 'Q', group: 1, times: [2018, 2019], spans: [2018]},
 	'Nations League B': {order: 6, name: 'Nations League B', sh: 'NL', type: 'Q', group: 1, times: [2018, 2019], spans: [2018]},
 	'Nations League C': {order: 6, name: 'Nations League C', sh: 'NL', type: 'Q', group: 1, times: [2018, 2019], spans: [2018]},
+	'Nations League': {name: 'Nations League', sh: 'NL', times: [2018, 2019], spans: [2018]},
 	'Friendlies': {order: 7, name: 'Friendlies', sh: 'Fr', type: '2', group: 2},
 
 	'Champions League': {order: 2, name: 'Champions League', sh: 'UCL', type: '2', group: 0, years: clubs.years},

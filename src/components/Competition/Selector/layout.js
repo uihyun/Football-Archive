@@ -30,13 +30,14 @@ const layout = {
 	europe: ['Champions League', 'Europa League'],
 	fifa: ['World Cup', 'Confederations Cup', 'WC Qualifiers Play-offs'],
 	continental: {
-		legend: ['Cup', 'WCQ', 'CQ'],
+		legend: ['Cup', 'WCQ', 'CQ', 'NL'],
 		list: ['EU', 'SA', 'NA', 'AF', 'AS'],
 		groups: {
 			EU: {
 				'Cup': 'EURO',
 				'WCQ': 'WC Qualifiers Europe',
 				'CQ': 'EURO Qualifiers',
+				'NL': 'Nations League',
 			},
 			SA: {
 				'Cup': 'Copa América',

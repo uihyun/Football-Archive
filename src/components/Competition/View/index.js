@@ -175,7 +175,7 @@ export default class CompetitionView extends Component {
 		return [nextYear, link];
 	}
 
-	fetchSeason(year, compUrl) {
+	fetchNormal(year, compUrl) {
 		const that = this;
 		const url = UrlUtil.getCompetitionSelectUrl(year, compUrl);
 
@@ -195,5 +195,46 @@ export default class CompetitionView extends Component {
 				that.setState(state);
 			}
 		});
+	}
+
+	fetchNationsLeague(year) {
+		const that = this;
+
+		var leagues = ['C', 'B', 'A'];
+		var promises = [];
+		leagues.forEach(league => {
+			var url = UrlUtil.getCompetitionSelectUrl(year, 'Nations-League-' + league);
+			promises.push(fetch(url).then(response => response.json() ));
+		});
+			
+		var newComp = {
+			name: 'Nations League',
+			league: null,
+			cup: null,
+			qual: {name: 'Nations League', season: [parseInt(year, 10)], rounds: []}
+		};
+
+		Promise.all(promises)
+		.then(dataArray => {
+			if (dataArray[0].name === undefined)
+				return;
+
+			dataArray.forEach((elem, index) => {
+				elem.qual.rounds.forEach(round => {
+					newComp.qual.rounds.push(round);
+					round.name = leagues[index] + ' Round ' + round.name;
+				});
+			});
+
+			that.setState({ name: 'Nations League', data: newComp });
+		});
+	}
+
+	fetchSeason(year, compUrl) {
+		if (compUrl.match(/^Nations-League/)) {
+			this.fetchNationsLeague(year);
+		} else {
+			this.fetchNormal(year, compUrl);
+		}
 	}
 }

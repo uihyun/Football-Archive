@@ -5,6 +5,7 @@ import './style.css';
 import { LeagueTable, PageSelector } from '../../Common';
 
 import Group from './group';
+import NationsLeague from './nationsLeague';
 import Rounds from '../Rounds';
 
 export default class QualificationView extends Component {
@@ -20,6 +21,16 @@ export default class QualificationView extends Component {
 		var views = [];
 		var rounds = this.getRounds();
 		var link;
+
+		console.log(rounds);
+
+		if (qual.name === 'Nations League')
+			views.push({
+				name: 'Standings',
+				link: '/standings',
+				component: NationsLeague,
+				data: { rounds: rounds }
+			});
 
 		if (Array.isArray(qual))
 			qual.season = qual.season.reverse()[0];
@@ -64,7 +75,7 @@ export default class QualificationView extends Component {
 		var groupedRounds = [];
 
 		var i, round;
-		var curRound, cur, roundIndex;
+		var curRound, cur, roundIndex, roundName;
 		var newRound;
 		for (i = 0; i < rounds.length; i++) {
 			round = rounds[i];
@@ -79,7 +90,8 @@ export default class QualificationView extends Component {
 					roundIndex = round.name.substring(0, 1);
 					if (curRound === undefined || roundIndex !== curRound) {
 						curRound = roundIndex;
-						cur = {name: curRound + ' Round', groups: []};
+						roundName = this.props.qual.name === 'Nations League' ? curRound : curRound + ' Round';
+						cur = {name: roundName, groups: []};
 						groupedRounds.push(cur);
 					}
 				}

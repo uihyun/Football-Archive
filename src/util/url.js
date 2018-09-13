@@ -57,8 +57,8 @@ export default class UrlUtil {
 		return '/api/match/clear/recent/' + season;
 	}
 
-	static getCompetitionSelectUrl(season, team) {
-		return '/api/competition/select/' + season + '/' + this.getTeamUrl(team);
+	static getCompetitionSelectUrl(season, compUrl) {
+		return '/api/competition/select/' + season + '/' + compUrl;
 	}
 	
 	static getVersusSelectUrl(teamA, teamB) {

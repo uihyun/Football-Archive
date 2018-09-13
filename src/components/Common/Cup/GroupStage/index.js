@@ -105,11 +105,12 @@ export default class GroupStage extends Component {
 	}
 
 	getHeaderStyle(highlight, groupCount) {
+		var fontSize = Math.min(1.5, 1 + 0.25 * (6 - groupCount));
 		var style = {
 			fill: 'gray',
 			alignmentBaseline: 'middle',
 			textAnchor: 'middle',
-			fontSize: '1.' + ((6 - groupCount) * 2.5) + 'em'
+			fontSize: fontSize + 'em'
 		};
 
 		if (window.innerWidth <= 350) {
