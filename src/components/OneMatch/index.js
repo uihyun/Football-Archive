@@ -128,6 +128,16 @@ export default class OneMatch extends Component {
 								side: side,
 								out: player.name
 							});
+						}
+					}
+				}
+
+				for (k = 0; k < players[pos].length; k++) {
+					player = players[pos][k];
+					subIn = null;
+				
+					if (player.sub && pos === 'sub') {
+						if (player.sub.length) {
 							subIn = player.sub[0];
 						} else {
 							subIn = player.sub;
