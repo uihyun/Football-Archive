@@ -60,8 +60,8 @@ export default class AllMatches extends Component {
 		var views = [];
 
 		if (this.props.data.showForm) {
-			views.push({ name: 'Form', link: '/form', component: Form, data: downData });
 			views.push({ name: 'Rotation', link: '/rotation', component: Rotation, data: downData });
+			views.push({ name: 'Form', link: '/form', component: Form, data: downData });
 		}
 		views.push({
 			name: 'Summary', link: '/summary', component: Summary, data: downData });

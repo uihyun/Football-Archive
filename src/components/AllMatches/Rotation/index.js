@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import {Scoreboard, PlayerName, Team} from '../../Common';
+import {Scoreboard, Team} from '../../Common';
 
 import Match from '../../../util/match';
 import SquadUtil from '../../../util/squad';
+import PlayerNameUtil from '../../../util/playerName';
 
 import { competitions } from '../data';
 
@@ -18,7 +19,8 @@ export default class Rotation extends Component {
 		const team = this.props.data.team;
 		var squad = SquadUtil.getStatistics(data, this.props.data.team);
 
-		matches = matches.filter(m => m.summary).reverse();
+		const playedMatches = matches.filter(m => m.summary);
+		const futureMatches = matches.filter(m => m.summary === undefined);
 
 		if (this.props.data.player) {
 			squad.appearances = squad.appearances.filter(p => p.name === this.props.data.player.fullname);
@@ -27,51 +29,66 @@ export default class Rotation extends Component {
 		var gridStyle = {
 			display: 'grid',
 			gridTemplateColumns: '1fr 1fr',
-			gridColumnGap: '10px'
-		}
+		};
 
 		return (
 			<div style={gridStyle}>
-				<div/>
-				<div className="flex-container">
-					{matches.map((match, index) =>
+				<div className="flex-container-right-aligned">
+					{playedMatches.map((match, index) =>
 						<div key={index} style={{width: '35px', height: '21px'}} className="text-center">
 							{ competitions[match.competition].sh }
 						</div>
 					)}
 				</div>
-				<div/>
 				<div className="flex-container">
-					{matches.map((match, index) =>
+					{futureMatches.map((match, index) =>
+						<div key={index} style={{width: '35px', height: '21px'}} className="text-center">
+							{ competitions[match.competition].sh }
+						</div>
+					)}
+				</div>
+				<div className="flex-container-right-aligned">
+					{playedMatches.map((match, index) =>
 						<div key={index} style={{width: '35px', height: '21px'}} className="text-center">
 							<Team team={match.vs} year={this.props.data.year} emblemSmall={true}/>
 						</div>
 					)}
 				</div>
-				<div/>
 				<div className="flex-container">
-					{matches.map((match, index) =>
+					{futureMatches.map((match, index) =>
+						<div key={index} style={{width: '35px', height: '21px'}} className="text-center">
+							<Team team={match.vs} year={this.props.data.year} emblemSmall={true}/>
+						</div>
+					)}
+				</div>
+				<div className="flex-container-right-aligned">
+					{playedMatches.map((match, index) =>
 						<Scoreboard key={index} team={team} match={{date: match.date}} />
 					)}
 				</div>
-				<div/>
 				<div className="flex-container">
-					{matches.map((match, index) => 
+					{futureMatches.map((match, index) =>
+						<Scoreboard key={index} team={team} match={{date: match.date}} />
+					)}
+				</div>
+				<div className="flex-container-right-aligned">
+					{playedMatches.map((match, index) => 
 						<Scoreboard key={index} team={team} match={match} />
 					)}
 				</div>
+				<div/>
 				{squad.appearances.map(player => {
 					var name = player.name;
 					var dummy = {fullname: name};
-					var scoreboards = matches.map((match, index) => 
+					var scoreboards = playedMatches.map((match, index) => 
 						<Scoreboard key={index} team={team} match={match} player={dummy} />
 					);
 					return [
-						<div key={'player'} className="text-right">
-							<PlayerName player={name} />
-						</div>,
-						<div className="flex-container" key={'scoreboards'}>
+						<div className="flex-container-right-aligned" key={'scoreboards'}>
 							{scoreboards}
+						</div>,
+						<div key={'player'} style={{marginLeft: '10px'}}>
+							{PlayerNameUtil.capitalize(PlayerNameUtil.divide(player.name).last)}
 						</div>
 					];
 				})}
