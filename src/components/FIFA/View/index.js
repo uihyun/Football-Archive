@@ -35,7 +35,7 @@ export default class NationView extends Component {
 		const params = this.props.match.params;
 
 		if (params.year !== prevParams.year || params.team !== prevParams.team) {
-			this.setState({ year: params.year, team: params.team, team: '' });
+			this.setState({ year: params.year, teamUrl: params.team, team: '' });
 			this.fetchSeason(params.year, params.team);
 		}
 	}
