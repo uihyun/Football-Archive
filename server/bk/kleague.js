@@ -4,7 +4,7 @@ const path = require('path');
 
 const exec = require('../../util/exec');
 
-const kleague = require('./kleague');
+const KLeagueUtil = require('../../util/kleague');
 
 module.exports = function(url) {
 		
@@ -165,5 +165,4 @@ module.exports = function(url) {
 
 			return match;
 		});
-	});
 }
