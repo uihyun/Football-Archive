@@ -30,13 +30,13 @@ export default class NationView extends Component {
 		this.fetchSeason(this.state.year, this.state.teamUrl);
 	}
 
-	componentWillReceiveProps(nextProps) {
-		const year = nextProps.match.params.year;
-		const teamUrl = nextProps.match.params.team;
+	componentDidUpdate(prevProps) {
+		const prevParams = prevProps.match.params;
+		const params = this.props.match.params;
 
-		if (this.state.year !== year || this.state.teamUrl !== teamUrl) {
-			this.setState({ year: year, teamUrl: teamUrl });
-			this.fetchSeason(year, teamUrl);
+		if (params.year !== prevParams.year || params.team !== prevParams.team) {
+			this.setState({ year: params.year, team: params.team, team: '' });
+			this.fetchSeason(params.year, params.team);
 		}
 	}
 
@@ -48,6 +48,9 @@ export default class NationView extends Component {
 		const year = this.state.year;
 		const basename = '/FIFA/' + year + '/' + this.state.teamUrl;
 		const views = this.getViews();
+
+		if (this.state.team === '')
+			return null;
 
 		return (
 			<div>

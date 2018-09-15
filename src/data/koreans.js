@@ -155,6 +155,7 @@ const koreans = {
 		'Seung-ki Lee': '김승기',
 		'Shin-wook Kim': '김신욱',
 		'Suk-Young Yun': '윤석영',
+		'Suk-young Yun': '윤석영',
 		'Sung-ryong Jung': '정성룡',
 		'Sung-yueng Ki': '기성용',
 		'Tae-hee Nam': '남태희',
