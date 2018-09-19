@@ -617,6 +617,55 @@ const teams = {
 	'Dalian Yifang FC': {id: 325, name: 'Dalian Yifang FC'},
 	'Beijing Renhe FC': {id: 326, name: 'Beijing Renhe FC'},
 
+	// Australia
+	'Central Coast Mariners': {id: 'f8164', name: 'Central Coast'},
+	'Melbourne Victory': {id: 'f6230', name: 'Melbourne'},
+	'Sydney FC': {id: 'f10164', name: 'Sydney FC'},
+	'Western Sydney Wanderers': {id: 'f323834', name: 'Western Sydney'},
+
+	// Vietnam
+	'Buriram United': {id: 'f165243', name: 'Buriram'},
+	
+	// Thailand
+	'Muangthong United': {id: 'f165251', name: 'Muangthong'},
+
+	// Hong Kong
+	'Kitchee SC': {id: 'f165165', name: 'Kitchee'},
+
+	// Saudi Arabia
+	'Al Ahli SFC': {id: 'f2530', name: 'Al-Ahli'},
+	'Al Hilal': {id: 'f2529', name: 'Al-Hilal'},
+	'Al Ittihad': {id: 'f8577', name: 'Al-Ittihad'},
+	'Al Shabab': {id: 'f101916', name: 'Al-Shabab'},
+
+	// Qatar
+	'Al Duhail SC': {id: 'f203826', name: 'Al-Duhail'},
+	'Al Gharafa': {id: 'f101897', name: 'Al-Gharafa'},
+	'Al Rayyan': {id: 'f101898', name: 'Al-Rayyan'},
+	'Al Sadd': {id: 'f101895', name: 'Al-Sadd'},
+	'Lekhwiya SC': {id: 'f203826', name: 'Al-Duhail'},
+
+	// UAE
+	'Al Ahli Dubai': {id: 'f102119', name: 'Al-Ahli Dubai'},
+	'Al Ain FC': {id: 'f102117', name: 'Al-Ain'},
+	'Al Jazira Club': {id: 'f102101', name: 'Al-Jazira'},
+	'Al Nasr SC': {id: 'f102123', name: 'Al-Nasr'},
+	'Al Wahda': {id: 'f102122', name: 'Al-Wahda'},
+	'Al Wasl': {id: 'f102111', name: 'Al-Wasl'},
+
+	// Iran
+	'Esteghlal': {id: 'f101614', name: 'Esteghlal'},
+	'Esteghlal Khuzestan': {id: 'f394619', name: 'Esteghlal Khuzestan'},
+	'FC Zob Ahan': {id: 'f101618', name: 'Zob Ahan'},
+	'Foolad FC': {id: 'f139914', name: 'Foolad'},
+	'Naft Tehran FC': {id: 'f207882', name: 'Naft Tehran'},
+	'Tractor Sazi': {id: 'f176352', name: 'Tractor Sazi'},
+	'Persepolis': {id: 'f101610', name: 'Persepolis'},
+
+	// Uzbekistan
+	'Lokomotiv Tashkent': {id: 'f102167', name: 'Tashkent'},
+	'Nasaf Qarshi': {id: 'f102153', name: 'Nasaf'},
+	
 };
 
 export default teams;

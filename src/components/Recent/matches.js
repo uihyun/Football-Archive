@@ -141,7 +141,8 @@ export default class RecentMatches extends Component {
 		const result = sum.result;
 		var colorResult = result;
 
-		if (ranks[teamA] && ranks[teamB] && ranks[teamA] > ranks[teamB]) {
+		if ((ranks[teamA] && ranks[teamB] && ranks[teamA] > ranks[teamB]) ||
+				(ranks[teamA] === undefined && ranks[teamB])) {
 			colorResult = Match.summarizeResult(match, teamB).result;
 		}
 
@@ -174,7 +175,8 @@ export default class RecentMatches extends Component {
 		if (this.state.width > 543) {
 			var team = teamA;
 
-			if (ranks[teamA] && ranks[teamB] && ranks[teamA] > ranks[teamB]) {
+			if ((ranks[teamA] && ranks[teamB] && ranks[teamA] > ranks[teamB]) ||
+					(ranks[teamA] === undefined && ranks[teamB])) {
 				team = teamB;
 			}
 

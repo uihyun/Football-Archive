@@ -6,7 +6,11 @@ while (my $row = <$fh>) {
 		downloadUEFA($1);
 	}
 	
-	if ($row =~ /id: \'(\D+?)\',/) {
+	if ($row =~ /id: \'f(\d+)\',/) {
+		downloadFOTMOB($1);
+	}
+	
+	if ($row =~ /id: \'(\D{3})\',/) {
 		downloadFIFA($1);
 	}
 }
@@ -26,6 +30,14 @@ sub downloadFIFA($)
 	my $id = shift;
 	my $imgSrc = "https://img.uefa.com/imgml/flags/100x100/$id.png";
 	my $file = "../img/$id.png";
+	system("[ -f $file ] || curl $imgSrc -o $file");
+}
+
+sub downloadFOTMOB($)
+{
+	my $id = shift;
+	my $imgSrc = "https://images.fotmob.com/image_resources/logo/teamlogo/$id.png";
+	my $file = "../img/f$id.png";
 	system("[ -f $file ] || curl $imgSrc -o $file");
 }
 

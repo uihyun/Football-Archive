@@ -337,11 +337,6 @@ export default class Progress extends Component {
 							break;
 						} else if (team.name === this.props.team) {
 							rank = this.getRankSuffix(team.rank);
-
-							if (width === 2) {
-								rank = <span><small>Group </small>{rank}</span>;
-							}
-
 							style = { textAlign: 'center' };
 							selfview = (<div style={style} className={className}>{rank}</div>);
 							newRows[index.min + j] = { team: team.name, round: '', view: selfview };
