@@ -31,32 +31,37 @@ export default class Rotation extends Component {
 			gridTemplateColumns: '1fr 1fr',
 		};
 
+		var cellStyle = {
+			width: '35px',
+			height: '21px'
+		};
+
 		return (
 			<div style={gridStyle}>
 				<div className="flex-container-right-aligned">
 					{playedMatches.map((match, index) =>
-						<div key={index} style={{width: '35px', height: '21px'}} className="text-center">
+						<div key={index} style={cellStyle} className="text-center">
 							{ competitions[match.competition].sh }
 						</div>
 					)}
 				</div>
 				<div className="flex-container">
 					{futureMatches.map((match, index) =>
-						<div key={index} style={{width: '35px', height: '21px'}} className="text-center">
+						<div key={index} style={cellStyle} className="text-center">
 							{ competitions[match.competition].sh }
 						</div>
 					)}
 				</div>
 				<div className="flex-container-right-aligned">
 					{playedMatches.map((match, index) =>
-						<div key={index} style={{width: '35px', height: '21px'}} className="text-center">
+						<div key={index} style={cellStyle} className="text-center">
 							<Team team={match.vs} year={this.props.data.year} emblemSmall={true}/>
 						</div>
 					)}
 				</div>
 				<div className="flex-container">
 					{futureMatches.map((match, index) =>
-						<div key={index} style={{width: '35px', height: '21px'}} className="text-center">
+						<div key={index} style={cellStyle} className="text-center">
 							<Team team={match.vs} year={this.props.data.year} emblemSmall={true}/>
 						</div>
 					)}
@@ -69,6 +74,20 @@ export default class Rotation extends Component {
 				<div className="flex-container">
 					{futureMatches.map((match, index) =>
 						<Scoreboard key={index} team={team} match={{date: match.date}} />
+					)}
+				</div>
+				<div className="flex-container-right-aligned">
+					{playedMatches.map((match, index) =>
+						<div key={index} style={cellStyle} className="text-center">
+							<sup>{ match.place }</sup>
+						</div>
+					)}
+				</div>
+				<div className="flex-container">
+					{futureMatches.map((match, index) =>
+						<div key={index} style={cellStyle} className="text-center">
+							<sup>{ match.place }</sup>
+						</div>
 					)}
 				</div>
 				<div className="flex-container-right-aligned">
