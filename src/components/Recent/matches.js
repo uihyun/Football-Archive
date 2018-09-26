@@ -139,11 +139,11 @@ export default class RecentMatches extends Component {
 
 		const sum = Match.summarizeResult(match, teamA);
 		const result = sum.result;
-		var colorResult = result;
+		var colorResult = sum.resultFull;
 
 		if ((ranks[teamA] && ranks[teamB] && ranks[teamA] > ranks[teamB]) ||
 				(ranks[teamA] === undefined && ranks[teamB])) {
-			colorResult = Match.summarizeResult(match, teamB).result;
+			colorResult = Match.summarizeResult(match, teamB).resultFull;
 		}
 
 		return [result, colorResult];
