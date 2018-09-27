@@ -17,6 +17,7 @@ export default class CompetitionSelector extends Component {
 		const year = this.props.match.params.year;
 		const domestic = layout.domestic;
 		const continental = layout.continental;
+		const afc = layout.afc;
 
 		const large = {fontSize: '1.5em'};
 
@@ -54,6 +55,19 @@ export default class CompetitionSelector extends Component {
 				<br/>
 				{this.getHeaders(continental.list, large)}
 				{this.getComps(continental)}
+				<br/>
+				<div className="flex-container">
+					{layout.asia.map(comp => {
+						return (
+							<div key={comp} className="flex-1" style={large}>
+								{this.getCompLink(comp)}
+							</div>
+						);
+					})}
+				</div>
+				<br/>
+				{this.getHeaders(afc.list, large)}
+				{this.getComps(afc)}
 			</div>
 		);
 	}

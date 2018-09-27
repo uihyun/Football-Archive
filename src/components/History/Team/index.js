@@ -8,7 +8,7 @@ import { Team, Year } from '../../Common';
 import MatchUtil from '../../../util/match';
 import UrlUtil from '../../../util/url';
 
-import { competitions, rounds, teams } from '../data';
+import { competitions, rounds } from '../data';
 
 export default class TeamHistory extends Component {
 	
@@ -20,6 +20,7 @@ export default class TeamHistory extends Component {
 			team: '',
 			headers: [],
 			seasons: [],
+			fullYear: false
 		};
 	}
 
@@ -160,13 +161,7 @@ export default class TeamHistory extends Component {
 	}
 
 	getSeasonSpan(year) {
-		var fullyear = false;
-
-		if (teams[this.state.team] && isNaN(teams[this.state.team].id)) {
-			fullyear = true;
-		}
-
-		const span = <Year year={year} fullyear={fullyear} />;
+		const span = <Year year={year} fullyear={this.state.fullYear} />;
 		const link = UrlUtil.getLink(year, this.state.team);
 
 		if (link === null)
@@ -202,6 +197,7 @@ export default class TeamHistory extends Component {
 		var seasonMin = 3000;
 		var seasonMax = 1000;
 		var headers = [];
+		var fullYear = false;
 
 		for (i = 0; i < data.length; i++) {
 			row = data[i];
@@ -218,6 +214,10 @@ export default class TeamHistory extends Component {
 			if (compMap[i]) {
 				compMap[i] = competitionCount++;
 				headers.push(competitions[i]);
+
+				if (competitions[i].year === 'single') {
+					fullYear = true;
+				}
 			}
 		}
 
@@ -247,6 +247,6 @@ export default class TeamHistory extends Component {
 
 		seasons.sort(function (a, b) {return b.year - a.year;});
 
-		return { team: team, headers: headers, seasons: seasons };
+		return { team: team, headers: headers, seasons: seasons, fullYear: fullYear };
 	}
 }

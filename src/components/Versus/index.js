@@ -35,6 +35,14 @@ export default class Versus extends Component {
   }
 
 	render() {
+		var has4 = this.has4();
+		var rowStyle = {};
+
+		if (has4) {
+			rowStyle.height = '42px';
+			rowStyle.lineHeight = '42px';
+		}
+
 		return (
 			<div>
 				<div className="text-center">
@@ -55,15 +63,13 @@ export default class Versus extends Component {
 				{this.state.seasons.map(season => {
 					return (
 						<div key={season.year} className="flex-container">
-							<div className="flex-1 text-center">{this.getSeasonSpan(season.year)}</div>
+							<div className="flex-1 text-center" style={rowStyle}>{this.getSeasonSpan(season.year)}</div>
 							{season.competitions.map((competition, index) => {
 								var scoreboard0 = this.getScoreboard(competition[0]);
 								var scoreboard1 = this.getScoreboard(competition[1]);
 								var comp = this.state.header[index];
 								if (comp.type === 'H')
 									scoreboard1 = null;
-
-								console.log(comp);
 
 								return (
 									<div key={index} className="flex-1">
@@ -73,6 +79,14 @@ export default class Versus extends Component {
 												{scoreboard1}
 											<div className="flex-1"></div>
 										</div>
+										{competition.length > 2 &&
+											<div className="flex-container">
+												<div className="flex-1"></div>
+													{this.getScoreboard(competition[2])}
+													{this.getScoreboard(competition[3])}
+												<div className="flex-1"></div>
+											</div>
+										}
 									</div>
 								);
 							})}
@@ -86,6 +100,18 @@ export default class Versus extends Component {
 				</div>
 			</div>
 		);
+	}
+
+	has4() {
+		var has4 = false;
+
+		this.state.header.forEach(comp => {
+			if (comp.type === '4') {
+				has4 = true;
+			}
+		});
+
+		return has4;
 	}
 
 	getSeasonSpan(year) {
@@ -168,9 +194,25 @@ export default class Versus extends Component {
 			comp = competitions[match.competition];
 			compIndex = comps[comp.order];
 
-			matchIndex = (match.summary.l === data.teamA) ? 0 : 1;
+			if (match.place) {
+				matchIndex = 1;
+
+				if (match.place.team === data.teamA && match.place.place === 'H')
+					matchIndex = 0;
+				
+				if (match.place.team === data.teamB && match.place.place === 'A')
+					matchIndex = 0;
+			} else {
+				matchIndex = (match.summary.l === data.teamA) ? 0 : 1;
+			}
+
 			if (comp.type === 'H')
 				matchIndex = 0;
+
+			if (comp.type === '4' &&
+					seasonMap[match.season].competitions[compIndex][matchIndex] !== undefined)
+				matchIndex += 2;
+
 			seasonMap[match.season].competitions[compIndex][matchIndex] = match;
 		}
 

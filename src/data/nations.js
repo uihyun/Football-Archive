@@ -1,5 +1,5 @@
 const nations = {
-	years: {max: 2018, min: 2014},
+	years: {max: 2019, min: 2014},
 	confederations: ['AFC', 'UEFA', 'CONMEBOL', 'CONCACAF', 'CAF'],// 'OFC'],
 	countries: {
 		AFC: [

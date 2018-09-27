@@ -1,5 +1,7 @@
 'use strict';
 
+const KLeagueUtil = require('../../util/kleague');
+
 module.exports = function(router, db) {
 	const Seasons = db.collection('Seasons');
 	const Matches = db.collection('Matches');
@@ -37,6 +39,29 @@ module.exports = function(router, db) {
 		}
 			
 		return compareFn(a, b);
+	}
+
+	function compareFnKLeagueNew(a, b) {
+		if (a.split !== b.split) {
+			return b.split - a.split;
+		} else if (a.points !== b.points) {
+			return b.points - a.points;
+		} else if (a.goals.f !== b.goals.f) {
+			return b.goals.f - a.goals.f;
+		} else {
+			return b.goals.d - a.goals.d;
+		}
+	}
+	function compareFnKLeagueOld(a, b) {
+		if (a.split !== b.split) {
+			return b.split - a.split;
+		} else if (a.points !== b.points) {
+			return b.points - a.points;
+		} else if (a.goals.d !== b.goals.d) {
+			return b.goals.d - a.goals.d;
+		} else {
+			return b.goals.f - a.goals.f;
+		}
 	}
 
 	function compareFnWithName(a, b) {
@@ -121,10 +146,12 @@ module.exports = function(router, db) {
 
 					if (teamL === undefined) {
 						console.log(match.l);
+						console.log(matches[i]);
 					}
 
 					if (teamR === undefined) {
 						console.log(match.r);
+						console.log(matches[i]);
 					}
 
 					h2hL = teamL.h2h[match.r];
@@ -203,6 +230,16 @@ module.exports = function(router, db) {
 					cmpFn = compareFnLaLiga;
 				} else if (leagueName === 'Serie A') {
 					cmpFn = compareFnSerieA;
+				} else if (leagueName.match(/^K League/)) {
+					const split = KLeagueUtil.split;
+					for (i in teams) {
+						team = teams[i];
+						team.split = 1;
+						if (split[season] && split[season][team.name]) {
+							team.split = split[season][team.name];
+						}
+					}
+					cmpFn = (season >= '2016') ? compareFnKLeagueNew : compareFnKLeagueOld;
 				}
 
 				teamArray.sort(cmpFn);

@@ -7,8 +7,8 @@ module.exports = function(router, db) {
   const Matches = db.collection('Matches');
 
 	router.get('/api/match/select/:_url', function (req, res) {
-		const url = req.params._url;
-			
+		var url = req.params._url;
+
 		function getMatch(result) {
 			return Matches.findOne({url: url})
 				.then(function(match) {
@@ -36,7 +36,7 @@ module.exports = function(router, db) {
 								result.round = match.round;
 								result.date = match.date;
 								result.teams = [season.team, match.vs];
-								if (match.place = 'A')
+								if (match.place === 'A')
 									result.teams.reverse();
 								return;
 							}

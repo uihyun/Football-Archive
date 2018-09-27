@@ -2,23 +2,16 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import { Assist, Goal, PlayerName, ViewSelector } from '../../Common';
+import { Assist, Goal, PlayerName } from '../../Common';
 
-import { teams, colors } from '../data';
+import { colors } from '../data';
 
 export default class Lineup extends Component {
 
 	render() {
-		const match = this.props.match;
-		var views = [];
-
-		views.push({ name: match.l, sh: this.getShortName(match.l), view: this.getPlayers('l') });
-		views.push({ name: match.r, sh: this.getShortName(match.r), view: this.getPlayers('r') });
-
 		return (
 			<div className="Lineup">
-				<ViewSelector views={views} expand={true} />
-				<br/>
+				{this.getPlayers(this.props.data.side)}
 			</div>
 		);
 	}
@@ -26,13 +19,16 @@ export default class Lineup extends Component {
 	getGoals(player) {
 		var array = [];
 
-		const goals = this.props.match.goals;
-		var i, goal;
+		const goals = this.props.data.summary.goals;
+		var i, goal, og, pk;
 
 		for (i = 0; i < goals.length; i++) {
 			goal = goals[i];
+			og = (goal.style === 'own goal');
+			pk = (goal.style === 'penalty');
+
 			if (goal.scorer === player.name) {
-				array.push(<div key={'goal' + i} className="Lineup-goal"><Goal og={goal.style === 'own goal'} /></div>);
+				array.push(<div key={'goal' + i} className="Lineup-goal"><Goal og={og} pk={pk} /></div>);
 			}
 
 			if (goal.assist === player.name) {
@@ -49,7 +45,12 @@ export default class Lineup extends Component {
 		array.push(<div key="b" className="Lineup-backnumber text-center">{player.number}</div>);
 		array.push(<div key="n"><PlayerName player={player.name} /></div>);
 
-		const goals = this.getGoals(player);
+		var goals = this.getGoals(player);
+		var i;
+
+		for (i = 0; i < player.assist; i++) {
+			goals.push(<div key={'assist' + i} className="Lineup-goal"><Assist /></div>);
+		}
 
 		if (goals.length)
 			array.push(<div key="g" className="flex-container">{goals}</div>);
@@ -68,8 +69,13 @@ export default class Lineup extends Component {
 		}
 		
 		if (player.sub) {
-			if (pos === 'sub' && player.sub.length === undefined) {
-				array.push(<div key="sub_in">▲</div>);
+			if (pos === 'sub') {
+				if (player.sub.length === undefined) {
+					array.push(<div key="sub_in">▲</div>);
+				} else {
+					array.push(<div key="sub_in">▲</div>);
+					array.push(<div key="sub_out">▼</div>);
+				}
 			} else {
 				array.push(<div key="sub_out">▼</div>);
 			}
@@ -92,7 +98,10 @@ export default class Lineup extends Component {
 	}
 
 	getPlayers(side) {
-		const players = this.props.match.players[side];
+		if (this.props.data.summary.players === undefined)
+			return null;
+
+		const players = this.props.data.summary.players[side];
 		var lineup = ['start', 'sub'];
 		var j, pos, sorted;
 		var k, player;
@@ -122,12 +131,5 @@ export default class Lineup extends Component {
 		return array.map(e => {
 			return <div className="Lineup-player flex-container" style={style} key={e.key}>{e.view}</div>
 		});
-	}
-
-	getShortName(team) {
-		if (teams[team])
-			return teams[team].name;
-
-		return team;
 	}
 }

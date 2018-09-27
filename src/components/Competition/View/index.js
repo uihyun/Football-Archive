@@ -7,6 +7,7 @@ import { Year } from '../../Common';
 
 import CupView from '../Cup';
 import LeagueView from '../League';
+import QualifierView from '../Qualifier';
 
 import { competitions } from '../data';
 
@@ -34,7 +35,7 @@ export default class CompetitionView extends Component {
 		const compUrl = nextProps.match.params.comp;
 
 		if (this.state.year !== year || this.state.compUrl !== compUrl) {
-			this.setState({ year: year, compUrl: compUrl });
+			this.setState({ name: '', year: year, compUrl: compUrl });
 			this.fetchSeason(year, compUrl);
 		}
 	}
@@ -46,12 +47,13 @@ export default class CompetitionView extends Component {
 		const comp = competitions[this.state.name];
 		var [prevYear, prevYearLink] = this.getPrevLink();
 		var [nextYear, nextYearLink] = this.getNextLink();
+		const basename = '/competition/' + this.state.year + '/' + this.state.compUrl;
 
 		return (
 			<div className="CompetitionView">
 				<div className="show-mobile">
 					<div style={{fontSize: '1.5em'}} className="text-center">
-						{this.state.name + ' '} 
+						{competitions[this.state.name].name + ' '} 
 					</div>
 				</div>
 				<div className="flex-container text-center">
@@ -59,7 +61,7 @@ export default class CompetitionView extends Component {
 						{prevYearLink &&
 							<Link to={prevYearLink}>
 								<div className="CompetitionView-view-selector">
-									◁ <Year year={prevYear} fullyear={comp.times !== undefined} />
+									◁ {this.getYearView(prevYear, comp)}
 								</div>
 							</Link>
 						}
@@ -67,31 +69,53 @@ export default class CompetitionView extends Component {
 					<div className="flex-2">
 						<div style={{fontSize: '1.5em'}} className="text-center CompetitionView-view-selector">
 							<span className="hide-mobile">
-								{this.state.name + ' '} 
+								{competitions[this.state.name].name + ' '} 
 							</span>
-							<Year year={this.state.year} fullyear={comp.times !== undefined} />
+							{this.getYearView(this.state.year, comp)}
 						</div>
 					</div>
 					<div className="flex-1">
 						{nextYearLink ?
 							<Link to={nextYearLink}>
 								<div className="CompetitionView-view-selector">
-									<Year year={nextYear} fullyear={comp.times !== undefined} /> ▷
+									{this.getYearView(nextYear, comp)} ▷
 								</div>
 							</Link> :
-							<Link to={'/history/competition/' + UrlUtil.getCompUrl(this.state.name)}>
-								<div className="ClubView-view-selector">
-									History
-								</div>
-							</Link>
+							this.getHistoryLink()
 						}
 					</div>
 				</div>
 				{this.state.data.league &&
-					<LeagueView league={this.state.data.league} />}
+					<LeagueView league={this.state.data.league} goals={this.state.data.goals} basename={basename} />}
 				{this.state.data.cup &&
-					<CupView cup={this.state.data.cup} />}
+					<CupView cup={this.state.data.cup} goals={this.state.data.goals} basename={basename} />}
+				{this.state.data.qual &&
+					<QualifierView qual={this.state.data.qual} basename={basename} />}
 			</div>
+		);
+	}
+
+	getYearView(year, comp) {
+		const fullyear = comp.year === 'single';
+		var span;
+
+		if (comp.spans) {
+			span = { times: comp.times, spans: comp.spans };
+		}
+
+		return <Year year={year} fullyear={fullyear} span={span} />;
+	}
+
+	getHistoryLink() {
+		if (this.state.data.qual)
+			return null;
+
+		return (
+			<Link to={'/history/competition/' + UrlUtil.getCompUrl(this.state.name)}>
+				<div className="CompetitionView-view-selector">
+					History
+				</div>
+			</Link>
 		);
 	}
 
@@ -102,10 +126,20 @@ export default class CompetitionView extends Component {
 		var curIndex;
 
 		if (comp.times) {
-			curIndex = comp.times.indexOf(year);
+			if (comp.spans) {
+				curIndex = comp.spans.indexOf(year);
+				
+				if (curIndex > 0) {
+					prevYear = comp.spans[curIndex - 1];
+				} else {
+					prevYear = 0;
+				}
+			} else {
+				curIndex = comp.times.indexOf(year);
 
-			if (curIndex > 0) {
-				prevYear = comp.times[curIndex - 1];
+				if (curIndex > 0) {
+					prevYear = comp.times[curIndex - 1];
+				}
 			}
 		}
 
@@ -120,10 +154,20 @@ export default class CompetitionView extends Component {
 		var curIndex;
 
 		if (comp.times) {
-			curIndex = comp.times.indexOf(year);
+			if (comp.spans) {
+				curIndex = comp.spans.indexOf(year);
+				
+				if (curIndex < comp.spans.length - 1) {
+					nextYear = comp.spans[curIndex + 1];
+				} else {
+					nextYear = 0;
+				}
+			} else {
+				curIndex = comp.times.indexOf(year);
 
-			if (curIndex < comp.times.length - 1) {
-				nextYear = comp.times[curIndex + 1];
+				if (curIndex < comp.times.length - 1) {
+					nextYear = comp.times[curIndex + 1];
+				}
 			}
 		}
 
@@ -131,7 +175,7 @@ export default class CompetitionView extends Component {
 		return [nextYear, link];
 	}
 
-	fetchSeason(year, compUrl) {
+	fetchNormal(year, compUrl) {
 		const that = this;
 		const url = UrlUtil.getCompetitionSelectUrl(year, compUrl);
 
@@ -151,5 +195,46 @@ export default class CompetitionView extends Component {
 				that.setState(state);
 			}
 		});
+	}
+
+	fetchNationsLeague(year) {
+		const that = this;
+
+		var leagues = ['C', 'B', 'A'];
+		var promises = [];
+		leagues.forEach(league => {
+			var url = UrlUtil.getCompetitionSelectUrl(year, 'Nations-League-' + league);
+			promises.push(fetch(url).then(response => response.json() ));
+		});
+			
+		var newComp = {
+			name: 'Nations League',
+			league: null,
+			cup: null,
+			qual: {name: 'Nations League', season: [parseInt(year, 10)], rounds: []}
+		};
+
+		Promise.all(promises)
+		.then(dataArray => {
+			if (dataArray[0].name === undefined)
+				return;
+
+			dataArray.forEach((elem, index) => {
+				elem.qual.rounds.forEach(round => {
+					newComp.qual.rounds.push(round);
+					round.name = leagues[index] + ' Round ' + round.name;
+				});
+			});
+
+			that.setState({ name: 'Nations League', data: newComp });
+		});
+	}
+
+	fetchSeason(year, compUrl) {
+		if (compUrl.match(/^Nations-League/)) {
+			this.fetchNationsLeague(year);
+		} else {
+			this.fetchNormal(year, compUrl);
+		}
 	}
 }

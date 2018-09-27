@@ -36,13 +36,16 @@ export default class MatchEvent extends Component {
 
 	renderGoal() {
 		const goal = this.props.goal;
-		const type = (<div className="MatchEvent-minute MatchEvent-svg"><Goal og={goal.style === 'own goal'} size={40}/></div>);
+		const og = (goal.style === 'own goal');
+		const pk = (goal.style === 'penalty');
+		const type = (<div className="MatchEvent-minute MatchEvent-svg"><Goal og={og} pk={pk} size={40}/></div>);
 		const className = goal.assist ? 'MatchEvent-scorer' : 'MatchEvent-solo';
 		const detail = (
 			<div className="MatchEvent-player">
 				<div className={className}>
 					{PlayerName.getDisplayName(goal.scorer)}
-					{goal.style === 'own goal' && ' (own goal)'}
+					{og && ' (own goal)'}
+					{pk && ' (penalty)'}
 				</div>
 				{goal.assist && <div className="MatchEvent-assist">assist by {PlayerName.getDisplayName(goal.assist)}</div>}
 			</div>

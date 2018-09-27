@@ -1,0 +1,29 @@
+.FIFASelector-flex-container {
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-webkit-flex-direction: row;
+	flex-direction: row;
+	-webkit-justify-content: center;
+	justify-content: center;
+}
+
+.FIFASelector-team {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.FIFASelector-country {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	font-size: large;
+	font-weight: bold;
+}
+
+@media screen and (max-width: 543px) {
+
+	.FIFASelector-team {
+		flex-basis: 10%;
+	}
+}

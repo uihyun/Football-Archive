@@ -27,7 +27,7 @@ export default class Remaining extends Component {
 
 	getColumn(array, index, color) {
 		const style = { backgroundColor: color[index] };
-		const year = this.props.league.season;
+		const year = this.props.data.season;
 
 		return (
 			<div className="flex-1 Remaining-row" style={style} key={index}>
@@ -49,7 +49,7 @@ export default class Remaining extends Component {
 	getRow(team) {
 		const style = { fontSize: '1.5em', textAlign: 'center' };
 		const place = { width: '20px', textAlign: 'center' };
-		const year = this.props.league.season;
+		const year = this.props.data.season;
 		const homeColor = [colors.mediumred, colors.mediumyellow, colors.mediumblue];
 		const awayColor = [colors.lightred, colors.lightyellow, colors.lightblue];
 
@@ -84,8 +84,8 @@ export default class Remaining extends Component {
 	}
 
 	groupMatches() {
-		const table = this.props.league.table;
-		const result = this.props.league.result;
+		const table = this.props.data.table;
+		const result = this.props.data.result;
 		const count = table.length;
 		var list = [];
 		var i, j, team, row;

@@ -1,10 +1,12 @@
 'use strict';
 
 const path = require('path');
-const exec = require('child_process').exec;
 const Promise = require('bluebird');
+const http = require('http');
 
+const KLeagueUtil = require('../../util/kleague');
 const UrlUtil = require('../../util/url');
+const exec = require('../../util/exec');
 
 module.exports = function(router, db) {
 	const Seasons = db.collection('Seasons');
@@ -17,32 +19,391 @@ module.exports = function(router, db) {
 		});
 	}
 
+	function get(url) {
+
+		return new Promise(function (resolve, reject) {
+			http.get(url, (resp) => {
+				let data = '';
+				resp.setEncoding('utf8');
+				resp.on('data', (chunk) => { data += chunk; });
+				resp.on('end', () => { resolve(JSON.parse(data)); });
+			}).on("error", (err) => {
+				reject(err);
+			});
+		});
+	}
+
+	function formatKLeagueMatch(data) {
+		const teamNameMap = KLeagueUtil.leagueTeamNameMap;
+
+		if (data.scoreAndStatus.statusInfo !== '경기종료')
+			return null;
+
+		var match = {
+			goals: [],
+			players: {
+				l: { start: [], sub: [] },
+				r: { start: [], sub: [] }
+			}
+		};
+
+		const season = data.gameInfo.dateTime.substring(0, 4);
+
+		function normalizeName(team) {
+			if (teamNameMap[season] && teamNameMap[season][team])
+				return teamNameMap[season][team];
+
+			return team;
+		}
+
+		match.l = normalizeName(data.gameInfo.hName);
+		match.r = normalizeName(data.gameInfo.aName);
+
+		function getMinute(time) {
+			var minute = parseInt(time.substring(0, 2), 10);
+
+			if (parseInt(time.substring(3, 5), 10) > 0)
+				minute++;
+
+			return minute;
+		}
+
+		function getGoal(raw, side) {
+			var goal = { side: side, scorer: raw.pName.replace(/ (.*)/, '') };
+			goal.minute = getMinute(raw.gTime);
+
+			if (raw.own === 'Y')
+				goal.style = 'own goal';
+
+			return goal;
+		}
+
+		function getCard(raw, cardMap) {
+			if (raw.type === 'yellow') {
+				cardMap[raw.pName] = { type: raw.type, minute: getMinute(raw.time) };
+			}
+
+			if (raw.type === 'red') {
+				if (cardMap[raw.pName]) {
+					cardMap[raw.pName] = { type: 'Second yellow', minute: getMinute(raw.time) };
+				} else {
+					cardMap[raw.pName] = { type: raw.type, minute: getMinute(raw.time) };
+				}
+			}
+		}
+
+		function getPlayer(match, side, raw, cardMap) {
+			var player = { number: raw.shirtNumber, name: raw.pName };
+
+			if (cardMap[player.name])
+				player.card = cardMap[player.name];
+
+			if (raw.as !== '0')
+				player.assist = parseInt(raw.as, 10);
+
+			if (raw.posOrder === '-1') {
+				match.players[side].sub.push(player);
+			} else if (raw.sType === 'in') {
+				player.sub = parseInt(raw.sTime, 10);
+				match.players[side].sub.push(player);
+			} else if (raw.sType === 'out') {
+				if (!(raw.rc === '1' || raw.yc === '2')) {
+					player.sub = parseInt(raw.sTime, 10);
+				}
+				match.players[side].start.push(player);
+			} else {
+				match.players[side].start.push(player);
+			}
+		}
+
+		const goals = data.goalInfo;
+		var i;
+
+		for (i = 0; i < goals.home.length; i++) {
+			match.goals.push(getGoal(goals.home[i], 'l'));
+		}
+
+		for (i = 0; i < goals.away.length; i++) {
+			match.goals.push(getGoal(goals.away[i], 'r'));
+		}
+
+		match.goals.sort((a, b) => { return a.minute - b.minute });
+
+		var cardMap = {};
+		for (i = 0; i < data.scoreBoard.rt.home.length; i++) {
+			getCard(data.scoreBoard.rt.home[i], cardMap);
+		}
+		
+		for (i = 0; i < data.scoreBoard.rt.away.length; i++) {
+			getCard(data.scoreBoard.rt.away[i], cardMap);
+		}
+
+		const lineup = data.lineup;
+		for (i = 0; i < lineup.home.length; i++) {
+			getPlayer(match, 'l', lineup.home[i], cardMap);
+		}
+		
+		for (i = 0; i < lineup.away.length; i++) {
+			getPlayer(match, 'r', lineup.away[i], cardMap);
+		}
+
+		return match;
+	}
+	
+	function getKLeagueMatch(url) {
+		var league = 'kleague';
+
+		if (url.match(/^KLL/))
+			league += 2;
+
+		var uri = url.replace(/^KL/, '').replace(/^L/, '');
+		var year = uri.substring(0, 4);
+		var month = uri.substring(4, 6);
+		var matchUrl = 'http://sportsdata.pstatic.net/ndata//' + league + '/';
+		matchUrl += year + '/';
+		matchUrl += month + '/';
+		matchUrl += uri + '.json?_=' + (new Date()).getTime();
+
+		return get(matchUrl).then(data => { return formatKLeagueMatch(data) })
+		.then(summary => {
+			if (summary === null)
+				return;
+
+			return Matches.insert({ url: url, summary: summary });
+		});
+	}
+
+	function formatKFACupMatch(data) {
+		const teamNameMap = KLeagueUtil.cupTeamNameMap;
+		const teamNormalizeNameMap = KLeagueUtil.cupTeamNormalizeNameMap;
+
+		var match = {
+			goals: [],
+			players: {
+				l: { start: [], sub: [] },
+				r: { start: [], sub: [] }
+			}
+		};
+
+		var assistMap = [];
+
+		match.l = data.l;
+		match.r = data.r;
+
+		if (teamNameMap[match.l])
+			match.l = teamNameMap[match.l];
+
+		if (teamNameMap[match.r])
+			match.r = teamNameMap[match.r];
+
+		if (teamNormalizeNameMap[match.l])
+			match.l = teamNormalizeNameMap[match.l];
+
+		if (teamNormalizeNameMap[match.r])
+			match.r = teamNormalizeNameMap[match.r];
+
+		if (data.aet === true)
+			match.aet = true;
+
+		if (data.pso)
+			match.pso = data.pso;
+
+		const sides = ['l', 'r'];
+		var i, side;
+		var j, og, goal;
+
+		for (i = 0; i < sides.length; i++) {
+			side = sides[1 - i];
+
+			for (j = 0; j < data.og[i].length; j++) {
+				og = data.og[i];
+				goal = { side: side, scorer: og.name, minute: og.minute, style: 'own goal' };
+				match.goals.push(goal);
+			}
+		}
+
+		function getCard(row, player) {
+			var cards;
+
+			if (row.yellows) {
+				cards = row.yellows.split(',');
+				if (cards.length === 2) {
+					player.card = { type: 'Second yellow', minute: cards[1] };
+				} else {
+					player.card = { type: 'yellow', minute: cards[0] };
+				}
+			}
+
+			if (row.reds) {
+				if (player.card === undefined || player.card.type !== 'Second yellow') {
+					player.card = { type: 'red', minute: row.reds };
+				}
+			}
+		}
+
+		function addGoal(row, player, side) {
+			if (row.goals === undefined)
+				return;
+
+			var goals = row.goals.split(',');
+			var i, minute, goal;
+
+			for (i = 0; i < goals.length; i++) {
+				minute = goals[i];
+
+				goal = { side: side, scorer: player.name, minute: minute };
+
+				if (minute.match('[P]')) {
+					goal.minute = minute.replace('[P]', '');
+					goal.style = 'penalty';
+				}
+
+				match.goals.push(goal);
+			}
+		}
+
+		function addAssist(row, player) {
+			if (row.assists === undefined)
+				return;
+
+			var assists = row.assists.split(',');
+			var i, minute;
+
+			for (i = 0; i < assists.length; i++) {
+				minute = assists[i];
+
+				assistMap[minute] = player.name;
+			}
+		}
+
+		function getSubIn(player, sideIndex) {
+			const subs = data.sub[sideIndex];
+			var i, sub, number;
+
+			for (i = 0; i < subs.length; i++) {
+				sub = subs[i];
+				number = sub.number;
+
+				if (number === player.number && sub.state === 'IN') {
+					player.sub = sub.minute;
+				}
+			}
+		}
+
+		function getSubOut(player, sideIndex) {
+			const subs = data.sub[sideIndex];
+			var i, sub, number;
+
+			for (i = 0; i < subs.length; i++) {
+				sub = subs[i];
+				number = sub.number;
+
+				if (number === player.number && sub.state === 'OUT') {
+					if (player.sub === undefined) {
+						player.sub = sub.minute;
+					} else {
+						player.sub = [player.sub, sub.minute];
+					}
+				}
+			}
+		}
+		
+		var row, player;
+
+		for (i = 0; i < sides.length; i++) {
+			side = sides[i];
+
+			for (j = 0; j < data.starting[i].length; j++) {
+				row = data.starting[i][j];
+				player = { number: row.number, name: row.name };
+				getCard(row, player);
+				addGoal(row, player, side);
+				addAssist(row, player);
+				getSubOut(player, i);
+
+				match.players[side].start.push(player);
+			}
+		}
+
+		for (i = 0; i < sides.length; i++) {
+			side = sides[i];
+
+			for (j = 0; j < data.bench[i].length; j++) {
+				row = data.bench[i][j];
+				player = { number: row.number, name: row.name };
+				getCard(row, player);
+				addGoal(row, player, side);
+				addAssist(row, player);
+				getSubIn(player, i);
+				getSubOut(player, i);
+
+				match.players[side].sub.push(player);
+			}
+		}
+
+		for (i = 0; i < match.goals.length; i++) {
+			goal = match.goals[i];
+
+			if (goal.style !== undefined)
+				continue;
+
+			if (assistMap[goal.minute])
+				goal.assist = assistMap[goal.minute];
+		}
+
+		match.goals.sort((a, b) => { return a.minute - b.minute; });
+
+		return match;
+	}
+
+	function getKFACupMatch(url) {
+		const uri = url.replace(/^KFACUP/, '').replace(/=/g, '%3D').replace(/&/, '%26');
+		const execStr = 'perl ' + path.join(__dirname, '../../../perl', 'kfacup_match.pl') + ' ' + uri;
+
+		return exec(execStr)
+		.then(function (data) {
+			if (data === '')
+				return;
+
+			const summary = formatKFACupMatch(data);
+
+			return Matches.insert({ url: url, summary: summary });
+		});
+	}
+
 	function fetchMatchUrl(url) {
-		if (url === '')
+		if (url === '' || url === undefined || url === 'undefined')
 			return;
 
+		if (url.match(/^KL/))
+			return getKLeagueMatch(url);
+		
+		if (url.match(/^KFACUP/))
+			return getKFACupMatch(url);
+
 		const execStr = 'perl ' + path.join(__dirname, '../../../perl', 'match.pl') + ' ' + url;
+		const teamNameMap = KLeagueUtil.replaceTeamNameMap;
 
-		var stdout = '';
-		var child = exec(execStr);
-		child.stdout.on('data', function(chunk) {stdout += chunk});
+		return exec(execStr)
+		.then(function (data) {
+			if (data === '')
+				return;
 
-		return promiseFromChildProcess(child)
-			.then(function () {
-				if (stdout === '')
-					return;
+			if (teamNameMap[data.l])
+				data.l = teamNameMap[data.l];
 
-				const data = JSON.parse(stdout);
-				const newMatch = {
-					url: url,
-					summary: data
-				};
+			if (teamNameMap[data.r])
+				data.r = teamNameMap[data.r];
 
-				return Matches.insert(newMatch);
-			}).catch(function (error) {
-				console.log(execStr);
-				throw(error);
-			});
+			const newMatch = {
+				url: url,
+				summary: data
+			};
+
+			return Matches.insert(newMatch);
+		}).catch(function (error) {
+			console.log(execStr);
+		});
 	}
 
 	function fetchThenRespond(res, urls) {
@@ -71,40 +432,6 @@ module.exports = function(router, db) {
 				});
 			});
 	}
-	
-	router.get('/api/match/fetch-season/:_season/:_teamUrl', function(req, res) {
-		const season = req.params._season;
-		const team = UrlUtil.getNameFromUrl(req.params._teamUrl);
-		
-		Seasons.find({season: season, team: team}).toArray()
-			.then(function(seasons) {
-				if (seasons.length === 0) {
-					res.sendStatus(204);
-				} else {
-					var competition, match;
-					var matchDate;
-					var urls = [];
-
-					for (var i in seasons[0].competitions) {
-						competition = seasons[0].competitions[i];
-					
-						for (var j in competition.matches) {
-							match = competition.matches[j];
-							matchDate = new Date(match.date);
-
-							if (matchDate < new Date()) {
-								urls.push(match.url);
-							}
-						}
-					}
-
-					fetchThenRespond(res, urls);	
-				}
-			})
-			.catch(function(error) {
-				console.log(error);
-			});
-	});
 	
 	router.get('/api/match/fetch-season/:_season', function(req, res) {
 		const season = req.params._season;

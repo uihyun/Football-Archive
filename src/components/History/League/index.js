@@ -5,6 +5,8 @@ import './style.css';
 
 import { Team, Year } from '../../Common';
 
+import { competitions } from '../data';
+
 import UrlUtil from '../../../util/url';
 
 export default class LeagueHistory extends Component {
@@ -48,7 +50,8 @@ export default class LeagueHistory extends Component {
 	}
 	
 	getSeasonSpan(year) {
-		const span = <Year year={year} />;
+		const fullyear = competitions[this.props.name].year === 'single';
+		const span = <Year year={year} fullyear={fullyear} />;
 		const link = UrlUtil.getCompLink(year, this.props.name);
 
 		if (link === null)

@@ -1,0 +1,14 @@
+.Ranking-team {
+	margin-right: 5px;
+}
+
+.Ranking-row {
+	width: 300px;
+}
+
+@media screen and (max-width: 543px) {
+
+	.Ranking-row {
+		width: 200px;
+	}
+}

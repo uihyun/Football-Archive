@@ -1,4 +1,11 @@
 const koreans = {
+	2019: [
+		{team: 'Tottenham Hotspur', name: '손흥민', country: 'ENG'},
+		{team: 'Newcastle United', name: '기성용', country: 'ENG'},
+		{team: 'FC Augsburg', name: '구자철', country: 'GER', more: ['지동원']},
+		{team: 'Dijon FCO', name: '권창훈', country: 'FRA'},
+		{team: 'Stade Reims', name: '석현준', country: 'FRA'},
+	],
 	2018: [
 		{team: 'Tottenham Hotspur', name: '손흥민', country: 'ENG'},
 		{team: 'Swansea City', name: '기성용', country: 'ENG'},
@@ -148,6 +155,7 @@ const koreans = {
 		'Seung-ki Lee': '김승기',
 		'Shin-wook Kim': '김신욱',
 		'Suk-Young Yun': '윤석영',
+		'Suk-young Yun': '윤석영',
 		'Sung-ryong Jung': '정성룡',
 		'Sung-yueng Ki': '기성용',
 		'Tae-hee Nam': '남태희',
@@ -161,6 +169,7 @@ const koreans = {
 		'Dong-ho Jeong': '정동호',
 		'Hyun-jun Suk': '석현준',
 		'Jae-sung Lee II': '이재성',
+		'Jae-sung Lee': '이재성',
 		'Jeong-hyeop Lee': '이정협',
 		'Jong-ho Lee': '이정호',
 		'Joo-yong Lee': '이주영',
@@ -186,9 +195,15 @@ const koreans = {
 		'Min-jae Kim': '김민재',
 		'Seong-uk Jin': '진성욱',
 		'Seung-hyun Jeong': '정승현',
+		'Seung-hyun Jung': '정승현',
 		'Yong-joon Heo': '허용준',
 		'Jun-ho Son': '손준호',
 		'Seong-jun Kim': '김성준',
+		'Ban-suk Oh': '오반석',
+		'Seon-min Moon': '문선민',
+		'Seung-woo Lee': '이승우',
+		'In-Beaom Hwang': '황인범',
+		'Moon-Hwan Kim': '김문환',
 	}
 };
 

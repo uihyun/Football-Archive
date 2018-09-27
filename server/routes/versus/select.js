@@ -45,7 +45,7 @@ module.exports = function(router, db) {
 				matchMap[match.url] = match;
 			}
 
-			var season, comp;
+			var season, comp, entry;
 			var j, k;
 
 			for (i in out.seasons) {
@@ -57,6 +57,13 @@ module.exports = function(router, db) {
 					for (k in comp.matches) {
 						match = comp.matches[k];
 
+						if (matchMap[match.url] === undefined &&
+								(match.vs === teamA || match.vs === teamB)) {
+							entry = { place: { team: season.team, place: match.place } };
+							out.matches.push(entry);
+							matchMap[match.url] = entry;
+						}
+							
 						if (matchMap[match.url] !== undefined) {
 							matchMap[match.url].season = season.season;
 							matchMap[match.url].competition = comp.name;

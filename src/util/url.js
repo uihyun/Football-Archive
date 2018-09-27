@@ -1,4 +1,4 @@
-import {teams, competitions, clubs, nations} from '../data';
+import { competitions, clubs, nations, afc, teams } from '../data';
 
 export default class UrlUtil {
 	static getTeamUrl(team) {
@@ -25,8 +25,8 @@ export default class UrlUtil {
 		return comp.replace(/ /g, '-');
 	}
 	
-	static getRecentMatchesUrl(season) {
-		return '/api/match/recent/' + season;
+	static getRecentMatchesUrl() {
+		return '/api/match/recent';
 	}
 	
 	static getCupFetchUrl(season) {
@@ -40,6 +40,10 @@ export default class UrlUtil {
 	static getSeasonFetchUrl(season, team) {
 		return '/api/season/fetch/' + season + '/' + this.getTeamUrl(team);
 	}
+	
+	static getSeasonMarkDoneUrl(season, team) {
+		return '/api/season/mark_done/' + season + '/' + this.getTeamUrl(team);
+	}
 
 	static getSeasonClearUrl(season, team) {
 		return '/api/season/clear/' + season + '/' + this.getTeamUrl(team);
@@ -49,12 +53,12 @@ export default class UrlUtil {
 		return '/api/match/fetch/' + season + '/' + this.getTeamUrl(team);
 	}
 
-	static getMatchClearUrl(season, team) {
-		return '/api/match/clear/' + season + '/' + this.getTeamUrl(team);
+	static getMatchClearUrl(season) {
+		return '/api/match/clear/recent/' + season;
 	}
 
-	static getCompetitionSelectUrl(season, team) {
-		return '/api/competition/select/' + season + '/' + this.getTeamUrl(team);
+	static getCompetitionSelectUrl(season, compUrl) {
+		return '/api/competition/select/' + season + '/' + compUrl;
 	}
 	
 	static getVersusSelectUrl(teamA, teamB) {
@@ -80,7 +84,12 @@ export default class UrlUtil {
 			logoID = teams[team].id;
 		}
 
-		return '/' + logoID + '.png';
+		var url = '/' + logoID + '.png';
+
+		if (window.isWebkit)
+			url = 'fa-custom-scheme:/' + url;
+
+		return url;
 	}
 
 	static getLink(year, team) {
@@ -95,7 +104,7 @@ export default class UrlUtil {
 			}
 
 			if (clubs.seasons[i].teams[year].includes(team)) {
-				return '/club/' + year + '/' + this.getTeamUrl(team);
+				return '/UEFA/' + year + '/' + this.getTeamUrl(team);
 			}
 		}
 
@@ -105,7 +114,16 @@ export default class UrlUtil {
 					return null;
 				}
 
-				return '/nation/' + year + '/' + this.getTeamUrl(team);
+				return '/FIFA/' + year + '/' + this.getTeamUrl(team);
+			}
+		}
+
+		for (i in afc.seasons) {
+			if (afc.seasons[i].teams[year] === undefined)
+				continue;
+
+			if (afc.seasons[i].teams[year].includes(team)) {
+				return '/AFC/' + year + '/' + this.getTeamUrl(team);
 			}
 		}
 
@@ -120,6 +138,7 @@ export default class UrlUtil {
 		const link = '/competition/' + yearString + '/' + url;
 		const year = parseInt(yearString, 10);
 		var competition = competitions[comp];
+		var i, spans;
 
 		if (competition) {
 			if (competition.years &&
@@ -129,7 +148,16 @@ export default class UrlUtil {
 
 			if (competition.times &&
 					competition.times.includes(year)) {
-				return link;
+
+				if (competition.spans) {
+					spans = competition.spans;
+					for (i = 0; i < spans.length; i++) {
+						if (spans[i] >= year)
+							return '/competition/' + spans[i] + '/' + url;
+					}
+				} else {
+					return link;
+				}
 			}
 		}
 

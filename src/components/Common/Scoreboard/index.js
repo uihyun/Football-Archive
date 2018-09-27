@@ -5,7 +5,7 @@ import './style.css';
 
 import { colors } from '../data';
 
-import Match from '../../../util/match'
+import Match from '../../../util/match';
 
 export default class Scoreboard extends Component {
 
@@ -77,12 +77,20 @@ export default class Scoreboard extends Component {
 			return <span className='Scoreboard-date'>{mm + '/' + dd}</span>;
 		}
 
+		var l = sum.goalsScored;
+		var r = sum.goalsConceded;
+
+		if (this.props.reverse) {
+			l = sum.goalsConceded;
+			r = sum.goalsScored;
+		}
+
 		return (
 			<div className="flex-container text-center Scoreboard-score">
 				<div className="flex-1"></div>
-				<div className="flex-2">{sum.goalsScored}</div>
+				<div className="flex-2">{l}</div>
 				<div>:</div>
-				<div className="flex-2">{sum.goalsConceded}</div>
+				<div className="flex-2">{r}</div>
 				<div className="flex-1"></div>
 			</div>
 		);

@@ -8,6 +8,23 @@
 	margin-bottom: 3px;
 }
 
+.Lineup-backnumber {
+	width: 20px;
+}
+
+.Lineup-player > div {
+	margin-left: 3px;
+	margin-right: 3px;
+}
+
+.Lineup-card {
+	height: 20px;
+}
+
+.Lineup-goal {
+	height: 20px;
+}
+
 @media screen and (max-width: 543px) {
 
 	.OneMatch-score {

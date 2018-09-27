@@ -12,8 +12,14 @@ export default class Goal extends Component {
 		const size = this.props.size ? this.props.size : 20;
 		const center = size / 2;
 		const radius = [center * 0.8, center * 0.5, center * 0.3];
-		const color = this.props.og ? colors.red : 'black';
+		var color = 'black';
 		const angles = this.getAngles();
+
+		if (this.props.pk)
+			color = colors.blue;
+
+		if (this.props.og)
+			color = colors.red;
 
 		this.state = {
 			size: size,

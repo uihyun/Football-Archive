@@ -23,7 +23,7 @@ export default class Circle extends Component {
 	}
 
 	newState(props) {
-		const matches = Match.extractAndSort(props.data);
+		const matches = Match.extractAndSort(props.data.data);
 		var summaries = [];
 		var time = [];
 		var indices = [0, 2];
@@ -38,7 +38,7 @@ export default class Circle extends Component {
 		}
 
 		for (var i = 0; i < matches.length; i++) {
-			summaries[i] = Match.summarizeResult(matches[i], props.team);
+			summaries[i] = Match.summarizeResult(matches[i], props.data.team);
 			time[i] = matches[i].date.substring(indices[0], indices[1]);
 		}
 
@@ -153,7 +153,7 @@ export default class Circle extends Component {
 			d = 'M ' + x1 + ' ' + y1 + Astr + rot + ' 0 1 ' + x2 + ' ' + y2;
 			result = this.state.summaries[i].result;
 
-			if (this.props.player) {
+			if (this.props.data.player) {
 				stroke = colors[Match.getColorDNP(result)];
 				dnps.push(getPath(match.url, i, d, stroke));
 
@@ -226,7 +226,7 @@ export default class Circle extends Component {
 			return null;
 		}
 
-		var link = UrlUtil.getLink(this.props.data.season, team);
+		var link = UrlUtil.getLink(this.props.data.data.season, team);
 
 		if (link) {
 			return (
@@ -240,13 +240,13 @@ export default class Circle extends Component {
 	}
 	
 	playerMinutes(match) {
-		const player = this.props.player;
+		const player = this.props.data.player;
 		const summary = match.summary;
 				
 		if (summary === undefined || summary.players === undefined)
 			return null;
 
-		const side = (summary.r === this.props.team) ? 'r' : 'l';
+		const side = (summary.r === this.props.data.team) ? 'r' : 'l';
 		const players = summary.players[side];
 		const matchLength = summary.aet ? 121 : 91;
 		const name = player.fullname;
@@ -280,14 +280,14 @@ export default class Circle extends Component {
 	}
 
 	playerGoals(match) {
-		const player = this.props.player;
+		const player = this.props.data.player;
 		const summary = match.summary;
 		var count = 0;
 				
 		if (summary === undefined || summary.goals === undefined)
 			return count;
 		
-		const side = (summary.r === this.props.team) ? 'r' : 'l';
+		const side = (summary.r === this.props.data.team) ? 'r' : 'l';
 		const goals = summary.goals;
 		var i, goal;
 

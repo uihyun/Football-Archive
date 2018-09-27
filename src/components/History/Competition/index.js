@@ -5,6 +5,8 @@ import './style.css';
 import CupHistory from '../Cup';
 import LeagueHistory from '../League';
 
+import { competitions } from '../data';
+
 import UrlUtil from '../../../util/url';
 
 export default class CompetitionView extends Component {
@@ -39,7 +41,7 @@ export default class CompetitionView extends Component {
 		return (
 			<div className="CompetitionHistory text-center">
 				<div style={{fontSize: '1.5em'}}>
-					{this.state.name + ' '} 
+					{competitions[this.state.name].name + ' '} 
 				</div>
 				{this.state.data.leagues &&
 					<LeagueHistory name={this.state.data.name} seasons={this.state.data.leagues} />}

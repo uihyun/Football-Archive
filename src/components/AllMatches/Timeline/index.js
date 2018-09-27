@@ -9,7 +9,7 @@ import Match from '../../../util/match';
 export default class Timeline extends Component {
 
   render() {
-		const matches = Match.extractAndSort(this.props.data);
+		const matches = Match.extractAndSort(this.props.data.data);
 
     return (
       <div className="Timeline">
@@ -19,16 +19,16 @@ export default class Timeline extends Component {
   }
 
 	getMatchView(match, index) {
-		const year = match.season ? match.season : this.props.year;
+		const year = match.season ? match.season : this.props.data.year;
 		return (
 			<div key={index} className="flex-container">
 				<div className="flex-1 Timeline-margin flex-container-right-aligned">
 					<Competition name={match.competition} round={match.round} year={year} />
 				</div>
-				<Scoreboard classNames="Timeline-margin" team={this.props.team} match={match} 
-				 player={this.props.player}/>
+				<Scoreboard classNames="Timeline-margin" team={this.props.data.team} match={match} 
+				 player={this.props.data.player}/>
 				<div className="flex-1 Timeline-margin Timeline-team">
-					<Team team={match.vs} year={this.props.year} />
+					<Team team={match.vs} year={this.props.data.year} />
 				</div>
 			</div>
 		);

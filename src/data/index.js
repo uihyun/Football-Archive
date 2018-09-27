@@ -1,3 +1,4 @@
+export {default as afc} from './afc';
 export {default as clubs} from './clubs';
 export {default as colors} from './colors';
 export {default as competitions} from './competitions';

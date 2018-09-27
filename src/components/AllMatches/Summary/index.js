@@ -19,9 +19,9 @@ export default class Summary extends Component {
 	}
 
   render() {
-		const team = this.props.team;
-		const year = this.props.year;
-		const player = this.props.player;
+		const team = this.props.data.team;
+		const year = this.props.data.year;
+		const player = this.props.data.player;
 
 		return (
 			<div className="Summary">
@@ -35,9 +35,11 @@ export default class Summary extends Component {
 								{group.map(comp => {
 									const leagueTable = this.state.leagueTableMap[comp.name];
 									const cup = this.state.cupMap[comp.url];
+									const qual = this.state.qualMap[comp.url];
+
 									return <Progress key={comp.url} team={team} year={year} player={player}
-														competition={comp} leagueTable={leagueTable} cup={cup} 
-														showYear={this.props.showYear} />;
+														competition={comp} leagueTable={leagueTable} cup={cup} qual={qual}
+														showYear={this.props.data.showYear} />;
 								})}
 							</div>
 						);
@@ -48,14 +50,14 @@ export default class Summary extends Component {
   }
 	
 	newState(props) {
-		const data = props.data;
-		var state = { groups: [], leagueTableMap: {}, cupMap: {} };
+		const data = props.data.data;
+		var state = { groups: [], leagueTableMap: {}, cupMap: {}, qualMap: {} };
 
 		if (data.leagues === undefined) {
 			return state; // data not yet fetched
 		}
 
-		var i, j, league, cup;
+		var i, j, league, cup, qual;
 		var comp, group;
 
 		for (i = 0; i < data.leagues.length; i++) {
@@ -66,6 +68,11 @@ export default class Summary extends Component {
 		for (i = 0; i < data.cups.length; i++) {
 			cup = data.cups[i];
 			state.cupMap[cup.url] = cup;
+		}
+
+		for (i = 0; i < data.quals.length; i++) {
+			qual = data.quals[i];
+			state.qualMap[qual.url] = qual;
 		}
 
 		for (i in competitions) {
@@ -87,7 +94,7 @@ export default class Summary extends Component {
 			}
 		}
 
-		if (this.props.showYear) {
+		if (this.props.data.showYear) {
 			var maxDate = {};
 			var match, max, date, array;
 

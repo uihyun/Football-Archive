@@ -9,6 +9,7 @@ module.exports = function(router, db) {
 	const Matches = db.collection('Matches');
 	const Leagues = db.collection('Leagues');
 	const Cups = db.collection('Cups');
+	const Quals = db.collection('Qualifiers');
 
 	router.get('/api/season/select/:_season/:_teamUrl', function(req, res) {
 		const season = req.params._season;
@@ -33,10 +34,17 @@ module.exports = function(router, db) {
 				});
 		}
 
-		function getCups(season, cups, obj) {
-			return Cups.find({season: season, name: {$in: cups}}, {teams: 0}).toArray()
+		function getCups(season, team, obj) {
+			return Cups.find({season: season, teams: team}, {teams: 0}).toArray()
 				.then(function(cups)	{
 					obj.cups = cups;
+				});
+		}
+
+		function getQuals(season, team, obj) {
+			return Quals.find({season: season, teams: team}, {teams: 0}).toArray()
+				.then(function(quals)	{
+					obj.quals = quals;
 				});
 		}
 
@@ -48,7 +56,6 @@ module.exports = function(router, db) {
 					var urls = [];
 					var competition, match;
 					var map = {};
-					var competitions = [];
 
 					for (var i in seasons[0].competitions) {
 						competition = seasons[0].competitions[i];
@@ -58,14 +65,13 @@ module.exports = function(router, db) {
 							urls.push(match.url);
 							map[match.url] = match;
 						}
-
-						competitions.push(competition.name);
 					}
 
 					var promises = [];
 					promises.push(getMatches(urls, map));
 					promises.push(getLeagueTables(season, team, seasons[0]));
-					promises.push(getCups(season, competitions, seasons[0]));
+					promises.push(getCups(season, team, seasons[0]));
+					promises.push(getQuals(season, team, seasons[0]));
 
 					Promise.all(promises)
 						.then(function() {

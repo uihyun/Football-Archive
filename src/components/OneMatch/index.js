@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 
 import './style.css';
 
-import MatchEvent from './MatchEvent';
-import Lineup from './Lineup';
-import { Competition, Team, ViewSelector } from '../Common';
+import Events from './events';
+import Lineups from './lineups';
+import { Competition, Team, PageSelector } from '../Common';
 
 import { teams } from '../data';
 
@@ -70,7 +70,7 @@ export default class OneMatch extends Component {
 							<div className="flex-1 text-center OneMatch-score">{this.getScore()}</div>
 							<div className="flex-1 text-right"><Team team={r} emblemLarge={true} year={year}/></div>
 						</div>
-						<ViewSelector views={views} />
+						<PageSelector views={views} basename={this.getBasename()} />
 					</div>
 					<div className="flex-1 hide-mobile"></div>
 				</div>
@@ -81,6 +81,10 @@ export default class OneMatch extends Component {
 				</div>
 			</div>
 		);
+	}
+
+	getBasename() {
+		return '/match/' + this.props.match.params.url;
 	}
 	
 	getSubs() {
@@ -124,6 +128,16 @@ export default class OneMatch extends Component {
 								side: side,
 								out: player.name
 							});
+						}
+					}
+				}
+
+				for (k = 0; k < players[pos].length; k++) {
+					player = players[pos][k];
+					subIn = null;
+				
+					if (player.sub && pos === 'sub') {
+						if (player.sub.length) {
 							subIn = player.sub[0];
 						} else {
 							subIn = player.sub;
@@ -196,32 +210,21 @@ export default class OneMatch extends Component {
 	getEvents(goals, cards, subs) {
 		var events = [];
 
-		goals.forEach(goal => {
-			events.push({ minute: goal.minute, side: goal.side, goal: goal });
+		goals.forEach((goal, index) => {
+			events.push({ minute: goal.minute, side: goal.side, goal: goal, order: goal.minute * 100 + 20 + index });
 		});
 
-		cards.forEach(card => {
-			events.push({ minute: card.minute, side: card.side, card: card });
+		cards.forEach((card, index) => {
+			events.push({ minute: card.minute, side: card.side, card: card, order: card.minute * 100 + 10 + index });
 		});
 		
-		subs.forEach(sub => {
-			events.push({ minute: sub.minute, side: sub.side, sub: sub });
+		subs.forEach((sub, index) => {
+			events.push({ minute: sub.minute, side: sub.side, sub: sub, order: sub.minute * 100 + index });
 		});
 
-		events.sort((a, b) => { return a.minute - b.minute } );
+		events.sort((a, b) => { return a.order - b.order } );
 
 		return events;
-	}
-
-	getEventDiv(e, index) {
-		return (
-			<MatchEvent key={index} minute={e.minute} side={e.side}
-									goal={e.goal} card={e.card} sub={e.sub} />
-		);
-	}
-
-	getEventsView(events) {
-		return events.map((e, index) => { return this.getEventDiv(e, index); });
 	}
 
 	getViews(events) {
@@ -232,10 +235,11 @@ export default class OneMatch extends Component {
 		}
 
 		var majorEvents = events.filter(e => { return e.goal || (e.card && e.card.type !== 'yellow') });
+		var lineup = { summary: this.state.match.summary, basename: this.getBasename() };
 
-		views.push({ name: 'Goals', view: this.getEventsView(majorEvents) });
-		views.push({ name: 'Subs & Cards', view: this.getEventsView(events) });
-		views.push({ name: 'Lineup', view: (<Lineup match={this.state.match.summary} />) });
+		views.push({ name: 'Goals', link: '/goals', component: Events, data: majorEvents });
+		views.push({ name: 'Subs & Cards', link: '/events', component: Events, data: events });
+		views.push({ name: 'Lineup', link: '/lineup', component: Lineups, data: lineup });
 
 		return views;
 	}

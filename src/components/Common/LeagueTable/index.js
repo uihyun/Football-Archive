@@ -9,7 +9,6 @@ import { colors } from '../data';
 export default class LeagueTable extends Component {
 
 	render() {
-		var league = '';
 		const header = {
 			name: 'Team',
 			games: {p: 'Pl', w: 'W', d: 'D', l: 'L'},
@@ -19,12 +18,20 @@ export default class LeagueTable extends Component {
 											
 		var table = [header];
 
-		league = this.props.league;
+		var league = this.props.league;
+		var teamName = this.props.team;
+		
+		if (this.props.data) {
+			league = this.props.data.league;
+			teamName = this.props.data.team;
+		}
+
 		table = table.concat(league.table);
 
 		return (
 			<div>
 				{this.props.hideName ||
+					(this.props.data && this.props.data.hideName) ||
 					<h3 className="text-center">{league.name}</h3>
 				}
 				<div className="flex-container">
@@ -39,7 +46,7 @@ export default class LeagueTable extends Component {
 							<div className="flex-1">
 								<div className="flex-container">
 									<div className="LeagueTable-rank text-center">{team.rank} </div>
-									{team.name === this.props.team ? <b>{teamComp}</b> : teamComp}
+									{team.name === teamName ? <b>{teamComp}</b> : teamComp}
 								</div>
 							</div>
 							<div className="flex-1">

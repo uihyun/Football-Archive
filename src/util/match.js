@@ -38,6 +38,7 @@ export default class Match {
 		var pkFor = 0;
 		var pkAgainst = 0;
 		var hasPenalties = true;
+		var array;
 
     if (summary && summary.penalties !== undefined) {
 			var goal;
@@ -53,8 +54,17 @@ export default class Match {
 					}
 				}
 			}
+		} else if (summary && summary.pso !== undefined) {
+			array = summary.pso.split(':');
+
+			if (summary.r === team)
+				array.reverse();
+
+			pkFor = array[0];
+			pkAgainst = array[1];
+			
 		} else if (match.pk) {
-			var array = match.pk.split(':');
+			array = match.pk.split(':');
 
 			if (match.r === team)
 				array.reverse();
@@ -124,6 +134,42 @@ export default class Match {
 		return out;
 	}
 
+	static getShortenedData(matches) {
+		var i, match;
+		var lastMatchIndex = 0;
+		for (i = matches.length - 1; i >= 0; i--) {
+			match = matches[i];
+
+			if (match.summary) {
+				lastMatchIndex = i;
+				break;
+			}
+		}
+
+		let startIndex = Math.max(lastMatchIndex - 4, 0);
+		let endIndex = Math.min(lastMatchIndex + 5, matches.length - 1);
+
+		var compMap = {};
+		for (i = startIndex; i <= endIndex; i++) {
+			match = matches[i];
+
+			if (compMap[match.competition] === undefined) {
+				compMap[match.competition] = {name: match.competition, matches: []};
+			}
+
+			compMap[match.competition].matches.push(match);
+		}
+		
+		var data = {competitions: []};
+		for (i in compMap) {
+			if (compMap[i]) {
+				data.competitions.push(compMap[i]);
+			}
+		}
+
+		return data;
+	}
+
 	static getColor(result) {
 		switch (result) {
 			case 'win':
@@ -133,7 +179,7 @@ export default class Match {
 			case 'draw':
 				return 'yellow';
 			case 'loss-pso':
-				return 'orange';
+				return 'magenta';
 			case 'loss':
 				return 'red';
 			case 'unplayed':

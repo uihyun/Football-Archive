@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-import {Squad, ViewSelector} from '../Common';
+import {Squad, PageSelector} from '../Common';
 
 import Timeline from './Timeline';
 import Form from './Form';
+import Rotation from './Rotation';
 import Summary from './Summary';
 import Circle from './Circle';
 
@@ -17,7 +18,7 @@ export default class AllMatches extends Component {
 		super(props);
 
 		this.state = {
-			squad: SquadUtil.getSquadArray(this.props.data),
+			squad: SquadUtil.getSquadArray(this.props.data.data),
 			player: null
 		};
 		
@@ -25,13 +26,16 @@ export default class AllMatches extends Component {
 	}
 	
 	componentWillReceiveProps(props) {
-		this.setState({squad: SquadUtil.getSquadArray(props.data), player: null});
+		if (props.data.team !== this.props.data.team ||
+				props.data.season !== this.props.data.season) {
+			this.setState({squad: SquadUtil.getSquadArray(props.data.data), player: null});
+		}
 	}
 
 	render() {
 		return (
 			<div className="AllMatches">
-				<ViewSelector views={this.getViews()} />
+				<PageSelector views={this.getViews()} basename={this.props.basename} />
 				<br/>
 				<Squad squad={this.state.squad} selectPlayer={this.selectPlayer} />
 			</div>
@@ -43,33 +47,28 @@ export default class AllMatches extends Component {
 	}
 	
 	getViews() {
-		const data = this.props.data;
-		const squad = this.state.squad;
-		const team = this.props.team;
-		const year = this.props.year;
-		const player = this.state.player;
+		const data = this.props.data.data;
+		const downData = {
+			data: data,
+			squad: this.state.squad,
+			team: data.team,
+			year: data.season,
+			player: this.state.player,
+			showYear: this.props.data.showSummaryYear
+		};
 
 		var views = [];
 
-		if (this.props.showForm) {
-			views.push({
-				name: 'Form',
-				view: (<Form data={data} squad={squad} team={team} year={year} player={player} />)
-			});
+		if (this.props.data.showForm) {
+			views.push({ name: 'Rotation', link: '/rotation', component: Rotation, data: downData });
+			views.push({ name: 'Form', link: '/form', component: Form, data: downData });
 		}
 		views.push({
-			name: 'Summary',
-			view: (<Summary data={data} squad={squad} team={team} year={year} player={player} 
-							showYear={this.props.showSummaryYear} />)
-		});
+			name: 'Summary', link: '/summary', component: Summary, data: downData });
 		views.push({
-			name: 'Circle',
-			view: (<Circle data={data} squad={squad} team={team} year={year} player={player} />)
-		});
+			name: 'Circle', link: '/circle', component: Circle, data: downData });
 		views.push({
-			name: 'Timeline',
-			view: (<Timeline data={data} squad={squad} team={team} year={year} player={player} />)
-		});
+			name: 'Timeline', link: '/timeline', component: Timeline, data: downData });
 
 		return views;
 	}

@@ -1,0 +1,24 @@
+.FIFAView-team-name {
+	font-size: 1.5em;
+}
+
+.FIFAView-team-logo {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.FIFAView-view-selector {
+	line-height: 50px;
+}
+
+.FIFAView-year {
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+@media screen and (max-width: 543px) {
+	.FIFAView-view-selector {
+		line-height: 37px;
+	}
+}
+

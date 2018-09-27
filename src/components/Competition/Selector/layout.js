@@ -28,26 +28,56 @@ const layout = {
 		}
 	},
 	europe: ['Champions League', 'Europa League'],
-	fifa: ['World Cup', 'Confederations Cup'],
+	fifa: ['World Cup', 'Confederations Cup', 'WC Qualifiers Play-offs'],
 	continental: {
-		legend: ['Cup'],
+		legend: ['Cup', 'WCQ', 'CQ', 'NL'],
 		list: ['EU', 'SA', 'NA', 'AF', 'AS'],
 		groups: {
 			EU: {
 				'Cup': 'EURO',
+				'WCQ': 'WC Qualifiers Europe',
+				'CQ': 'EURO Qualifiers',
+				'NL': 'Nations League',
 			},
 			SA: {
 				'Cup': 'Copa América',
+				'WCQ': 'WC Qualifiers South America',
 			},
 			NA: {
 				'Cup': 'Gold Cup',
+				'WCQ': 'WC Qualifiers CONCACAF',
 			},
 			AF: {
 				'Cup': 'Africa Cup',
+				'WCQ': 'WC Qualifiers Africa',
+				'CQ': 'Africa Cup Qual.',
 			},
 			AS: {
 				'Cup': 'Asian Cup',
+				'WCQ': 'WC Qualifiers Asia',
+				'CQ': 'Asian Cup Qual.',
 			},
+		}
+	},
+	asia: ['AFC Champions League'],
+	afc: {
+		legend: ['1', '2', 'Cup', 'League Cup'],
+		list: ['K', 'J', 'C'],
+		groups: {
+			K: {
+				'1': 'K League 1',
+				'2': 'K League 2',
+				'Cup': 'KFA Cup',
+			},
+			J: {
+				'1': 'J1 League',
+				'Cup': 'Emperor\'s Cup',
+				'League Cup': 'J League Cup',
+			},
+			C: {
+				'1': 'Super League',
+				'Cup': 'CFA Cup',
+			}
 		}
 	}
 };

@@ -22,6 +22,8 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 
 		if ($comp =~ 'Ligue 1') {
 			$comp =~ s/\d+\/\d+.*$//;
+		} elsif ($comp =~ 'J1') {
+			$comp =~ s/\d+$//;
 		} else {
 			$comp =~ s/\d+\/\d+.*$|\d+.*$//;
 		}
@@ -41,9 +43,11 @@ for my $tr ($dom->find('div[class="portfolio"] div[class="box"] tr')->each) {
 
 		my $td_col = $tr->find('td');	
 
-		if ($td_col->size) {
+		if ($td_col->size > 7) {
 			my $round = $td_col->[0]->all_text;
 			$round =~ s/\.//g;
+			$round =~ s/2nd/2/g;
+			$round =~ s/3rd/3/g;
 
 			my $date = $td_col->[1]->all_text;
 

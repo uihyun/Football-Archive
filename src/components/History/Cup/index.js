@@ -8,7 +8,7 @@ import { Team, Year } from '../../Common';
 import MatchUtil from '../../../util/match';
 import UrlUtil from '../../../util/url';
 
-import { colors } from '../data';
+import { colors, competitions } from '../data';
 
 export default class CupHistory extends Component {
 	
@@ -44,9 +44,12 @@ export default class CupHistory extends Component {
 					return (
 						<div key={season.season} className="flex-container" style={seasonStyle}>
 							<div className="flex-1" style={seasonStyle} >
-								{this.getSeasonSpan(season.season, hasThirdPlace)}
+								{this.getSeasonSpan(season.season)}
 							</div>
-							{teams.map(team => {
+							{teams.map((team, index) => {
+								if (team === null)
+									return <div className="flex-1" key={index}></div>;
+
 								return (
 									<div className="flex-1" key={team.name} style={team.active && activeStyle}>
 										<Team team={team.name} year={season.season} emblemLarge={true} />
@@ -60,7 +63,8 @@ export default class CupHistory extends Component {
 		);
 	}
 	
-	getSeasonSpan(year, fullyear) {
+	getSeasonSpan(year) {
+		const fullyear = competitions[this.props.name].year === 'single';
 		const span = <Year year={year} fullyear={fullyear} />;
 		const link = UrlUtil.getCompLink(year, this.props.name);
 
