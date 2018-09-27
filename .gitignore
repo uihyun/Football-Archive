@@ -17,9 +17,7 @@ npm-debug.log
 src/dummy
 README.md
 *.swp
-<<<<<<< HEAD
+
 #img
-=======
-img
+#img
 perl/test
->>>>>>> 82ae0f423c87b60ec4558766f9bbc2f68ea5a2a2
